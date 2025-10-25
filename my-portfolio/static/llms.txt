@@ -1,0 +1,75 @@
+# Krishnanand Anil - Senior Data Engineer
+
+> Senior Data Engineer with over 5 years of experience specializing in AWS Cloud services, scalable data pipelines, Amazon Redshift, and data lake architecture. Currently working at DTDC Express Limited in Bengaluru, India. AWS Certified Solutions Architect with expertise in building enterprise-grade data solutions.
+
+This portfolio showcases data engineering projects, AWS cloud implementations, technical expertise in data pipeline design, and professional experience in building scalable data infrastructure.
+
+## About
+
+- Name: Krishnanand Anil
+- Title: Senior Data Engineer
+- Company: DTDC Express Limited
+- Location: Bengaluru, Karnataka, India
+- Education: Birla Institute of Technology
+- Experience: 5+ years in Data Engineering
+
+## Technical Expertise
+
+### Cloud Platforms
+- AWS (Amazon Web Services) - Expert Level
+- Amazon Redshift - Data Warehousing
+- AWS S3 - Data Lake Storage
+- AWS Glue - ETL Services
+- AWS Lambda - Serverless Computing
+
+### Data Engineering Skills
+- Scalable Data Pipeline Design
+- ETL/ELT Pipeline Development
+- Data Lake Architecture
+- Data Warehousing Solutions
+- Big Data Processing
+- Real-time Data Streaming
+- Data Quality & Governance
+
+### Programming & Tools
+- Python - Primary Language
+- SQL - Advanced Queries
+- Apache Spark - Distributed Processing
+- Data Modeling & Schema Design
+- CI/CD for Data Pipelines
+
+## Professional Experience
+
+### DTDC Express Limited
+**Senior Data Engineer** | Current
+- Designing and implementing scalable data pipelines on AWS
+- Managing Amazon Redshift data warehouse infrastructure
+- Building data lake architecture for enterprise analytics
+- Optimizing ETL processes for performance and cost efficiency
+- Leading data engineering initiatives for logistics operations
+
+## Certifications
+
+- AWS Certified Solutions Architect
+- AWS Cloud Expert Certification
+
+## Projects
+
+Detailed project information available at /projects including:
+- Real-time logistics data pipelines
+- Redshift-based data warehouse implementations
+- AWS data lake architecture designs
+- Scalable ETL frameworks
+
+## Contact
+
+- LinkedIn: https://www.linkedin.com/in/krishnanand-anil/
+- Location: Bengaluru, India
+- Available for: Consulting, Speaking Engagements, Collaborations
+
+## Optional
+
+- Portfolio Website: /
+- Technical Blog: /blog
+- Project Showcase: /projects
+- Professional Resume: /resume

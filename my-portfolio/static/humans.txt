@@ -1,0 +1,11 @@
+/* TEAM */
+Developer: Krishnanand Anil
+Site: https://krishnanandanil.com
+LinkedIn: https://www.linkedin.com/in/krishnanand-anil/
+Location: Your City, Country
+
+/* SITE */
+Last update: 2025/10/25
+Standards: HTML5, CSS3, JavaScript
+Components: SvelteKit, TypeScript
+Software: VS Code, Git
