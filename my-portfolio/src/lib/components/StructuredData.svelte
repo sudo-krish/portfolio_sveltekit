@@ -1,55 +1,75 @@
+<!-- src/lib/components/StructuredData.svelte -->
 <script lang="ts">
   import { portfolioData } from '$lib/data/portfolio-data';
   
   export let type: 'Person' | 'BlogPosting' | 'Project' | 'WebSite' | 'BreadcrumbList' | 'Organization' | 'ProfessionalService' = 'Person';
   export let data: any = {};
   
-  // Get default data from centralized store
   const defaults = {
     personal: portfolioData.personal,
-    company: portfolioData.companies.find(c => c.current),
-    education: portfolioData.education[0],
-    certifications: portfolioData.certifications,
+    company: portfolioData.companies?.find(c => c.current),
+    education: portfolioData.education?.[0],
+    certifications: portfolioData.certifications || [],
     researchPapers: portfolioData.researchPapers || []
   };
   
-  // Enhanced Person Schema with comprehensive details
+  function cleanObject(obj: any): any {
+    if (Array.isArray(obj)) {
+      return obj.filter(item => item != null).map(cleanObject);
+    }
+    if (obj && typeof obj === 'object') {
+      return Object.fromEntries(
+        Object.entries(obj)
+          .filter(([_, v]) => v != null && v !== undefined && v !== '')
+          .map(([k, v]) => [k, cleanObject(v)])
+      );
+    }
+    return obj;
+  }
+  
   const personSchema = {
     "@context": "https://schema.org",
-    "@type": ["Person", "ProfilePage"],
-    "name": data.name || defaults.personal.name,
+    "@type": "Person",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": defaults.personal?.website || "https://krishnanandanil.com"
+    },
+    "name": defaults.personal?.name || "Krishnanand Anil",
     "givenName": "Krishnanand",
     "familyName": "Anil",
-    "jobTitle": data.jobTitle || defaults.personal.jobTitle,
-    "url": data.url || defaults.personal.website,
+    "jobTitle": defaults.personal?.jobTitle || "Senior Data Engineer",
+    "url": defaults.personal?.website || "https://krishnanandanil.com",
     "image": {
       "@type": "ImageObject",
-      "url": data.image || `${defaults.personal.website}${defaults.personal.profileImage}`,
-      "contentUrl": data.image || `${defaults.personal.website}${defaults.personal.profileImage}`,
-      "caption": `${defaults.personal.name} - ${defaults.personal.jobTitle}`
+      "url": `${defaults.personal?.website || 'https://krishnanandanil.com'}${defaults.personal?.profileImage || '/profile.jpg'}`,
+      "contentUrl": `${defaults.personal?.website || 'https://krishnanandanil.com'}${defaults.personal?.profileImage || '/profile.jpg'}`,
+      "caption": `${defaults.personal?.name || 'Krishnanand Anil'} - ${defaults.personal?.jobTitle || 'Senior Data Engineer'}`
     },
-    "email": `mailto:${data.email || defaults.personal.email}`,
-    "telephone": data.telephone || defaults.personal.phone,
+    "email": defaults.personal?.email,
+    "telephone": defaults.personal?.phone,
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": data.address?.city || defaults.personal.address.city,
-      "addressRegion": data.address?.state || defaults.personal.address.state,
-      "addressCountry": data.address?.country || defaults.personal.address.country
+      "addressLocality": defaults.personal?.address?.city || "Bengaluru",
+      "addressRegion": defaults.personal?.address?.state || "Karnataka",
+      "addressCountry": "India"
     },
-    "sameAs": data.socialLinks || [
-      defaults.personal.socialLinks.linkedin,
-      defaults.personal.socialLinks.github,
-      defaults.personal.socialLinks.instagram,
-      defaults.personal.website
+    "sameAs": [
+      defaults.personal?.socialLinks?.linkedin,
+      defaults.personal?.socialLinks?.github,
+      defaults.personal?.socialLinks?.instagram,
+      defaults.personal?.website
     ].filter(Boolean),
-    "description": data.description || defaults.personal.bio,
-    "knowsAbout": data.skills || defaults.personal.skills.slice(0, 20), // Limit for performance
-    "knowsLanguage": ["English", "Hindi"],
+    "description": defaults.personal?.bio || "",
+    "knowsAbout": defaults.personal?.skills?.slice(0, 20) || [],
+    "knowsLanguage": [
+      { "@type": "Language", "name": "English" },
+      { "@type": "Language", "name": "Hindi" }
+    ],
     "nationality": {
       "@type": "Country",
       "name": "India"
     },
-    "alumniOf": {
+    "alumniOf": defaults.education ? {
       "@type": "EducationalOrganization",
       "name": defaults.education.university,
       "url": defaults.education.url,
@@ -57,7 +77,7 @@
         "@type": "Place",
         "name": defaults.education.location
       }
-    },
+    } : undefined,
     "worksFor": defaults.company ? {
       "@type": "Organization",
       "name": defaults.company.name,
@@ -69,22 +89,11 @@
       "name": "Senior Data Engineer",
       "occupationLocation": {
         "@type": "City",
-        "name": "Bengaluru"
+        "name": defaults.personal?.address?.city || "Bengaluru"
       },
-      "estimatedSalary": {
-        "@type": "MonetaryAmount",
-        "currency": "INR",
-        "value": {
-          "@type": "QuantitativeValue",
-          "minValue": 2000000,
-          "maxValue": 5000000,
-          "unitText": "YEAR"
-        }
-      },
-      "skills": defaults.personal.topSkills.join(', ')
+      "skills": defaults.personal?.topSkills?.join(', ') || ''
     },
-    "award": defaults.personal.achievements || [],
-    "hasCredential": defaults.certifications.map(cert => ({
+    "hasCredential": defaults.certifications.slice(0, 5).map(cert => ({
       "@type": "EducationalOccupationalCredential",
       "name": cert.name,
       "credentialCategory": cert.category,
@@ -94,29 +103,9 @@
         "name": cert.issuer
       },
       "dateCreated": cert.dateIssued
-    })),
-    "performerIn": defaults.researchPapers.map(paper => ({
-      "@type": "ScholarlyArticle",
-      "name": paper.title,
-      "url": paper.url,
-      "datePublished": paper.datePublished,
-      "author": {
-        "@type": "Person",
-        "name": defaults.personal.name
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": paper.journal
-      }
-    })),
-    "seeks": {
-      "@type": "Demand",
-      "name": "Data Engineering Opportunities",
-      "description": "Open to consulting and full-time senior data engineering roles"
-    }
+    }))
   };
   
-  // Enhanced Blog Post Schema with extensive metadata
   const blogSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -125,7 +114,7 @@
     "description": data.description,
     "image": {
       "@type": "ImageObject",
-      "url": data.image || `${defaults.personal.website}/og-image.jpg`,
+      "url": data.image || `${defaults.personal?.website}/og-image.jpg`,
       "width": 1200,
       "height": 630
     },
@@ -134,21 +123,17 @@
     "dateModified": data.dateModified || data.datePublished,
     "author": {
       "@type": "Person",
-      "name": data.author || defaults.personal.name,
-      "url": data.authorUrl || defaults.personal.website,
-      "jobTitle": defaults.personal.jobTitle,
-      "sameAs": [
-        defaults.personal.socialLinks.linkedin,
-        defaults.personal.socialLinks.github
-      ]
+      "name": data.author || defaults.personal?.name,
+      "url": data.authorUrl || defaults.personal?.website,
+      "jobTitle": defaults.personal?.jobTitle
     },
     "publisher": {
       "@type": "Person",
-      "name": data.author || defaults.personal.name,
-      "url": data.authorUrl || defaults.personal.website,
+      "name": data.author || defaults.personal?.name,
+      "url": data.authorUrl || defaults.personal?.website,
       "logo": {
         "@type": "ImageObject",
-        "url": `${defaults.personal.website}${defaults.personal.profileImage}`
+        "url": `${defaults.personal?.website}${defaults.personal?.profileImage}`
       }
     },
     "mainEntityOfPage": {
@@ -159,26 +144,16 @@
     "articleSection": data.category,
     "wordCount": data.wordCount,
     "inLanguage": "en-US",
-    "about": {
-      "@type": "Thing",
-      "name": data.category
-    },
-    "audience": {
-      "@type": "Audience",
-      "audienceType": "Data Engineers, Software Developers, Cloud Architects"
-    },
-    "timeRequired": data.readTime,
     "isAccessibleForFree": true
   };
   
-  // Enhanced Project/Software Schema with detailed metadata
   const projectSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareSourceCode",
     "name": data.name,
     "description": data.longDescription || data.description,
     "abstract": data.description,
-    "url": data.url || `${defaults.personal.website}/projects/${data.id}`,
+    "url": data.url || `${defaults.personal?.website}/projects/${data.id}`,
     "codeRepository": data.repository,
     "programmingLanguage": Array.isArray(data.languages) 
       ? data.languages.map((lang: string) => ({
@@ -187,94 +162,54 @@
         }))
       : [],
     "runtimePlatform": data.platforms || [],
-    "targetProduct": {
-      "@type": "SoftwareApplication",
-      "name": data.name,
-      "applicationCategory": "DataEngineering",
-      "operatingSystem": "Cross-platform"
-    },
     "author": {
       "@type": "Person",
-      "name": defaults.personal.name,
-      "url": defaults.personal.website,
-      "jobTitle": defaults.personal.jobTitle
-    },
-    "creator": {
-      "@type": "Person",
-      "name": defaults.personal.name
+      "name": defaults.personal?.name,
+      "url": defaults.personal?.website
     },
     "dateCreated": data.dateCreated,
     "dateModified": data.dateModified || data.dateCreated,
     "license": data.license,
     "keywords": data.keywords?.join(', ') || '',
     "isAccessibleForFree": data.repository ? true : false,
-    "audience": {
-      "@type": "Audience",
-      "audienceType": "Data Engineers, Developers, DevOps Engineers"
-    },
     "image": {
       "@type": "ImageObject",
-      "url": data.image || `${defaults.personal.website}/og-image.jpg`
-    },
-    "offers": data.metrics ? {
-      "@type": "Offer",
-      "description": `Processes ${data.metrics.eventsPerDay || 'millions'} of events with ${data.metrics.latencyReduction || 'high'} performance`
-    } : undefined
+      "url": data.image || `${defaults.personal?.website}/og-image.jpg`
+    }
   };
   
-  // Enhanced WebSite Schema with comprehensive details
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": data.name || `${defaults.personal.name} - Portfolio`,
-    "alternateName": `${defaults.personal.name} - Senior Data Engineer`,
-    "url": data.url || defaults.personal.website,
-    "description": data.description || defaults.personal.bio,
+    "name": `${defaults.personal?.name || 'Krishnanand Anil'} - Portfolio`,
+    "alternateName": `${defaults.personal?.name || 'Krishnanand Anil'} - Senior Data Engineer`,
+    "url": defaults.personal?.website || "https://krishnanandanil.com",
+    "description": defaults.personal?.bio || "",
     "inLanguage": "en-US",
     "isAccessibleForFree": true,
     "author": {
       "@type": "Person",
-      "name": defaults.personal.name,
-      "jobTitle": defaults.personal.jobTitle,
-      "worksFor": defaults.company ? {
-        "@type": "Organization",
-        "name": defaults.company.name
-      } : undefined,
-      "sameAs": [
-        defaults.personal.socialLinks.linkedin,
-        defaults.personal.socialLinks.github
-      ]
+      "name": defaults.personal?.name,
+      "jobTitle": defaults.personal?.jobTitle
     },
     "creator": {
       "@type": "Person",
-      "name": defaults.personal.name
+      "name": defaults.personal?.name
     },
     "publisher": {
       "@type": "Person",
-      "name": defaults.personal.name
+      "name": defaults.personal?.name
     },
     "potentialAction": {
       "@type": "SearchAction",
       "target": {
         "@type": "EntryPoint",
-        "urlTemplate": `${data.url || defaults.personal.website}/#search?q={search_term_string}`
+        "urlTemplate": `${defaults.personal?.website || 'https://krishnanandanil.com'}/?q={search_term_string}`
       },
       "query-input": "required name=search_term_string"
-    },
-    "mainEntity": {
-      "@type": "Person",
-      "name": defaults.personal.name,
-      "url": defaults.personal.website
-    },
-    "about": {
-      "@type": "Thing",
-      "name": "Data Engineering Portfolio",
-      "description": "Real-time data pipelines, AWS cloud architecture, and enterprise data solutions"
-    },
-    "keywords": defaults.personal.topSkills.join(', ')
+    }
   };
   
-  // BreadcrumbList Schema (unchanged)
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -286,40 +221,37 @@
     })) : []
   };
   
-  // Enhanced Organization Schema
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": data.name,
-    "url": data.url,
+    "name": data.name || "Organization",
+    "url": data.url || defaults.personal?.website,
     "logo": {
       "@type": "ImageObject",
-      "url": data.logo || `${defaults.personal.website}/icons/icon-512x512.png`
+      "url": data.logo || `${defaults.personal?.website}/og-image.jpg`
     },
-    "description": data.description,
+    "description": data.description || "",
     "founder": {
       "@type": "Person",
-      "name": data.founder || defaults.personal.name
+      "name": data.founder || defaults.personal?.name
     },
     "sameAs": data.socialLinks || [
-      defaults.personal.socialLinks.linkedin,
-      defaults.personal.socialLinks.github,
-      defaults.personal.socialLinks.instagram
+      defaults.personal?.socialLinks?.linkedin,
+      defaults.personal?.socialLinks?.github
     ].filter(Boolean),
     "contactPoint": {
       "@type": "ContactPoint",
-      "email": defaults.personal.email,
+      "email": defaults.personal?.email,
       "contactType": "Business Inquiries"
     }
   };
   
-  // NEW: ProfessionalService Schema for consulting/services
   const professionalServiceSchema = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    "name": `${defaults.personal.name} - Data Engineering Consulting`,
-    "description": "Expert data engineering consulting services specializing in real-time data pipelines, AWS cloud architecture, and enterprise data solutions",
-    "url": defaults.personal.website,
+    "name": `${defaults.personal?.name || 'Krishnanand Anil'} - Data Engineering Consulting`,
+    "description": "Expert data engineering consulting services specializing in real-time data pipelines and AWS cloud architecture",
+    "url": defaults.personal?.website || "https://krishnanandanil.com",
     "priceRange": "$$$$",
     "areaServed": {
       "@type": "Country",
@@ -327,17 +259,13 @@
     },
     "provider": {
       "@type": "Person",
-      "name": defaults.personal.name,
-      "jobTitle": defaults.personal.jobTitle
+      "name": defaults.personal?.name,
+      "jobTitle": defaults.personal?.jobTitle
     },
-    "serviceType": "Data Engineering Consulting",
-    "availableChannel": {
-      "@type": "ServiceChannel",
-      "serviceUrl": `${defaults.personal.website}/#contact`
-    }
+    "serviceType": "Data Engineering Consulting"
   };
   
-  const schemas = {
+  const schemas: Record<string, any> = {
     Person: personSchema,
     BlogPosting: blogSchema,
     Project: projectSchema,
@@ -347,9 +275,15 @@
     ProfessionalService: professionalServiceSchema
   };
   
-  const schema = schemas[type];
+  const rawSchema = schemas[type] || {};
+  const cleanedSchema = cleanObject(rawSchema);
+  const hasMinimalContent = cleanedSchema && Object.keys(cleanedSchema).length > 2;
+  
+  const jsonLdScript = hasMinimalContent 
+    ? `<script type="application/ld+json">${JSON.stringify(cleanedSchema)}<\/script>`
+    : '';
 </script>
 
 <svelte:head>
-  {@html `<script type="application/ld+json">${JSON.stringify(schema, null, 2)}<\/script>`}
+  {@html jsonLdScript}
 </svelte:head>
