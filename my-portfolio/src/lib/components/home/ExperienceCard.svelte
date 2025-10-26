@@ -1,6 +1,6 @@
 <!-- src/lib/components/home/ExperienceCard.svelte -->
 <script lang="ts">
-  import { Briefcase, Cloud, Zap, Sparkles } from 'lucide-svelte';
+  import { Briefcase, Cloud, Zap, Sparkles, Timer, Award, Rocket } from 'lucide-svelte';
   import { onMount } from 'svelte';
   
   const milestones = [
@@ -64,7 +64,9 @@
     <!-- Pipeline Stats -->
     <div class="pipeline-stats">
       <div class="stat-block">
-        <div class="stat-icon">⏱️</div>
+        <div class="stat-icon">
+          <Timer size={20} />
+        </div>
         <div class="stat-data">
           <span class="stat-value">5+</span>
           <span class="stat-label">Years Exp</span>
@@ -74,7 +76,9 @@
       <div class="stat-divider">→</div>
       
       <div class="stat-block">
-        <div class="stat-icon">✨</div>
+        <div class="stat-icon">
+          <Award size={20} />
+        </div>
         <div class="stat-data">
           <span class="stat-value">100%</span>
           <span class="stat-label">Quality Code</span>
@@ -84,7 +88,9 @@
       <div class="stat-divider">→</div>
       
       <div class="stat-block">
-        <div class="stat-icon">🚀</div>
+        <div class="stat-icon">
+          <Rocket size={20} />
+        </div>
         <div class="stat-data">
           <span class="stat-value">50+</span>
           <span class="stat-label">Live Systems</span>
@@ -102,6 +108,7 @@
     border-radius: 12px;
     transition: all 0.3s ease;
     width: 100%;
+    max-width: 900px;
     overflow: hidden;
   }
   
@@ -347,7 +354,10 @@
   }
   
   .stat-icon {
-    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: hsl(var(--primary));
   }
   
   .stat-data {
@@ -387,19 +397,84 @@
     }
   }
   
-  /* Responsive */
+  /* Tablet Responsive (768px - 1024px) */
+  @media (max-width: 1024px) {
+    .experience-pipeline {
+      max-width: 100%;
+    }
+  }
+  
+  @media (max-width: 920px) {
+    .experience-pipeline {
+      padding: 1rem 1.25rem;
+    }
+    
+    .milestones {
+      gap: 0.5rem;
+    }
+    
+    .data-node {
+      width: 52px;
+      height: 52px;
+    }
+    
+    .node-core {
+      width: 42px;
+      height: 42px;
+    }
+    
+    .node-label {
+      font-size: 0.6875rem;
+      max-width: 80px;
+    }
+    
+    .pipeline-stats {
+      gap: 0.75rem;
+      padding: 0.875rem;
+    }
+    
+    .stat-icon {
+      font-size: 1.25rem;
+    }
+    
+    .stat-value {
+      font-size: 1.125rem;
+    }
+    
+    .stat-label {
+      font-size: 0.6875rem;
+    }
+  }
+  
+  /* Mobile Responsive */
   @media (max-width: 640px) {
+    .experience-pipeline {
+      padding: 1rem;
+    }
+    
     .milestones {
       flex-wrap: wrap;
       gap: 1.5rem;
+      justify-content: center;
     }
     
     .milestone-node {
       flex-basis: calc(50% - 0.75rem);
+      max-width: 150px;
     }
     
     .pipeline-track {
       display: none;
+    }
+    
+    .data-node {
+      width: 56px;
+      height: 56px;
+    }
+    
+    .node-core {
+      width: 44px;
+      height: 44px;
     }
     
     .pipeline-stats {

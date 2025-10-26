@@ -4,8 +4,8 @@
   // Import other components as we build them
   import MetricsGrid from '$lib/components/home/MetricsGrid.svelte';
   import FeaturedProjects from '$lib/components/home/FeaturedProjects.svelte';
-  // import TechStack from '$lib/components/home/TechStack.svelte';
-  // import ContactCTA from '$lib/components/home/ContactCTA.svelte';
+  import TechStack from '$lib/components/home/TechStack.svelte';
+  import ContactCTA from '$lib/components/home/ContactCTA.svelte';
 </script>
 
 <svelte:head>
@@ -45,18 +45,18 @@
  
   
   <!-- Tech Stack Section (Coming Soon) -->
-  <!-- 
+  
   <section id="tech-stack" class="section">
     <TechStack />
   </section>
-  -->
+ 
   
   <!-- Contact CTA Section (Coming Soon) -->
-  <!-- 
+  
   <section id="contact" class="section">
     <ContactCTA />
   </section>
-  -->
+ 
   
 </div>
 

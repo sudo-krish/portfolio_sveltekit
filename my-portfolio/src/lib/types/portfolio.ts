@@ -1,10 +1,22 @@
-// Type definitions for your portfolio data
+// src/lib/types/portfolio.ts
 
 export interface SocialLinks {
   linkedin: string;
   github: string;
   instagram?: string;
   twitter?: string;
+}
+
+export interface Address {
+  city: string;
+  state: string;
+  country: string;
+}
+
+export interface CompanyRole {
+  title: string;
+  duration: string;
+  description: string;
 }
 
 export interface Company {
@@ -17,6 +29,8 @@ export interface Company {
   current: boolean;
   description?: string;
   responsibilities?: string[];
+  technologies?: string[]; // NEW: Tech stack used
+  roles?: CompanyRole[]; // NEW: Role progression
 }
 
 export interface Education {
@@ -26,6 +40,7 @@ export interface Education {
   field?: string;
   graduationYear?: string;
   location?: string;
+  gpa?: string; // NEW: Grade point average
 }
 
 export interface Certification {
@@ -34,12 +49,31 @@ export interface Certification {
   url: string;
   issuer: string;
   dateIssued?: string;
+  credentialId?: string; // NEW: Certification ID
 }
 
-export interface Address {
-  city: string;
-  state: string;
-  country: string;
+export interface ResearchPaper {
+  id: string;
+  title: string;
+  journal: string;
+  url: string;
+  datePublished: string;
+  authors: string[];
+  abstract: string;
+  keywords: string[];
+}
+
+export interface ProjectMetrics {
+  eventsPerDay?: string;
+  latencyReduction?: string;
+  uptime?: string;
+  reportingEfficiency?: string;
+  accuracy?: string;
+  users?: string;
+  insightReduction?: string;
+  adoption?: string;
+  queries?: string;
+  [key: string]: string | undefined; // Allow custom metrics
 }
 
 export interface Project {
@@ -58,6 +92,7 @@ export interface Project {
   keywords: string[];
   featured?: boolean;
   image?: string;
+  metrics?: ProjectMetrics; // NEW: Project performance metrics
 }
 
 export interface BlogPost {
@@ -94,6 +129,7 @@ export interface PersonalInfo {
   skills: string[];
   topSkills: string[];
   yearsOfExperience: number;
+  achievements?: string[]; // NEW: Key achievements list
 }
 
 export interface PortfolioData {
@@ -103,4 +139,24 @@ export interface PortfolioData {
   certifications: Certification[];
   projects: Project[];
   blogPosts: BlogPost[];
+  researchPapers?: ResearchPaper[]; // NEW: Research publications
+}
+
+// Helper type for breadcrumb navigation
+export interface Breadcrumb {
+  name: string;
+  url: string;
+}
+
+// Helper type for SEO metadata
+export interface PageMetadata {
+  title: string;
+  description: string;
+  type: string;
+  keywords: string;
+  image?: string;
+  structuredDataTypes: string[];
+  breadcrumbs?: Breadcrumb[];
+  projectData?: Project;
+  blogData?: BlogPost;
 }

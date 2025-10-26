@@ -1,13 +1,50 @@
-# Allow all search engines to crawl
+# robots.txt for krishnanandanil.com
+
+# Allow all search engines to crawl the site
 User-agent: *
 Allow: /
 
-# Block any admin or API endpoints if you add them later
+# Disallow API endpoints (not for indexing)
 Disallow: /api/
-Disallow: /admin/
+
+# Disallow internal SvelteKit directories
+Disallow: /_app/
+
+# Allow static assets
+Allow: /icons/
+Allow: /screenshots/
+Allow: /*.jpg
+Allow: /*.png
+Allow: /*.webp
 
 # Sitemap location
-Sitemap: https://yourwebsite.com/sitemap.xml
+Sitemap: https://krishnanandanil.com/sitemap.xml
 
-# Crawl-delay (optional, helps with server load)
-Crawl-delay: 1
+# AI Crawlers (for training data)
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: CCBot
+User-agent: anthropic-ai
+User-agent: Claude-Web
+Allow: /
+
+# LLM-specific file
+User-agent: *
+Allow: /llms.txt
+
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Block aggressive scrapers (optional)
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /

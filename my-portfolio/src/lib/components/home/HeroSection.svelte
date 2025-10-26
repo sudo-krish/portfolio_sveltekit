@@ -7,7 +7,7 @@
   import { 
     ArrowRight, Mail, Github, Linkedin, Instagram, 
     Database, Cloud, Workflow, Server, Code2, 
-    MapPin, Briefcase, Calendar, TrendingUp, Zap
+    MapPin, Briefcase, Calendar, TrendingUp, Zap, FileText
   } from 'lucide-svelte';
   import { getPersonalInfo, getCurrentCompany } from '$lib/data/portfolio-data';
   
@@ -39,6 +39,8 @@
     { name: 'Python', level: 5 },
     { name: 'Apache Spark', level: 4 }
   ];
+  
+  const RESUME_URL = 'https://drive.google.com/file/d/1-HcNEDahb4LZHz2QR1g_hNq4_Pk3mkVw/view?usp=drive_link';
   
   onMount(() => {
     const typeInterval = setInterval(() => {
@@ -154,6 +156,12 @@
             <Mail size={18} />
             Get in Touch
           </Button>
+          <a href={RESUME_URL} target="_blank" rel="noopener noreferrer" class="resume-link">
+            <Button size="lg" variant="secondary" class="cta-resume">
+              <FileText size={18} />
+              View Resume
+            </Button>
+          </a>
         </div>
         
         <!-- Social Links -->
@@ -416,6 +424,10 @@
     flex-wrap: wrap;
   }
   
+  .resume-link {
+    text-decoration: none;
+  }
+  
   :global(.cta-primary) {
     background: hsl(var(--primary)) !important;
     color: white !important;
@@ -425,6 +437,15 @@
   :global(.cta-primary:hover) {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px hsl(var(--primary) / 0.4);
+  }
+  
+  :global(.cta-resume) {
+    gap: 0.5rem;
+  }
+  
+  :global(.cta-resume:hover) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px hsl(var(--foreground) / 0.1);
   }
   
   /* Social Links */
@@ -568,7 +589,12 @@
       flex-direction: column;
     }
     
+    .resume-link {
+      width: 100%;
+    }
+    
     :global(.cta-primary),
+    :global(.cta-resume),
     :global(button[variant="outline"]) {
       width: 100%;
       justify-content: center;

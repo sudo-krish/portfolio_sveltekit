@@ -1,75 +1,60 @@
 # Krishnanand Anil - Senior Data Engineer
 
-> Senior Data Engineer with over 5 years of experience specializing in AWS Cloud services, scalable data pipelines, Amazon Redshift, and data lake architecture. Currently working at DTDC Express Limited in Bengaluru, India. AWS Certified Solutions Architect with expertise in building enterprise-grade data solutions.
+> Senior Data Engineer with 5+ years of experience specializing in real-time data pipelines, AWS Cloud services, and enterprise-grade data solutions. Expert in building scalable CDC pipelines processing 50M+ events daily, data warehouses with sub-second query performance, and AI-ready analytics platforms. Currently leading data engineering initiatives at DTDC Express Limited.
 
-This portfolio showcases data engineering projects, AWS cloud implementations, technical expertise in data pipeline design, and professional experience in building scalable data infrastructure.
+Senior Data Engineer architecting real-time streaming systems, data warehouses, and AI-ready analytics platforms. Proven track record of improving data accuracy from 60% to 98%, reducing latency by 99%, and cutting manual reporting efforts by 80%. Specializes in Apache Kafka, AWS Cloud, Python, and modern data stack technologies.
 
 ## About
 
-- Name: Krishnanand Anil
-- Title: Senior Data Engineer
-- Company: DTDC Express Limited
-- Location: Bengaluru, Karnataka, India
-- Education: Birla Institute of Technology
-- Experience: 5+ years in Data Engineering
+- [Home](https://krishnanandanil.com): Portfolio homepage with overview and featured work
+- [About Me](https://krishnanandanil.com/about): Professional background, skills, and experience details
+- [Contact](https://krishnanandanil.com/contact): Get in touch for opportunities and collaborations
 
-## Technical Expertise
+## Featured Projects
 
-### Cloud Platforms
-- AWS (Amazon Web Services) - Expert Level
-- Amazon Redshift - Data Warehousing
-- AWS S3 - Data Lake Storage
-- AWS Glue - ETL Services
-- AWS Lambda - Serverless Computing
+- [Real-Time Tracking Data Platform](https://krishnanandanil.com/projects/realtime-tracking-platform): Event-driven streaming pipeline processing 50M+ tracking events daily with sub-second latency
+- [Enterprise Data Warehouse](https://krishnanandanil.com/projects/enterprise-data-warehouse): Unified Finance & Business analytics with automated ETL/ELT workflows reducing manual reporting by 80%
+- [AI-Ready Analytics Platform](https://krishnanandanil.com/projects/ai-analytics-platform): GenAI-powered analytics with vector search and natural language querying, reducing time-to-insight by 70%
+- [Real-Time CDC Pipeline](https://krishnanandanil.com/projects/realtime-cdc-pipeline): Production CDC pipeline using Kafka, Debezium, and custom Python consumers handling 100K+ events per minute
 
-### Data Engineering Skills
-- Scalable Data Pipeline Design
-- ETL/ELT Pipeline Development
-- Data Lake Architecture
-- Data Warehousing Solutions
-- Big Data Processing
-- Real-time Data Streaming
-- Data Quality & Governance
+## All Projects
 
-### Programming & Tools
-- Python - Primary Language
-- SQL - Advanced Queries
-- Apache Spark - Distributed Processing
-- Data Modeling & Schema Design
-- CI/CD for Data Pipelines
+- [Medallion Data Lake Architecture](https://krishnanandanil.com/projects/medallion-data-lake): Multi-zone data lake with bronze, silver, and gold zones processing 5TB+ monthly
+- [Projects Listing](https://krishnanandanil.com/projects): Complete portfolio of data engineering projects
+
+## Technical Writing
+
+- [Building Production-Grade Real-Time CDC Pipelines](https://krishnanandanil.com/blog/realtime-cdc-patterns-kafka-debezium): Architecture patterns and lessons learned from processing 50M+ events daily
+- [Optimizing Apache Spark Jobs for Production](https://krishnanandanil.com/blog/optimizing-apache-spark-performance): Comprehensive guide to tuning Spark configurations for 40% performance improvement
+- [Amazon Redshift Optimization Guide](https://krishnanandanil.com/blog/amazon-redshift-optimization-guide): Best practices for improving query accuracy from 60% to 98%
+- [Blog Listing](https://krishnanandanil.com/blog): Technical articles on data engineering, AWS, and big data
 
 ## Professional Experience
 
-### DTDC Express Limited
-**Senior Data Engineer** | Current
-- Designing and implementing scalable data pipelines on AWS
-- Managing Amazon Redshift data warehouse infrastructure
-- Building data lake architecture for enterprise analytics
-- Optimizing ETL processes for performance and cost efficiency
-- Leading data engineering initiatives for logistics operations
+- [DTDC Express Limited](https://www.dtdc.in/): Current - Senior Data Engineer leading real-time data initiatives processing 50M+ events daily
+- [Quantiphi Analytics Solutions](https://www.quantiphi.com/): Senior Data Engineer (Feb 2024 - Nov 2024) building high-performance data pipelines
+- [Cognizant Technology Solutions](https://www.cognizant.com/): Associate (Aug 2020 - Feb 2024) designing medallion architecture and multi-tenant systems
 
-## Certifications
+## Technical Skills
 
-- AWS Certified Solutions Architect
-- AWS Cloud Expert Certification
+Real-Time CDC Pipelines (50M+ events/day), Apache Kafka & Debezium, AWS Cloud Architecture (Lambda, Glue, EMR, Redshift, Kinesis, S3), Amazon Redshift Optimization, Python & Go Development, Data Warehouse Design, Vector Databases & AI Analytics, Kubernetes & Docker, Apache Airflow, DBT, PySpark, Data Modeling, ETL/ELT, GraphQL APIs, PostgreSQL, MongoDB, Terraform, CI/CD
 
-## Projects
+## Key Achievements
 
-Detailed project information available at /projects including:
-- Real-time logistics data pipelines
-- Redshift-based data warehouse implementations
-- AWS data lake architecture designs
-- Scalable ETL frameworks
+Reduced data latency by 99% (3 hours → seconds) with real-time CDC pipelines. Improved report accuracy from 60% to 98% through advanced validation. Cut manual reporting effort by 80% with automated ETL workflows. Reduced time-to-insight by 70% with AI-ready analytics platform. Built systems processing 50M+ tracking events daily. Achieved 20% efficiency improvement through CI/CD automation.
 
-## Contact
+## Contact & Connect
 
-- LinkedIn: https://www.linkedin.com/in/krishnanand-anil/
-- Location: Bengaluru, India
-- Available for: Consulting, Speaking Engagements, Collaborations
+- [Email](mailto:krishnanandpanil@gmail.com): krishnanandpanil@gmail.com
+- [LinkedIn](https://www.linkedin.com/in/krishnanand-anil/): Professional networking and career updates
+- [GitHub](https://github.com/sudo-krish): Open source contributions and code samples
+- [Schedule Meeting](https://calendly.com/krishnanandpanil): Book a 30-minute consultation call
 
 ## Optional
 
-- Portfolio Website: /
-- Technical Blog: /blog
-- Project Showcase: /projects
-- Professional Resume: /resume
+- [Resume](https://drive.google.com/file/d/1-HcNEDahb4LZHz2QR1g_hNq4_Pk3mkVw/view?usp=drive_link): Download complete professional resume
+- [Instagram](https://www.instagram.com/krish12397/): Personal updates and behind-the-scenes
+- [Research Paper - SCARA Robotic Arm](https://iopscience.iop.org/article/10.1088/1742-6596/2070/1/012207): Published in IOP Journal of Physics (2021)
+- [Research Paper - Vehicular Emissions](https://www.psychosocial.com/article/PR201924/19539/): Published in Int. Journal of Psychosocial Rehabilitation (2020)
+- [Education](https://www.bitmesra.ac.in/): B.Tech in Computer Science, Birla Institute of Technology (2019)
+- [AWS Certified Solutions Architect](https://aws.amazon.com/certification/certified-solutions-architect-associate/): Amazon Web Services certification

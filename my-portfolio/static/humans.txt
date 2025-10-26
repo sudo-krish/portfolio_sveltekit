@@ -1,11 +1,64 @@
 /* TEAM */
-Developer: Krishnanand Anil
-Site: https://krishnanandanil.com
+
+Designer & Developer: Krishnanand Anil
+Role: Senior Data Engineer | Full-Stack Portfolio Creator
+Location: Bengaluru, Karnataka, India
+Email: krishnanandpanil@gmail.com
 LinkedIn: https://www.linkedin.com/in/krishnanand-anil/
-Location: Your City, Country
+GitHub: https://github.com/sudo-krish
+Website: https://krishnanandanil.com
+
+/* THANKS */
+
+Framework: SvelteKit - For the blazing-fast performance
+UI Components: Shadcn/UI - For beautiful, accessible components
+Icons: Lucide Svelte - For clean, consistent iconography
+Styling: TailwindCSS - For rapid, utility-first styling
+Hosting: Vercel/Netlify - For seamless deployment
+AI Assistant: Perplexity AI - For helping build this portfolio
+
+Special thanks to the open-source community for making
+modern web development accessible and enjoyable.
 
 /* SITE */
-Last update: 2025/10/25
-Standards: HTML5, CSS3, JavaScript
-Components: SvelteKit, TypeScript
-Software: VS Code, Git
+
+Last update: 2025/10/26
+Standards: HTML5, CSS3, TypeScript, ES2024
+Components: Svelte 5, SvelteKit 2
+Tools: Vite, PostCSS, ESLint, Prettier
+Software: VS Code, Git, GitHub
+Architecture: Single-Page Application (SPA)
+Accessibility: WCAG 2.1 Level AA compliant
+
+/* TECHNOLOGIES */
+
+Frontend: Svelte, SvelteKit, TypeScript
+Styling: TailwindCSS, Custom CSS
+Data: Portfolio data stored in TypeScript modules
+API Integration: GitHub REST API for projects
+Performance: SSG (Static Site Generation), Prerendering
+SEO: Sitemap, robots.txt, llms.txt, humans.txt
+PWA: manifest.json, service workers ready
+
+/* ACKNOWLEDGMENTS */
+
+Inspired by: Modern data engineering best practices
+Design Philosophy: Clean, minimal, data-focused
+Built with: Coffee ☕, determination, and passion for data
+
+This portfolio showcases real production-grade data engineering
+projects processing 50M+ events daily. Every metric is real,
+every achievement is earned.
+
+If you're reading this, you're probably curious about who
+built this site. Thanks for checking! Feel free to reach out.
+
+/* EASTER EGG */
+
+"Data is the new oil, but insights are the new gold."
+- Krishnanand Anil
+
+Built by humans, for humans. 
+Not by AI, not by bots, but by someone who loves
+solving complex data problems one pipeline at a time.
+

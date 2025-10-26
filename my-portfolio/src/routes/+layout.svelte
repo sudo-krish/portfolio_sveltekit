@@ -2,9 +2,9 @@
   import '../app.css';
   import SEO from '$lib/components/SEO.svelte';
   import StructuredData from '$lib/components/StructuredData.svelte';
-  import PageWrapper from  '$lib/components/PageWrapper.svelte';
+  import PageWrapper from '$lib/components/PageWrapper.svelte';
   import { page } from '$app/stores';
-  import { getPersonalInfo, getBlogPostBySlug, getProjectById } from '$lib/data/portfolio-data';
+  import { getPersonalInfo } from '$lib/data/portfolio-data';
   
   const personal = getPersonalInfo();
   
@@ -16,133 +16,64 @@
   $: pageMetadata = generatePageMetadata(currentPath);
   
   function generatePageMetadata(path: string) {
-    // Homepage
+    // Since it's a single-page app, everything is on homepage
+    // Only homepage exists as a route
     if (path === '/') {
       return {
-        title: 'Home',
+        title: `${personal.name} - Senior Data Engineer | AWS & Kafka Expert`,
         description: personal.bio,
         type: 'website',
-        keywords: personal.topSkills.join(', '),
+        keywords: [
+          ...personal.topSkills,
+          'data engineering',
+          'AWS',
+          'Kafka',
+          'real-time data pipelines',
+          'Bengaluru',
+          'senior data engineer',
+          'Python',
+          'Apache Kafka',
+          'data warehouse',
+          'CDC pipelines',
+          '50M events daily'
+        ].join(', '),
+        image: personal.profileImage,
         structuredDataTypes: ['Person', 'WebSite']
       };
     }
     
-    // About page
-    if (path === '/about') {
-      return {
-        title: 'About Me',
-        description: `Learn more about ${personal.name}, a ${personal.jobTitle} with ${personal.yearsOfExperience}+ years of experience.`,
-        type: 'website',
-        keywords: 'about, career, experience, data engineer',
-        structuredDataTypes: ['Person', 'BreadcrumbList'],
-        breadcrumbs: [
-          { name: 'Home', url: personal.website },
-          { name: 'About', url: `${personal.website}/about` }
-        ]
-      };
-    }
-    
-    // Projects listing
-    if (path === '/projects') {
-      return {
-        title: 'Projects',
-        description: `Explore data engineering projects by ${personal.name}.`,
-        type: 'website',
-        keywords: 'data engineering projects, aws, portfolio',
-        structuredDataTypes: ['BreadcrumbList'],
-        breadcrumbs: [
-          { name: 'Home', url: personal.website },
-          { name: 'Projects', url: `${personal.website}/projects` }
-        ]
-      };
-    }
-    
-    // Individual project pages
-    if (path.startsWith('/projects/')) {
-      const projectId = path.split('/').pop();
-      const project = projectId ? getProjectById(projectId) : null;
-      
-      if (project) {
-        return {
-          title: project.name,
-          description: project.description,
-          type: 'website',
-          keywords: project.keywords.join(', '),
-          image: project.image,
-          structuredDataTypes: ['Project', 'BreadcrumbList'],
-          projectData: project,
-          breadcrumbs: [
-            { name: 'Home', url: personal.website },
-            { name: 'Projects', url: `${personal.website}/projects` },
-            { name: project.name, url: `${personal.website}/projects/${project.id}` }
-          ]
-        };
-      }
-    }
-    
-    // Blog listing
-    if (path === '/blog') {
-      return {
-        title: 'Blog',
-        description: `Technical articles by ${personal.name}.`,
-        type: 'website',
-        keywords: 'blog, data engineering, technical articles',
-        structuredDataTypes: ['BreadcrumbList'],
-        breadcrumbs: [
-          { name: 'Home', url: personal.website },
-          { name: 'Blog', url: `${personal.website}/blog` }
-        ]
-      };
-    }
-    
-    // Individual blog posts
-    if (path.startsWith('/blog/')) {
-      const slug = path.split('/').pop();
-      const post = slug ? getBlogPostBySlug(slug) : null;
-      
-      if (post) {
-        return {
-          title: post.title,
-          description: post.description,
-          type: 'article',
-          keywords: post.keywords.join(', '),
-          image: post.image,
-          structuredDataTypes: ['BlogPosting', 'BreadcrumbList'],
-          blogData: post,
-          breadcrumbs: [
-            { name: 'Home', url: personal.website },
-            { name: 'Blog', url: `${personal.website}/blog` },
-            { name: post.title, url: post.url }
-          ]
-        };
-      }
-    }
-    
-    // Contact page
-    if (path === '/contact') {
-      return {
-        title: 'Contact',
-        description: `Get in touch with ${personal.name}.`,
-        type: 'website',
-        keywords: 'contact, hire, consulting',
-        structuredDataTypes: ['BreadcrumbList'],
-        breadcrumbs: [
-          { name: 'Home', url: personal.website },
-          { name: 'Contact', url: `${personal.website}/contact` }
-        ]
-      };
-    }
-    
-    // Default fallback
+    // Fallback for any other routes (shouldn't happen in SPA)
     return {
-      title: 'Page',
+      title: `${personal.name} - Senior Data Engineer`,
       description: personal.shortBio,
       type: 'website',
       keywords: personal.topSkills.join(', '),
+      image: personal.profileImage,
       structuredDataTypes: ['Person']
     };
   }
 </script>
+
+<svelte:head>
+  <!-- Canonical URL -->
+  <link rel="canonical" href={currentUrl} />
+  
+  <!-- Additional meta tags for social sharing -->
+  <meta property="og:image" content={pageMetadata.image || `${personal.website}/og-image.jpg`} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content={`${personal.name} - Senior Data Engineer Portfolio`} />
+  
+  <!-- Twitter specific -->
+  <meta name="twitter:image" content={pageMetadata.image || `${personal.website}/og-image.jpg`} />
+  <meta name="twitter:image:alt" content={`${personal.name} - Senior Data Engineer Portfolio`} />
+  
+  <!-- Additional SEO -->
+  <meta name="geo.region" content="IN-KA" />
+  <meta name="geo.placename" content="Bengaluru" />
+  <meta name="geo.position" content="12.9716;77.5946" />
+  <meta name="ICBM" content="12.9716, 77.5946" />
+</svelte:head>
 
 <!-- SEO Meta Tags -->
 <SEO 
@@ -160,12 +91,6 @@
     <StructuredData type="Person" />
   {:else if structuredType === 'WebSite'}
     <StructuredData type="WebSite" />
-  {:else if structuredType === 'BreadcrumbList' && pageMetadata.breadcrumbs}
-    <StructuredData type="BreadcrumbList" data={{ items: pageMetadata.breadcrumbs }} />
-  {:else if structuredType === 'Project' && pageMetadata.projectData}
-    <StructuredData type="Project" data={pageMetadata.projectData} />
-  {:else if structuredType === 'BlogPosting' && pageMetadata.blogData}
-    <StructuredData type="BlogPosting" data={pageMetadata.blogData} />
   {/if}
 {/each}
 
