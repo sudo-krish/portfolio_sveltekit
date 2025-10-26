@@ -372,10 +372,6 @@
     color: hsl(var(--muted-foreground));
   }
 
-  .pulse-icon {
-    color: hsl(var(--primary));
-    animation: pulse 2s ease-in-out infinite;
-  }
 
   @keyframes pulse {
     0%, 100% { opacity: 1; }

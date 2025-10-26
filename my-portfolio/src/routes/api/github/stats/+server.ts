@@ -1,10 +1,10 @@
+// src/routes/api/github/stats/+server.ts
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { GITHUB_TOKEN } from '$env/static/private';
 
 const GITHUB_API = 'https://api.github.com';
 const GITHUB_USERNAME = 'sudo-krish';
-const CACHE_DURATION = 1000 * 60 * 30; // 30 minutes server-side cache
+const CACHE_DURATION = 1000 * 60 * 30; // 30 minutes
 
 let cachedStats: any = null;
 let lastFetchStats = 0;
@@ -24,21 +24,28 @@ interface GitHubStats {
   lastActiveDate: string;
 }
 
-export const GET: RequestHandler = async () => {
+export const GET: RequestHandler = async ({ platform }) => {
   const now = Date.now();
   
   // Return cached data if fresh
   if (cachedStats && (now - lastFetchStats) < CACHE_DURATION) {
-    console.log('✅ Returning cached GitHub stats');
     return json(cachedStats);
   }
   
   try {
-    // Fetch from GitHub with token
-    const headers = {
+    // ✅ Works in both local and Cloudflare
+    // Local: uses import.meta.env
+    // Cloudflare: uses platform.env
+    const GITHUB_TOKEN = platform?.env?.GITHUB_TOKEN || import.meta.env.VITE_GITHUB_TOKEN || '';
+    
+    const headers: Record<string, string> = {
       'Accept': 'application/vnd.github.v3+json',
-      ...(GITHUB_TOKEN && { 'Authorization': `token ${GITHUB_TOKEN}` })
+      'User-Agent': 'Portfolio-Site'
     };
+    
+    if (GITHUB_TOKEN) {
+      headers['Authorization'] = `Bearer ${GITHUB_TOKEN}`;
+    }
     
     const [userRes, reposRes] = await Promise.all([
       fetch(`${GITHUB_API}/users/${GITHUB_USERNAME}`, { headers }),
@@ -46,7 +53,7 @@ export const GET: RequestHandler = async () => {
     ]);
     
     if (!userRes.ok || !reposRes.ok) {
-      throw new Error('GitHub API request failed');
+      throw new Error(`GitHub API request failed: ${userRes.status}`);
     }
     
     const user = await userRes.json();
@@ -113,10 +120,15 @@ export const GET: RequestHandler = async () => {
     cachedStats = stats;
     lastFetchStats = now;
     
-    console.log('✅ GitHub stats fetched and cached');
     return json(stats);
   } catch (error) {
     console.error('❌ GitHub API error:', error);
+    
+    // Return cached data if available on error
+    if (cachedStats) {
+      return json(cachedStats);
+    }
+    
     return json({ error: 'Failed to fetch GitHub stats' }, { status: 500 });
   }
 };

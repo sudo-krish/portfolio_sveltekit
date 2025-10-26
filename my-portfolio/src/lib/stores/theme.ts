@@ -1,48 +1,44 @@
+// src/lib/stores/theme.ts
 import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
 
 type Theme = 'light' | 'dark';
 
-function getInitialTheme(): Theme {
-  if (!browser) return 'light';
-  
-  const stored = localStorage.getItem('theme') as Theme;
-  if (stored) return stored;
-  
-  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    return 'dark';
-  }
-  
-  return 'light';
-}
-
 function createThemeStore() {
-  const { subscribe, set, update } = writable<Theme>(getInitialTheme());
-  
+  const { subscribe, set } = writable<Theme>('dark'); // ✅ Default to dark
+
   return {
     subscribe,
-    set: (theme: Theme) => {
-      if (browser) {
-        localStorage.setItem('theme', theme);
-        document.documentElement.classList.toggle('dark', theme === 'dark');
-      }
-      set(theme);
-    },
-    toggle: () => {
-      update(current => {
-        const newTheme = current === 'light' ? 'dark' : 'light';
-        if (browser) {
-          localStorage.setItem('theme', newTheme);
-          document.documentElement.classList.toggle('dark', newTheme === 'dark');
-        }
-        return newTheme;
-      });
-    },
     init: () => {
       if (browser) {
-        const theme = getInitialTheme();
-        document.documentElement.classList.toggle('dark', theme === 'dark');
-        set(theme);
+        // Check localStorage first
+        const stored = localStorage.getItem('theme') as Theme | null;
+        
+        if (stored) {
+          set(stored);
+          document.documentElement.classList.toggle('dark', stored === 'dark');
+        } else {
+          // ✅ If no stored preference, default to dark
+          set('dark');
+          document.documentElement.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+        }
+      }
+    },
+    set: (value: Theme) => {
+      if (browser) {
+        set(value);
+        localStorage.setItem('theme', value);
+        document.documentElement.classList.toggle('dark', value === 'dark');
+      }
+    },
+    toggle: () => {
+      if (browser) {
+        const current = localStorage.getItem('theme') as Theme | 'dark';
+        const newTheme: Theme = current === 'dark' ? 'light' : 'dark';
+        set(newTheme);
+        localStorage.setItem('theme', newTheme);
+        document.documentElement.classList.toggle('dark', newTheme === 'dark');
       }
     }
   };

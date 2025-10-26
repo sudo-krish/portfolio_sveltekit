@@ -1,6 +1,6 @@
+// src/routes/api/github/projects/+server.ts
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { GITHUB_TOKEN } from '$env/static/private';
 
 const GITHUB_API = 'https://api.github.com';
 const GITHUB_USERNAME = 'sudo-krish';
@@ -62,19 +62,29 @@ function shouldBeFeatured(repo: any): boolean {
   return repo.stargazers_count >= 3 || hasKeyword || isVeryRecent;
 }
 
-export const GET: RequestHandler = async () => {
+// ✅ Updated for Cloudflare - Access env via platform
+export const GET: RequestHandler = async ({ platform }) => {
   const now = Date.now();
   
+  // Check cache
   if (cachedProjects && (now - lastFetchProjects) < CACHE_DURATION) {
-    console.log('✅ Returning cached GitHub projects');
     return json(cachedProjects);
   }
   
   try {
-    const headers = {
+    // ✅ Get token from Cloudflare environment
+    // In production: platform.env.GITHUB_TOKEN
+    // In development: import.meta.env.GITHUB_TOKEN
+    const GITHUB_TOKEN = platform?.env?.GITHUB_TOKEN || import.meta.env.GITHUB_TOKEN;
+    
+    const headers: Record<string, string> = {
       'Accept': 'application/vnd.github.v3+json',
-      ...(GITHUB_TOKEN && { 'Authorization': `token ${GITHUB_TOKEN}` })
+      'User-Agent': 'Portfolio-Site'
     };
+    
+    if (GITHUB_TOKEN) {
+      headers['Authorization'] = `Bearer ${GITHUB_TOKEN}`;
+    }
     
     const response = await fetch(
       `${GITHUB_API}/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated&type=owner`,
@@ -82,7 +92,7 @@ export const GET: RequestHandler = async () => {
     );
     
     if (!response.ok) {
-      throw new Error('GitHub API request failed');
+      throw new Error(`GitHub API failed: ${response.status}`);
     }
     
     const repos = await response.json();
@@ -133,10 +143,15 @@ export const GET: RequestHandler = async () => {
     cachedProjects = sorted;
     lastFetchProjects = now;
     
-    console.log('✅ GitHub projects fetched and cached');
     return json(sorted);
   } catch (error) {
     console.error('❌ GitHub API error:', error);
+    
+    // Return cached data if available
+    if (cachedProjects) {
+      return json(cachedProjects);
+    }
+    
     return json({ error: 'Failed to fetch GitHub projects' }, { status: 500 });
   }
 };

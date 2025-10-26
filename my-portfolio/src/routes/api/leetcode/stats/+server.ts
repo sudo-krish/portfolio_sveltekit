@@ -39,7 +39,7 @@ export const GET: RequestHandler = async () => {
   const now = Date.now();
   
   if (cachedStats && (now - lastFetch) < CACHE_DURATION) {
-    console.log('✅ Returning cached LeetCode stats');
+
     return json(cachedStats);
   }
   
@@ -83,15 +83,13 @@ export const GET: RequestHandler = async () => {
     
     cachedStats = stats;
     lastFetch = now;
-    
-    console.log('✅ LeetCode stats fetched and cached');
+
     return json(stats);
   } catch (error) {
     console.error('❌ LeetCode API error:', error);
     
     // Fallback to cached data if available
     if (cachedStats) {
-      console.log('⚠️ Using stale cache due to API error');
       return json(cachedStats);
     }
     

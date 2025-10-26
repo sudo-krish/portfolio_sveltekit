@@ -1,9 +1,10 @@
+<!-- src/lib/components/ThemeToggle.svelte (or wherever this component is) -->
 <script lang="ts">
   import { theme } from '$lib/stores/theme';
   import { Button } from '$lib/components/ui/button';
   import { onMount } from 'svelte';
   
-  let currentTheme: 'light' | 'dark' = $state('light');
+  let currentTheme: 'light' | 'dark' = $state('dark'); // ✅ Default to dark
   
   onMount(() => {
     theme.init();
@@ -26,7 +27,7 @@
   aria-label="Toggle theme"
 >
   {#if currentTheme === 'light'}
-    <!-- Moon icon for dark mode -->
+    <!-- Moon icon for switching to dark mode -->
     <svg
       class="w-5 h-5 transition-transform duration-300 rotate-0"
       fill="none"
@@ -41,7 +42,7 @@
       />
     </svg>
   {:else}
-    <!-- Sun icon for light mode -->
+    <!-- Sun icon for switching to light mode -->
     <svg
       class="w-5 h-5 transition-transform duration-300 rotate-0"
       fill="none"

@@ -3,52 +3,34 @@ import type { RequestHandler } from './$types';
 
 export const prerender = true;
 
-// Define the Page interface
-interface SitemapPage {
-  url: string;
-  priority: string;
-  changefreq: string;
-  lastmod?: string;
-}
-
 export const GET: RequestHandler = async () => {
   const site = 'https://krishnanandanil.com';
-  const currentDate = new Date().toISOString();
+  const currentDate = new Date().toISOString().split('T')[0];
   
-  // Only homepage since it's a single-page app with anchor sections
-  const staticPages: SitemapPage[] = [
-    { 
-      url: '', 
-      priority: '1.0', 
-      changefreq: 'weekly', 
-      lastmod: currentDate 
-    },
+  // Main page + important sections
+  const pages = [
+    { url: '', priority: '1.0', changefreq: 'weekly' },
+    // Optional: Add important anchor sections for better SEO
+    // { url: '#about', priority: '0.8', changefreq: 'monthly' },
+    // { url: '#projects', priority: '0.9', changefreq: 'weekly' },
+    // { url: '#experience', priority: '0.8', changefreq: 'monthly' },
+    // { url: '#contact', priority: '0.7', changefreq: 'monthly' }
   ];
   
-  const allPages: SitemapPage[] = staticPages;
-  
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-${allPages
-  .map(
-    (page) => `  <url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${pages.map(page => `  <url>
     <loc>${site}/${page.url}</loc>
-    <lastmod>${page.lastmod || currentDate}</lastmod>
+    <lastmod>${currentDate}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
-  </url>`
-  )
-  .join('\n')}
-</urlset>`.trim();
+  </url>`).join('\n')}
+</urlset>`;
 
   return new Response(sitemap, {
     headers: {
-      'Content-Type': 'application/xml',
-      'Cache-Control': 'max-age=0, s-maxage=3600',
+      'Content-Type': 'application/xml; charset=utf-8',
+      'Cache-Control': 'public, max-age=3600, s-maxage=3600',
     },
   });
 };

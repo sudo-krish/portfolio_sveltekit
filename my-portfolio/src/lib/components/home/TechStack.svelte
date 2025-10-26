@@ -212,11 +212,7 @@
     margin: 0 0 0.75rem;
   }
   
-  .gradient {
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
-    /* -webkit-background-clip: text; */
-    -webkit-text-fill-color: transparent;
-  }
+
   
   .subtitle {
     font-size: 0.9375rem;
