@@ -4,7 +4,7 @@
   // Get default data from centralized store
   const defaults = {
     personal: portfolioData.personal,
-    siteTitle: `${portfolioData.personal.name} - ${portfolioData.personal.jobTitle}`,
+    siteTitle: `Krishnanand Anil - AWS Data Engineer & Cloud Expert`,
     defaultKeywords: portfolioData.personal.topSkills.join(', '),
     website: portfolioData.personal.website
   };
