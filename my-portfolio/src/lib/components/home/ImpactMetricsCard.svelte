@@ -18,7 +18,7 @@
 </script>
 
 <div class="terminal-card">
-  <!-- Terminal Header -->
+  <!-- Compact Header -->
   <div class="terminal-header">
     <div class="dots">
       <span class="dot red"></span>
@@ -26,7 +26,7 @@
       <span class="dot green"></span>
     </div>
     <div class="title">
-      <Terminal size={12} />
+      <Terminal size={10} />
       <span>impact.log</span>
     </div>
     <div class="status">
@@ -37,16 +37,12 @@
   
   <!-- Terminal Body -->
   <div class="terminal-body">
-    <div class="prompt-line">
-      <span class="prompt">$</span>
-      <span class="command">./impact.sh</span>
-    </div>
-    
+    <!-- 4 Column Metrics Grid -->
     <div class="metrics-grid">
-      {#each metrics as m, i}
-        <div class="metric-box {m.color}" style="--delay: {i * 80}ms" class:typing>
+      {#each metrics as m}
+        <div class="metric-box {m.color}">
           <div class="metric-icon">
-            <svelte:component this={m.icon} size={12} strokeWidth={2.5} />
+            <svelte:component this={m.icon} size={10} strokeWidth={2.5} />
           </div>
           <div class="metric-value">{m.value}</div>
           <div class="metric-cmd">{m.cmd}</div>
@@ -54,17 +50,6 @@
         </div>
       {/each}
     </div>
-    
-    <div class="cursor-line">
-      <span class="prompt">$</span>
-      <span class="cursor">_</span>
-    </div>
-  </div>
-  
-  <!-- Share Footer -->
-  <div class="share-bar">
-    <span class="share-text">Screenshot & share</span>
-    <span class="share-tag">#DE</span>
   </div>
 </div>
 
@@ -74,30 +59,37 @@
     border: 1px solid hsl(var(--border));
     border-radius: 10px;
     width: 100%;
-    max-width: 480px; /* Reduced from 580px */
+    max-width: 480px;
+    height: 240px;
     overflow: hidden;
     font-family: var(--font-mono);
-    box-shadow: 0 2px 4px rgb(0 0 0 / 0.08);
+    display: flex;
+    flex-direction: column;
   }
   
-  /* Terminal Header - Compact */
+  .terminal-card:hover {
+    border-color: hsl(var(--primary));
+  }
+  
+  /* Compact Header */
   .terminal-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5rem 0.875rem; /* Reduced padding */
+    padding: 0.5rem 0.75rem;
     background: hsl(var(--muted) / 0.5);
     border-bottom: 1px solid hsl(var(--border));
+    flex-shrink: 0;
   }
   
   .dots {
     display: flex;
-    gap: 0.375rem; /* Reduced gap */
+    gap: 0.3125rem;
   }
   
   .dot {
-    width: 8px; /* Reduced from 10px */
-    height: 8px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
   }
   
@@ -108,8 +100,8 @@
   .title {
     display: flex;
     align-items: center;
-    gap: 0.375rem; /* Reduced gap */
-    font-size: 0.6875rem; /* Smaller font */
+    gap: 0.3125rem;
+    font-size: 0.625rem;
     color: hsl(var(--muted-foreground));
     flex: 1;
     justify-content: center;
@@ -118,92 +110,64 @@
   .status {
     display: flex;
     align-items: center;
-    gap: 0.3125rem;
-    font-size: 0.5625rem; /* Smaller */
+    gap: 0.25rem;
+    font-size: 0.5rem;
     font-weight: 700;
     color: hsl(var(--success));
     letter-spacing: 0.05em;
   }
   
   .pulse {
-    width: 5px; /* Reduced */
-    height: 5px;
+    width: 4px;
+    height: 4px;
     border-radius: 50%;
     background: hsl(var(--success));
-    animation: pulse 2s infinite;
+    /* REMOVED: animation to prevent flicker */
   }
   
-  @keyframes pulse {
-    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 hsl(var(--success) / 0.7); }
-    50% { opacity: 0.7; box-shadow: 0 0 0 3px hsl(var(--success) / 0); }
-  }
-  
-  /* Terminal Body - Compact */
+  /* Terminal Body */
   .terminal-body {
-    padding: 0.875rem; /* Reduced from 1rem */
-    background: hsl(var(--card));
-  }
-  
-  .prompt-line {
+    padding: 0.75rem;
+    flex: 1;
     display: flex;
-    gap: 0.375rem;
-    margin-bottom: 0.75rem; /* Reduced */
-    font-size: 0.8125rem; /* Smaller */
+    align-items: center;
+    justify-content: center;
   }
   
-  .prompt {
-    color: hsl(var(--primary));
-    font-weight: 700;
-  }
-  
-  .command {
-    color: hsl(var(--accent));
-  }
-  
-  /* Metrics Grid - COMPACT 4 COLUMNS */
+  /* 4 Column Compact Grid */
   .metrics-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem; /* Reduced from 0.75rem */
-    margin-bottom: 0.75rem;
+    gap: 0.5rem;
+    width: 100%;
   }
   
   .metric-box {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0.625rem 0.375rem; /* Compact padding */
+    padding: 0.5rem 0.25rem;
     background: hsl(var(--muted) / 0.3);
     border: 1px solid hsl(var(--border));
-    border-radius: 6px; /* Smaller radius */
+    border-radius: 6px;
     text-align: center;
     position: relative;
     overflow: hidden;
-    opacity: 0;
-    transform: scale(0.9);
-    animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    animation-delay: var(--delay);
+    /* REMOVED: all animations */
   }
   
-  @keyframes popIn {
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-  
-  /* Accent Border Top - Thinner */
+  /* Thin top border */
   .metric-box::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 2px; /* Reduced from 3px */
+    height: 2px;
   }
   
   .metric-box.primary::before {
-    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)));
+    background: hsl(var(--primary));
   }
   
   .metric-box.accent::before {
@@ -220,19 +184,18 @@
   
   .metric-box:hover {
     background: hsl(var(--muted) / 0.5);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px hsl(var(--primary) / 0.1);
+    /* REMOVED: transform and box-shadow to prevent flicker */
   }
   
-  /* Icon - Smaller */
+  /* Compact Icon */
   .metric-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px; /* Reduced from 32px */
-    height: 24px;
-    border-radius: 6px;
-    margin-bottom: 0.375rem; /* Reduced */
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    margin-bottom: 0.3125rem;
   }
   
   .metric-box.primary .metric-icon {
@@ -255,9 +218,9 @@
     color: hsl(var(--highlight));
   }
   
-  /* Metric Value - Compact */
+  /* Compact Metric Value */
   .metric-value {
-    font-size: 1.375rem; /* Reduced from 1.75rem */
+    font-size: 1.125rem;
     font-weight: 800;
     line-height: 1;
     margin-bottom: 0.125rem;
@@ -268,113 +231,27 @@
   }
   
   .metric-cmd {
-    font-size: 0.6875rem; /* Smaller */
+    font-size: 0.625rem;
     font-weight: 600;
     color: hsl(var(--foreground));
     margin-bottom: 0.0625rem;
   }
   
   .metric-label {
-    font-size: 0.625rem; /* Smaller */
+    font-size: 0.5625rem;
     color: hsl(var(--muted-foreground));
   }
   
-  /* Cursor Line - Compact */
-  .cursor-line {
-    display: flex;
-    gap: 0.375rem;
-    align-items: center;
-    font-size: 0.8125rem;
-  }
-  
-  .cursor {
-    color: hsl(var(--primary));
-    animation: blink 1s infinite;
-  }
-  
-  @keyframes blink {
-    0%, 49% { opacity: 1; }
-    50%, 100% { opacity: 0; }
-  }
-  
-  /* Share Bar - Compact */
-  .share-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.5rem 0.875rem; /* Reduced */
-    background: linear-gradient(
-      90deg,
-      hsl(var(--primary) / 0.1),
-      hsl(var(--accent) / 0.1)
-    );
-    border-top: 1px solid hsl(var(--border));
-    font-size: 0.6875rem; /* Smaller */
-  }
-  
-  .share-text {
-    color: hsl(var(--muted-foreground));
-  }
-  
-  .share-tag {
-    color: hsl(var(--accent));
-    font-weight: 700;
-    padding: 0.1875rem 0.4375rem;
-    background: hsl(var(--accent) / 0.15);
-    border-radius: 3px;
-  }
-  
-  /* Dark Mode */
-  :global(.dark) .terminal-card {
-    box-shadow: 0 0 30px hsl(var(--primary) / 0.12);
-  }
-  
-  :global(.dark) .metric-box:hover {
-    box-shadow: 0 0 16px hsl(var(--primary) / 0.15);
-  }
-  
-  :global(.dark) .metric-icon {
-    box-shadow: 0 0 10px hsl(var(--primary) / 0.25);
-  }
-  
-  :global(.dark) .metric-value {
-    text-shadow: 0 0 8px hsl(var(--primary) / 0.4);
-  }
-  
-  /* Tablet - 2x2 Grid */
-  @media (max-width: 920px) {
-    .metrics-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.5rem;
-    }
-  }
-  
-  /* Mobile - Vertical Stack */
-  @media (max-width: 640px) {
+  /* Responsive */
+  @media (max-width: 480px) {
     .terminal-card {
       max-width: 100%;
-    }
-    
-    .terminal-body {
-      padding: 0.75rem;
+      height: auto;
+      min-height: 240px;
     }
     
     .metrics-grid {
-      grid-template-columns: 1fr;
-      gap: 0.5rem;
-    }
-    
-    .metric-box {
-      padding: 0.625rem;
-    }
-    
-    .metric-value {
-      font-size: 1.25rem;
-    }
-    
-    .metric-icon {
-      width: 22px;
-      height: 22px;
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 </style>

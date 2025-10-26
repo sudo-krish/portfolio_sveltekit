@@ -1,131 +1,359 @@
-<!-- src/routes/+page.svelte -->
+<!-- src/lib/components/home/MetricsGrid.svelte -->
 <script lang="ts">
-  import ImpactMetricsCard from '$lib/components/home/ImpactMetricsCard.svelte';
-  import ProjectMetricsCard from '$lib/components/home/ProjectMetricsCard.svelte';
-  import CareerTimelineCard from '$lib/components/home/CareerTimelineCard.svelte';
-  import ExperienceCard from '$lib/components/home/ExperienceCard.svelte';
-  import ResearchCard from '$lib/components/home/ResearchCard.svelte';
-  import CertificationsCard from '$lib/components/home/CertificationsCard.svelte';
-  import TechStackCard from '$lib/components/home/TechStackCard.svelte';
-  import LocationCard from '$lib/components/home/LocationCard.svelte';
+  import { Zap, Database, GitBranch, Globe, Sparkles, Layers, Rocket } from 'lucide-svelte';
+
+  import LeetCodeCard from "./LeetCodeCard.svelte";
+  import GitHubStatsCard from "./GitHubStatsCard.svelte";
+  import ExperienceCard from "./ExperienceCard.svelte";
+  import SpecialtyCard from "./SpecialtyCard.svelte";
+  import ImpactMetricsCard from "./ImpactMetricsCard.svelte";
+  import ProjectMetricsCard from "./ProjectMetricsCard.svelte";
+  import CertificationsCard from "./CertificationsCard.svelte";
+  import ResearchCard from "./ResearchCard.svelte";
+  import TechStackCard from "./TechStackCard.svelte";
+  import LocationCard from "./LocationCard.svelte";
+  import CareerTimelineCard from "./CareerTimelineCard.svelte";
 </script>
 
-<div class="portfolio-container">
-  <!-- Row 1: Impact & Project Metrics -->
-  <div class="row metrics-row">
-    <ImpactMetricsCard />
-    <ProjectMetricsCard />
+<div class="metrics-container">
+  <!-- Header -->
+  <header class="section-header">
+    <div class="header-icon">
+      <Database size={24} strokeWidth={2} />
+    </div>
+    <h2>Engineering Metrics</h2>
+    <p>Real-time CDC • Multi-cloud • 5-minute SLA warehouse</p>
+  </header>
+
+  <!-- DESKTOP LAYOUT -->
+  <div class="desktop-layout">
+    <div class="left-side">
+      <LeetCodeCard />
+      <GitHubStatsCard />
+      <ImpactMetricsCard />
+      <ProjectMetricsCard />
+      <CareerTimelineCard />
+      <CertificationsCard />
+    </div>
+    
+    <div class="right-side">
+      <ExperienceCard />
+      <ResearchCard />
+      <TechStackCard />
+      <LocationCard />
+    </div>
+    
+    <div class="specialties-bottom">
+      <SpecialtyCard
+        icon={Zap}
+        title="Real-Time CDC"
+        highlight="RARE"
+        description="Kafka + Debezium"
+        tags={["Kafka", "Debezium", "CDC"]}
+      />
+      <SpecialtyCard
+        icon={Database}
+        title="NRT Warehouse"
+        highlight="5-MIN SLA"
+        description="Sub-5-minute refresh"
+        tags={["Redshift", "Glue", "Lambda"]}
+      />
+      <SpecialtyCard
+        icon={GitBranch}
+        title="Polyglot ETL"
+        highlight="PYTHON+GO"
+        description="Multi-language transforms"
+        tags={["Python", "Go", "PySpark"]}
+      />
+      <SpecialtyCard
+        icon={Globe}
+        title="Cloud Migration"
+        highlight="GCP→AWS"
+        description="K8s orchestration"
+        tags={["AWS", "GCP", "K8s"]}
+      />
+      <SpecialtyCard
+        icon={Sparkles}
+        title="Vector DB & AI"
+        highlight="AI-READY"
+        description="Semantic search + NLQ"
+        tags={["Vector DB", "GraphQL", "GenAI"]}
+      />
+      <SpecialtyCard
+        icon={Layers}
+        title="Data Lake Design"
+        highlight="MEDALLION"
+        description="Bronze-Silver-Gold zones"
+        tags={["S3", "Parquet", "Delta"]}
+      />
+      <SpecialtyCard
+        icon={Rocket}
+        title="Big Data at Scale"
+        highlight="5TB+/MONTH"
+        description="Spark optimization"
+        tags={["PySpark", "EMR", "Hadoop"]}
+      />
+    </div>
   </div>
-  
-  <!-- Row 2: Career Timeline & Experience -->
-  <div class="row career-row">
-    <CareerTimelineCard />
-    <ExperienceCard />
-  </div>
-  
-  <!-- Row 3: Research & Certifications -->
-  <div class="row research-row">
-    <ResearchCard />
-    <CertificationsCard />
-  </div>
-  
-  <!-- Row 4: Tech Stack & Location -->
-  <div class="row tech-row">
-    <TechStackCard />
-    <LocationCard />
+
+  <!-- TABLET/MOBILE LAYOUT -->
+  <div class="tablet-mobile-layout">
+    <div class="group-240">
+      <LeetCodeCard />
+      <GitHubStatsCard />
+      <ImpactMetricsCard />
+      <ProjectMetricsCard />
+    </div>
+
+    <div class="group-320">
+      <CareerTimelineCard />
+      <CertificationsCard />
+    </div>
+
+    <div class="group-with-specialties">
+      <div class="main-cards">
+        <ExperienceCard />
+        <ResearchCard />
+        <TechStackCard />
+        <LocationCard />
+      </div>
+      
+      <div class="specialties-side">
+        <SpecialtyCard
+          icon={Zap}
+          title="Real-Time CDC"
+          highlight="RARE"
+          description="Kafka + Debezium"
+          tags={["Kafka", "Debezium", "CDC"]}
+        />
+        <SpecialtyCard
+          icon={Database}
+          title="NRT Warehouse"
+          highlight="5-MIN SLA"
+          description="Sub-5-minute refresh"
+          tags={["Redshift", "Glue", "Lambda"]}
+        />
+        <SpecialtyCard
+          icon={GitBranch}
+          title="Polyglot ETL"
+          highlight="PYTHON+GO"
+          description="Multi-language transforms"
+          tags={["Python", "Go", "PySpark"]}
+        />
+        <SpecialtyCard
+          icon={Globe}
+          title="Cloud Migration"
+          highlight="GCP→AWS"
+          description="K8s orchestration"
+          tags={["AWS", "GCP", "K8s"]}
+        />
+        <SpecialtyCard
+          icon={Sparkles}
+          title="Vector DB & AI"
+          highlight="AI-READY"
+          description="Semantic search + NLQ"
+          tags={["Vector DB", "GraphQL", "GenAI"]}
+        />
+        <SpecialtyCard
+          icon={Layers}
+          title="Data Lake Design"
+          highlight="MEDALLION"
+          description="Bronze-Silver-Gold zones"
+          tags={["S3", "Parquet", "Delta"]}
+        />
+        <SpecialtyCard
+          icon={Rocket}
+          title="Big Data at Scale"
+          highlight="5TB+/MONTH"
+          description="Spark optimization"
+          tags={["PySpark", "EMR", "Hadoop"]}
+        />
+      </div>
+    </div>
   </div>
 </div>
 
 <style>
-  .portfolio-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 2rem;
+  .metrics-container {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-  }
-  
-  /* Base Row Layout - Always 2 columns on desktop */
-  .row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
-    width: 100%;
+    padding: 2rem 0;
+    max-width: 1200px;
+    margin: 0 auto;
   }
-  
-  /* Desktop (1025px+) - All rows are 2 columns */
+
+  /* Header */
+  .section-header {
+    text-align: center;
+    padding: 2rem 0 3rem;
+  }
+
+  .header-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary)) 0%,
+      hsl(var(--accent)) 100%
+    );
+    border-radius: 16px;
+    color: white;
+    box-shadow: 0 4px 16px hsl(var(--primary) / 0.25);
+  }
+
+  .section-header h2 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+    color: hsl(var(--foreground));
+    letter-spacing: -0.02em;
+  }
+
+  .section-header p {
+    font-family: var(--font-mono);
+    font-size: 0.9375rem;
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* Hide tablet/mobile on desktop */
+  .tablet-mobile-layout {
+    display: none;
+  }
+
+  /* DESKTOP LAYOUT */
   @media (min-width: 1025px) {
-    .row {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-  
-  /* Tablet Landscape (921px - 1024px) */
-  @media (max-width: 1024px) and (min-width: 921px) {
-    .portfolio-container {
-      padding: 1.5rem;
-    }
-    
-    /* All rows stay as 2 columns */
-    .row {
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-    }
-  }
-  
-  /* Tablet Portrait (768px - 920px) */
-  @media (max-width: 920px) and (min-width: 768px) {
-    .portfolio-container {
-      padding: 1.5rem;
+    .desktop-layout {
+      display: grid;
+      grid-template-columns: 480px 1fr;
+      grid-template-rows: auto auto;
       gap: 1.5rem;
     }
-    
-    /* Metrics, Research, Tech - Single column */
-    .metrics-row,
-    .research-row,
-    .tech-row {
-      grid-template-columns: 1fr;
+
+    .left-side {
+      grid-column: 1;
+      grid-row: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
     }
-    
-    /* Career row STAYS 2 columns */
-    .career-row {
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
+
+    .right-side {
+      grid-column: 2;
+      grid-row: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .right-side > :global(*) {
+      height: 100%;
+    }
+
+    .specialties-bottom {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    .tablet-mobile-layout {
+      display: none;
     }
   }
-  
-  /* Small Tablet (641px - 767px) */
-  @media (max-width: 767px) and (min-width: 641px) {
-    .portfolio-container {
-      padding: 1.25rem;
-      gap: 1.25rem;
+
+  /* TABLET VIEW */
+  @media (max-width: 1024px) and (min-width: 769px) {
+    .desktop-layout {
+      display: none;
     }
-    
-    /* All single column */
-    .row {
+
+    .tablet-mobile-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .group-240 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .group-320 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .group-with-specialties {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 1.5rem;
+    }
+
+    .main-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .specialties-side {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+  }
+
+  /* MOBILE VIEW */
+  @media (max-width: 768px) {
+    .desktop-layout {
+      display: none;
+    }
+
+    .metrics-container {
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+
+    .tablet-mobile-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .group-240,
+    .group-320 {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .group-with-specialties {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .main-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .specialties-side {
+      display: grid;
       grid-template-columns: 1fr;
       gap: 1rem;
     }
-  }
-  
-  /* Mobile (640px and below) */
-  @media (max-width: 640px) {
-    .portfolio-container {
-      padding: 1rem;
-      gap: 1.25rem;
+
+    .section-header {
+      padding: 1.5rem 0 1.5rem;
     }
-    
-    /* All single column */
-    .row {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-  }
-  
-  /* Ensure cards don't exceed their max-width */
-  .row > :global(*) {
-    width: 100%;
-    justify-self: center;
   }
 </style>

@@ -20,14 +20,14 @@
   <!-- Header -->
   <div class="card-header">
     <div class="header-icon">
-      <Rocket size={16} />
+      <Rocket size={14} />
     </div>
     <div class="header-content">
       <h3>Career Journey</h3>
       <span class="subtitle">{personal.yearsOfExperience}+ years • 3 companies</span>
     </div>
     <div class="badge">
-      <TrendingUp size={10} />
+      <TrendingUp size={9} />
       <span>↑</span>
     </div>
   </div>
@@ -44,7 +44,7 @@
           <div class="level-badge {stage.current ? 'active' : ''}">
             <span class="level">{stage.level}</span>
             {#if stage.promoted}
-              <Award size={8} class="promotion-star" />
+              <Award size={7} class="promotion-star" />
             {/if}
           </div>
           {#if i < timeline.length - 1}
@@ -86,38 +86,38 @@
   .journey-card {
     background: hsl(var(--card));
     border: 1px solid hsl(var(--border));
-    border-radius: 16px;
+    border-radius: 12px;
     width: 100%;
     max-width: 480px;
-    overflow: hidden;
-    backdrop-filter: blur(20px);
-    box-shadow: 0 2px 8px rgb(0 0 0 / 0.04);
+    height: 320px;
+    display: flex;
+    flex-direction: column;
   }
   
-  /* iOS-style Header */
+  .journey-card:hover {
+    border-color: hsl(var(--primary));
+  }
+  
+  /* Header */
   .card-header {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 1rem;
-    background: linear-gradient(
-      135deg,
-      hsl(var(--muted) / 0.3),
-      hsl(var(--muted) / 0.1)
-    );
+    gap: 0.625rem;
+    padding: 0.875rem 1rem;
+    background: hsl(var(--muted) / 0.3);
     border-bottom: 1px solid hsl(var(--border));
+    flex-shrink: 0;
   }
   
   .header-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
-    border-radius: 10px;
+    border-radius: 8px;
     color: white;
-    box-shadow: 0 2px 8px hsl(var(--primary) / 0.3);
     flex-shrink: 0;
   }
   
@@ -130,7 +130,7 @@
   }
   
   h3 {
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
     font-weight: 700;
     color: hsl(var(--foreground));
     margin: 0;
@@ -138,7 +138,7 @@
   }
   
   .subtitle {
-    font-size: 0.6875rem;
+    font-size: 0.625rem;
     color: hsl(var(--muted-foreground));
     font-family: var(--font-mono);
   }
@@ -147,35 +147,37 @@
     display: flex;
     align-items: center;
     gap: 0.25rem;
-    padding: 0.375rem 0.625rem;
+    padding: 0.3125rem 0.5rem;
     background: hsl(var(--success) / 0.1);
     border: 1px solid hsl(var(--success) / 0.2);
-    border-radius: 12px;
+    border-radius: 8px;
     color: hsl(var(--success));
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     font-weight: 700;
     flex-shrink: 0;
   }
   
-  /* Timeline - iOS List Style */
+  /* Timeline */
   .timeline {
-    padding: 1rem;
+    padding: 0.875rem;
     display: flex;
     flex-direction: column;
     gap: 0;
+    flex: 1;
+    overflow-y: auto;
   }
   
   .stage-row {
     display: grid;
-    grid-template-columns: 52px 56px 1fr;
+    grid-template-columns: 48px 52px 1fr;
     align-items: start;
-    gap: 0.75rem;
-    padding: 0.625rem 0;
+    gap: 0.625rem;
+    padding: 0.5rem 0;
     position: relative;
   }
   
   .stage-row:not(:last-child) {
-    padding-bottom: 1.25rem;
+    padding-bottom: 1rem;
   }
   
   .stage-row.current {
@@ -184,27 +186,27 @@
       hsl(var(--primary) / 0.05),
       transparent
     );
-    margin: 0 -1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    border-radius: 8px;
+    margin: 0 -0.875rem;
+    padding-left: 0.875rem;
+    padding-right: 0.875rem;
+    border-radius: 6px;
   }
   
   /* Year Marker */
   .year-marker {
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     font-weight: 700;
     color: hsl(var(--muted-foreground));
     font-family: var(--font-mono);
     text-align: right;
-    padding-top: 0.375rem;
+    padding-top: 0.3125rem;
   }
   
   .stage-row.current .year-marker {
     color: hsl(var(--primary));
   }
   
-  /* Badge Wrapper - Proper positioning for line */
+  /* Badge Wrapper */
   .badge-wrapper {
     position: relative;
     display: flex;
@@ -212,30 +214,30 @@
     align-items: center;
   }
   
-  /* Level Badge - iOS Pill Style */
+  /* Level Badge */
   .level-badge {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 32px;
-    width: 48px;
+    height: 28px;
+    width: 44px;
     background: hsl(var(--muted) / 0.5);
     border: 1.5px solid hsl(var(--border));
-    border-radius: 16px;
+    border-radius: 14px;
     position: relative;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 2;
     flex-shrink: 0;
+    /* REMOVED: transition to prevent flicker */
   }
   
   .level-badge.active {
     background: hsl(var(--primary) / 0.15);
     border-color: hsl(var(--primary));
-    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.1);
+    /* REMOVED: box-shadow to prevent GPU load */
   }
   
   .level {
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     font-weight: 800;
     color: hsl(var(--foreground));
     font-family: var(--font-mono);
@@ -248,23 +250,23 @@
   
   :global(.promotion-star) {
     position: absolute;
-    top: -4px;
-    right: -4px;
+    top: -3px;
+    right: -3px;
     color: hsl(var(--highlight));
     background: hsl(var(--card));
     border-radius: 50%;
-    padding: 2px;
+    padding: 1px;
     z-index: 3;
   }
   
-  /* Progress Line - Properly centered under badge */
+  /* Progress Line */
   .progress-line {
     position: absolute;
-    top: 32px;
+    top: 28px;
     left: 50%;
     transform: translateX(-50%);
     width: 2px;
-    height: calc(100% + 1rem);
+    height: calc(100% + 0.875rem);
     background: linear-gradient(
       180deg,
       hsl(var(--border)),
@@ -277,13 +279,13 @@
   .company-info {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding-top: 0.375rem;
+    gap: 0.4375rem;
+    padding-top: 0.3125rem;
     min-width: 0;
   }
   
   .company-name {
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     font-weight: 600;
     color: hsl(var(--foreground));
     white-space: nowrap;
@@ -292,11 +294,11 @@
   }
   
   .current-tag {
-    padding: 0.1875rem 0.5rem;
+    padding: 0.1875rem 0.4375rem;
     background: hsl(var(--primary) / 0.15);
     border: 1px solid hsl(var(--primary) / 0.3);
-    border-radius: 8px;
-    font-size: 0.625rem;
+    border-radius: 6px;
+    font-size: 0.5625rem;
     font-weight: 700;
     color: hsl(var(--primary));
     text-transform: uppercase;
@@ -304,14 +306,15 @@
     flex-shrink: 0;
   }
   
-  /* Stats Footer - Material Design Style */
+  /* Stats Footer */
   .stats-footer {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    padding: 0.875rem 1rem;
+    padding: 0.75rem 0.875rem;
     background: hsl(var(--muted) / 0.3);
     border-top: 1px solid hsl(var(--border));
+    flex-shrink: 0;
   }
   
   .stat {
@@ -322,7 +325,7 @@
   }
   
   .stat-value {
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
     font-weight: 800;
     color: hsl(var(--foreground));
     font-family: var(--font-mono);
@@ -330,7 +333,7 @@
   }
   
   .stat-label {
-    font-size: 0.625rem;
+    font-size: 0.5625rem;
     color: hsl(var(--muted-foreground));
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -339,71 +342,16 @@
   
   .stat-divider {
     width: 1px;
-    height: 24px;
+    height: 20px;
     background: hsl(var(--border));
   }
   
-  /* Dark Mode Enhancements */
-  :global(.dark) .journey-card {
-    box-shadow: 0 0 40px hsl(var(--primary) / 0.1);
-  }
-  
-  :global(.dark) .header-icon {
-    box-shadow: 0 4px 12px hsl(var(--primary) / 0.4);
-  }
-  
-  :global(.dark) .level-badge.active {
-    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.15),
-                0 0 20px hsl(var(--primary) / 0.2);
-  }
-  
-  :global(.dark) .progress-line {
-    background: linear-gradient(
-      180deg,
-      hsl(var(--border)),
-      transparent
-    );
-  }
-  
   /* Responsive */
-  @media (max-width: 640px) {
+  @media (max-width: 480px) {
     .journey-card {
       max-width: 100%;
-    }
-    
-    .card-header {
-      padding: 0.875rem;
-    }
-    
-    .timeline {
-      padding: 0.875rem;
-    }
-    
-    .stage-row {
-      grid-template-columns: 44px 48px 1fr;
-      gap: 0.625rem;
-    }
-    
-    .year-marker {
-      font-size: 0.75rem;
-    }
-    
-    .level-badge {
-      height: 28px;
-      width: 44px;
-    }
-    
-    .company-name {
-      font-size: 0.8125rem;
-    }
-    
-    .current-tag {
-      font-size: 0.5625rem;
-      padding: 0.1875rem 0.4375rem;
-    }
-    
-    .stat-label {
-      font-size: 0.5625rem;
+      height: auto;
+      min-height: 320px;
     }
   }
 </style>

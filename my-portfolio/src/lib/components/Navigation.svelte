@@ -9,6 +9,8 @@
   let scrolled = false;
   let hidden = false;
   let lastScrollY = 0;
+  let scrollThreshold = 100; // Minimum scroll before hiding
+  let scrollDelta = 10; // Minimum scroll delta to trigger hide/show
 
   const navItems = [
     { label: "experience", id: "metrics", icon: Briefcase },
@@ -45,13 +47,25 @@
 
   onMount(() => {
     let ticking = false;
+    
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const currentScrollY = window.scrollY;
-          hidden = currentScrollY > lastScrollY && currentScrollY > 100;
+          const scrollDifference = Math.abs(currentScrollY - lastScrollY);
+          
+          // Only update if scroll difference is significant (prevents micro-scrolls)
+          if (scrollDifference > scrollDelta) {
+            // Hide navbar when scrolling down past threshold
+            hidden = currentScrollY > lastScrollY && currentScrollY > scrollThreshold;
+            
+            // Update last scroll position
+            lastScrollY = currentScrollY;
+          }
+          
+          // Update scrolled state
           scrolled = currentScrollY > 10;
-          lastScrollY = currentScrollY;
+          
           ticking = false;
         });
         ticking = true;
@@ -166,7 +180,8 @@
     top: 0;
     z-index: 100;
     width: 100%;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
   }
 
   .nav.hidden {

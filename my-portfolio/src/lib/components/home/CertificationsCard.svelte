@@ -3,37 +3,36 @@
   import { Award, Shield, CheckCircle } from 'lucide-svelte';
   import { getCertifications } from '$lib/data/portfolio-data';
   
-  const certifications = getCertifications();
+  const certifications = getCertifications().slice(0, 3); // Only show 3
 </script>
 
 <div class="cert-card">
   <!-- Header -->
   <div class="card-header">
     <div class="header-icon">
-      <Shield size={16} />
+      <Shield size={14} />
     </div>
     <div class="header-content">
       <h3>AWS Certifications</h3>
       <span class="subtitle">{certifications.length} active credentials</span>
     </div>
     <div class="verified-badge">
-      <CheckCircle size={10} />
+      <CheckCircle size={9} />
     </div>
   </div>
   
   <!-- Certifications List -->
   <div class="cert-list">
-    {#each certifications as cert, i}
+    {#each certifications as cert}
       <a 
         href={cert.url} 
         target="_blank" 
         rel="noopener noreferrer" 
         class="cert-item"
-        style="--delay: {i * 80}ms"
       >
         <!-- Left: Badge -->
         <div class="cert-badge">
-          <Award size={14} strokeWidth={2.5} />
+          <Award size={12} strokeWidth={2.5} />
         </div>
         
         <!-- Center: Info -->
@@ -47,7 +46,7 @@
         </div>
         
         <!-- Right: Verified -->
-        <CheckCircle size={12} class="verified-icon" />
+        <CheckCircle size={11} class="verified-icon" />
       </a>
     {/each}
   </div>
@@ -55,8 +54,8 @@
   <!-- Footer -->
   <div class="cert-footer">
     <div class="footer-content">
-      <Shield size={12} class="footer-icon" />
-      <span class="footer-text">All certifications verified by Amazon Web Services (AWS)</span>
+      <Shield size={10} class="footer-icon" />
+      <span class="footer-text">Verified by AWS</span>
     </div>
   </div>
 </div>
@@ -65,42 +64,38 @@
   .cert-card {
     background: hsl(var(--card));
     border: 1px solid hsl(var(--border));
-    border-radius: 16px;
+    border-radius: 12px;
     width: 100%;
     max-width: 480px;
-    overflow: hidden;
-    backdrop-filter: blur(20px);
-    box-shadow: 
-      0 1px 3px rgb(0 0 0 / 0.04),
-      0 1px 2px rgb(0 0 0 / 0.02);
+    height: 320px;
+    display: flex;
+    flex-direction: column;
   }
   
-  /* iOS-style Header */
+  .cert-card:hover {
+    border-color: hsl(var(--primary));
+  }
+  
+  /* Header */
   .card-header {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 1rem 1.25rem;
-    background: linear-gradient(
-      135deg,
-      hsl(var(--muted) / 0.3),
-      hsl(var(--muted) / 0.1)
-    );
-    border-bottom: 1px solid hsl(var(--border) / 0.5);
+    gap: 0.625rem;
+    padding: 0.875rem 1rem;
+    background: hsl(var(--muted) / 0.3);
+    border-bottom: 1px solid hsl(var(--border));
+    flex-shrink: 0;
   }
   
   .header-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
-    border-radius: 10px;
+    border-radius: 8px;
     color: white;
-    box-shadow: 
-      0 2px 8px hsl(var(--primary) / 0.3),
-      0 0 1px hsl(var(--primary) / 0.5);
     flex-shrink: 0;
   }
   
@@ -113,7 +108,7 @@
   }
   
   h3 {
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
     font-weight: 700;
     color: hsl(var(--foreground));
     margin: 0;
@@ -121,7 +116,7 @@
   }
   
   .subtitle {
-    font-size: 0.6875rem;
+    font-size: 0.625rem;
     color: hsl(var(--muted-foreground));
     font-family: var(--font-mono);
   }
@@ -130,8 +125,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     background: hsl(var(--success) / 0.15);
     border-radius: 50%;
     color: hsl(var(--success));
@@ -140,38 +135,28 @@
   
   /* Certifications List */
   .cert-list {
-    padding: 1rem 1.25rem;
+    padding: 0.875rem;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.625rem;
+    flex: 1;
   }
   
   .cert-item {
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
-    gap: 0.875rem;
-    padding: 0.875rem 1rem;
+    gap: 0.75rem;
+    padding: 0.75rem 0.875rem;
     background: hsl(var(--muted) / 0.3);
-    border: 1px solid hsl(var(--border) / 0.5);
-    border-radius: 12px;
+    border: 1px solid hsl(var(--border));
+    border-radius: 8px;
     text-decoration: none;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    overflow: hidden;
-    opacity: 0;
-    transform: translateY(10px);
-    animation: slideUp 0.4s ease-out forwards;
-    animation-delay: var(--delay);
+    /* REMOVED: all animations */
   }
   
-  @keyframes slideUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
+  /* Accent bar */
   .cert-item::before {
     content: '';
     position: absolute;
@@ -180,19 +165,17 @@
     bottom: 0;
     width: 3px;
     background: linear-gradient(180deg, hsl(var(--primary)), hsl(var(--accent)));
-    transform: scaleY(0);
-    transition: transform 0.2s ease;
+    opacity: 0;
   }
   
   .cert-item:hover {
     background: hsl(var(--muted) / 0.5);
     border-color: hsl(var(--primary) / 0.3);
-    transform: translateX(4px);
-    box-shadow: 0 2px 8px hsl(var(--primary) / 0.1);
+    /* REMOVED: transform and box-shadow */
   }
   
   .cert-item:hover::before {
-    transform: scaleY(1);
+    opacity: 1;
   }
   
   /* Badge */
@@ -200,18 +183,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 38px;
-    height: 38px;
+    width: 34px;
+    height: 34px;
     background: hsl(var(--primary) / 0.15);
-    border-radius: 10px;
+    border-radius: 8px;
     color: hsl(var(--primary));
     flex-shrink: 0;
-    transition: all 0.2s ease;
   }
   
   .cert-item:hover .cert-badge {
     background: hsl(var(--primary) / 0.2);
-    transform: scale(1.05);
+    /* REMOVED: transform */
   }
   
   /* Info */
@@ -223,7 +205,7 @@
   }
   
   .cert-name {
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     font-weight: 600;
     color: hsl(var(--foreground));
     line-height: 1.3;
@@ -235,8 +217,8 @@
   .cert-meta {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 0.6875rem;
+    gap: 0.4375rem;
+    font-size: 0.625rem;
     color: hsl(var(--muted-foreground));
   }
   
@@ -257,30 +239,26 @@
   :global(.verified-icon) {
     color: hsl(var(--success));
     opacity: 0.6;
-    transition: all 0.2s ease;
     flex-shrink: 0;
   }
   
   .cert-item:hover :global(.verified-icon) {
     opacity: 1;
-    transform: scale(1.1);
+    /* REMOVED: transform */
   }
   
-  /* Footer - iOS style with proper padding */
+  /* Footer */
   .cert-footer {
-    padding: 1rem 1.25rem;
-    background: linear-gradient(
-      135deg,
-      hsl(var(--muted) / 0.2),
-      hsl(var(--muted) / 0.1)
-    );
-    border-top: 1px solid hsl(var(--border) / 0.5);
+    padding: 0.75rem 0.875rem;
+    background: hsl(var(--muted) / 0.3);
+    border-top: 1px solid hsl(var(--border));
+    flex-shrink: 0;
   }
   
   .footer-content {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4375rem;
   }
   
   :global(.footer-icon) {
@@ -289,66 +267,18 @@
   }
   
   .footer-text {
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     line-height: 1.4;
     color: hsl(var(--muted-foreground));
     font-weight: 500;
   }
   
-  /* Dark Mode - iOS/Material elevation */
-  :global(.dark) .cert-card {
-    box-shadow: 
-      0 0 40px hsl(var(--primary) / 0.1),
-      0 1px 3px rgb(0 0 0 / 0.1);
-  }
-  
-  :global(.dark) .header-icon {
-    box-shadow: 0 4px 12px hsl(var(--primary) / 0.4);
-  }
-  
-  :global(.dark) .cert-item:hover {
-    box-shadow: 0 4px 16px hsl(var(--primary) / 0.2);
-  }
-  
-  :global(.dark) .cert-badge {
-    box-shadow: 0 0 10px hsl(var(--primary) / 0.2);
-  }
-  
   /* Responsive */
-  @media (max-width: 640px) {
+  @media (max-width: 480px) {
     .cert-card {
       max-width: 100%;
-    }
-    
-    .card-header {
-      padding: 0.875rem 1rem;
-    }
-    
-    .cert-list {
-      padding: 0.875rem 1rem;
-      gap: 0.625rem;
-    }
-    
-    .cert-item {
-      padding: 0.75rem 0.875rem;
-      gap: 0.75rem;
-    }
-    
-    .cert-badge {
-      width: 34px;
-      height: 34px;
-    }
-    
-    .cert-name {
-      font-size: 0.8125rem;
-    }
-    
-    .cert-footer {
-      padding: 0.875rem 1rem;
-    }
-    
-    .footer-text {
-      font-size: 0.6875rem;
+      height: auto;
+      min-height: 320px;
     }
   }
 </style>

@@ -28,71 +28,64 @@
     </div>
   {:else if error}
     <div class="error">
-      <AlertCircle size={18} />
+      <AlertCircle size={16} />
       <span>Failed to load</span>
     </div>
   {:else if stats}
     <!-- Header -->
     <div class="header">
-      <div class="header-left">
-        <img src={leetcodeLogo} alt="LeetCode" class="logo" />
+      <div class="brand">
+        <img src={leetcodeLogo} alt="LC" class="logo" />
         <span class="title">LeetCode</span>
       </div>
-      <a href="https://leetcode.com/user8673j" target="_blank" rel="noopener" class="link-btn">
-        <ExternalLink size={14} />
+      <a href="https://leetcode.com/user8673j" target="_blank" rel="noopener" class="link">
+        <ExternalLink size={12} />
       </a>
     </div>
     
-    <!-- Stats Grid -->
-    <div class="stats-grid">
-      <!-- Total Solved -->
-      <div class="stat-card primary">
-        <div class="stat-content">
-          <span class="stat-value">{stats.totalSolved}</span>
-          <span class="stat-label">Solved</span>
+    <!-- Main Grid -->
+    <div class="content-grid">
+      <!-- Big Hero Card -->
+      <div class="hero-card">
+        <div class="hero-content">
+          <span class="hero-number">{stats.totalSolved}</span>
+          <span class="hero-text">Problems<br/>Solved</span>
         </div>
       </div>
       
-      <!-- Easy -->
-      <div class="stat-card">
-        <div class="stat-content">
-          <span class="stat-value easy-text">{stats.easySolved}</span>
-          <span class="stat-label">Easy</span>
+      <!-- Compact Tiles -->
+      <div class="tiles-grid">
+        <div class="tile easy">
+          <div class="tile-bar"></div>
+          <span class="tile-value">{stats.easySolved}</span>
+          <span class="tile-label">Easy</span>
         </div>
-        <div class="indicator easy"></div>
-      </div>
-      
-      <!-- Medium -->
-      <div class="stat-card">
-        <div class="stat-content">
-          <span class="stat-value medium-text">{stats.mediumSolved}</span>
-          <span class="stat-label">Medium</span>
+        
+        <div class="tile medium">
+          <div class="tile-bar"></div>
+          <span class="tile-value">{stats.mediumSolved}</span>
+          <span class="tile-label">Med</span>
         </div>
-        <div class="indicator medium"></div>
-      </div>
-      
-      <!-- Hard -->
-      <div class="stat-card">
-        <div class="stat-content">
-          <span class="stat-value hard-text">{stats.hardSolved}</span>
-          <span class="stat-label">Hard</span>
+        
+        <div class="tile hard">
+          <div class="tile-bar"></div>
+          <span class="tile-value">{stats.hardSolved}</span>
+          <span class="tile-label">Hard</span>
         </div>
-        <div class="indicator hard"></div>
-      </div>
-      
-      <!-- Acceptance -->
-      <div class="stat-card">
-        <div class="stat-content">
-          <span class="stat-value">{stats.acceptanceRate}%</span>
-          <span class="stat-label">Acceptance</span>
+        
+        <div class="tile accent">
+          <span class="tile-value">{stats.acceptanceRate}%</span>
+          <span class="tile-label">Rate</span>
         </div>
-      </div>
-      
-      <!-- Ranking -->
-      <div class="stat-card">
-        <div class="stat-content">
-          <span class="stat-value">{stats.ranking?.toLocaleString() || 'N/A'}</span>
-          <span class="stat-label">Ranking</span>
+        
+        <div class="tile accent">
+          <span class="tile-value">{Math.floor(stats.ranking / 1000)}k</span>
+          <span class="tile-label">Rank</span>
+        </div>
+        
+        <div class="tile accent">
+          <span class="tile-value">{stats.contributionPoints || 0}</span>
+          <span class="tile-label">Pts</span>
         </div>
       </div>
     </div>
@@ -100,37 +93,30 @@
 </div>
 
 <style>
-  /* LeetCode Authentic Theme Variables */
   .leetcode-card {
-    /* Light Mode (Default) */
     --bg-base: #ffffff;
-    --bg-card: #fafafa;
-    --bg-card-hover: #f5f5f5;
-    --border: #e3e3e3;
-    --text-primary: #262626;
-    --text-secondary: #737373;
-    --shadow: rgba(0, 0, 0, 0.04);
-  }
-  
-  :global(.dark) .leetcode-card {
-    /* Dark Mode */
-    --bg-base: #1a1a1a;
-    --bg-card: #262626;
-    --bg-card-hover: #2d2d2d;
-    --border: #3a3a3a;
-    --text-primary: #eff2f6;
-    --text-secondary: #a3a3a3;
-    --shadow: rgba(0, 0, 0, 0.3);
-  }
-  
-  .leetcode-card {
+    --bg-card: #f8f9fa;
+    --border: #e0e0e0;
+    --text-primary: #1a1a1a;
+    --text-secondary: #6b6b6b;
+    width: 100%;
+    max-width: 480px;
+    height: 240px;
     background: var(--bg-base);
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 1rem;
-    width: 100%;
-    max-width: 480px;
-    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+  
+  :global(.dark) .leetcode-card {
+    --bg-base: #1a1a1a;
+    --bg-card: #262626;
+    --border: #333333;
+    --text-primary: #eff2f6;
+    --text-secondary: #a0a0a0;
   }
   
   .leetcode-card:hover {
@@ -143,18 +129,18 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    min-height: 120px;
+    height: 100%;
     color: var(--text-secondary);
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
   }
   
   .spinner {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     border: 2px solid var(--border);
     border-top-color: #ffa116;
     border-radius: 50%;
-    animation: spin 0.8s linear infinite;
+    animation: spin 0.7s linear infinite;
   }
   
   @keyframes spin {
@@ -166,165 +152,196 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 0.875rem;
+    flex-shrink: 0;
   }
   
-  .header-left {
+  .brand {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.375rem;
   }
   
   .logo {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
   }
   
   .title {
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     font-weight: 600;
     color: var(--text-primary);
   }
   
-  .link-btn {
+  .link {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     border-radius: 6px;
     background: var(--bg-card);
     color: var(--text-secondary);
-    transition: all 0.2s ease;
+    /* REMOVED: transition to prevent repaints */
   }
   
-  .link-btn:hover {
+  .link:hover {
     background: #ffa116;
-    color: #ffffff;
+    color: white;
   }
   
-  /* Stats Grid */
-  .stats-grid {
+  /* Main Grid */
+  .content-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.625rem;
+    grid-template-columns: 140px 1fr;
+    gap: 0.75rem;
+    flex: 1;
   }
   
-  .stat-card {
-    position: relative;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.75rem;
-    overflow: hidden;
-    transition: all 0.2s ease;
-  }
-  
-  .stat-card:hover {
-    background: var(--bg-card-hover);
-  }
-  
-  /* Primary Card (Total Solved) */
-  .stat-card.primary {
-    grid-column: span 3;
-    background: linear-gradient(135deg, rgba(255, 161, 22, 0.08) 0%, rgba(255, 161, 22, 0.04) 100%);
-    border-color: rgba(255, 161, 22, 0.2);
-  }
-  
-  :global(.dark) .stat-card.primary {
-    background: linear-gradient(135deg, rgba(255, 161, 22, 0.15) 0%, rgba(255, 161, 22, 0.05) 100%);
-    border-color: rgba(255, 161, 22, 0.25);
-  }
-  
-  .stat-card.primary:hover {
+  /* Hero Card */
+  .hero-card {
     background: linear-gradient(135deg, rgba(255, 161, 22, 0.12) 0%, rgba(255, 161, 22, 0.06) 100%);
+    border: 1.5px solid rgba(255, 161, 22, 0.25);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  :global(.dark) .hero-card {
+    background: linear-gradient(135deg, rgba(255, 161, 22, 0.18) 0%, rgba(255, 161, 22, 0.08) 100%);
     border-color: rgba(255, 161, 22, 0.3);
   }
   
-  .stat-card.primary .stat-value {
-    font-size: 1.625rem;
-    color: #ffa116;
-  }
+  /* REMOVED: shine animation that causes repaints */
   
-  /* Content */
-  .stat-content {
+  .hero-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.25rem;
+    text-align: center;
+    z-index: 1;
   }
   
-  .stat-value {
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: var(--text-primary);
+  .hero-number {
+    font-size: 2.75rem;
+    font-weight: 900;
+    color: #ffa116;
     line-height: 1;
-    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Droid Sans Mono', monospace;
+    font-family: 'SF Mono', monospace;
+    letter-spacing: -0.02em;
+    /* REMOVED: text-shadow for better performance */
   }
   
-  /* Difficulty Colors */
-  .stat-value.easy-text {
-    color: #00b8a3;
-  }
-  
-  .stat-value.medium-text {
-    color: #ffc01e;
-  }
-  
-  .stat-value.hard-text {
-    color: #ef4743;
-  }
-  
-  .stat-label {
+  .hero-text {
     font-size: 0.6875rem;
     color: var(--text-secondary);
-    font-weight: 500;
-    text-align: center;
+    margin-top: 0.5rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
   }
   
-  /* Difficulty Indicators */
-  .indicator {
+  /* Tiles Grid */
+  .tiles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.5rem 0.25rem;
+    position: relative;
+    overflow: hidden;
+    /* REMOVED: transition that can cause repaints */
+  }
+  
+  .tile:hover {
+    background: var(--bg-card);
+    border-color: rgba(255, 161, 22, 0.3);
+    /* REMOVED: transform and box-shadow to prevent flicker */
+  }
+  
+  /* Top Color Bar for Difficulty */
+  .tile-bar {
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
     right: 0;
     height: 3px;
-    border-radius: 0 0 7px 7px;
+    border-radius: 8px 8px 0 0;
   }
   
-  .indicator.easy {
-    background: #00b8a3;
+  .tile.easy .tile-bar {
+    background: linear-gradient(90deg, #00b8a3, #00d4b8);
   }
   
-  .indicator.medium {
-    background: #ffc01e;
+  .tile.medium .tile-bar {
+    background: linear-gradient(90deg, #ffc01e, #ffd54f);
   }
   
-  .indicator.hard {
-    background: #ef4743;
+  .tile.hard .tile-bar {
+    background: linear-gradient(90deg, #ef4743, #ff6b6b);
+  }
+  
+  .tile-value {
+    font-size: 1.125rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1;
+    font-family: 'SF Mono', monospace;
+  }
+  
+  .tile.easy .tile-value {
+    color: #00b8a3;
+  }
+  
+  .tile.medium .tile-value {
+    color: #ffc01e;
+  }
+  
+  .tile.hard .tile-value {
+    color: #ef4743;
+  }
+  
+  .tile.accent .tile-value {
+    color: #ffa116;
+  }
+  
+  .tile-label {
+    font-size: 0.625rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
   }
   
   /* Responsive */
   @media (max-width: 480px) {
     .leetcode-card {
-      padding: 0.875rem;
       max-width: 100%;
     }
     
-    .stats-grid {
-      gap: 0.5rem;
+    .content-grid {
+      grid-template-columns: 130px 1fr;
+      gap: 0.625rem;
     }
     
-    .stat-card {
-      padding: 0.625rem 0.5rem;
+    .hero-number {
+      font-size: 2.25rem;
     }
     
-    .stat-value {
+    .tile-value {
       font-size: 1rem;
-    }
-    
-    .stat-card.primary .stat-value {
-      font-size: 1.375rem;
     }
   }
 </style>

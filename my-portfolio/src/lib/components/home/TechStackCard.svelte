@@ -36,7 +36,7 @@
   <!-- Header -->
   <div class="card-header">
     <div class="header-icon">
-      <Layers size={16} />
+      <Layers size={14} />
     </div>
     <div class="header-content">
       <h3>Tech Stack</h3>
@@ -44,24 +44,20 @@
     </div>
   </div>
   
-  <!-- Stack Grid -->
+  <!-- Stack Grid (4 columns) -->
   <div class="stack-grid">
-    {#each categories as category, i}
-      <div class="category-section" style="--delay: {i * 100}ms">
+    {#each categories as category}
+      <div class="category-section">
         <div class="category-header">
           <div class="category-icon {category.color}">
-            <svelte:component this={category.icon} size={14} />
+            <svelte:component this={category.icon} size={12} />
           </div>
           <span class="category-name">{category.name}</span>
-          <span class="category-count">{category.skills.length}</span>
         </div>
         
-        <div class="skills-cloud">
-          {#each category.skills as skill, j}
-            <span 
-              class="skill-tag {category.color}" 
-              style="--skill-delay: {(i * 100) + (j * 50)}ms"
-            >
+        <div class="skills-list">
+          {#each category.skills as skill}
+            <span class="skill-tag {category.color}">
               {skill}
             </span>
           {/each}
@@ -75,38 +71,38 @@
   .tech-stack-card {
     background: hsl(var(--card));
     border: 1px solid hsl(var(--border));
-    border-radius: 16px;
+    border-radius: 12px;
     width: 100%;
-    max-width: 480px;
-    overflow: hidden;
-    backdrop-filter: blur(20px);
-    box-shadow: 0 2px 8px rgb(0 0 0 / 0.04);
+    max-width: 680px;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
   }
   
-  /* iOS-style Header */
+  .tech-stack-card:hover {
+    border-color: hsl(var(--primary));
+  }
+  
+  /* Header */
   .card-header {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 1rem;
-    background: linear-gradient(
-      135deg,
-      hsl(var(--muted) / 0.3),
-      hsl(var(--muted) / 0.1)
-    );
+    gap: 0.625rem;
+    padding: 0.875rem 1rem;
+    background: hsl(var(--muted) / 0.3);
     border-bottom: 1px solid hsl(var(--border));
+    flex-shrink: 0;
   }
   
   .header-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
-    border-radius: 10px;
+    border-radius: 8px;
     color: white;
-    box-shadow: 0 2px 8px hsl(var(--primary) / 0.3);
     flex-shrink: 0;
   }
   
@@ -119,7 +115,7 @@
   }
   
   h3 {
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
     font-weight: 700;
     color: hsl(var(--foreground));
     margin: 0;
@@ -127,47 +123,44 @@
   }
   
   .subtitle {
-    font-size: 0.6875rem;
+    font-size: 0.625rem;
     color: hsl(var(--muted-foreground));
     font-family: var(--font-mono);
   }
   
-  /* Stack Grid */
+  /* Stack Grid - 4 columns */
   .stack-grid {
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    padding: 0.875rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.875rem;
+    flex: 1;
+    overflow-y: auto;
   }
   
   .category-section {
-    opacity: 0;
-    transform: translateY(10px);
-    animation: fadeInUp 0.4s ease-out forwards;
-    animation-delay: var(--delay);
-  }
-  
-  @keyframes fadeInUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    /* REMOVED: all animations */
   }
   
   /* Category Header */
   .category-header {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.625rem;
+    gap: 0.375rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid hsl(var(--border));
   }
   
   .category-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     border-radius: 8px;
     flex-shrink: 0;
   }
@@ -193,50 +186,30 @@
   }
   
   .category-name {
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: hsl(var(--foreground));
-    flex: 1;
+    text-align: center;
   }
   
-  .category-count {
-    font-size: 0.6875rem;
-    font-weight: 700;
-    font-family: var(--font-mono);
-    color: hsl(var(--muted-foreground));
-    padding: 0.1875rem 0.5rem;
-    background: hsl(var(--muted) / 0.5);
-    border-radius: 6px;
-  }
-  
-  /* Skills Cloud */
-  .skills-cloud {
+  /* Skills List */
+  .skills-list {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+    flex-direction: column;
+    gap: 0.375rem;
   }
   
   .skill-tag {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    padding: 0.375rem 0.625rem;
-    border-radius: 8px;
-    font-size: 0.75rem;
+    justify-content: center;
+    padding: 0.375rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.6875rem;
     font-weight: 600;
     border: 1px solid;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: default;
-    opacity: 0;
-    transform: scale(0.9);
-    animation: popIn 0.3s ease-out forwards;
-    animation-delay: var(--skill-delay);
-  }
-  
-  @keyframes popIn {
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
+    text-align: center;
+    /* REMOVED: all animations */
   }
   
   .skill-tag.primary {
@@ -264,8 +237,8 @@
   }
   
   .skill-tag:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px hsl(var(--primary) / 0.15);
+    /* REMOVED: transform and box-shadow */
+    filter: brightness(1.1);
   }
   
   .skill-tag.primary:hover {
@@ -288,41 +261,16 @@
     border-color: hsl(var(--highlight) / 0.3);
   }
   
-  /* Dark Mode Enhancements */
-  :global(.dark) .tech-stack-card {
-    box-shadow: 0 0 40px hsl(var(--primary) / 0.1);
-  }
-  
-  :global(.dark) .header-icon {
-    box-shadow: 0 4px 12px hsl(var(--primary) / 0.4);
-  }
-  
-  :global(.dark) .skill-tag:hover {
-    box-shadow: 0 4px 12px hsl(var(--primary) / 0.2);
-  }
-  
-  :global(.dark) .category-icon {
-    box-shadow: 0 0 10px hsl(var(--primary) / 0.2);
-  }
-  
   /* Responsive */
-  @media (max-width: 640px) {
+  @media (max-width: 680px) {
     .tech-stack-card {
       max-width: 100%;
-    }
-    
-    .card-header {
-      padding: 0.875rem;
+      height: auto;
+      min-height: 320px;
     }
     
     .stack-grid {
-      padding: 0.875rem;
-      gap: 0.875rem;
-    }
-    
-    .skill-tag {
-      font-size: 0.6875rem;
-      padding: 0.3125rem 0.5625rem;
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 </style>
