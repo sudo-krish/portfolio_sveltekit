@@ -5,17 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-452MXCLEEE"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-452MXCLEEE');
-    </script>
-
-    <!-- Prevent flash of wrong theme (BEFORE anything else) -->
+    <!-- ===================================== -->
+    <!-- CRITICAL INLINE SCRIPT (No blocking) -->
+    <!-- ===================================== -->
+    
+    <!-- Prevent flash of wrong theme - MUST be inline and first -->
     <script>
         (function () {
             const theme = localStorage.getItem('theme') || 'dark';
@@ -25,73 +19,105 @@
         })();
     </script>
 
-
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
+    <!-- ===================================== -->
+    <!-- ASYNC SCRIPTS (Non-blocking)          -->
+    <!-- ===================================== -->
     
-    <!-- SVG Favicon (Best quality, modern browsers) -->
+    <!-- Google Analytics - Async -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-452MXCLEEE"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-452MXCLEEE');
+    </script>
+
+    <!-- ===================================== -->
+    <!-- RESOURCE HINTS (Speed optimization)   -->
+    <!-- ===================================== -->
+    
+    <!-- DNS prefetch for external domains -->
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+    <link rel="dns-prefetch" href="https://api.github.com" />
+    
+    <!-- Preconnect to critical domains -->
+    <link rel="preconnect" href="https://api.github.com" crossorigin />
+
+    <!-- ===================================== -->
+    <!-- FAVICONS                              -->
+    <!-- ===================================== -->
+    
+    <!-- Primary Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     
-    <!-- PNG Favicons (Multiple sizes for Google) -->
+    <!-- PNG Favicons (Multiple sizes) -->
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
     
-    <!-- Apple Touch Icon (iOS) -->
+    <!-- Apple Touch Icon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     
-    <!-- Android Chrome Icons -->
+    <!-- Android Chrome -->
     <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
     <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
-    
-    <!-- Web App Manifest Icons -->
-    <link rel="icon" type="image/png" sizes="192x192" href="/web-app-manifest-192x192.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="/web-app-manifest-512x512.png" />
 
-    <!-- PWA Manifest -->
+    <!-- ===================================== -->
+    <!-- PWA MANIFEST                          -->
+    <!-- ===================================== -->
+    
     <link rel="manifest" href="/manifest.json" />
 
-    <!-- Theme Color - Dark as default -->
+    <!-- ===================================== -->
+    <!-- THEME & BRANDING                      -->
+    <!-- ===================================== -->
+    
     <meta name="theme-color" content="#667eea" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#0ea5e9" media="(prefers-color-scheme: light)" />
     <meta name="msapplication-TileColor" content="#1e293b" />
 
-    <!-- Humans & Robots -->
-    <link rel="author" href="/humans.txt" />
-
-    <!-- Preconnect to critical external domains -->
-    <link rel="preconnect" href="https://api.github.com" />
-    <link rel="dns-prefetch" href="https://api.github.com" />
-
-    <!-- SEO Meta Tags (defaults - override in +layout.svelte) -->
-    <meta name="description"
-        content="Senior Data Engineer with 5+ years of experience specializing in AWS Cloud, Redshift, and scalable data pipelines at DTDC Express Limited in Kochi, India." />
-    <meta name="keywords"
-        content="Data Engineer, AWS Cloud, Amazon Redshift, Apache Spark, ETL Pipelines, Real-time Data, Python, SQL, Kafka, Data Warehousing, Krishnanand Anil, DTDC Express, Kochi, India" />
+    <!-- ===================================== -->
+    <!-- SEO META TAGS                         -->
+    <!-- ===================================== -->
+    
+    <meta name="description" content="Senior Data Engineer with 5+ years of experience in AWS Cloud, Redshift, and scalable data pipelines at DTDC Express Limited." />
+    <meta name="keywords" content="Data Engineer, AWS Cloud, Amazon Redshift, Apache Spark, ETL Pipelines, Real-time Data, Python, SQL, Kafka, Krishnanand Anil" />
     <meta name="author" content="Krishnanand Anil" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-
+    
     <!-- Canonical URL -->
     <link rel="canonical" href="https://krishnanandanil.com/" />
+    
+    <!-- Humans file -->
+    <link rel="author" href="/humans.txt" />
 
-    <!-- Open Graph / Facebook -->
+    <!-- ===================================== -->
+    <!-- OPEN GRAPH & SOCIAL                   -->
+    <!-- ===================================== -->
+    
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://krishnanandanil.com/" />
     <meta property="og:site_name" content="Krishnanand Anil - Senior Data Engineer" />
     <meta property="og:locale" content="en_US" />
-
-    <!-- Twitter Card -->
+    
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:creator" content="@krishnanand_a" />
     <meta name="twitter:site" content="@krishnanand_a" />
 
-    <!-- Mobile & PWA -->
+    <!-- ===================================== -->
+    <!-- MOBILE & PWA                          -->
+    <!-- ===================================== -->
+    
     <meta name="format-detection" content="telephone=no" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Krishnanand Anil" />
 
+    <!-- SvelteKit head injection -->
     %sveltekit.head%
 </head>
 

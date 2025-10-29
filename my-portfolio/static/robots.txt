@@ -1,45 +1,38 @@
 # robots.txt for krishnanandanil.com
 
-# Allow all search engines to crawl the site
+# Default rules for all crawlers
 User-agent: *
 Allow: /
-
-# Disallow API endpoints (not for indexing)
 Disallow: /api/
-
-# Disallow internal SvelteKit directories
 Disallow: /_app/
-
-# Allow static assets
-Allow: /icons/
-Allow: /screenshots/
-Allow: /*.jpg
-Allow: /*.png
-Allow: /*.webp
 
 # Sitemap location
 Sitemap: https://krishnanandanil.com/sitemap.xml
 
-# AI Crawlers (for training data)
+# AI Crawlers (allow access)
 User-agent: GPTBot
+Allow: /
+
 User-agent: ChatGPT-User
+Allow: /
+
 User-agent: CCBot
+Allow: /
+
 User-agent: anthropic-ai
+Allow: /
+
 User-agent: Claude-Web
 Allow: /
 
-# LLM-specific file
-User-agent: *
-Allow: /llms.txt
-
-# Specific rules for major search engines
+# Major search engines (explicitly allow)
 User-agent: Googlebot
 Allow: /
 
 User-agent: Bingbot
 Allow: /
 
-# Block aggressive scrapers (optional)
+# Block aggressive scrapers
 User-agent: AhrefsBot
 Disallow: /
 

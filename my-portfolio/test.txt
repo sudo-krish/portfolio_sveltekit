@@ -1,0 +1,448 @@
+# **Complete SEO & Accessibility Audit Checklist**
+
+---
+
+## **📂 Files to Check and Modify**
+
+### **🔴 Priority 1 - Critical Issues**
+
+#### **1. Accessibility - Links & Labels**
+**Files to check:**
+```
+src/lib/components/Navbar.svelte
+src/lib/components/home/LocationCard.svelte
+src/lib/components/home/GitHubStatsCard.svelte
+src/lib/components/home/LeetCodeCard.svelte
+src/lib/components/ProjectCard.svelte
+src/routes/+page.svelte
+src/routes/projects/+page.svelte
+src/routes/contact/+page.svelte
+```
+
+**What to test:**
+- [ ] All icon-only links have `aria-label`
+- [ ] All social media icons have descriptive text
+- [ ] All buttons with icons have accessible names
+- [ ] No empty `<a>` tags
+- [ ] External links have indication for screen readers
+
+**Example test:**
+```bash
+# Search for links without text or aria-label
+grep -r "<a href=" src/ | grep -v "aria-label" | grep -v ">.*</a>"
+```
+
+***
+
+#### **2. Duplicate IDs**
+**Files to check:**
+```
+ALL .svelte files in src/
+Especially:
+  - src/lib/components/home/*.svelte
+  - src/routes/+layout.svelte
+  - src/routes/+page.svelte
+```
+
+**What to test:**
+- [ ] No duplicate `id=""` attributes across components
+- [ ] Use `class=""` instead of `id=""` for styling
+- [ ] Dynamic IDs use unique identifiers (e.g., `id="card-{project.id}"`)
+
+**Example test:**
+```bash
+# Find all IDs in your codebase
+grep -roh 'id="[^"]*"' src/ | sort | uniq -d
+```
+
+***
+
+#### **3. Page Titles**
+**Files to check:**
+```
+src/routes/+layout.svelte
+src/routes/+page.svelte
+src/routes/projects/+page.svelte
+src/routes/about/+page.svelte
+src/routes/contact/+page.svelte
+src/app.html
+```
+
+**What to test:**
+- [ ] Homepage title under 60 characters
+- [ ] All page titles unique and descriptive
+- [ ] Format: "Page Name | Krishnanand Anil"
+- [ ] No duplicate titles across pages
+
+**Example test:**
+```svelte
+<!-- Check length -->
+<svelte:head>
+  <title>{title}</title> <!-- Should be ≤60 chars -->
+</svelte:head>
+```
+
+***
+
+#### **4. Robots.txt**
+**File to create:**
+```
+static/robots.txt
+```
+
+**What to test:**
+- [ ] File exists and is valid
+- [ ] No syntax errors
+- [ ] Sitemap URL is correct
+- [ ] Allows crawling of main pages
+- [ ] Blocks unnecessary paths
+
+**Test command:**
+```bash
+# Validate syntax
+curl https://krishnanandanil.com/robots.txt
+
+# Or use online validator
+# https://www.google.com/webmasters/tools/robots-testing-tool
+```
+
+***
+
+### **🟡 Priority 2 - Performance Issues**
+
+#### **5. Render-Blocking Resources**
+**Files to check:**
+```
+src/app.html
+vite.config.ts
+```
+
+**What to test:**
+- [ ] Google Analytics uses `async` attribute
+- [ ] Critical CSS is inlined
+- [ ] Fonts use `preload` with `crossorigin`
+- [ ] No synchronous external scripts
+- [ ] Theme script is inline (prevents flash)
+
+**Example test:**
+```html
+<!-- Check browser DevTools → Network tab -->
+<!-- Look for "blocking" resources in waterfall -->
+```
+
+***
+
+#### **6. JavaScript Bundle Size**
+**Files to check:**
+```
+vite.config.ts
+package.json
+```
+
+**What to test:**
+- [ ] Bundle size under 200KB (gzipped)
+- [ ] Code splitting enabled
+- [ ] Tree-shaking working
+- [ ] Unused dependencies removed
+- [ ] Console logs removed in production
+
+**Test commands:**
+```bash
+# Build and check bundle size
+npm run build
+ls -lh .svelte-kit/output/client/_app/immutable/chunks/
+
+# Analyze bundle
+npx vite-bundle-visualizer
+```
+
+***
+
+#### **7. Image Optimization**
+**Files to check:**
+```
+static/screenshots/*.png
+static/*.png (favicons)
+Any <img> tags in .svelte files
+```
+
+**What to test:**
+- [ ] All images under 200KB
+- [ ] Use WebP format where possible
+- [ ] Images have `width` and `height` attributes
+- [ ] Lazy loading enabled (`loading="lazy"`)
+- [ ] Alt text present on all images
+
+**Test command:**
+```bash
+# Check image sizes
+du -sh static/screenshots/*
+```
+
+***
+
+### **🟢 Priority 3 - SEO Optimization**
+
+#### **8. Meta Tags**
+**Files to check:**
+```
+src/routes/+layout.svelte
+src/routes/+page.svelte
+All route +page.svelte files
+```
+
+**What to test:**
+- [ ] Unique meta description per page (150-160 chars)
+- [ ] Open Graph tags present
+- [ ] Twitter Card tags present
+- [ ] Canonical URLs set correctly
+- [ ] Keywords relevant (don't stuff)
+
+**Example test:**
+```svelte
+<svelte:head>
+  <title>Page Title</title>
+  <meta name="description" content="150-160 chars" />
+  <meta property="og:title" content="..." />
+  <meta property="og:description" content="..." />
+  <meta property="og:image" content="..." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://..." />
+</svelte:head>
+```
+
+***
+
+#### **9. Sitemap**
+**Files to create:**
+```
+src/routes/sitemap.xml/+server.ts
+```
+
+**What to test:**
+- [ ] Sitemap.xml accessible
+- [ ] All important pages included
+- [ ] Valid XML format
+- [ ] Priority and changefreq set
+- [ ] Submitted to Google Search Console
+
+**Test URL:**
+```
+https://krishnanandanil.com/sitemap.xml
+```
+
+***
+
+#### **10. Structured Data**
+**Files to check:**
+```
+src/routes/+page.svelte (for Person schema)
+src/routes/projects/+page.svelte (for CreativeWork schema)
+```
+
+**What to test:**
+- [ ] JSON-LD schema present
+- [ ] Schema.org/Person for homepage
+- [ ] Schema.org/CreativeWork for projects
+- [ ] Valid JSON syntax
+- [ ] Test with Google Rich Results
+
+**Test tool:**
+```
+https://search.google.com/test/rich-results
+```
+
+***
+
+### **🔵 Priority 4 - Accessibility**
+
+#### **11. Color Contrast**
+**Files to check:**
+```
+src/app.css
+All .svelte files with custom colors
+```
+
+**What to test:**
+- [ ] Text-to-background ratio ≥ 4.5:1 (normal text)
+- [ ] Text-to-background ratio ≥ 3:1 (large text)
+- [ ] Link colors have sufficient contrast
+- [ ] Dark mode colors meet standards
+
+**Test tool:**
+```
+https://webaim.org/resources/contrastchecker/
+```
+
+***
+
+#### **12. Keyboard Navigation**
+**Files to check:**
+```
+All interactive components:
+  - Navbar.svelte
+  - Modal components
+  - Tab components
+  - Dropdown menus
+```
+
+**What to test:**
+- [ ] All links reachable via Tab key
+- [ ] Focus indicators visible
+- [ ] Skip to content link present
+- [ ] No keyboard traps
+- [ ] Logical tab order
+
+**Manual test:**
+```
+1. Open site
+2. Press Tab repeatedly
+3. Ensure all interactive elements are reachable
+4. Check focus outline is visible
+```
+
+***
+
+#### **13. ARIA Attributes**
+**Files to check:**
+```
+All components with:
+  - Navigation menus
+  - Modals/dialogs
+  - Tabs
+  - Accordions
+  - Dynamic content
+```
+
+**What to test:**
+- [ ] `role` attributes correct
+- [ ] `aria-label` on icon buttons
+- [ ] `aria-expanded` on collapsible elements
+- [ ] `aria-hidden` on decorative elements
+- [ ] `aria-live` for dynamic updates
+
+***
+
+### **⚙️ Priority 5 - Technical SEO**
+
+#### **14. Security Headers**
+**Files to check:**
+```
+src/hooks.server.ts
+```
+
+**What to test:**
+- [ ] CSP allows necessary domains
+- [ ] HSTS enabled
+- [ ] X-Frame-Options set
+- [ ] X-Content-Type-Options set
+- [ ] Referrer-Policy set
+
+**Test tool:**
+```
+https://securityheaders.com/?q=krishnanandanil.com
+```
+
+***
+
+#### **15. Mobile Responsiveness**
+**Files to check:**
+```
+All .svelte components with @media queries
+src/app.css
+```
+
+**What to test:**
+- [ ] Viewport meta tag present
+- [ ] Mobile breakpoints working (768px, 480px)
+- [ ] Touch targets ≥ 48×48px
+- [ ] No horizontal scroll on mobile
+- [ ] Text readable without zoom
+
+**Test:**
+```
+Chrome DevTools → Device Toolbar → Test multiple devices
+```
+
+***
+
+#### **16. Page Speed**
+**Files to check:**
+```
+vite.config.ts
+src/app.html
+All large components
+```
+
+**What to test:**
+- [ ] First Contentful Paint < 1.8s
+- [ ] Largest Contentful Paint < 2.5s
+- [ ] Total Blocking Time < 200ms
+- [ ] Cumulative Layout Shift < 0.1
+- [ ] Time to Interactive < 3.8s
+
+**Test tool:**
+```
+https://pagespeed.web.dev/
+Chrome DevTools → Lighthouse
+```
+
+***
+
+## **🧪 Complete Testing Workflow**
+
+```bash
+# 1. LOCAL TESTING
+npm run build
+npm run preview
+
+# 2. CHECK CONSOLE ERRORS
+# Open DevTools → Console → Check for errors
+
+# 3. RUN LIGHTHOUSE
+# DevTools → Lighthouse → Generate Report
+# Check: Performance, Accessibility, Best Practices, SEO
+
+# 4. ACCESSIBILITY TESTING
+# Use WAVE extension or axe DevTools
+
+# 5. VALIDATE MARKUP
+# https://validator.w3.org/
+
+# 6. CHECK STRUCTURED DATA
+# https://search.google.com/test/rich-results
+
+# 7. TEST MOBILE
+# Chrome DevTools → Device Toolbar
+
+# 8. DEPLOY & RE-TEST
+git push origin main
+# Wait for deployment
+# Re-run all tests on live site
+```
+
+***
+
+## **📊 Success Criteria**
+
+| Category | Target Score | Current | Priority |
+|----------|--------------|---------|----------|
+| **Performance** | 90+ | ? | High |
+| **Accessibility** | 95+ | ? | Critical |
+| **Best Practices** | 95+ | ? | High |
+| **SEO** | 95+ | ? | Critical |
+| **Security Headers** | A+ | ? | Medium |
+| **Mobile-Friendly** | Pass | ? | High |
+
+***
+
+## **📝 Documentation**
+
+After fixes, create:
+```
+docs/SEO_CHECKLIST.md
+docs/ACCESSIBILITY_AUDIT.md
+docs/PERFORMANCE_REPORT.md
+```
+
+This way you can track improvements over time! 🎯✨
