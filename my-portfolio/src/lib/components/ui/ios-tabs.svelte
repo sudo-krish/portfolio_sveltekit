@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { ComponentType } from 'svelte';
-  import { onMount } from 'svelte';
+  import { onMount, tick } from 'svelte';
+  import { spring } from 'svelte/motion';
   
   type TabItem = {
     id: string;
@@ -13,178 +14,272 @@
   export let onChange: (tabId: string) => void = () => {};
   
   let tabsContainer: HTMLDivElement;
-  let glassIndicator: HTMLDivElement;
-  let tabButtons: HTMLButtonElement[] = [];
+  let mounted = false;
   
-  function updateGlassPosition() {
-    if (!glassIndicator || !tabsContainer) return;
+  // Smooth spring animation for position
+  const position = spring(
+    { x: 0, y: 0, width: 0, height: 0 },
+    { stiffness: 0.15, damping: 0.6 }
+  );
+  
+  async function updateIndicatorPosition() {
+    if (!tabsContainer || !mounted) return;
     
-    const activeIndex = tabs.findIndex(t => t.id === activeTab);
-    const activeButton = tabButtons[activeIndex];
+    await tick();
+    
+    const activeButton = tabsContainer.querySelector(`[data-tab="${activeTab}"]`) as HTMLButtonElement;
     
     if (activeButton) {
       const containerRect = tabsContainer.getBoundingClientRect();
       const buttonRect = activeButton.getBoundingClientRect();
       
-      const left = buttonRect.left - containerRect.left;
-      const width = buttonRect.width;
-      
-      glassIndicator.style.transform = `translateX(${left}px)`;
-      glassIndicator.style.width = `${width}px`;
+      position.set({
+        x: buttonRect.left - containerRect.left,
+        y: buttonRect.top - containerRect.top,
+        width: buttonRect.width,
+        height: buttonRect.height
+      });
     }
   }
   
-  $: if (activeTab && glassIndicator) {
-    updateGlassPosition();
+  $: if (activeTab && mounted) {
+    updateIndicatorPosition();
   }
   
   onMount(() => {
-    updateGlassPosition();
-    window.addEventListener('resize', updateGlassPosition);
-    return () => window.removeEventListener('resize', updateGlassPosition);
+    mounted = true;
+    updateIndicatorPosition();
+    
+    const resizeObserver = new ResizeObserver(() => {
+      updateIndicatorPosition();
+    });
+    
+    resizeObserver.observe(tabsContainer);
+    
+    return () => resizeObserver.disconnect();
   });
 </script>
 
-<div class="ios-tabs-container">
-  <div class="ios-tabs" bind:this={tabsContainer}>
-    <!-- Sliding Glass Indicator -->
-    <div class="glass-indicator" bind:this={glassIndicator}></div>
+<div class="tabs-wrapper">
+  <div class="tabs-container" bind:this={tabsContainer}>
+    <div class="tabs-background">
+      <div 
+        class="tabs-indicator"
+        style:transform="translate({$position.x}px, {$position.y}px)"
+        style:width="{$position.width}px"
+        style:height="{$position.height}px"
+      ></div>
+    </div>
     
-    {#each tabs as tab, i}
-      <button
-        bind:this={tabButtons[i]}
-        class="ios-tab"
-        class:active={activeTab === tab.id}
-        on:click={() => onChange(tab.id)}
-      >
-        {#if tab.icon}
-          <svelte:component this={tab.icon} size={20} />
-        {/if}
-        <span class="ios-tab-label">{tab.label}</span>
-      </button>
-    {/each}
+    <div class="tabs-content">
+      {#each tabs as tab}
+        <button
+          data-tab={tab.id}
+          class="tab"
+          class:active={activeTab === tab.id}
+          on:click={() => onChange(tab.id)}
+          type="button"
+        >
+          {#if tab.icon}
+            <svelte:component this={tab.icon} size={18} class="tab-icon" />
+          {/if}
+          <span class="tab-label">{tab.label}</span>
+        </button>
+      {/each}
+    </div>
   </div>
 </div>
 
 <style>
-  .ios-tabs-container {
+  .tabs-wrapper {
     display: flex;
     justify-content: center;
     width: 100%;
     margin-bottom: 3rem;
   }
   
-  .ios-tabs {
+  .tabs-container {
     position: relative;
     display: inline-flex;
-    padding: 0.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    isolation: isolate;
   }
   
-  /* Sliding Glass Indicator */
-  .glass-indicator {
+  /* ===================================== */
+  /* GLASSMORPHISM BACKGROUND              */
+  /* ===================================== */
+  
+  .tabs-background {
     position: absolute;
-    top: 0.5rem;
-    left: 0.5rem;
-    height: calc(100% - 1rem);
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-radius: 12px;
+    inset: 0;
+    padding: 5px;
+    
+    /* Light mode: Subtle frosted glass */
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    
+    /* Black shadow for light mode */
     box-shadow: 
-      0 4px 16px rgba(0, 0, 0, 0.1),
-      0 2px 4px rgba(0, 0, 0, 0.06),
+      0 2px 12px rgba(0, 0, 0, 0.06),
+      0 1px 4px rgba(0, 0, 0, 0.04),
       inset 0 1px 0 rgba(255, 255, 255, 0.8);
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  /* Dark mode glassmorphism */
+  :global(.dark) .tabs-background {
+    /* Dark navy translucent glass */
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    
+    /* Deeper black shadows + subtle teal glow */
+    box-shadow: 
+      0 4px 20px rgba(0, 0, 0, 0.4),
+      0 2px 8px rgba(0, 0, 0, 0.3),
+      0 0 40px rgba(76, 185, 172, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+  
+  /* ===================================== */
+  /* GLASSMORPHISM INDICATOR               */
+  /* ===================================== */
+  
+  .tabs-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    
+    /* Light mode: Pure white with subtle depth */
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px) saturate(120%);
+    -webkit-backdrop-filter: blur(8px) saturate(120%);
+    
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    
+    /* Black shadow with depth layers */
+    box-shadow: 
+      0 4px 16px rgba(0, 0, 0, 0.08),
+      0 2px 6px rgba(0, 0, 0, 0.04),
+      0 1px 2px rgba(0, 0, 0, 0.03),
+      inset 0 1px 0 rgba(255, 255, 255, 1);
+    
+    /* Smooth GPU-accelerated animation */
+    transform-origin: top left;
+    will-change: transform, width, height;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    perspective: 1000px;
+  }
+  
+  /* Dark mode indicator */
+  :global(.dark) .tabs-indicator {
+    /* Lighter slate glass with glow */
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    
+    /* Deep black shadows + teal glow accent */
+    box-shadow: 
+      0 6px 24px rgba(0, 0, 0, 0.5),
+      0 3px 12px rgba(0, 0, 0, 0.3),
+      0 1px 4px rgba(0, 0, 0, 0.2),
+      0 0 20px rgba(76, 185, 172, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+  
+  /* ===================================== */
+  /* TABS CONTENT                          */
+  /* ===================================== */
+  
+  .tabs-content {
+    position: relative;
+    display: flex;
+    padding: 5px;
+    gap: 4px;
     z-index: 1;
   }
   
-  .ios-tab {
+  /* Tab button */
+  .tab {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 1rem 1.75rem;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 20px;
     background: transparent;
     border: none;
-    border-radius: 12px;
-    font-size: 0.9375rem;
-    font-weight: 600;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 500;
     color: hsl(var(--muted-foreground));
-    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
-    z-index: 2;
     white-space: nowrap;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.2s ease;
   }
   
-  .ios-tab:hover {
+  .tab:hover:not(.active) {
+    color: hsl(var(--foreground) / 0.8);
+  }
+  
+  .tab.active {
     color: hsl(var(--foreground));
+    font-weight: 600;
   }
   
-  .ios-tab.active {
-    color: hsl(var(--foreground));
-  }
   
-  .ios-tab-label {
-    transition: font-weight 0.3s ease;
-  }
+  /* ===================================== */
+  /* MOBILE RESPONSIVE                     */
+  /* ===================================== */
   
-  .ios-tab.active .ios-tab-label {
-    font-weight: 700;
-  }
-  
-  /* Dark mode */
-  :global(.dark) .ios-tabs {
-    background: rgba(0, 0, 0, 0.2);
-    border-color: rgba(255, 255, 255, 0.08);
-  }
-  
-  :global(.dark) .glass-indicator {
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 
-      0 4px 16px rgba(0, 0, 0, 0.4),
-      0 2px 4px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  }
-  
-  /* Mobile responsive */
   @media (max-width: 768px) {
-    .ios-tabs-container {
+    .tabs-wrapper {
       padding: 0;
     }
     
-    .ios-tabs {
+    .tabs-container {
       width: 100%;
+    }
+    
+    .tabs-background {
+      padding: 6px;
+      border-radius: 16px;
+    }
+    
+    .tabs-content {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 0.5rem;
-      padding: 0.5rem;
+      gap: 6px;
+      padding: 6px;
+      width: 100%;
     }
     
-    .glass-indicator {
-      top: 0.5rem;
-      left: 0.5rem;
-      height: calc(50% - 0.75rem);
+    .tabs-indicator {
+      border-radius: 12px;
     }
     
-    .ios-tab {
+    .tab {
       flex-direction: column;
-      padding: 1.25rem 0.5rem;
-      gap: 0.5rem;
-      text-align: center;
+      padding: 16px 8px;
+      gap: 6px;
+      font-size: 13px;
     }
-    
-    .ios-tab-label {
-      font-size: 0.8125rem;
-      line-height: 1.2;
+  }
+  
+  /* Tablet */
+  @media (min-width: 481px) and (max-width: 768px) {
+    .tabs-content {
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     }
   }
 </style>

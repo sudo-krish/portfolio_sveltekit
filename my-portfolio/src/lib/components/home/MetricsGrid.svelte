@@ -1,6 +1,8 @@
 <!-- src/lib/components/home/MetricsGrid.svelte -->
 <script lang="ts">
-  import { Zap, Database, GitBranch, Globe, Sparkles, Layers, Rocket } from 'lucide-svelte';
+  import { Zap,Activity, Database, GitBranch, Globe, Sparkles, Layers, Rocket, TrendingUp } from 'lucide-svelte';
+  import { Badge } from '$lib/components/ui/badge';
+  import { Card } from '$lib/components/ui/card';
 
   import LeetCodeCard from "./LeetCodeCard.svelte";
   import GitHubStatsCard from "./GitHubStatsCard.svelte";
@@ -16,13 +18,47 @@
 </script>
 
 <div class="metrics-container">
-  <!-- Header -->
+  <!-- Professional Header with Stats -->
   <header class="section-header">
-    <div class="header-icon">
-      <Database size={24} strokeWidth={2} />
+    <div class="title-row">
+      <div class="title-wrapper">
+        <div class="floating-icon">
+          <Activity size={28} />
+        </div>
+        <div class="title-content">
+          <Badge variant="secondary" class="title-badge">
+            PERFORMANCE METRICS
+          </Badge>
+          <h2 class="section-title">
+            <span class="gradient-text">Engineering</span> Metrics
+          </h2>
+        </div>
+      </div>
+      
+      <!-- Live Stats Card -->
+      <Card class="stats-card">
+        <div class="stats-bar">
+          <div class="stat-item">
+            <span class="stat-value">5+</span>
+            <span class="stat-label">Years Experience</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-value">50+</span>
+            <span class="stat-label">Projects</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item featured">
+            <TrendingUp size={14} />
+            <span class="stat-label">Real-time CDC</span>
+          </div>
+        </div>
+      </Card>
     </div>
-    <h2>Engineering Metrics</h2>
-    <p>Real-time CDC • Multi-cloud • 5-minute SLA warehouse</p>
+    
+    <p class="section-description">
+      Production-grade data pipelines • Real-time CDC • Multi-cloud architecture • 5-minute SLA warehouse
+    </p>
   </header>
 
   <!-- DESKTOP LAYOUT -->
@@ -183,41 +219,126 @@
     margin: 0 auto;
   }
 
-  /* Header */
+  /* ===================================== */
+  /* PROFESSIONAL HEADER (Matching Projects Style) */
+  /* ===================================== */
+  
   .section-header {
-    text-align: center;
-    padding: 2rem 0 3rem;
+    margin-bottom: 3rem;
   }
 
-  .header-icon {
-    display: inline-flex;
+  .title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .floating-icon {
+    display: flex;
     align-items: center;
     justify-content: center;
-    width: 56px;
-    height: 56px;
-    margin-bottom: 1.5rem;
-    background: linear-gradient(
-      135deg,
-      hsl(var(--primary)) 0%,
-      hsl(var(--accent)) 100%
-    );
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.7) 100%);
     border-radius: 16px;
     color: white;
-    box-shadow: 0 4px 16px hsl(var(--primary) / 0.25);
+    animation: float 3s ease-in-out infinite;
+    box-shadow: 0 8px 24px hsl(var(--primary) / 0.3);
   }
 
-  .section-header h2 {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 800;
-    margin-bottom: 0.75rem;
-    color: hsl(var(--foreground));
-    letter-spacing: -0.02em;
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
   }
 
-  .section-header p {
+  .title-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  :global(.title-badge) {
+    width: fit-content;
     font-family: var(--font-mono);
-    font-size: 0.9375rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 900;
+    color: hsl(var(--foreground));
+    margin: 0;
+    line-height: 1;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.6) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  :global(.stats-card) {
+    padding: 1rem 1.5rem;
+  }
+
+  .stats-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    align-items: center;
+  }
+
+  .stat-item.featured {
+    flex-direction: row;
+    gap: 0.5rem;
+    color: hsl(var(--primary));
+  }
+
+  .stat-value {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: hsl(var(--primary));
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
     color: hsl(var(--muted-foreground));
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 32px;
+    background: hsl(var(--border));
+  }
+
+  .section-description {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: hsl(var(--muted-foreground));
+    line-height: 1.8;
+    max-width: 900px;
   }
 
   /* Hide tablet/mobile on desktop */
@@ -308,6 +429,16 @@
       flex-direction: column;
       gap: 1.5rem;
     }
+
+    /* Tablet header adjustments */
+    .title-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    :global(.stats-card) {
+      width: 100%;
+    }
   }
 
   /* MOBILE VIEW */
@@ -346,14 +477,49 @@
       gap: 1rem;
     }
 
+    /* 2 SpecialtyCards per row in mobile */
     .specialties-side {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
     }
 
+    /* Mobile header adjustments */
     .section-header {
-      padding: 1.5rem 0 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+    }
+
+    .floating-icon {
+      width: 48px;
+      height: 48px;
+    }
+
+    .stats-bar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .stat-item {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .stat-divider {
+      width: 100%;
+      height: 1px;
+    }
+
+    .title-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    :global(.stats-card) {
+      width: 100%;
     }
   }
 </style>
