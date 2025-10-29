@@ -6,7 +6,13 @@ const config = {
   preprocess: vitePreprocess(),
   
   kit: {
-    adapter: adapter(),
+    adapter: adapter({
+			// Cloudflare Pages options
+			routes: {
+				include: ['/*'],
+				exclude: ['<all>']
+			}
+		}),
     
     prerender: {
       // Only prerender routes that need server-side generation
