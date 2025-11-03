@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { onMount, onDestroy } from 'svelte';
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
   import { 
     Mail, Github, Linkedin, Instagram, Copy, Check, 
     Send, Terminal, Database
@@ -20,10 +23,91 @@
       copied = false;
     }, 2000);
   }
+
+  onMount(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.from('.terminal-header', {
+      opacity: 0,
+      y: 40,
+      duration: 0.8,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.terminal-header',
+        start: 'top 80%',
+        toggleActions: 'play none none none'
+      }
+    });
+
+    gsap.from('.primary-card', {
+      opacity: 0,
+      x: -50,
+      duration: 0.8,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.primary-card',
+        start: 'top 80%',
+        toggleActions: 'play none none none'
+      }
+    });
+
+    gsap.from('.quick-actions > *', {
+      opacity: 0,
+      x: 50,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.quick-actions',
+        start: 'top 80%',
+        toggleActions: 'play none none none'
+      }
+    });
+
+    const socialCards = gsap.utils.toArray('.social-card');
+    socialCards.forEach((card: any) => {
+      gsap.from(card, {
+        opacity: 0,
+        y: 40,
+        duration: 0.6,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 85%',
+          toggleActions: 'play none none none'
+        }
+      });
+    });
+
+    gsap.from('.status-bar', {
+      opacity: 0,
+      y: 30,
+      duration: 0.8,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.status-bar',
+        start: 'top 85%',
+        toggleActions: 'play none none none'
+      }
+    });
+
+    const hoverElements = gsap.utils.toArray(['.btn-primary', '.btn-icon', '.social-card']);
+    hoverElements.forEach((el: any) => {
+      el.addEventListener('mouseenter', () => {
+        gsap.to(el, { scale: 1.08, duration: 0.3, ease: 'power2.out' });
+      });
+      el.addEventListener('mouseleave', () => {
+        gsap.to(el, { scale: 1, duration: 0.3, ease: 'power2.out' });
+      });
+    });
+  });
+
+  onDestroy(() => {
+    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+  });
 </script>
 
 <section id="contact" class="contact-section">
-  <!-- Data Flow Background -->
   <div class="data-flow">
     <div class="flow-line line-1"></div>
     <div class="flow-line line-2"></div>
@@ -31,8 +115,6 @@
   </div>
 
   <div class="container">
-    
-    <!-- Terminal Header -->
     <div class="terminal-header">
       <div class="terminal-bar">
         <Terminal size={16} />
@@ -43,10 +125,7 @@
       </h2>
     </div>
 
-    <!-- Glass Cards Grid -->
     <div class="glass-grid">
-      
-      <!-- Email Card - Primary -->
       <div class="glass-card primary-card">
         <div class="card-header">
           <div class="icon-wrapper primary">
@@ -72,15 +151,16 @@
         </div>
       </div>
 
-      <!-- Quick Actions Grid -->
       <div class="quick-actions">
+        <div class="quick-action-item">
         <CalendlyCard url={CALENDAR_URL} />
+        </div>
+        <div class="quick-action-item">
         <CoffeeCard url={COFFEE_URL} />
+        </div>
       </div>
-
     </div>
 
-    <!-- Social Links -->
     <div class="social-grid">
       <a href={personal.socialLinks.github} target="_blank" rel="noopener noreferrer" class="social-card">
         <Github size={20} />
@@ -98,14 +178,12 @@
       {/if}
     </div>
 
-    <!-- Status Bar -->
     <div class="status-bar">
       <Database size={14} class="pulse-icon" />
       <span>Available in {personal.address.city}</span>
       <span class="dot">•</span>
       <span>Response time: ~24h</span>
     </div>
-
   </div>
 </section>
 
@@ -117,7 +195,6 @@
     overflow: hidden;
   }
 
-  /* Data Flow Background */
   .data-flow {
     position: absolute;
     inset: 0;
@@ -165,7 +242,6 @@
     gap: 2rem;
   }
 
-  /* Terminal Header */
   .terminal-header {
     background: hsl(var(--card));
     border: 1px solid hsl(var(--border));
@@ -203,7 +279,6 @@
     font-family: var(--font-mono);
   }
 
-  /* Glass Cards */
   .glass-grid {
     display: grid;
     grid-template-columns: 1.5fr 1fr;
@@ -227,7 +302,6 @@
       0 8px 32px hsl(var(--foreground) / 0.04);
   }
 
-  /* Primary Email Card */
   .primary-card {
     display: flex;
     flex-direction: column;
@@ -323,14 +397,12 @@
     color: hsl(var(--background));
   }
 
-  /* Quick Actions */
   .quick-actions {
     display: flex;
     flex-direction: column;
     gap: 1rem;
   }
 
-  /* Social Grid */
   .social-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -358,7 +430,6 @@
     transform: translateY(-2px);
   }
 
-  /* Status Bar */
   .status-bar {
     display: flex;
     align-items: center;
@@ -372,7 +443,6 @@
     color: hsl(var(--muted-foreground));
   }
 
-
   @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
@@ -382,7 +452,6 @@
     color: hsl(var(--border));
   }
 
-  /* Responsive */
   @media (max-width: 768px) {
     .contact-section {
       padding: 4rem 0;

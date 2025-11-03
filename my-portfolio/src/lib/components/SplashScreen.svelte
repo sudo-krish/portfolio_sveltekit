@@ -1,7 +1,9 @@
+<!-- src/lib/components/SplashScreen.svelte -->
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { splashComplete } from '$lib/stores/splash';
   import { getPersonalInfo } from '$lib/data/portfolio-data';
-  import {  Loader,Workflow, Database, ChartBar } from 'lucide-svelte';
+  import { Loader, Workflow, Database, ChartBar } from 'lucide-svelte';
   
   const personal = getPersonalInfo();
   
@@ -39,6 +41,8 @@
           fadeOut = true;
           setTimeout(() => {
             visible = false;
+            // ✅ Signal that splash is complete
+            splashComplete.set(true);
           }, 500);
         }, 300);
       }
@@ -50,6 +54,17 @@
   // Reactive statement to get current icon
   $: currentIcon = phases[currentPhase].icon;
   $: currentText = phases[currentPhase].text;
+  
+  // ✅ Skip function for better UX
+  function skipSplash() {
+    progress = 100;
+    currentPhase = 3;
+    fadeOut = true;
+    setTimeout(() => {
+      visible = false;
+      splashComplete.set(true);
+    }, 500);
+  }
 </script>
 
 {#if visible}
@@ -130,6 +145,15 @@
         <span class="progress-percent">{Math.round(progress)}%</span>
       </div>
       
+      <!-- ✅ Skip button -->
+      <button 
+        class="skip-button" 
+        on:click={skipSplash}
+        aria-label="Skip loading animation"
+      >
+        Skip
+      </button>
+      
     </div>
   </div>
 {/if}
@@ -157,6 +181,7 @@
     gap: 3rem;
     text-align: center;
     animation: slideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
   }
   
   .logo-container {
@@ -235,6 +260,32 @@
     letter-spacing: -0.01em;
   }
   
+  /* ✅ Skip button */
+  .skip-button {
+    position: absolute;
+    bottom: -4rem;
+    padding: 0.5rem 1.25rem;
+    background: transparent;
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    color: hsl(var(--muted-foreground));
+    font-size: 0.8125rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .skip-button:hover {
+    background: hsl(var(--muted));
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--primary));
+    transform: translateY(-2px);
+  }
+  
+  .skip-button:active {
+    transform: translateY(0);
+  }
+  
   /* Animations */
   @keyframes fadeIn {
     from { opacity: 0; }
@@ -273,6 +324,12 @@
     
     .progress-container {
       width: 260px;
+    }
+    
+    .skip-button {
+      bottom: -3rem;
+      font-size: 0.75rem;
+      padding: 0.4rem 1rem;
     }
   }
 </style>
