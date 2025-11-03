@@ -428,7 +428,7 @@ export async function getAllProjectsWithGitHub() {
     
     // Combine manual projects with GitHub projects
     // Manual projects come first (higher priority)
-    return [...portfolioData.projects, ...githubProjects];
+    return [...githubProjects];
   } catch (error) {
     console.error('Error fetching GitHub projects:', error);
     // Return only manual projects if GitHub fetch fails
