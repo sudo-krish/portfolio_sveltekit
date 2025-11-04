@@ -21,7 +21,6 @@
 </script>
 
 <svelte:head>
-  <!-- <link rel="canonical" href={currentUrl} /> -->
   <meta property="og:image" content={pageMetadata.image} />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
