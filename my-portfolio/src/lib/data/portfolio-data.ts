@@ -12,7 +12,7 @@ export const portfolioData: PortfolioData = {
     phone: "+91-XXXXXXXXXX",
     website: "https://krishnanandanil.com",
     profileImage: "/profile.jpg",
-    resumeUrl: "https://drive.google.com/file/d/1-HcNEDahb4LZHz2QR1g_hNq4_Pk3mkVw/view?usp=drive_link",
+    resumeUrl: "https://drive.google.com/file/d/1lkamX2hfp25wsLecHgEStbYD7-1ZEMwv/view?usp=drive_link",
     address: {
       city: "Bengaluru",
       state: "Karnataka",

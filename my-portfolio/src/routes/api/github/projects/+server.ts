@@ -11,7 +11,7 @@ let lastFetchProjects = 0;
 
 function extractPlatforms(repo: any): string[] {
   const platforms: string[] = [];
-  const text = `${repo.name} ${repo.description || ''} ${repo.topics.join(' ')}`.toLowerCase();
+  const text = `${repo.name} ${repo.description || ''} ${repo.topics?.join(' ') || ''}`.toLowerCase();
   
   if (text.match(/aws|amazon/)) platforms.push('AWS');
   if (text.match(/gcp|google.cloud/)) platforms.push('GCP');
@@ -30,7 +30,7 @@ function extractPlatforms(repo: any): string[] {
 
 function extractTechnologies(repo: any): string[] {
   const technologies: string[] = [];
-  const text = `${repo.name} ${repo.description || ''} ${repo.topics.join(' ')}`.toLowerCase();
+  const text = `${repo.name} ${repo.description || ''} ${repo.topics?.join(' ') || ''}`.toLowerCase();
   
   if (text.includes('docker')) technologies.push('Docker');
   if (text.match(/kubernetes|k8s/)) technologies.push('Kubernetes');
@@ -55,14 +55,13 @@ function shouldBeFeatured(repo: any): boolean {
     'kubernetes', 'cdc', 'debezium', 'data-lake', 'warehouse'
   ];
   
-  const text = `${repo.name} ${repo.description || ''} ${repo.topics.join(' ')}`.toLowerCase();
+  const text = `${repo.name} ${repo.description || ''} ${repo.topics?.join(' ') || ''}`.toLowerCase();
   const hasKeyword = featuredKeywords.some(keyword => text.includes(keyword));
   const isVeryRecent = new Date(repo.pushed_at) > new Date(Date.now() - 90 * 24 * 60 * 60 * 1000);
   
   return repo.stargazers_count >= 3 || hasKeyword || isVeryRecent;
 }
 
-// ✅ Updated for Cloudflare - Access env via platform
 export const GET: RequestHandler = async ({ platform }) => {
   const now = Date.now();
   
@@ -72,10 +71,11 @@ export const GET: RequestHandler = async ({ platform }) => {
   }
   
   try {
-    // ✅ Get token from Cloudflare environment
-    // In production: platform.env.GITHUB_TOKEN
-    // In development: import.meta.env.GITHUB_TOKEN
+    // ✅ Get token from Cloudflare (platform.env) or local development (import.meta.env)
     const GITHUB_TOKEN = platform?.env?.GITHUB_TOKEN || import.meta.env.GITHUB_TOKEN;
+    
+    // ✅ Single console log - shows if token is loaded
+    console.log(`✅ GITHUB_TOKEN loaded: ${GITHUB_TOKEN ? `${GITHUB_TOKEN.substring(0, 10)}...` : 'NOT FOUND'}`);
     
     const headers: Record<string, string> = {
       'Accept': 'application/vnd.github.v3+json',
