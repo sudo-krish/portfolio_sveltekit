@@ -1,106 +1,138 @@
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  import HeroSection from '$lib/components/home/HeroSection.svelte';
-  import MetricsGrid from '$lib/components/home/MetricsGrid.svelte';
-  import FeaturedProjects from '$lib/components/home/FeaturedProjects.svelte';
-  import TechStack from '$lib/components/home/TechStack.svelte';
-  import ContactCTA from '$lib/components/home/ContactCTA.svelte';
+  import { Canvas } from "@threlte/core";
+  import { onMount } from "svelte";
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import HomeScene from "$lib/components/home/3d/HomeScene.svelte";
+
+  // Content Components
+  import HeroContent from "$lib/components/home/hero/HeroContent.svelte";
+  import HeroBackground from "$lib/components/home/hero/HeroBackground.svelte";
+  import PipelineContent from "$lib/components/home/pipeline/PipelineContent.svelte";
+  import DataLakeContent from "$lib/components/home/datalake/DataLakeContent.svelte";
+  import LakehouseContent from "$lib/components/home/lakehouse/LakehouseContent.svelte";
+  import WarehouseContent from "$lib/components/home/warehouse/WarehouseContent.svelte";
 
   onMount(() => {
-    // Register ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger);
-
-    // Set initial hidden state for all sections
-    gsap.set('.animate-section', { 
-      opacity: 0, 
-      y: 60 
-    });
-
-    // Animate each section on scroll
-    gsap.utils.toArray('.animate-section').forEach((section: any) => {
-      gsap.to(section, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 85%', // Animation starts when section is 85% down the viewport
-          end: 'top 20%',
-          toggleActions: 'play none none none',
-          // markers: true // Enable for debugging
-        }
-      });
-    });
-
-    // Cleanup
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
+    setTimeout(() => ScrollTrigger.refresh(), 500);
   });
 </script>
 
 <svelte:head>
-  <title>Krishnanand Anil | AWS Data Engineer & Cloud Expert</title>
-  <meta name="description" content="Senior Data Engineer with 5+ years experience in AWS Cloud, Redshift, and scalable data pipelines." />
+  <title>Krishnanand Anil | AWS Data Engineer</title>
 </svelte:head>
 
-<main class="page">
-  <section id="hero" aria-label="Introduction">
-    <HeroSection />
-  </section>
+<div class="fixed-canvas">
+  <Canvas>
+    <HomeScene />
+  </Canvas>
+</div>
+
+<main class="snap-container">
   
-  <section id="metrics" class="section animate-section" aria-label="Professional Metrics">
-    <h2 class="sr-only">Professional Achievements and Metrics</h2>
-    <MetricsGrid />
+  <!-- SLIDE 1: HERO (Text Top, 3D Bottom) -->
+  <section id="hero" class="snap-section">
+    <div class="hero-bg-layer"><HeroBackground /></div>
+    <div class="container mx-auto px-6 h-full flex flex-col lg:flex-row items-center justify-center lg:justify-between pointer-events-none">
+      <!-- Text First on Mobile (order-1) -->
+      <div class="w-full lg:w-1/2 pointer-events-auto flex justify-center lg:justify-start order-1"><HeroContent /></div>
+      <!-- Spacer Second on Mobile (order-2) -->
+      <div class="w-full lg:w-1/2 h-[30vh] lg:h-auto order-2"></div>
+    </div>
   </section>
-  
-  <section id="projects" class="section animate-section" aria-label="Featured Projects">
-    <h2 class="sr-only">Featured Data Engineering Projects</h2>
-    <FeaturedProjects limit={6} />
+
+  <!-- SLIDE 2: PIPELINE (3D Top, Text Bottom) -->
+  <section id="pipeline" class="snap-section">
+    <div class="container mx-auto px-6 h-full flex flex-col lg:flex-row items-center justify-center lg:justify-between pointer-events-none">
+      <!-- Spacer First on Mobile (order-1) -->
+      <div class="w-full lg:w-1/2 h-[35vh] lg:h-auto order-1 lg:order-1"></div>
+      <!-- Text Second on Mobile (order-2) -->
+      <div class="w-full lg:w-1/2 pointer-events-auto flex justify-center lg:justify-start order-2 lg:order-2"><PipelineContent /></div>
+    </div>
   </section>
-  
-  <section id="tech-stack" class="section animate-section" aria-label="Technology Stack">
-    <h2 class="sr-only">Technologies and Tools</h2>
-    <TechStack />
+
+  <!-- SLIDE 3: DATA LAKE (Text Top, 3D Bottom) -->
+  <section id="datalake" class="snap-section">
+    <div class="container mx-auto px-6 h-full flex flex-col lg:flex-row items-center justify-center lg:justify-between pointer-events-none">
+      <!-- FIXED: Text First on Mobile (order-1), Left on Desktop (lg:order-1) -->
+      <div class="w-full lg:w-1/2 pointer-events-auto flex justify-center lg:justify-start order-1 lg:order-1"><DataLakeContent /></div>
+      <!-- FIXED: Spacer Second on Mobile (order-2), Right on Desktop (lg:order-2) -->
+      <div class="w-full lg:w-1/2 h-[35vh] lg:h-auto order-2 lg:order-2"></div>
+    </div>
   </section>
-  
-  <section id="contact" class="section animate-section" aria-label="Contact Information">
-    <h2 class="sr-only">Get in Touch</h2>
-    <ContactCTA />
+
+  <!-- SLIDE 4: LAKEHOUSE (3D Top, Text Bottom) -->
+  <section id="lakehouse" class="snap-section">
+    <div class="container mx-auto px-6 h-full flex flex-col lg:flex-row items-center justify-center lg:justify-between pointer-events-none">
+      <!-- Spacer First on Mobile (order-1) -->
+      <div class="w-full lg:w-1/2 h-[35vh] lg:h-auto order-1 lg:order-1"></div>
+      <!-- Text Second on Mobile (order-2) -->
+      <div class="w-full lg:w-1/2 pointer-events-auto flex justify-center lg:justify-start order-2 lg:order-2"><LakehouseContent /></div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: WAREHOUSE (Text Top, 3D Bottom) -->
+  <section id="warehouse" class="snap-section">
+    <div class="container mx-auto px-6 h-full flex flex-col lg:flex-row items-center justify-center lg:justify-between pointer-events-none">
+      <!-- FIXED: Text First on Mobile (order-1), Left on Desktop (lg:order-1) -->
+      <div class="w-full lg:w-1/2 pointer-events-auto flex justify-center lg:justify-start order-1 lg:order-1"><WarehouseContent /></div>
+      <!-- FIXED: Spacer Second on Mobile (order-2), Right on Desktop (lg:order-2) -->
+      <div class="w-full lg:w-1/2 h-[35vh] lg:h-auto order-2 lg:order-2"></div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: COMING SOON -->
+  <section class="snap-section bg-background/90 backdrop-blur-md">
+    <div class="container mx-auto px-6 h-full flex items-center justify-center">
+      <div class="text-center">
+        <h3 class="text-3xl font-bold mb-4">More Coming Soon</h3>
+        <p class="text-muted-foreground">Metrics, Projects & Contact</p>
+      </div>
+    </div>
   </section>
 </main>
 
 <style>
-  .page {
-    min-height: 100vh;
+  .snap-container {
+    height: 100dvh; 
+    width: 100%;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    position: relative;
+    z-index: 10;
+  }
+  .snap-section {
+    height: 100dvh;
+    width: 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    position: relative;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  :global(body) {
+    background-color: transparent !important;
+    overflow: hidden; 
+    margin: 0;
+  }
+  .fixed-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
     background: hsl(var(--background));
+    transform: translateZ(0); 
   }
-  
-  .section {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 4rem 2rem;
-  }
-  
-  .sr-only {
+  .hero-bg-layer {
     position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-  }
-  
-  @media (max-width: 768px) {
-    .section {
-      padding: 3rem 1.5rem;
-    }
+    inset: 0;
+    z-index: -1;
+    opacity: 0.3;
+    pointer-events: none;
   }
 </style>
