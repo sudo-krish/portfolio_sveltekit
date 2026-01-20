@@ -9,123 +9,41 @@
   export let tags: string[] = [];
 </script>
 
-<div class="specialty-card">
-  <div class="card-header">
-    <div class="icon-wrapper">
-      <svelte:component this={icon} size={16} />
-    </div>
-    <div class="header-badge">{highlight}</div>
-  </div>
+<div class="group relative w-full h-full min-h-[160px] p-4 rounded-xl border border-white/5 bg-background/40 backdrop-blur-md transition-all duration-300 hover:bg-background/60 hover:border-blue-500/30 hover:shadow-[0_0_20px_-5px_rgba(59,130,246,0.15)] overflow-hidden flex flex-col justify-between">
   
-  <div class="card-body">
-    <h3 class="card-title">{title}</h3>
-    <p class="card-description">{description}</p>
-    
-    {#if tags.length > 0}
-      <div class="tags-row">
-        {#each tags.slice(0, 3) as tag}
-          <span class="tag">{tag}</span>
-        {/each}
-      </div>
-    {/if}
-  </div>
-</div>
+  <!-- Ambient Hover Glow -->
+  <div class="absolute -right-10 -top-10 w-24 h-24 bg-blue-500/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
 
-<style>
-  .specialty-card {
-    padding: 0.875rem;
-    background: hsl(var(--card));
-    border: 1px solid hsl(var(--border));
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 0.625rem;
-    width: 100%;
-    max-width: 280px;
-    height: 200px;
-    /* REMOVED: transition */
-  }
+  <!-- Header -->
+  <div class="flex items-start justify-between mb-3 relative z-10">
+    <div class="relative flex items-center justify-center w-10 h-10 rounded-lg bg-blue-500/10 text-blue-400 group-hover:text-blue-200 group-hover:bg-blue-500/20 transition-colors">
+      <svelte:component this={icon} size={20} strokeWidth={1.5} />
+    </div>
+    
+    <div class="px-2 py-1 rounded text-[10px] font-mono font-bold tracking-wider uppercase text-blue-300 bg-blue-500/10 border border-blue-500/20 group-hover:border-blue-400/30 transition-colors">
+      {highlight}
+    </div>
+  </div>
   
-  .specialty-card:hover {
-    border-color: hsl(var(--primary));
-    /* REMOVED: transform and box-shadow to prevent flicker */
-  }
-  
-  .card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-    flex-shrink: 0;
-  }
-  
-  .icon-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    background: hsl(var(--primary) / 0.1);
-    border-radius: 6px;
-    color: hsl(var(--primary));
-    flex-shrink: 0;
-  }
-  
-  .header-badge {
-    font-family: var(--font-mono);
-    font-size: 0.625rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: hsl(var(--primary));
-    padding: 0.1875rem 0.4375rem;
-    background: hsl(var(--primary) / 0.1);
-    border: 1px solid hsl(var(--primary) / 0.2);
-    border-radius: 4px;
-  }
-  
-  .card-body {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4375rem;
-    flex: 1;
-  }
-  
-  .card-title {
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: hsl(var(--foreground));
-    margin: 0;
-    line-height: 1.3;
-  }
-  
-  .card-description {
-    font-size: 0.75rem;
-    color: hsl(var(--muted-foreground));
-    line-height: 1.4;
-    margin: 0;
-  }
-  
-  .tags-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.3125rem;
-    margin-top: auto;
-  }
-  
-  .tag {
-    font-size: 0.625rem;
-    font-weight: 500;
-    color: hsl(var(--muted-foreground));
-    padding: 0.1875rem 0.4375rem;
-    background: hsl(var(--muted) / 0.3);
-    border-radius: 4px;
-  }
-  
-  /* Responsive */
-  @media (max-width: 280px) {
-    .specialty-card {
-      max-width: 100%;
-    }
-  }
-</style>
+  <!-- Body -->
+  <div class="relative z-10 flex flex-col gap-1 flex-1">
+    <h3 class="text-sm font-bold text-foreground group-hover:text-white transition-colors leading-tight">
+      {title}
+    </h3>
+    <p class="text-xs text-muted-foreground leading-relaxed line-clamp-2 group-hover:text-muted-foreground/80">
+      {description}
+    </p>
+  </div>
+    
+  <!-- Footer Tags -->
+  {#if tags.length > 0}
+    <div class="relative z-10 flex flex-wrap gap-1.5 mt-3 pt-3 border-t border-white/5 group-hover:border-white/10 transition-colors">
+      {#each tags.slice(0, 3) as tag}
+        <span class="px-1.5 py-0.5 rounded text-[9px] font-medium text-muted-foreground bg-white/5 border border-white/5 group-hover:text-blue-200 group-hover:bg-blue-500/10 group-hover:border-blue-500/10 transition-colors cursor-default">
+          {tag}
+        </span>
+      {/each}
+    </div>
+  {/if}
+
+</div>

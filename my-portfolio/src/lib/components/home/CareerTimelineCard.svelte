@@ -1,357 +1,100 @@
 <!-- src/lib/components/home/CareerTimelineCard.svelte -->
 <script lang="ts">
-  import { Rocket, TrendingUp, Award } from 'lucide-svelte';
+  import { Rocket, GitCommit, ArrowUpRight, GitBranch } from 'lucide-svelte';
   import { getAllCompanies, getPersonalInfo } from '$lib/data/portfolio-data';
   
   const companies = getAllCompanies();
   const personal = getPersonalInfo();
   
-  // Career progression with compact data
+  // Format data for the "Commit History" view
   const timeline = companies.map((company, i) => ({
     company: company.name.split(' ')[0],
-    level: company.position.includes('Senior') ? 'L3' : company.position.includes('Associate') ? 'L2' : 'L1',
-    year: parseInt(company.duration.split(' ')[1]),
+    role: company.position,
+    // Convert generic levels to "Version" tags for engineering flair
+    version: company.position.includes('Senior') ? 'v3.0' : company.position.includes('Associate') ? 'v1.0' : 'v2.0',
+    year: company.duration.split(' ')[1] || new Date().getFullYear(),
     current: company.current,
     promoted: company.roles && company.roles.length > 1
   }));
 </script>
 
-<div class="journey-card">
-  <!-- Header -->
-  <div class="card-header">
-    <div class="header-icon">
-      <Rocket size={14} />
-    </div>
-    <div class="header-content">
-      <h3>Career Journey</h3>
-      <span class="subtitle">{personal.yearsOfExperience}+ years • 3 companies</span>
-    </div>
-    <div class="badge">
-      <TrendingUp size={9} />
-      <span>↑</span>
-    </div>
-  </div>
+<div class="relative w-full h-full min-h-[350px] flex flex-col rounded-xl border border-white/10 bg-background/40 backdrop-blur-md overflow-hidden group">
   
-  <!-- Timeline -->
-  <div class="timeline">
-    {#each timeline as stage, i}
-      <div class="stage-row" class:current={stage.current}>
-        <!-- Year marker -->
-        <div class="year-marker">{stage.year}</div>
-        
-        <!-- Level badge with line connector -->
-        <div class="badge-wrapper">
-          <div class="level-badge {stage.current ? 'active' : ''}">
-            <span class="level">{stage.level}</span>
-            {#if stage.promoted}
-              <Award size={7} class="promotion-star" />
-            {/if}
-          </div>
-          {#if i < timeline.length - 1}
-            <div class="progress-line"></div>
-          {/if}
+  <!-- Header: Branch Info -->
+  <div class="flex items-center justify-between px-5 py-4 border-b border-white/5 bg-white/5 relative z-10">
+    <div class="flex items-center gap-3">
+        <div class="p-2 rounded-lg bg-pink-500/10 text-pink-400 border border-pink-500/20">
+            <GitBranch size={18} />
         </div>
-        
-        <!-- Company info -->
-        <div class="company-info">
-          <span class="company-name">{stage.company}</span>
-          {#if stage.current}
-            <span class="current-tag">Now</span>
-          {/if}
+        <div>
+            <h3 class="text-sm font-bold text-foreground tracking-tight">Career Branch</h3>
+            <div class="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">main/production</div>
         </div>
-      </div>
-    {/each}
-  </div>
-  
-  <!-- Stats Footer -->
-  <div class="stats-footer">
-    <div class="stat">
-      <span class="stat-value">3</span>
-      <span class="stat-label">Companies</span>
     </div>
-    <div class="stat-divider"></div>
-    <div class="stat">
-      <span class="stat-value">4</span>
-      <span class="stat-label">Promotions</span>
-    </div>
-    <div class="stat-divider"></div>
-    <div class="stat">
-      <span class="stat-value">L1→L3</span>
-      <span class="stat-label">Growth</span>
+    
+    <div class="px-2 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 flex items-center gap-1.5">
+        <Rocket size={10} class="text-pink-400" />
+        <span class="text-[9px] font-bold text-pink-400 tracking-wider uppercase">{personal.yearsOfExperience}+ YOE</span>
     </div>
   </div>
-</div>
 
-<style>
-  .journey-card {
-    background: hsl(var(--card));
-    border: 1px solid hsl(var(--border));
-    border-radius: 12px;
-    width: 100%;
-    max-width: 480px;
-    height: 320px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .journey-card:hover {
-    border-color: hsl(var(--primary));
-  }
-  
-  /* Header */
-  .card-header {
-    display: flex;
-    align-items: center;
-    gap: 0.625rem;
-    padding: 0.875rem 1rem;
-    background: hsl(var(--muted) / 0.3);
-    border-bottom: 1px solid hsl(var(--border));
-    flex-shrink: 0;
-  }
-  
-  .header-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
-    border-radius: 8px;
-    color: white;
-    flex-shrink: 0;
-  }
-  
-  .header-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
-    min-width: 0;
-  }
-  
-  h3 {
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: hsl(var(--foreground));
-    margin: 0;
-    letter-spacing: -0.01em;
-  }
-  
-  .subtitle {
-    font-size: 0.625rem;
-    color: hsl(var(--muted-foreground));
-    font-family: var(--font-mono);
-  }
-  
-  .badge {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    padding: 0.3125rem 0.5rem;
-    background: hsl(var(--success) / 0.1);
-    border: 1px solid hsl(var(--success) / 0.2);
-    border-radius: 8px;
-    color: hsl(var(--success));
-    font-size: 0.6875rem;
-    font-weight: 700;
-    flex-shrink: 0;
-  }
-  
-  /* Timeline */
-  .timeline {
-    padding: 0.875rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    flex: 1;
-    overflow-y: auto;
-  }
-  
-  .stage-row {
-    display: grid;
-    grid-template-columns: 48px 52px 1fr;
-    align-items: start;
-    gap: 0.625rem;
-    padding: 0.5rem 0;
-    position: relative;
-  }
-  
-  .stage-row:not(:last-child) {
-    padding-bottom: 1rem;
-  }
-  
-  .stage-row.current {
-    background: linear-gradient(
-      90deg,
-      hsl(var(--primary) / 0.05),
-      transparent
-    );
-    margin: 0 -0.875rem;
-    padding-left: 0.875rem;
-    padding-right: 0.875rem;
-    border-radius: 6px;
-  }
-  
-  /* Year Marker */
-  .year-marker {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: hsl(var(--muted-foreground));
-    font-family: var(--font-mono);
-    text-align: right;
-    padding-top: 0.3125rem;
-  }
-  
-  .stage-row.current .year-marker {
-    color: hsl(var(--primary));
-  }
-  
-  /* Badge Wrapper */
-  .badge-wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  /* Level Badge */
-  .level-badge {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 28px;
-    width: 44px;
-    background: hsl(var(--muted) / 0.5);
-    border: 1.5px solid hsl(var(--border));
-    border-radius: 14px;
-    position: relative;
-    z-index: 2;
-    flex-shrink: 0;
-    /* REMOVED: transition to prevent flicker */
-  }
-  
-  .level-badge.active {
-    background: hsl(var(--primary) / 0.15);
-    border-color: hsl(var(--primary));
-    /* REMOVED: box-shadow to prevent GPU load */
-  }
-  
-  .level {
-    font-size: 0.6875rem;
-    font-weight: 800;
-    color: hsl(var(--foreground));
-    font-family: var(--font-mono);
-    letter-spacing: -0.02em;
-  }
-  
-  .level-badge.active .level {
-    color: hsl(var(--primary));
-  }
-  
-  :global(.promotion-star) {
-    position: absolute;
-    top: -3px;
-    right: -3px;
-    color: hsl(var(--highlight));
-    background: hsl(var(--card));
-    border-radius: 50%;
-    padding: 1px;
-    z-index: 3;
-  }
-  
-  /* Progress Line */
-  .progress-line {
-    position: absolute;
-    top: 28px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2px;
-    height: calc(100% + 0.875rem);
-    background: linear-gradient(
-      180deg,
-      hsl(var(--border)),
-      hsl(var(--border) / 0.3)
-    );
-    z-index: 1;
-  }
-  
-  /* Company Info */
-  .company-info {
-    display: flex;
-    align-items: center;
-    gap: 0.4375rem;
-    padding-top: 0.3125rem;
-    min-width: 0;
-  }
-  
-  .company-name {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: hsl(var(--foreground));
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  .current-tag {
-    padding: 0.1875rem 0.4375rem;
-    background: hsl(var(--primary) / 0.15);
-    border: 1px solid hsl(var(--primary) / 0.3);
-    border-radius: 6px;
-    font-size: 0.5625rem;
-    font-weight: 700;
-    color: hsl(var(--primary));
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    flex-shrink: 0;
-  }
-  
-  /* Stats Footer */
-  .stats-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding: 0.75rem 0.875rem;
-    background: hsl(var(--muted) / 0.3);
-    border-top: 1px solid hsl(var(--border));
-    flex-shrink: 0;
-  }
-  
-  .stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.125rem;
-  }
-  
-  .stat-value {
-    font-size: 0.875rem;
-    font-weight: 800;
-    color: hsl(var(--foreground));
-    font-family: var(--font-mono);
-    letter-spacing: -0.02em;
-  }
-  
-  .stat-label {
-    font-size: 0.5625rem;
-    color: hsl(var(--muted-foreground));
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-weight: 600;
-  }
-  
-  .stat-divider {
-    width: 1px;
-    height: 20px;
-    background: hsl(var(--border));
-  }
-  
-  /* Responsive */
-  @media (max-width: 480px) {
-    .journey-card {
-      max-width: 100%;
-      height: auto;
-      min-height: 320px;
-    }
-  }
-</style>
+  <!-- Body: Commit History -->
+  <div class="flex-1 p-5 overflow-y-auto relative z-10">
+    <!-- Connecting Line (The "Git" Line) -->
+    <div class="absolute left-[2.35rem] top-6 bottom-6 w-0.5 bg-white/10"></div>
+
+    <div class="flex flex-col gap-6">
+      {#each timeline as stage, i}
+        <div class="relative flex gap-4 group/item">
+            
+            <!-- Timeline Node -->
+            <div class="relative z-10 flex-shrink-0 mt-1">
+                <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all duration-300
+                    {stage.current 
+                        ? 'bg-pink-500/20 border-pink-500 text-pink-400 shadow-[0_0_10px_rgba(236,72,153,0.3)]' 
+                        : 'bg-background border-white/20 text-muted-foreground group-hover/item:border-white/40'}">
+                    <GitCommit size={14} />
+                </div>
+                {#if stage.current}
+                    <div class="absolute -inset-1 rounded-full bg-pink-500/20 animate-ping opacity-75"></div>
+                {/if}
+            </div>
+
+            <!-- Content Card -->
+            <div class="flex-1 min-w-0 p-3 rounded-lg border border-transparent transition-all duration-300 hover:bg-white/5 hover:border-white/10">
+                <div class="flex justify-between items-start mb-1">
+                    <h4 class="text-sm font-bold text-foreground group-hover/item:text-pink-100 transition-colors">
+                        {stage.company}
+                    </h4>
+                    <span class="text-[10px] font-mono text-muted-foreground/60 bg-white/5 px-1.5 py-0.5 rounded">
+                        {stage.year}
+                    </span>
+                </div>
+                
+                <p class="text-xs text-muted-foreground mb-2 truncate">{stage.role}</p>
+
+                <div class="flex items-center gap-2">
+                    <span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold 
+                        {stage.current ? 'bg-pink-500/10 text-pink-400 border border-pink-500/20' : 'bg-white/5 text-muted-foreground border border-white/5'}">
+                        {stage.version}
+                    </span>
+                    {#if stage.promoted}
+                        <span class="flex items-center gap-1 text-[9px] text-green-400 font-bold">
+                            <ArrowUpRight size={10} /> Promoted
+                        </span>
+                    {/if}
+                </div>
+            </div>
+
+        </div>
+      {/each}
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="px-5 py-3 border-t border-white/5 bg-white/5 flex justify-between text-[10px] text-muted-foreground font-mono">
+      <span>HEAD -> origin/master</span>
+      <span>{timeline.length} commits</span>
+  </div>
+
+</div>

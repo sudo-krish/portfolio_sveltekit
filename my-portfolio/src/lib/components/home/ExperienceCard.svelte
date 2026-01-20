@@ -1,382 +1,126 @@
 <!-- src/lib/components/home/ExperienceCard.svelte -->
 <script lang="ts">
-  import { Briefcase, Cloud, Zap, Sparkles, Timer, Award, Rocket, TrendingUp } from 'lucide-svelte';
+  import { Briefcase, Cloud, Zap, Sparkles, TrendingUp, Terminal } from 'lucide-svelte';
   import { onMount } from 'svelte';
   
   const milestones = [
-    { year: '2020', title: 'Started Journey', icon: Briefcase, color: '#3b82f6' },
-    { year: '2022', title: 'Data & Cloud Expert', icon: Cloud, color: '#8b5cf6' },
-    { year: '2023', title: 'Real-Time Streaming', icon: Zap, color: '#ec4899' },
-    { year: '2025', title: 'AI Solutions', icon: Sparkles, color: '#f59e0b' }
+    { year: '2020', title: 'Initialized', role: 'Junior Engineer', icon: Terminal, color: '#3b82f6' }, // Blue
+    { year: '2022', title: 'Scaled Up', role: 'Data & Cloud', icon: Cloud, color: '#8b5cf6' }, // Violet
+    { year: '2023', title: 'Optimized', role: 'Streaming ETL', icon: Zap, color: '#ec4899' }, // Pink
+    { year: '2025', title: 'Future State', role: 'AI Architect', icon: Sparkles, color: '#f59e0b' } // Amber
   ];
   
   let mounted = false;
-  
-  onMount(() => {
-    mounted = true;
-  });
+  onMount(() => { mounted = true; });
 </script>
 
-<div class="experience-card">
-  <!-- Header -->
-  <div class="card-header">
-    <div class="header-badge">
-      <Briefcase size={14} />
-      <span>CAREER_PIPELINE</span>
-    </div>
-    <div class="trending-badge">
-      <TrendingUp size={12} />
-      <span>5+ Years</span>
-    </div>
-  </div>
+<div class="relative w-full z-20 pointer-events-auto flex flex-col items-start text-left">
   
-  <!-- Vertical Timeline -->
-  <div class="timeline-container">
-    <!-- Vertical Pipeline Line -->
-    <div class="pipeline-line">
-      {#if mounted}
-        <div class="data-flow packet-1"></div>
-        <div class="data-flow packet-2"></div>
-        <div class="data-flow packet-3"></div>
-      {/if}
-    </div>
+  <div class="w-full relative">
     
-    <!-- Milestones (Centered) -->
-    <div class="milestones">
-      {#each milestones as milestone, i}
-        <div class="milestone" style="--delay: {i * 0.1}s; --color: {milestone.color}">
-          <div class="milestone-node">
-            <div class="node-ring"></div>
-            <div class="node-core">
-              <svelte:component this={milestone.icon} size={16} />
-            </div>
-          </div>
-          
-          <div class="milestone-content">
-            <span class="milestone-year">{milestone.year}</span>
-            <span class="milestone-title">{milestone.title}</span>
-          </div>
+    <!-- DECORATIVE: Left Data Line (Matches Pipeline Component) -->
+    <div class="hidden lg:block absolute left-0 top-2 bottom-4 w-px bg-gradient-to-b from-blue-500/50 to-transparent"></div>
+    
+    <!-- 1. HEADER SECTION -->
+    <div class="mb-8 pl-0 lg:pl-8">
+      <!-- Status Badge -->
+      <div class="mb-4 flex items-center gap-3">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 backdrop-blur-sm">
+           <span class="relative flex h-1.5 w-1.5">
+             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+             <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500"></span>
+           </span>
+           <span class="font-mono text-[10px] font-semibold text-blue-200 tracking-widest uppercase">
+             Career Pipeline
+           </span>
         </div>
-      {/each}
-    </div>
-  </div>
-  
-  <!-- Stats Footer -->
-  <div class="stats-footer">
-    <div class="stat">
-      <Timer size={16} />
-      <div class="stat-info">
-        <span class="stat-value">5+</span>
-        <span class="stat-label">Years</span>
+        
+        <!-- Experience Counter -->
+        <div class="flex items-center gap-2 text-xs font-mono text-muted-foreground/80">
+            <TrendingUp size={12} class="text-green-400"/>
+            <span>Uptime: 5+ Years</span>
+        </div>
       </div>
+      
+      <!-- Headline -->
+      <h3 class="text-3xl font-extrabold leading-tight mb-2">
+        Professional <br />
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400 bg-300% animate-gradient">
+          Evolution.
+        </span>
+      </h3>
     </div>
-    
-    <div class="stat-divider"></div>
-    
-    <div class="stat">
-      <Award size={16} />
-      <div class="stat-info">
-        <span class="stat-value">100%</span>
-        <span class="stat-label">Quality</span>
-      </div>
+
+    <!-- 2. VERTICAL PIPELINE VISUALIZATION -->
+    <div class="relative pl-4 lg:pl-12 pb-4">
+        
+        <!-- The Vertical Conduit -->
+        <div class="absolute left-[1.65rem] lg:left-[3.65rem] top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500/20 via-blue-500/10 to-transparent rounded-full overflow-hidden">
+            <!-- Animated Data Packets Flowing Down -->
+            {#if mounted}
+                <div class="absolute top-0 left-0 w-full h-8 bg-blue-400/50 blur-sm animate-data-flow"></div>
+                <div class="absolute top-0 left-0 w-full h-12 bg-cyan-400/30 blur-md animate-data-flow delay-1000"></div>
+            {/if}
+        </div>
+
+        <!-- Milestones Stack -->
+        <div class="flex flex-col gap-8 relative z-10">
+            {#each milestones as milestone, i}
+                <div class="group relative flex items-center gap-6" style="--accent-color: {milestone.color}">
+                    
+                    <!-- 1. The Node (Holo-Tile Style) -->
+                    <div class="relative flex-shrink-0 w-12 h-12 rounded-xl border border-white/10 bg-black/40 backdrop-blur-md flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:border-[var(--accent-color)] group-hover:shadow-[0_0_15px_var(--accent-color)]">
+                        <!-- Glow -->
+                        <div class="absolute inset-0 bg-[var(--accent-color)] opacity-0 group-hover:opacity-20 blur-lg transition-opacity duration-300"></div>
+                        <!-- Icon -->
+                        <div class="relative z-10 text-muted-foreground group-hover:text-[var(--accent-color)] transition-colors">
+                            <svelte:component this={milestone.icon} size={20} />
+                        </div>
+                    </div>
+
+                    <!-- 2. The Connector Line (Horizontal) -->
+                    <div class="w-8 h-px bg-[var(--accent-color)] opacity-30 group-hover:opacity-100 group-hover:w-12 transition-all duration-300"></div>
+
+                    <!-- 3. Content Card -->
+                    <div class="flex-1 p-4 rounded-lg border border-border/50 bg-background/20 backdrop-blur-sm transition-all duration-300 group-hover:bg-background/40 group-hover:translate-x-2">
+                        <div class="flex justify-between items-start">
+                            <div class="flex flex-col">
+                                <span class="text-xs font-mono text-[var(--accent-color)] tracking-wider uppercase mb-1">{milestone.year}</span>
+                                <h4 class="text-sm font-bold text-foreground group-hover:text-white transition-colors">{milestone.title}</h4>
+                                <span class="text-xs text-muted-foreground">{milestone.role}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            {/each}
+        </div>
+
     </div>
-    
-    <div class="stat-divider"></div>
-    
-    <div class="stat">
-      <Rocket size={16} />
-      <div class="stat-info">
-        <span class="stat-value">50+</span>
-        <span class="stat-label">Systems</span>
-      </div>
-    </div>
+
   </div>
 </div>
 
 <style>
-  .experience-card {
-    width: 100%;
-    max-width: 680px;
-    min-height: 480px;
-    background: hsl(var(--card));
-    border: 1px solid hsl(var(--border));
-    border-radius: 12px;
-    padding: 1.25rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
+  /* Gradient Animation matches your other components */
+  .bg-300\% { background-size: 300% 300%; }
+  .animate-gradient { animation: animatedgradient 6s ease infinite alternate; }
+
+  @keyframes animatedgradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
-  
-  .experience-card:hover {
-    border-color: hsl(var(--primary));
+
+  /* Data Flow Animation for the conduit */
+  @keyframes flow-down {
+    0% { top: -10%; opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { top: 110%; opacity: 0; }
   }
-  
-  /* Header */
-  .card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-shrink: 0;
+  .animate-data-flow {
+      animation: flow-down 3s linear infinite;
   }
-  
-  .header-badge {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.375rem 0.75rem;
-    background: hsl(var(--muted) / 0.5);
-    border: 1px solid hsl(var(--border));
-    border-radius: 6px;
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    color: hsl(var(--muted-foreground));
-    letter-spacing: 0.05em;
-  }
-  
-  .trending-badge {
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.3125rem 0.625rem;
-    background: hsl(var(--primary) / 0.1);
-    border: 1px solid hsl(var(--primary) / 0.2);
-    border-radius: 6px;
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    color: hsl(var(--primary));
-  }
-  
-  /* Timeline Container - CENTERED */
-  .timeline-container {
-    position: relative;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  /* Vertical Pipeline Line */
-  .pipeline-line {
-    position: absolute;
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: linear-gradient(
-      180deg,
-      hsl(var(--primary) / 0.3) 0%,
-      hsl(var(--primary) / 0.6) 50%,
-      hsl(var(--primary) / 0.3) 100%
-    );
-    border-radius: 2px;
-    transform: translateX(-50%);
-  }
-  
-  /* REMOVED: animated background pattern to prevent flicker */
-  
-  /* Animated Data Packets - OPTIMIZED */
-  .data-flow {
-    position: absolute;
-    left: 50%;
-    width: 6px;
-    height: 6px;
-    background: hsl(var(--primary));
-    border-radius: 50%;
-    transform: translateX(-50%);
-    /* REMOVED: box-shadow to reduce GPU load */
-  }
-  
-  @media (prefers-reduced-motion: no-preference) {
-    .packet-1 {
-      animation: flow-vertical 5s linear infinite;
-    }
-    
-    .packet-2 {
-      animation: flow-vertical 7s linear infinite 2s;
-      opacity: 0.7;
-    }
-    
-    .packet-3 {
-      animation: flow-vertical 6s linear infinite 4s;
-      opacity: 0.5;
-    }
-  }
-  
-  @keyframes flow-vertical {
-    0% {
-      top: -10px;
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      top: calc(100% + 10px);
-      opacity: 0;
-    }
-  }
-  
-  /* Milestones - CENTERED */
-  .milestones {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    z-index: 1;
-    width: 100%;
-    max-width: 480px;
-  }
-  
-  .milestone {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    opacity: 0;
-    animation: fade-in 0.4s ease-out forwards;
-    animation-delay: var(--delay);
-  }
-  
-  /* SIMPLIFIED: fade-in only (no transform to prevent flicker) */
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  
-  /* Milestone Node */
-  .milestone-node {
-    position: relative;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  
-  .node-core {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: hsl(var(--card));
-    border: 2px solid var(--color);
-    border-radius: 50%;
-    color: var(--color);
-    z-index: 2;
-    position: relative;
-    /* REMOVED: transition to prevent repaints */
-  }
-  
-  .milestone:hover .node-core {
-    background: var(--color);
-    color: white;
-    /* REMOVED: transform to prevent flicker */
-  }
-  
-  .node-ring {
-    position: absolute;
-    inset: 0;
-    border: 2px solid var(--color);
-    border-radius: 50%;
-    opacity: 0.3;
-  }
-  
-  /* SIMPLIFIED: pulse only changes opacity (GPU friendly) */
-  @media (prefers-reduced-motion: no-preference) {
-    .node-ring {
-      animation: pulse-ring 2.5s ease-in-out infinite;
-    }
-  }
-  
-  @keyframes pulse-ring {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.6; }
-  }
-  
-  /* Milestone Content */
-  .milestone-content {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    flex: 1;
-  }
-  
-  .milestone-year {
-    font-family: var(--font-mono);
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: hsl(var(--foreground));
-  }
-  
-  .milestone-title {
-    font-size: 0.8125rem;
-    color: hsl(var(--muted-foreground));
-    line-height: 1.3;
-  }
-  
-  /* Stats Footer */
-  .stats-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding: 0.875rem;
-    background: hsl(var(--muted) / 0.3);
-    border: 1px solid hsl(var(--border));
-    border-radius: 8px;
-    flex-shrink: 0;
-  }
-  
-  .stat {
-    display: flex;
-    align-items: center;
-    gap: 0.625rem;
-    color: hsl(var(--primary));
-  }
-  
-  .stat-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
-  }
-  
-  .stat-value {
-    font-family: var(--font-mono);
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: hsl(var(--foreground));
-    line-height: 1;
-  }
-  
-  .stat-label {
-    font-size: 0.625rem;
-    color: hsl(var(--muted-foreground));
-    font-weight: 500;
-  }
-  
-  .stat-divider {
-    width: 1px;
-    height: 32px;
-    background: hsl(var(--border));
-  }
-  
-  /* Responsive */
-  @media (max-width: 680px) {
-    .experience-card {
-      max-width: 100%;
-    }
-    
-    .milestones {
-      max-width: 100%;
-    }
-  }
+  .delay-1000 { animation-delay: 1.5s; }
 </style>

@@ -1,257 +1,60 @@
 <!-- src/lib/components/home/ImpactMetricsCard.svelte -->
 <script lang="ts">
-  import { Terminal, TrendingUp, Zap, Target, Award } from 'lucide-svelte';
-  import { onMount } from 'svelte';
-  
-  let typing = false;
+  import { Terminal, TrendingUp, Zap, Target, Award, Activity } from 'lucide-svelte';
   
   const metrics = [
-    { cmd: 'latency', value: '99%', label: '3h→sec', icon: TrendingUp, color: 'accent' },
-    { cmd: 'accuracy', value: '98%', label: '60→98%', icon: Target, color: 'success' },
-    { cmd: 'efficiency', value: '80%', label: 'auto', icon: Zap, color: 'primary' },
-    { cmd: 'insights', value: '70%', label: 'AI', icon: Award, color: 'highlight' }
+    { cmd: 'Latency', value: '99%', sub: '3h → sec', icon: TrendingUp, color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/20' },
+    { cmd: 'Accuracy', value: '98%', sub: '60% → 98%', icon: Target, color: 'text-cyan-400', bg: 'bg-cyan-500/10', border: 'border-cyan-500/20' },
+    { cmd: 'Efficiency', value: '80%', sub: 'Auto-Scaling', icon: Zap, color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/20' },
+    { cmd: 'Insights', value: '70%', sub: 'AI Driven', icon: Award, color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/20' }
   ];
-  
-  onMount(() => {
-    typing = true;
-  });
 </script>
 
-<div class="terminal-card">
-  <!-- Compact Header -->
-  <div class="terminal-header">
-    <div class="dots">
-      <span class="dot red"></span>
-      <span class="dot yellow"></span>
-      <span class="dot green"></span>
-    </div>
-    <div class="title">
-      <Terminal size={10} />
-      <span>impact.log</span>
-    </div>
-    <div class="status">
-      <span class="pulse"></span>
-      LIVE
-    </div>
-  </div>
+<div class="relative w-full h-full min-h-[220px] rounded-xl border border-border/50 bg-background/40 backdrop-blur-md overflow-hidden flex flex-col">
   
-  <!-- Terminal Body -->
-  <div class="terminal-body">
-    <!-- 4 Column Metrics Grid -->
-    <div class="metrics-grid">
-      {#each metrics as m}
-        <div class="metric-box {m.color}">
-          <div class="metric-icon">
-            <svelte:component this={m.icon} size={10} strokeWidth={2.5} />
-          </div>
-          <div class="metric-value">{m.value}</div>
-          <div class="metric-cmd">{m.cmd}</div>
-          <div class="metric-label">{m.label}</div>
-        </div>
-      {/each}
-    </div>
-  </div>
-</div>
+  <!-- Grid Background Pattern -->
+  <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none"></div>
 
-<style>
-  .terminal-card {
-    background: hsl(var(--card));
-    border: 1px solid hsl(var(--border));
-    border-radius: 10px;
-    width: 100%;
-    max-width: 480px;
-    height: 240px;
-    overflow: hidden;
-    font-family: var(--font-mono);
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .terminal-card:hover {
-    border-color: hsl(var(--primary));
-  }
-  
-  /* Compact Header */
-  .terminal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.5rem 0.75rem;
-    background: hsl(var(--muted) / 0.5);
-    border-bottom: 1px solid hsl(var(--border));
-    flex-shrink: 0;
-  }
-  
-  .dots {
-    display: flex;
-    gap: 0.3125rem;
-  }
-  
-  .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-  }
-  
-  .dot.red { background: #ff5f57; }
-  .dot.yellow { background: #ffbd2e; }
-  .dot.green { background: #28ca42; }
-  
-  .title {
-    display: flex;
-    align-items: center;
-    gap: 0.3125rem;
-    font-size: 0.625rem;
-    color: hsl(var(--muted-foreground));
-    flex: 1;
-    justify-content: center;
-  }
-  
-  .status {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    font-size: 0.5rem;
-    font-weight: 700;
-    color: hsl(var(--success));
-    letter-spacing: 0.05em;
-  }
-  
-  .pulse {
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: hsl(var(--success));
-    /* REMOVED: animation to prevent flicker */
-  }
-  
-  /* Terminal Body */
-  .terminal-body {
-    padding: 0.75rem;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  /* 4 Column Compact Grid */
-  .metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
-    width: 100%;
-  }
-  
-  .metric-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0.5rem 0.25rem;
-    background: hsl(var(--muted) / 0.3);
-    border: 1px solid hsl(var(--border));
-    border-radius: 6px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    /* REMOVED: all animations */
-  }
-  
-  /* Thin top border */
-  .metric-box::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-  }
-  
-  .metric-box.primary::before {
-    background: hsl(var(--primary));
-  }
-  
-  .metric-box.accent::before {
-    background: hsl(var(--accent));
-  }
-  
-  .metric-box.success::before {
-    background: hsl(var(--success));
-  }
-  
-  .metric-box.highlight::before {
-    background: hsl(var(--highlight));
-  }
-  
-  .metric-box:hover {
-    background: hsl(var(--muted) / 0.5);
-    /* REMOVED: transform and box-shadow to prevent flicker */
-  }
-  
-  /* Compact Icon */
-  .metric-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px;
-    height: 20px;
-    border-radius: 4px;
-    margin-bottom: 0.3125rem;
-  }
-  
-  .metric-box.primary .metric-icon {
-    background: hsl(var(--primary) / 0.15);
-    color: hsl(var(--primary));
-  }
-  
-  .metric-box.accent .metric-icon {
-    background: hsl(var(--accent) / 0.15);
-    color: hsl(var(--accent));
-  }
-  
-  .metric-box.success .metric-icon {
-    background: hsl(var(--success) / 0.15);
-    color: hsl(var(--success));
-  }
-  
-  .metric-box.highlight .metric-icon {
-    background: hsl(var(--highlight) / 0.15);
-    color: hsl(var(--highlight));
-  }
-  
-  /* Compact Metric Value */
-  .metric-value {
-    font-size: 1.125rem;
-    font-weight: 800;
-    line-height: 1;
-    margin-bottom: 0.125rem;
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  .metric-cmd {
-    font-size: 0.625rem;
-    font-weight: 600;
-    color: hsl(var(--foreground));
-    margin-bottom: 0.0625rem;
-  }
-  
-  .metric-label {
-    font-size: 0.5625rem;
-    color: hsl(var(--muted-foreground));
-  }
-  
-  /* Responsive */
-  @media (max-width: 480px) {
-    .terminal-card {
-      max-width: 100%;
-      height: auto;
-      min-height: 240px;
-    }
+  <!-- Header -->
+  <div class="flex items-center justify-between px-4 py-3 border-b border-white/5 bg-white/5 relative z-10">
+    <div class="flex items-center gap-2">
+       <Terminal size={14} class="text-muted-foreground" />
+       <span class="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase">impact_log.sh</span>
+    </div>
     
-    .metrics-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-</style>
+    <div class="flex items-center gap-2 px-2 py-0.5 rounded-full bg-green-500/10 border border-green-500/20">
+       <div class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+       <span class="text-[9px] font-bold text-green-400 tracking-wider">LIVE</span>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="flex-1 p-4 grid grid-cols-2 gap-3 relative z-10">
+    {#each metrics as m}
+      <div class="group relative flex flex-col items-center justify-center p-3 rounded-lg border {m.border} {m.bg} hover:bg-opacity-20 transition-all duration-300">
+        
+        <!-- Icon -->
+        <div class="mb-2 p-1.5 rounded-md bg-background/50 {m.color}">
+           <svelte:component this={m.icon} size={16} strokeWidth={2.5} />
+        </div>
+        
+        <!-- Value -->
+        <div class="text-xl font-black tracking-tight {m.color} drop-shadow-sm">
+           {m.value}
+        </div>
+        
+        <!-- Label -->
+        <div class="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-wider mb-0.5">
+           {m.cmd}
+        </div>
+        
+        <!-- Subtext -->
+        <div class="text-[9px] text-muted-foreground/60">
+           {m.sub}
+        </div>
+
+      </div>
+    {/each}
+  </div>
+
+</div>

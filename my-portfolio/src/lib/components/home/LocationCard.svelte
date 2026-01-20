@@ -15,7 +15,6 @@
       timeZone: 'Asia/Kolkata',
       hour: '2-digit',
       minute: '2-digit',
-      second: '2-digit',
       hour12: false
     });
   }
@@ -30,299 +29,73 @@
   });
 </script>
 
-<div class="location-card">
+<div class="relative w-full h-full min-h-[300px] flex flex-col rounded-xl border border-white/10 bg-background/40 backdrop-blur-md overflow-hidden group">
+  
   <!-- Header -->
-  <div class="card-header">
-    <div class="header-icon">
-      <MapPin size={14} />
-    </div>
-    <div class="header-content">
-      <h3>Location & Availability</h3>
-      <span class="subtitle">Open to opportunities</span>
-    </div>
-    <div class="status-dot">
-      <span class="pulse"></span>
-    </div>
-  </div>
-  
-  <!-- Content Grid -->
-  <div class="content-grid">
-    <!-- Left: Map Visual -->
-    <div class="map-section">
-      <div class="map-container">
-        <div class="location-pin">
-          <MapPin size={20} />
+  <div class="flex items-center justify-between px-5 py-4 border-b border-white/5 bg-white/5 relative z-10">
+    <div class="flex items-center gap-3">
+        <div class="p-2 rounded-lg bg-green-500/10 text-green-400 border border-green-500/20">
+            <Globe size={18} />
         </div>
-        <div class="map-grid"></div>
-      </div>
+        <div>
+            <h3 class="text-sm font-bold text-foreground tracking-tight">Base of Operations</h3>
+            <div class="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">Karnataka, IN</div>
+        </div>
     </div>
     
-    <!-- Right: Details -->
-    <div class="details-section">
-      <div class="info-row">
-        <div class="info-icon location">
-          <MapPin size={12} />
-        </div>
-        <div class="info-content">
-          <span class="info-label">Based in</span>
-          <span class="info-value">{personal.address.city}, {personal.address.country}</span>
-        </div>
-      </div>
-      
-      <div class="info-row">
-        <div class="info-icon time">
-          <Clock size={12} />
-        </div>
-        <div class="info-content">
-          <span class="info-label">Local time</span>
-          <span class="info-value clock">{currentTime} IST</span>
-        </div>
-      </div>
-      
-      <div class="info-row">
-        <div class="info-icon work">
-          <Globe size={12} />
-        </div>
-        <div class="info-content">
-          <span class="info-label">Work mode</span>
-          <span class="info-value">Remote • Hybrid • On-site</span>
-        </div>
-      </div>
-      
-      <div class="availability-tag">
-        <Wifi size={10} />
-        <span>Available Now</span>
-      </div>
-    </div>
+    <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
   </div>
-</div>
 
-<style>
-  .location-card {
-    background: hsl(var(--card));
-    border: 1px solid hsl(var(--border));
-    border-radius: 12px;
-    width: 100%;
-    max-width: 680px;
-    height: 320px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .location-card:hover {
-    border-color: hsl(var(--success));
-  }
-  
-  /* Header */
-  .card-header {
-    display: flex;
-    align-items: center;
-    gap: 0.625rem;
-    padding: 0.875rem 1rem;
-    background: hsl(var(--muted) / 0.3);
-    border-bottom: 1px solid hsl(var(--border));
-    flex-shrink: 0;
-  }
-  
-  .header-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    background: linear-gradient(135deg, hsl(var(--success)), hsl(var(--accent)));
-    border-radius: 8px;
-    color: white;
-    flex-shrink: 0;
-  }
-  
-  .header-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
-    min-width: 0;
-  }
-  
-  h3 {
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: hsl(var(--foreground));
-    margin: 0;
-    letter-spacing: -0.01em;
-  }
-  
-  .subtitle {
-    font-size: 0.625rem;
-    color: hsl(var(--muted-foreground));
-    font-family: var(--font-mono);
-  }
-  
-  .status-dot {
-    position: relative;
-    width: 10px;
-    height: 10px;
-    flex-shrink: 0;
-  }
-  
-  .pulse {
-    position: absolute;
-    inset: 0;
-    background: hsl(var(--success));
-    border-radius: 50%;
-    /* REMOVED: animation to prevent flicker */
-  }
-  
-  /* Content Grid - 2 columns */
-  .content-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    flex: 1;
-  }
-  
-  /* Map Section */
-  .map-section {
-    padding: 1rem;
-    border-right: 1px solid hsl(var(--border));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .map-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background: hsl(var(--muted) / 0.3);
-    border-radius: 8px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .map-grid {
-    position: absolute;
-    inset: 0;
-    background-image: 
-      linear-gradient(hsl(var(--border)) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--border)) 1px, transparent 1px);
-    background-size: 30px 30px;
-    opacity: 0.3;
-  }
-  
-  .location-pin {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    background: hsl(var(--success));
-    color: white;
-    border-radius: 50%;
-    z-index: 1;
-  }
-  
-  /* Details Section */
-  .details-section {
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-  
-  .info-row {
-    display: flex;
-    align-items: start;
-    gap: 0.625rem;
-  }
-  
-  .info-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-    flex-shrink: 0;
-  }
-  
-  .info-icon.location {
-    background: hsl(var(--success) / 0.15);
-    color: hsl(var(--success));
-  }
-  
-  .info-icon.time {
-    background: hsl(var(--primary) / 0.15);
-    color: hsl(var(--primary));
-  }
-  
-  .info-icon.work {
-    background: hsl(var(--accent) / 0.15);
-    color: hsl(var(--accent));
-  }
-  
-  .info-content {
-    display: flex;
-    flex-direction: column;
-    gap: 0.1875rem;
-    flex: 1;
-    min-width: 0;
-  }
-  
-  .info-label {
-    font-size: 0.625rem;
-    color: hsl(var(--muted-foreground));
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-weight: 600;
-  }
-  
-  .info-value {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: hsl(var(--foreground));
-    line-height: 1.4;
-  }
-  
-  .info-value.clock {
-    font-family: var(--font-mono);
-    font-size: 0.875rem;
-    color: hsl(var(--primary));
-  }
-  
-  /* Availability Tag */
-  .availability-tag {
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.5rem 0.75rem;
-    background: hsl(var(--success) / 0.1);
-    border: 1px solid hsl(var(--success) / 0.2);
-    border-radius: 6px;
-    color: hsl(var(--success));
-    font-size: 0.6875rem;
-    font-weight: 600;
-    margin-top: auto;
-  }
-  
-  /* Responsive */
-  @media (max-width: 680px) {
-    .location-card {
-      max-width: 100%;
-      height: auto;
-      min-height: 320px;
-    }
+  <!-- Body -->
+  <div class="flex-1 p-4 flex flex-col gap-4 relative z-10">
     
-    .content-grid {
-      grid-template-columns: 1fr;
-    }
-    
-    .map-section {
-      border-right: none;
-      border-bottom: 1px solid hsl(var(--border));
-      min-height: 180px;
-    }
-  }
-</style>
+    <!-- Radar Map Visualization -->
+    <div class="relative h-24 w-full rounded-lg bg-black/20 border border-white/10 overflow-hidden flex items-center justify-center">
+        <!-- Grid -->
+        <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+        
+        <!-- Radar Sweep Animation -->
+        <div class="absolute inset-0 bg-gradient-to-tr from-green-500/20 to-transparent w-full h-full animate-[spin_4s_linear_infinite] origin-bottom-left opacity-30"></div>
+        
+        <!-- Pin -->
+        <div class="relative z-10 flex flex-col items-center">
+            <MapPin size={24} class="text-green-500 fill-green-500/20 drop-shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
+            <div class="w-2 h-1 bg-green-500/50 rounded-full blur-[2px] mt-1"></div>
+        </div>
+    </div>
+
+    <!-- Info Stack -->
+    <div class="grid grid-cols-2 gap-3">
+        
+        <!-- Time -->
+        <div class="p-3 rounded-lg bg-white/5 border border-white/5 flex flex-col justify-between">
+            <div class="flex items-center gap-2 text-[10px] text-muted-foreground uppercase tracking-wider font-bold">
+                <Clock size={12} /> Local Time
+            </div>
+            <div class="text-xl font-mono font-bold text-foreground mt-1">
+                {currentTime} <span class="text-[10px] text-muted-foreground">IST</span>
+            </div>
+        </div>
+
+        <!-- Mode -->
+        <div class="p-3 rounded-lg bg-white/5 border border-white/5 flex flex-col justify-between">
+            <div class="flex items-center gap-2 text-[10px] text-muted-foreground uppercase tracking-wider font-bold">
+                <Wifi size={12} /> Status
+            </div>
+            <div class="flex items-center gap-2 mt-2">
+                <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-500/10 text-green-400 border border-green-500/20">Remote</span>
+                <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20">Hybrid</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer Availability -->
+    <div class="mt-auto pt-3 border-t border-white/5 flex items-center justify-between text-xs">
+        <span class="text-muted-foreground">Open to relocation?</span>
+        <span class="font-bold text-foreground">Yes (Global)</span>
+    </div>
+
+  </div>
+
+</div>

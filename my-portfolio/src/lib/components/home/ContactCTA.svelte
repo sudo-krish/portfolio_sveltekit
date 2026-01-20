@@ -1,487 +1,192 @@
+<!-- src/lib/components/home/ContactCTA.svelte -->
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte';
+  import { onMount } from 'svelte';
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
   import { 
     Mail, Github, Linkedin, Instagram, Copy, Check, 
-    Send, Terminal, Database
+    Terminal, Send, Coffee, Calendar, MapPin, ArrowRight
   } from 'lucide-svelte';
+  import { Badge } from "$lib/components/ui/badge";
   import { getPersonalInfo } from '$lib/data/portfolio-data';
-  import CalendlyCard from '$lib/components/ui/CalendlyCard.svelte';
-  import CoffeeCard from '$lib/components/ui/CoffeeCard.svelte';
-  
+
   const personal = getPersonalInfo();
   const COFFEE_URL = 'https://buymeacoffee.com/krishnanandanil';
   const CALENDAR_URL = 'https://calendly.com/krishnanandpanil';
-  
+
   let copied = false;
   
   function copyEmail() {
     navigator.clipboard.writeText(personal.email);
     copied = true;
-    setTimeout(() => {
-      copied = false;
-    }, 2000);
+    setTimeout(() => { copied = false; }, 2000);
   }
 
   onMount(() => {
     gsap.registerPlugin(ScrollTrigger);
+    const scroller = ".snap-container";
 
-    gsap.from('.terminal-header', {
-      opacity: 0,
-      y: 40,
-      duration: 0.8,
-      ease: 'power2.out',
+    const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: '.terminal-header',
-        start: 'top 80%',
-        toggleActions: 'play none none none'
+        trigger: ".contact-wrapper",
+        scroller: scroller,
+        start: "top 70%",
+        toggleActions: "play none none reverse",
       }
     });
 
-    gsap.from('.primary-card', {
-      opacity: 0,
-      x: -50,
-      duration: 0.8,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '.primary-card',
-        start: 'top 80%',
-        toggleActions: 'play none none none'
-      }
-    });
+    tl.fromTo(".terminal-window", 
+      { x: -30, opacity: 0 }, 
+      { x: 0, opacity: 1, duration: 0.6, ease: "power2.out" }
+    )
+    .fromTo(".action-card", 
+      { x: 30, opacity: 0 }, 
+      { x: 0, opacity: 1, duration: 0.6, ease: "power2.out" }, 
+      "-=0.4"
+    );
 
-    gsap.from('.quick-actions > *', {
-      opacity: 0,
-      x: 50,
-      duration: 0.8,
-      stagger: 0.15,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '.quick-actions',
-        start: 'top 80%',
-        toggleActions: 'play none none none'
-      }
-    });
-
-    const socialCards = gsap.utils.toArray('.social-card');
-    socialCards.forEach((card: any) => {
-      gsap.from(card, {
-        opacity: 0,
-        y: 40,
-        duration: 0.6,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 85%',
-          toggleActions: 'play none none none'
-        }
-      });
-    });
-
-    gsap.from('.status-bar', {
-      opacity: 0,
-      y: 30,
-      duration: 0.8,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '.status-bar',
-        start: 'top 85%',
-        toggleActions: 'play none none none'
-      }
-    });
-
-    const hoverElements = gsap.utils.toArray(['.btn-primary', '.btn-icon', '.social-card']);
-    hoverElements.forEach((el: any) => {
-      el.addEventListener('mouseenter', () => {
-        gsap.to(el, { scale: 1.08, duration: 0.3, ease: 'power2.out' });
-      });
-      el.addEventListener('mouseleave', () => {
-        gsap.to(el, { scale: 1, duration: 0.3, ease: 'power2.out' });
-      });
-    });
-  });
-
-  onDestroy(() => {
-    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    return () => ScrollTrigger.getAll().forEach(t => t.kill());
   });
 </script>
 
-<section id="contact" class="contact-section">
-  <div class="data-flow">
-    <div class="flow-line line-1"></div>
-    <div class="flow-line line-2"></div>
-    <div class="flow-line line-3"></div>
+<div class="contact-wrapper w-full h-full flex flex-col justify-center py-12 lg:py-0">
+  
+  <div class="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 px-4 lg:px-0">
+    
+    <!-- LEFT COLUMN: THE TERMINAL (Span 5) -->
+    <div class="lg:col-span-5 terminal-window relative flex flex-col h-full min-h-[400px]">
+        
+        <!-- Decorative Line -->
+        <div class="hidden lg:block absolute -left-6 top-6 bottom-6 w-px bg-gradient-to-b from-blue-500/50 to-transparent"></div>
+        
+        <!-- Terminal Container -->
+        <div class="h-full rounded-xl border border-border bg-background/50 backdrop-blur-xl shadow-2xl flex flex-col overflow-hidden">
+            <!-- Terminal Header -->
+            <div class="flex items-center gap-2 px-4 py-3 bg-muted/40 border-b border-border/50">
+                <div class="flex gap-1.5">
+                <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                </div>
+                <div class="ml-auto text-[10px] font-mono text-muted-foreground uppercase tracking-wider opacity-70">
+                    ssh {personal.name.toLowerCase().replace(' ', '')}@server
+                </div>
+            </div>
+
+            <!-- Terminal Body -->
+            <div class="flex-1 p-6 font-mono text-sm space-y-5">
+                <!-- Status Check -->
+                <div class="space-y-1">
+                    <div class="flex gap-2 text-muted-foreground">
+                        <span class="text-green-500">➜</span> <span class="text-blue-400">~</span> ./check_status.sh
+                    </div>
+                    <div class="pl-4 text-xs text-muted-foreground/80 space-y-1">
+                        <p>> Connecting to node...</p>
+                        <p>> Availability: <span class="text-green-400 font-bold">OPEN_TO_WORK</span></p>
+                        <p>> Latency: <span class="text-blue-400">~24h Response</span></p>
+                    </div>
+                </div>
+
+                <!-- Location -->
+                <div class="space-y-1">
+                    <div class="flex gap-2 text-muted-foreground">
+                        <span class="text-green-500">➜</span> <span class="text-blue-400">~</span> cat ./current_location.txt
+                    </div>
+                    <div class="pl-4 text-xs text-yellow-400 flex items-center gap-2">
+                        <MapPin size={12} /> "{personal.address.city}"
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="space-y-2 pt-4 border-t border-border/30">
+                     <p class="text-xs text-muted-foreground uppercase tracking-widest font-semibold mb-2">Initialize Connection:</p>
+                     
+                     <div class="grid grid-cols-2 gap-3">
+                        <a href={CALENDAR_URL} target="_blank" class="flex items-center justify-center gap-2 p-3 rounded-lg bg-secondary/20 hover:bg-secondary/40 border border-border/50 transition-all group">
+                            <Calendar size={14} class="group-hover:text-blue-400 transition-colors" />
+                            <span class="text-xs">Book Meeting</span>
+                        </a>
+                        <a href={COFFEE_URL} target="_blank" class="flex items-center justify-center gap-2 p-3 rounded-lg bg-secondary/20 hover:bg-secondary/40 border border-border/50 transition-all group">
+                            <Coffee size={14} class="group-hover:text-yellow-400 transition-colors" />
+                            <span class="text-xs">Buy Coffee</span>
+                        </a>
+                     </div>
+                </div>
+                
+                <!-- Social Protocols -->
+                <div class="pt-2 flex gap-4">
+                     <a href={personal.socialLinks.github} target="_blank" class="text-muted-foreground hover:text-foreground transition-colors"><Github size={18}/></a>
+                     <a href={personal.socialLinks.linkedin} target="_blank" class="text-muted-foreground hover:text-blue-500 transition-colors"><Linkedin size={18}/></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- RIGHT COLUMN: PRIMARY ACTION (Span 7) -->
+    <div class="lg:col-span-7 action-card flex flex-col justify-center">
+      
+        <!-- Status Badge (Matches Hero) -->
+        <div class="mb-6">
+            <div class="inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 backdrop-blur-sm">
+            <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+            </span>
+            <span class="font-mono text-[10px] font-semibold text-blue-200 tracking-widest uppercase">
+                System Online
+            </span>
+            </div>
+        </div>
+
+        <!-- Headline (Matches Warehouse/Hero Gradients) -->
+        <h2 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight mb-6">
+            Let's Engineer <br />
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-300% animate-gradient">
+                Your Next Big Scale.
+            </span>
+        </h2>
+        
+        <p class="text-lg text-muted-foreground max-w-xl mb-10 leading-relaxed">
+            I'm currently available for data architecture consulting and engineering roles. Have a complex pipeline to build? Let's talk.
+        </p>
+
+        <!-- Email Action Box -->
+        <div class="relative w-full max-w-lg">
+            <!-- Glow Effect behind box -->
+            <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
+            
+            <div class="relative flex items-center bg-background border border-border rounded-lg p-2 pr-2 shadow-xl">
+                <div class="pl-4 flex-1 font-mono text-sm text-foreground truncate select-all">
+                    {personal.email}
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    <button on:click={copyEmail} class="p-2.5 text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-colors" aria-label="Copy Email">
+                        {#if copied} <Check size={18} class="text-green-500"/> {:else} <Copy size={18} /> {/if}
+                    </button>
+                    
+                    <a href="mailto:{personal.email}" class="flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-all shadow-lg shadow-blue-500/20">
+                        <span>Send</span>
+                        <ArrowRight size={16} />
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
   </div>
-
-  <div class="container">
-    <div class="terminal-header">
-      <div class="terminal-bar">
-        <Terminal size={16} />
-        <span class="terminal-path">~/contact</span>
-      </div>
-      <h2 class="terminal-output">
-        <span class="prompt">$</span> Let's connect and build something great
-      </h2>
-    </div>
-
-    <div class="glass-grid">
-      <div class="glass-card primary-card">
-        <div class="card-header">
-          <div class="icon-wrapper primary">
-            <Mail size={24} />
-          </div>
-          <div class="card-info">
-            <h3 class="card-label">Email Address</h3>
-            <p class="card-value">{personal.email}</p>
-          </div>
-        </div>
-        <div class="card-actions">
-          <a href="mailto:{personal.email}" class="btn-primary">
-            <Send size={18} />
-            <span>Send Message</span>
-          </a>
-          <button class="btn-icon" on:click={copyEmail} aria-label="Copy email">
-            {#if copied}
-              <Check size={18} />
-            {:else}
-              <Copy size={18} />
-            {/if}
-          </button>
-        </div>
-      </div>
-
-      <div class="quick-actions">
-        <div class="quick-action-item">
-        <CalendlyCard url={CALENDAR_URL} />
-        </div>
-        <div class="quick-action-item">
-        <CoffeeCard url={COFFEE_URL} />
-        </div>
-      </div>
-    </div>
-
-    <div class="social-grid">
-      <a href={personal.socialLinks.github} target="_blank" rel="noopener noreferrer" class="social-card">
-        <Github size={20} />
-        <span>GitHub</span>
-      </a>
-      <a href={personal.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" class="social-card">
-        <Linkedin size={20} />
-        <span>LinkedIn</span>
-      </a>
-      {#if personal.socialLinks.instagram}
-        <a href={personal.socialLinks.instagram} target="_blank" rel="noopener noreferrer" class="social-card">
-          <Instagram size={20} />
-          <span>Instagram</span>
-        </a>
-      {/if}
-    </div>
-
-    <div class="status-bar">
-      <Database size={14} class="pulse-icon" />
-      <span>Available in {personal.address.city}</span>
-      <span class="dot">•</span>
-      <span>Response time: ~24h</span>
-    </div>
-  </div>
-</section>
+</div>
 
 <style>
-  .contact-section {
-    position: relative;
-    padding: 6rem 0;
-    background: hsl(var(--background));
-    overflow: hidden;
-  }
+  /* Reuse the gradient animation from your other components */
+  .bg-300\% { background-size: 300% 300%; }
+  .animate-gradient { animation: animatedgradient 6s ease infinite alternate; }
 
-  .data-flow {
-    position: absolute;
-    inset: 0;
-    opacity: 0.03;
-    pointer-events: none;
-  }
-
-  .flow-line {
-    position: absolute;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, hsl(var(--primary)), transparent);
-    animation: flow 8s linear infinite;
-  }
-
-  .line-1 {
-    top: 20%;
-    left: -100%;
-    width: 100%;
-  }
-
-  .line-2 {
-    top: 50%;
-    left: -100%;
-    width: 100%;
-    animation-delay: 2s;
-  }
-
-  .line-3 {
-    top: 80%;
-    left: -100%;
-    width: 100%;
-    animation-delay: 4s;
-  }
-
-  @keyframes flow {
-    to { left: 100%; }
-  }
-
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .terminal-header {
-    background: hsl(var(--card));
-    border: 1px solid hsl(var(--border));
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  .terminal-bar {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
-    background: hsl(var(--muted) / 0.5);
-    border-bottom: 1px solid hsl(var(--border));
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    color: hsl(var(--muted-foreground));
-  }
-
-  .terminal-path {
-    color: hsl(var(--primary));
-  }
-
-  .terminal-output {
-    padding: 1.5rem;
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: hsl(var(--foreground));
-    margin: 0;
-    line-height: 1.4;
-  }
-
-  .prompt {
-    color: hsl(var(--primary));
-    font-family: var(--font-mono);
-  }
-
-  .glass-grid {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 1rem;
-  }
-
-  .glass-card {
-    position: relative;
-    background: hsl(var(--card));
-    backdrop-filter: blur(20px);
-    border: 1px solid hsl(var(--border));
-    border-radius: 16px;
-    padding: 1.5rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .glass-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 
-      0 4px 16px hsl(var(--foreground) / 0.08),
-      0 8px 32px hsl(var(--foreground) / 0.04);
-  }
-
-  .primary-card {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .card-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-
-  .icon-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: hsl(var(--primary) / 0.1);
-    color: hsl(var(--primary));
-    flex-shrink: 0;
-  }
-
-  .card-info {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .card-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: hsl(var(--muted-foreground));
-    margin: 0 0 0.25rem;
-  }
-
-  .card-value {
-    font-size: 1rem;
-    font-weight: 600;
-    color: hsl(var(--foreground));
-    margin: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .card-actions {
-    display: flex;
-    gap: 0.75rem;
-  }
-
-  .btn-primary {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.875rem 1.5rem;
-    background: hsl(var(--primary));
-    color: hsl(var(--primary-foreground));
-    border: none;
-    border-radius: 10px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .btn-primary:hover {
-    background: hsl(var(--primary) / 0.9);
-    transform: scale(1.02);
-  }
-
-  .btn-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    background: hsl(var(--muted));
-    border: 1px solid hsl(var(--border));
-    border-radius: 10px;
-    color: hsl(var(--foreground));
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .btn-icon:hover {
-    background: hsl(var(--foreground));
-    color: hsl(var(--background));
-  }
-
-  .quick-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .social-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
-  }
-
-  .social-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 1rem;
-    background: hsl(var(--card));
-    border: 1px solid hsl(var(--border));
-    border-radius: 12px;
-    text-decoration: none;
-    color: hsl(var(--foreground));
-    font-size: 0.8125rem;
-    font-weight: 600;
-    transition: all 0.2s;
-  }
-
-  .social-card:hover {
-    border-color: hsl(var(--primary));
-    transform: translateY(-2px);
-  }
-
-  .status-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    padding: 1rem;
-    background: hsl(var(--muted) / 0.3);
-    border: 1px solid hsl(var(--border));
-    border-radius: 100px;
-    font-size: 0.8125rem;
-    color: hsl(var(--muted-foreground));
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-  }
-
-  .dot {
-    color: hsl(var(--border));
-  }
-
-  @media (max-width: 768px) {
-    .contact-section {
-      padding: 4rem 0;
-    }
-
-    .terminal-output {
-      font-size: 1.25rem;
-      padding: 1.25rem;
-    }
-
-    .glass-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .card-value {
-      font-size: 0.875rem;
-    }
-
-    .social-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .status-bar {
-      flex-direction: column;
-      gap: 0.5rem;
-      text-align: center;
-    }
-
-    .dot {
-      display: none;
-    }
+  @keyframes animatedgradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 </style>

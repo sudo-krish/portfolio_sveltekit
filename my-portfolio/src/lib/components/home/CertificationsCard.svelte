@@ -1,284 +1,70 @@
 <!-- src/lib/components/home/CertificationsCard.svelte -->
 <script lang="ts">
-  import { Award, Shield, CheckCircle } from 'lucide-svelte';
+  import { Award, Shield, CheckCircle, ExternalLink } from 'lucide-svelte';
   import { getCertifications } from '$lib/data/portfolio-data';
   
-  const certifications = getCertifications().slice(0, 3); // Only show 3
+  const certifications = getCertifications().slice(0, 3);
 </script>
 
-<div class="cert-card">
-  <!-- Header -->
-  <div class="card-header">
-    <div class="header-icon">
-      <Shield size={14} />
+<div class="relative w-full h-full min-h-[300px] flex flex-col rounded-xl border border-white/10 bg-background/40 backdrop-blur-md overflow-hidden group">
+  
+  <!-- Header: Credential Wallet -->
+  <div class="flex items-center justify-between px-5 py-4 border-b border-white/5 bg-white/5 relative z-10">
+    <div class="flex items-center gap-3">
+        <div class="p-2 rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/20">
+            <Award size={18} />
+        </div>
+        <div>
+            <h3 class="text-sm font-bold text-foreground tracking-tight">Cloud Credentials</h3>
+            <div class="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">AWS Certified</div>
+        </div>
     </div>
-    <div class="header-content">
-      <h3>AWS Certifications</h3>
-      <span class="subtitle">{certifications.length} active credentials</span>
-    </div>
-    <div class="verified-badge">
-      <CheckCircle size={9} />
+    
+    <div class="px-2 py-1 rounded-full bg-green-500/10 border border-green-500/20 flex items-center gap-1.5">
+        <CheckCircle size={10} class="text-green-400" />
+        <span class="text-[9px] font-bold text-green-400 tracking-wider uppercase">Verified</span>
     </div>
   </div>
-  
-  <!-- Certifications List -->
-  <div class="cert-list">
+
+  <!-- Body: Cert List -->
+  <div class="flex-1 p-4 flex flex-col gap-3 overflow-y-auto relative z-10">
     {#each certifications as cert}
       <a 
         href={cert.url} 
         target="_blank" 
-        rel="noopener noreferrer" 
-        class="cert-item"
+        class="group/item relative flex items-center gap-4 p-3 rounded-lg border border-white/5 bg-white/5 hover:bg-white/10 hover:border-orange-500/30 transition-all duration-300"
       >
-        <!-- Left: Badge -->
-        <div class="cert-badge">
-          <Award size={12} strokeWidth={2.5} />
+        <!-- Left Color Strip -->
+        <div class="absolute left-0 top-0 bottom-0 w-1 bg-orange-500/50 rounded-l-lg opacity-50 group-hover/item:opacity-100 group-hover/item:bg-orange-400 transition-all"></div>
+
+        <!-- Badge Icon -->
+        <div class="relative w-10 h-10 flex-shrink-0 flex items-center justify-center rounded bg-background/50 border border-white/10 group-hover/item:border-orange-500/30 transition-colors">
+             <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" alt="AWS" class="w-6 h-6 object-contain opacity-80 group-hover/item:opacity-100" />
         </div>
-        
-        <!-- Center: Info -->
-        <div class="cert-info">
-          <span class="cert-name">{cert.name.replace('AWS Certified ', '')}</span>
-          <div class="cert-meta">
-            <span class="cert-category">{cert.category}</span>
-            <span class="divider">•</span>
-            <span class="cert-year">{cert.dateIssued}</span>
-          </div>
+
+        <!-- Text Info -->
+        <div class="flex-1 min-w-0">
+            <h4 class="text-xs font-bold text-foreground group-hover/item:text-orange-100 truncate transition-colors">
+                {cert.name.replace('AWS Certified ', '')}
+            </h4>
+            <div class="flex items-center gap-2 mt-0.5">
+                <span class="text-[10px] font-mono text-orange-400/80">{cert.category}</span>
+                <span class="text-[10px] text-muted-foreground">•</span>
+                <span class="text-[10px] text-muted-foreground">{cert.dateIssued}</span>
+            </div>
         </div>
+
+        <!-- External Link Icon -->
+        <ExternalLink size={14} class="text-muted-foreground opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300" />
         
-        <!-- Right: Verified -->
-        <CheckCircle size={11} class="verified-icon" />
       </a>
     {/each}
   </div>
-  
-  <!-- Footer -->
-  <div class="cert-footer">
-    <div class="footer-content">
-      <Shield size={10} class="footer-icon" />
-      <span class="footer-text">Verified by AWS</span>
-    </div>
-  </div>
-</div>
 
-<style>
-  .cert-card {
-    background: hsl(var(--card));
-    border: 1px solid hsl(var(--border));
-    border-radius: 12px;
-    width: 100%;
-    max-width: 480px;
-    height: 320px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .cert-card:hover {
-    border-color: hsl(var(--primary));
-  }
-  
-  /* Header */
-  .card-header {
-    display: flex;
-    align-items: center;
-    gap: 0.625rem;
-    padding: 0.875rem 1rem;
-    background: hsl(var(--muted) / 0.3);
-    border-bottom: 1px solid hsl(var(--border));
-    flex-shrink: 0;
-  }
-  
-  .header-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
-    border-radius: 8px;
-    color: white;
-    flex-shrink: 0;
-  }
-  
-  .header-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
-    min-width: 0;
-  }
-  
-  h3 {
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: hsl(var(--foreground));
-    margin: 0;
-    letter-spacing: -0.01em;
-  }
-  
-  .subtitle {
-    font-size: 0.625rem;
-    color: hsl(var(--muted-foreground));
-    font-family: var(--font-mono);
-  }
-  
-  .verified-badge {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px;
-    height: 22px;
-    background: hsl(var(--success) / 0.15);
-    border-radius: 50%;
-    color: hsl(var(--success));
-    flex-shrink: 0;
-  }
-  
-  /* Certifications List */
-  .cert-list {
-    padding: 0.875rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.625rem;
-    flex: 1;
-  }
-  
-  .cert-item {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 0.875rem;
-    background: hsl(var(--muted) / 0.3);
-    border: 1px solid hsl(var(--border));
-    border-radius: 8px;
-    text-decoration: none;
-    position: relative;
-    /* REMOVED: all animations */
-  }
-  
-  /* Accent bar */
-  .cert-item::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: linear-gradient(180deg, hsl(var(--primary)), hsl(var(--accent)));
-    opacity: 0;
-  }
-  
-  .cert-item:hover {
-    background: hsl(var(--muted) / 0.5);
-    border-color: hsl(var(--primary) / 0.3);
-    /* REMOVED: transform and box-shadow */
-  }
-  
-  .cert-item:hover::before {
-    opacity: 1;
-  }
-  
-  /* Badge */
-  .cert-badge {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 34px;
-    height: 34px;
-    background: hsl(var(--primary) / 0.15);
-    border-radius: 8px;
-    color: hsl(var(--primary));
-    flex-shrink: 0;
-  }
-  
-  .cert-item:hover .cert-badge {
-    background: hsl(var(--primary) / 0.2);
-    /* REMOVED: transform */
-  }
-  
-  /* Info */
-  .cert-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    min-width: 0;
-  }
-  
-  .cert-name {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: hsl(var(--foreground));
-    line-height: 1.3;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  .cert-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.4375rem;
-    font-size: 0.625rem;
-    color: hsl(var(--muted-foreground));
-  }
-  
-  .cert-category {
-    font-weight: 600;
-    color: hsl(var(--primary));
-  }
-  
-  .divider {
-    color: hsl(var(--border));
-  }
-  
-  .cert-year {
-    font-family: var(--font-mono);
-  }
-  
-  /* Verified Icon */
-  :global(.verified-icon) {
-    color: hsl(var(--success));
-    opacity: 0.6;
-    flex-shrink: 0;
-  }
-  
-  .cert-item:hover :global(.verified-icon) {
-    opacity: 1;
-    /* REMOVED: transform */
-  }
-  
-  /* Footer */
-  .cert-footer {
-    padding: 0.75rem 0.875rem;
-    background: hsl(var(--muted) / 0.3);
-    border-top: 1px solid hsl(var(--border));
-    flex-shrink: 0;
-  }
-  
-  .footer-content {
-    display: flex;
-    align-items: center;
-    gap: 0.4375rem;
-  }
-  
-  :global(.footer-icon) {
-    color: hsl(var(--success));
-    flex-shrink: 0;
-  }
-  
-  .footer-text {
-    font-size: 0.6875rem;
-    line-height: 1.4;
-    color: hsl(var(--muted-foreground));
-    font-weight: 500;
-  }
-  
-  /* Responsive */
-  @media (max-width: 480px) {
-    .cert-card {
-      max-width: 100%;
-      height: auto;
-      min-height: 320px;
-    }
-  }
-</style>
+  <!-- Footer -->
+  <div class="px-5 py-3 border-t border-white/5 bg-white/5 flex items-center gap-2 text-[10px] text-muted-foreground">
+      <Shield size={10} class="text-orange-400" />
+      <span>Cryptographically signed by Amazon Web Services</span>
+  </div>
+
+</div>
