@@ -1,71 +1,54 @@
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
   import { Canvas } from "@threlte/core";
-  import { onMount } from "svelte"; 
+  import { onMount } from "svelte";
   import gsap from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
   import HomeScene from "$lib/components/home/3d/HomeScene.svelte";
 
-  // Content Components
+  // Existing Content Components
   import HeroContent from "$lib/components/home/hero/HeroContent.svelte";
   import HeroBackground from "$lib/components/home/hero/HeroBackground.svelte";
   import PipelineContent from "$lib/components/home/pipeline/PipelineContent.svelte";
   import DataLakeContent from "$lib/components/home/datalake/DataLakeContent.svelte";
   import LakehouseContent from "$lib/components/home/lakehouse/LakehouseContent.svelte";
   import WarehouseContent from "$lib/components/home/warehouse/WarehouseContent.svelte";
-  import MetricsGrid from "$lib/components/home/MetricsGrid.svelte";
-  import ContactCTA from "$lib/components/home/ContactCTA.svelte"; 
 
-  // REACTIVE STATE FOR SCROLL BEHAVIOR
-  let snapType = 'mandatory';
+  // NEW V9: Full-Viewport Metric Sections
+  import ExperienceSection from "$lib/components/home/experience/ExperienceSection.svelte";
+  import TechStackSection from "$lib/components/home/techstack/TechStackSection.svelte";
+  import GithubSection from "$lib/components/home/github/GithubSection.svelte";
+  import ImpactSection from "$lib/components/home/impact/ImpactSection.svelte";
+  import CredentialsSection from "$lib/components/home/credentials/CredentialsSection.svelte";
+  import ContactSection from "$lib/components/home/contact/ContactSection.svelte";
 
   onMount(() => {
     // --- 1. ROBUST SCROLL RESET LOGIC ---
-    if ('scrollRestoration' in history) {
-      history.scrollRestoration = 'manual';
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
     }
-    
+
     const resetScroll = () => {
-        window.scrollTo(0, 0);
-        const container = document.querySelector('.snap-container');
-        if (container) {
-            container.scrollTop = 0;
-        }
+      window.scrollTo(0, 0);
+      const container = document.querySelector(".snap-container");
+      if (container) {
+        container.scrollTop = 0;
+      }
     };
 
-    // Attempt 1: Immediate
     resetScroll();
-
-    // Attempt 2: Next Frame (beats rendering lag)
     requestAnimationFrame(resetScroll);
-
-    // Attempt 3: Small Delay (beats browser restoration logic)
     setTimeout(resetScroll, 10);
-
 
     // --- 2. GSAP INITIALIZATION ---
     gsap.registerPlugin(ScrollTrigger);
-    
-    ScrollTrigger.defaults({
-        scroller: ".snap-container"
-    });
 
-    // Dynamic Scroll Switching (Mandatory <-> Proximity)
-    ScrollTrigger.create({
-        trigger: "#metrics",
-        scroller: ".snap-container",
-        start: "top bottom", 
-        end: "top top",
-        onEnter: () => {
-            snapType = 'proximity';
-        },
-        onLeaveBack: () => {
-            snapType = 'mandatory';
-        }
+    ScrollTrigger.defaults({
+      scroller: ".snap-container",
     });
 
     setTimeout(() => {
-        ScrollTrigger.refresh();
+      ScrollTrigger.refresh();
     }, 500);
   });
 </script>
@@ -82,74 +65,94 @@
 </div>
 
 <!-- MAIN SCROLL CONTAINER -->
-<main class="snap-container" style="scroll-snap-type: y {snapType};">
-  
+<main class="snap-container" style="scroll-snap-type: y mandatory;">
   <!-- 1. HERO -->
   <section id="hero" class="snap-section">
     <div class="hero-bg-layer"><HeroBackground /></div>
-    <div class="container mx-auto px-6 h-full flex flex-col lg:flex-row items-center justify-center lg:justify-between pointer-events-none">
-      <div class="w-full lg:w-1/2 pointer-events-auto flex justify-center lg:justify-start order-1"><HeroContent /></div>
-      <div class="w-full lg:w-1/2 h-[30vh] lg:h-auto order-2"></div>
+    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+      <HeroContent />
     </div>
   </section>
 
   <!-- 2. PIPELINE -->
   <section id="pipeline" class="snap-section">
-    <div class="container mx-auto px-6 h-full flex flex-col lg:flex-row items-center justify-center lg:justify-between pointer-events-none">
-      <div class="w-full lg:w-1/2 h-[35vh] lg:h-auto order-1 lg:order-1"></div>
-      <div class="w-full lg:w-1/2 pointer-events-auto flex justify-center lg:justify-start order-2 lg:order-2"><PipelineContent /></div>
+    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+      <PipelineContent />
     </div>
   </section>
 
   <!-- 3. DATA LAKE -->
   <section id="datalake" class="snap-section">
-    <div class="container mx-auto px-6 h-full flex flex-col lg:flex-row items-center justify-center lg:justify-between pointer-events-none">
-      <div class="w-full lg:w-1/2 pointer-events-auto flex justify-center lg:justify-start order-1 lg:order-1"><DataLakeContent /></div>
-      <div class="w-full lg:w-1/2 h-[35vh] lg:h-auto order-2 lg:order-2"></div>
+    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+      <DataLakeContent />
     </div>
   </section>
 
   <!-- 4. LAKEHOUSE -->
   <section id="lakehouse" class="snap-section">
-    <div class="container mx-auto px-6 h-full flex flex-col lg:flex-row items-center justify-center lg:justify-between pointer-events-none">
-      <div class="w-full lg:w-1/2 h-[35vh] lg:h-auto order-1 lg:order-1"></div>
-      <div class="w-full lg:w-1/2 pointer-events-auto flex justify-center lg:justify-start order-2 lg:order-2"><LakehouseContent /></div>
+    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+      <LakehouseContent />
     </div>
   </section>
 
   <!-- 5. WAREHOUSE -->
   <section id="warehouse" class="snap-section">
-    <div class="container mx-auto px-6 h-full flex flex-col lg:flex-row items-center justify-center lg:justify-between pointer-events-none">
-      <div class="w-full lg:w-1/2 pointer-events-auto flex justify-center lg:justify-start order-1 lg:order-1"><WarehouseContent /></div>
-      <div class="w-full lg:w-1/2 h-[35vh] lg:h-auto order-2 lg:order-2"></div>
+    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+      <WarehouseContent />
     </div>
   </section>
 
-  <!-- 6. METRICS -->
-  <section id="metrics" class="snap-section metrics-section z-10 pointer-events-none">
-    <div class="container mx-auto px-6 py-20 lg:py-0 w-full max-w-7xl flex flex-col justify-center min-h-[inherit]">
-        <div class="pointer-events-auto w-full rounded-3xl border border-white/10 bg-background/50 backdrop-blur-md shadow-2xl p-6 lg:p-10">
-            <h2 class="text-3xl font-bold mb-8 text-white/90">System Performance</h2>
-            <MetricsGrid />
-        </div>
+  <!-- ============================================= -->
+  <!-- V9: NEW FULL-VIEWPORT METRIC SECTIONS         -->
+  <!-- ============================================= -->
+
+  <!-- 6. EXPERIENCE -->
+  <section id="experience" class="snap-section">
+    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+      <ExperienceSection />
     </div>
   </section>
 
-  <!-- 7. CONTACT -->
-  <section id="contact" class="snap-section contact-section z-10 pointer-events-none">
-    <div class="container mx-auto px-6 w-full max-w-7xl flex flex-col justify-center h-full">
-         <div class="pointer-events-auto w-full max-w-3xl mx-auto rounded-3xl border border-white/10 bg-background/50 backdrop-blur-md shadow-2xl p-8 lg:p-12">
-            <ContactCTA />
-        </div>
+  <!-- 7. TECH STACK -->
+  <section id="techstack" class="snap-section">
+    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+      <TechStackSection />
     </div>
   </section>
 
+  <!-- 8. GITHUB -->
+  <section id="github" class="snap-section">
+    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+      <GithubSection />
+    </div>
+  </section>
+
+  <!-- 9. IMPACT -->
+  <section id="impact" class="snap-section">
+    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+      <ImpactSection />
+    </div>
+  </section>
+
+  <!-- 10. CREDENTIALS -->
+  <section id="credentials" class="snap-section">
+    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+      <CredentialsSection />
+    </div>
+  </section>
+
+  <!-- 11. CONTACT -->
+  <section id="contact" class="snap-section">
+    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+      <ContactSection />
+    </div>
+  </section>
 </main>
 
 <style>
   /* PARENT CONTAINER */
   .snap-container {
-    height: 100dvh; 
+    height: 100dvh;
     width: 100%;
     overflow-y: scroll;
     scroll-behavior: smooth;
@@ -157,9 +160,9 @@
     z-index: 10;
   }
 
-  /* STANDARD SECTIONS */
+  /* STANDARD SECTIONS — All sections are now uniform snap sections */
   .snap-section {
-    height: 100dvh; 
+    height: 100dvh;
     width: 100%;
     scroll-snap-align: start;
     scroll-snap-stop: always;
@@ -167,31 +170,12 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    overflow: hidden; 
-  }
-
-  /* METRICS & CONTACT */
-  .metrics-section, .contact-section {
-    height: auto !important;      
-    min-height: 100dvh;          
-    overflow: visible !important; 
-    
-    scroll-snap-align: start; 
-    scroll-snap-stop: normal; 
-    
-    padding-top: 5vh;
-    padding-bottom: 5vh;
-  }
-
-  @media (max-width: 768px) {
-    .metrics-section, .contact-section {
-      scroll-snap-stop: normal; 
-    }
+    overflow: hidden;
   }
 
   :global(body) {
     background-color: hsl(var(--background));
-    overflow: hidden; 
+    overflow: hidden;
     margin: 0;
   }
   .fixed-canvas {

@@ -1,232 +1,176 @@
 <!-- src/lib/components/home/warehouse/WarehouseContent.svelte -->
 <script lang="ts">
   import {
-    Database,
-    Table,
-    Zap,
-    FileJson,
-    AreaChart,
-    Binary,
-    LayoutDashboard,
-    Key,
+    TerminalSquare,
+    BarChart3,
+    Activity,
+    DatabaseZap,
+    Cpu,
   } from "lucide-svelte";
+  import { onMount } from "svelte";
+  import gsap from "gsap";
 
-  // WAREHOUSE FEATURES (Expanded slightly for Marquee flow)
-  const warehouseFeatures = [
-    { name: "Structured Data", icon: Database, desc: "Optimized Schemas" },
-    { name: "Columnar Store", icon: Table, desc: "Redshift / Snowflake" },
-    { name: "High Performance", icon: Zap, desc: "Sub-second Latency" },
-    { name: "Semi-Structured", icon: FileJson, desc: "SUPER / Variant" },
-    { name: "Materialized Views", icon: AreaChart, desc: "Pre-computed" },
-    { name: "Vectorized Exec", icon: Binary, desc: "SIMD Processing" },
-    { name: "BI Integration", icon: LayoutDashboard, desc: "Direct Reporting" },
-    { name: "RBAC Security", icon: Key, desc: "Row Level Access" },
-  ];
+  onMount(() => {
+    gsap.fromTo(
+      ".warehouse-panel",
+      { y: 50, opacity: 0, scale: 0.95 },
+      {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 1.2,
+        stagger: 0.15,
+        ease: "power3.out",
+        scrollTrigger: { trigger: "#warehouse", start: "top 60%" },
+      },
+    );
+  });
 </script>
 
 <div
-  class="relative w-full z-20 pointer-events-auto flex flex-col items-start text-left"
+  class="relative w-full h-[100dvh] overflow-hidden pointer-events-none z-20"
 >
-  <div class="max-w-xl lg:pl-12 relative w-full">
-    <!-- DECORATIVE LINES (Purple/Violet Theme) -->
+  <!-- BACKGROUND AMBIENT GLOW -->
+  <div
+    class="absolute top-[10%] right-[15%] w-[400px] h-[400px] bg-purple-600/15 rounded-full blur-[120px]"
+  ></div>
+
+  <!-- BENTO DASHBOARD WRAPPER -->
+  <!-- V5 Spatial Shift: Anchored entirely to the left 45% of the screen -->
+  <div
+    class="absolute top-[15%] md:top-[20%] left-[5%] md:left-[10%] w-full max-w-sm md:max-w-xl lg:max-w-2xl lg:w-[45%] grid grid-cols-1 lg:grid-cols-3 gap-4"
+  >
+    <!-- MAIN NARRATIVE PANEL (Spans 2 cols on Desktop) -->
     <div
-      class="hidden lg:block absolute left-0 top-2 bottom-4 w-px bg-gradient-to-b from-purple-500/50 to-transparent"
-    ></div>
-    <div
-      class="hidden lg:block absolute left-[-0.65rem] top-2 text-purple-500/40"
+      class="warehouse-panel lg:col-span-2 pointer-events-auto w-full p-8 border border-white/10 bg-black/40 backdrop-blur-2xl rounded-3xl shadow-2xl relative overflow-hidden flex flex-col justify-center"
     >
-      <Database size={14} />
-    </div>
+      <!-- Glow accent -->
+      <div
+        class="absolute top-0 right-0 w-32 h-32 bg-purple-500/20 blur-[50px]"
+      ></div>
 
-    <!-- 1. HEADER SECTION -->
-    <div class="mb-8">
-      <!-- Status Badge -->
-      <div class="mb-4 flex items-center gap-3">
-        <div
-          class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-500/30 bg-purple-500/10 backdrop-blur-sm shadow-[0_0_10px_rgba(168,85,247,0.1)]"
-        >
-          <span class="relative flex h-1.5 w-1.5">
-            <span
-              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"
-            ></span>
-            <span
-              class="relative inline-flex rounded-full h-1.5 w-1.5 bg-purple-500"
-            ></span>
-          </span>
-          <span
-            class="font-mono text-[10px] font-semibold text-purple-200 tracking-widest uppercase"
+      <div class="relative z-10">
+        <div class="mb-6 flex items-center gap-3">
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-500/30 bg-purple-500/10 backdrop-blur-sm"
           >
-            Analytics Serving Engine
-          </span>
+            <span class="relative flex h-1.5 w-1.5">
+              <span
+                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"
+              ></span>
+              <span
+                class="relative inline-flex rounded-full h-1.5 w-1.5 bg-purple-500"
+              ></span>
+            </span>
+            <span
+              class="font-mono text-[10px] font-semibold text-purple-200 tracking-widest uppercase"
+            >
+              Analytics Serving Engine
+            </span>
+          </div>
         </div>
-      </div>
 
-      <!-- Headline -->
-      <h3 class="main-title mb-6">
-        The Refined Analytics <br />
-        <span
-          class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-300% animate-gradient"
+        <h3
+          class="text-3xl lg:text-5xl font-black mb-4 leading-tight text-white tracking-tight"
         >
-          Engine.
-        </span>
-      </h3>
+          The Refined Analytics <br />
+          <span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-purple-500"
+          >
+            Engine.
+          </span>
+        </h3>
 
-      <!-- Bio -->
-      <p class="sub-title max-w-lg text-muted-foreground leading-relaxed">
-        The final, refined product. I design high-performance data warehouses
-        that serve
-        <strong>sub-second latency</strong> analytics using advanced
-        <span class="text-foreground font-medium">columnar compression</span>
-        and
-        <span class="text-foreground font-medium">materialized views</span>,
-        powering real-time BI dashboards at enterprise scale.
-      </p>
+        <p class="text-sm text-muted-foreground leading-relaxed shadow-sm">
+          The final, refined product. I design high-performance data warehouses
+          that serve
+          <strong class="text-white">sub-second latency</strong> analytics using
+          advanced
+          <span class="text-purple-300 font-medium">columnar compression</span>
+          and
+          <span class="text-purple-300 font-medium">materialized views</span>.
+        </p>
+      </div>
     </div>
 
-    <!-- 2. HIGH-IMPACT PURPLE MARQUEE -->
-    <div class="w-full -ml-4 lg:ml-0 overflow-visible">
-      <div class="mb-3 pl-4 lg:pl-0 flex items-center gap-2">
+    <!-- METRICS PANEL -->
+    <div
+      class="warehouse-panel pointer-events-auto border border-white/10 bg-black/40 backdrop-blur-2xl rounded-3xl shadow-2xl p-6 relative overflow-hidden flex flex-col justify-between"
+    >
+      <div class="flex items-center gap-2 mb-4 opacity-70">
+        <BarChart3 size={16} class="text-pink-400" />
         <span
-          class="text-[10px] font-mono text-purple-500 uppercase tracking-widest font-bold glow-text"
+          class="font-mono text-[10px] uppercase tracking-widest text-pink-400"
+          >BI Layer</span
         >
-          Warehouse Capabilities
-        </span>
-        <div
-          class="h-px flex-1 bg-gradient-to-r from-purple-500/50 to-transparent"
-        ></div>
       </div>
 
-      <!-- Infinite Scroll Track -->
-      <div class="relative w-full overflow-hidden mask-gradient py-4">
-        <div class="flex animate-marquee whitespace-nowrap gap-4">
-          <!-- Loop (Duplicated to ensure length) -->
-          {#each [...warehouseFeatures, ...warehouseFeatures] as item}
-            <!-- PURPLE TECH CARD -->
-            <div
-              class="group relative flex items-center gap-3 px-5 py-3 rounded-lg border border-purple-500/20 bg-purple-950/40 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-purple-400 hover:bg-purple-900/60 hover:shadow-[0_0_20px_-5px_rgba(168,85,247,0.4)] cursor-pointer min-w-[200px]"
-            >
-              <!-- Icon Box with Glow -->
-              <div
-                class="relative flex items-center justify-center w-10 h-10 rounded-md bg-purple-500/10 border border-purple-500/20 text-purple-400 group-hover:text-purple-200 group-hover:bg-purple-500/20 group-hover:border-purple-400 transition-all duration-300 shadow-[0_0_10px_rgba(168,85,247,0.1)] group-hover:shadow-[0_0_15px_rgba(168,85,247,0.4)]"
-              >
-                <svelte:component
-                  this={item.icon}
-                  size={20}
-                  strokeWidth={1.5}
-                />
-              </div>
-
-              <!-- Text Info -->
-              <div class="flex flex-col">
-                <span
-                  class="text-sm font-bold text-purple-100 group-hover:text-white transition-colors tracking-wide"
-                >
-                  {item.name}
-                </span>
-                <span
-                  class="text-[10px] text-purple-400/70 group-hover:text-purple-300 font-mono uppercase tracking-wider"
-                >
-                  {item.desc}
-                </span>
-              </div>
-
-              <!-- Animated Scanline Overlay -->
-              <div
-                class="absolute inset-0 rounded-lg bg-gradient-to-r from-transparent via-purple-400/5 to-transparent -translate-x-full group-hover:animate-scanline pointer-events-none"
-              ></div>
-            </div>
-          {/each}
+      <div class="space-y-4">
+        <div>
+          <div
+            class="text-[10px] text-muted-foreground uppercase font-mono mb-1"
+          >
+            Query Latency
+          </div>
+          <div class="text-2xl font-black text-white flex items-baseline gap-1">
+            0.24<span class="text-sm text-purple-400">s</span>
+          </div>
         </div>
+
+        <div class="w-full h-px bg-white/10"></div>
+
+        <div>
+          <div
+            class="text-[10px] text-muted-foreground uppercase font-mono mb-1"
+          >
+            Concurrency
+          </div>
+          <div class="text-2xl font-black text-white flex items-baseline gap-1">
+            10<span class="text-sm text-purple-400">k+</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUERY TERMINAL MINI-PANEL -->
+    <div
+      class="warehouse-panel lg:col-span-3 pointer-events-auto border border-white/10 bg-black/50 backdrop-blur-2xl rounded-3xl p-5 shadow-2xl overflow-hidden relative"
+    >
+      <div
+        class="flex items-center justify-between mb-3 border-b border-white/5 pb-3"
+      >
+        <div class="flex items-center gap-2">
+          <TerminalSquare size={14} class="text-muted-foreground" />
+          <span
+            class="font-mono text-[10px] uppercase tracking-widest text-muted-foreground"
+            >SQL Execution</span
+          >
+        </div>
+        <div class="flex gap-1.5">
+          <div class="w-2 h-2 rounded-full bg-white/20"></div>
+          <div class="w-2 h-2 rounded-full bg-white/20"></div>
+          <div class="w-2 h-2 rounded-full bg-purple-500"></div>
+        </div>
+      </div>
+
+      <div class="font-mono text-xs text-purple-300/80 leading-relaxed">
+        <span class="text-pink-400">SELECT</span> DATE_TRUNC('hour', event_time)
+        <span class="text-pink-400">AS</span>
+        ts,<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COUNT(DISTINCT user_id)
+        <span class="text-pink-400">AS</span>
+        active_users,<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SUM(revenue)
+        <span class="text-pink-400">AS</span>
+        total_volume<br />
+        <span class="text-pink-400">FROM</span> core_events.user_activity<br />
+        <span class="text-pink-400">WHERE</span> event_type = 'purchase'<br />
+        <span class="text-pink-400">GROUP BY</span> 1
+        <span class="text-pink-400">ORDER BY</span> 1 DESC;
       </div>
     </div>
   </div>
 </div>
 
 <style>
-  /* Typography */
-  .main-title {
-    font-size: clamp(2rem, 3.5vw, 3rem);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    color: hsl(var(--foreground));
-  }
-
-  .sub-title {
-    font-size: clamp(0.95rem, 1vw, 1.05rem);
-    line-height: 1.6;
-    color: hsl(var(--muted-foreground));
-  }
-
-  .glow-text {
-    text-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
-  }
-
-  /* Gradient Animation */
-  .bg-300\% {
-    background-size: 300% 300%;
-  }
-  .animate-gradient {
-    animation: animatedgradient 6s ease infinite alternate;
-  }
-
-  @keyframes animatedgradient {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-
-  /* Marquee Logic */
-  .mask-gradient {
-    mask-image: linear-gradient(
-      to right,
-      transparent,
-      black 5%,
-      black 95%,
-      transparent
-    );
-    -webkit-mask-image: linear-gradient(
-      to right,
-      transparent,
-      black 5%,
-      black 95%,
-      transparent
-    );
-  }
-
-  .animate-marquee {
-    animation: marquee 25s linear infinite;
-  }
-
-  .animate-marquee:hover {
-    animation-play-state: paused;
-  }
-
-  @keyframes marquee {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-50%);
-    }
-  }
-
-  /* Scanline Effect */
-  @keyframes scanline {
-    0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translateX(100%);
-    }
-  }
-  .group:hover .group-hover\:animate-scanline {
-    animation: scanline 1s ease-in-out;
-  }
 </style>

@@ -1,498 +1,105 @@
-<!-- src/lib/components/Navbar.svelte -->
+<!-- src/lib/components/Navigation.svelte -->
 <script lang="ts">
-  import { Button } from "$lib/components/ui/button";
-  import { Menu, X, Server, Briefcase, Code, Mail } from "lucide-svelte";
+  import { Briefcase, Code, Mail, Home } from "lucide-svelte";
   import { onMount } from "svelte";
   import ThemeToggle from "$lib/components/ThemeToggle.svelte";
 
-  let mobileMenuOpen = false;
-  let scrolled = false;
-  let hidden = false;
-  let lastScrollY = 0;
-  let scrollThreshold = 100; // Minimum scroll before hiding
-  let scrollDelta = 10; // Minimum scroll delta to trigger hide/show
+  let activeSection = "hero";
 
   const navItems = [
-    { label: "experience", id: "metrics", icon: Briefcase },
-    { label: "projects", id: "projects", icon: Server },
-    { label: "skills", id: "tech-stack", icon: Code },
-    { label: "contact", id: "contact", icon: Mail },
+    { label: "Home", id: "hero", icon: Home },
+    { label: "Metrics", id: "metrics", icon: Briefcase },
+    { label: "Contact", id: "contact", icon: Mail },
   ];
 
   const scrollToSection = (sectionId: string) => {
     if (sectionId === "hero") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      document
+        .querySelector(".snap-container")
+        ?.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       const section = document.getElementById(sectionId);
       if (section) {
         section.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }
-    closeMobileMenu();
-  };
-
-  const closeMobileMenu = () => {
-    mobileMenuOpen = false;
-  };
-
-  const handleBackdropKeyDown = (e: KeyboardEvent) => {
-    if (e.key === "Escape") {
-      closeMobileMenu();
-    }
-  };
-
-  const handleContentKeyDown = (e: KeyboardEvent) => {
-    e.stopPropagation();
   };
 
   onMount(() => {
-    let ticking = false;
-
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const currentScrollY = window.scrollY;
-          const scrollDifference = Math.abs(currentScrollY - lastScrollY);
-
-          // Only update if scroll difference is significant (prevents micro-scrolls)
-          if (scrollDifference > scrollDelta) {
-            // Hide navbar when scrolling down past threshold
-            hidden =
-              currentScrollY > lastScrollY && currentScrollY > scrollThreshold;
-
-            // Update last scroll position
-            lastScrollY = currentScrollY;
+    // Observe sections to update active state
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            activeSection = entry.target.id;
           }
-
-          // Update scrolled state
-          scrolled = currentScrollY > 10;
-
-          ticking = false;
         });
-        ticking = true;
-      }
-    };
+      },
+      { threshold: 0.3 },
+    );
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const sections = ["hero", "metrics", "contact"].map((id) =>
+      document.getElementById(id),
+    );
+    sections.forEach((s) => s && observer.observe(s));
+
+    return () => observer.disconnect();
   });
 </script>
 
-<nav class="nav" class:scrolled class:hidden>
-  <div class="container">
-    <!-- Terminal-style logo -->
+<!-- TOP DOCKED COMMAND PALETTE -->
+<div
+  class="fixed top-6 left-1/2 -translate-x-1/2 z-50 pointer-events-auto transition-all duration-500 hover:translate-y-1"
+>
+  <div
+    class="flex items-center gap-2 px-4 py-2.5 rounded-full border border-white/10 bg-black/60 backdrop-blur-3xl shadow-[0_10px_40px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.1)]"
+  >
+    <!-- Logo -->
     <button
-      class="logo"
-      on:click={() => scrollToSection("hero")}
+      class="flex items-center gap-2 pr-4 border-r border-white/10 hover:text-blue-400 transition-colors group"
+      onclick={() => scrollToSection("hero")}
       aria-label="Go to top"
     >
-      <span class="prompt">$</span>
-      <span class="cursor">_</span>
-      <span class="name">sudo_krish</span>
+      <div
+        class="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center group-hover:bg-blue-500/40 transition-colors"
+      >
+        <span class="font-mono text-xs font-bold text-blue-400">_</span>
+      </div>
+      <span
+        class="font-mono text-xs font-semibold text-white/90 hidden sm:block"
+        >sudo_krish</span
+      >
     </button>
 
-    <!-- Command-style links with icons -->
-    <div class="links">
+    <!-- Nav Links -->
+    <div class="flex items-center gap-1 sm:gap-2 px-2">
       {#each navItems as { label, id, icon }}
         <button
-          class="link"
-          on:click={() => scrollToSection(id)}
+          class="p-2 sm:px-4 sm:py-2 rounded-full transition-all flex items-center gap-2 group {activeSection ===
+          id
+            ? 'text-white bg-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]'
+            : 'text-white/50 hover:text-white hover:bg-white/5'}"
+          onclick={() => scrollToSection(id)}
           aria-label="Go to {label}"
         >
-          <svelte:component this={icon} size={14} class="link-icon" />
-          <span class="label">{label}</span>
+          <svelte:component
+            this={icon}
+            size={16}
+            class="transition-transform {activeSection === id
+              ? 'scale-110 text-cyan-400'
+              : 'group-hover:scale-110'}"
+          />
+          <span class="text-xs font-medium hidden sm:block">{label}</span>
         </button>
       {/each}
     </div>
 
-    <!-- Simple actions -->
-    <div class="actions">
+    <!-- Right Side Tools -->
+    <div class="flex items-center pl-2 border-l border-white/10">
       <ThemeToggle />
-      <!-- Wrap button in a div to handle click -->
-      <div
-        on:click={() => scrollToSection("contact")}
-        role="button"
-        tabindex="0"
-        on:keydown={(e) => e.key === "Enter" && scrollToSection("contact")}
-      >
-        <Button size="sm" class="cta">hire me</Button>
-      </div>
-      <button
-        class="menu-toggle"
-        on:click={() => (mobileMenuOpen = !mobileMenuOpen)}
-        aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-      >
-        {#if mobileMenuOpen}
-          <X size={20} />
-        {:else}
-          <Menu size={20} />
-        {/if}
-      </button>
     </div>
   </div>
-
-  <!-- Data flow visualization -->
-  <div class="flow-line" class:active={scrolled}>
-    <div class="flow-particle"></div>
-  </div>
-</nav>
-
-<!-- Mobile CTA -->
-{#if mobileMenuOpen}
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <div
-    class="mobile"
-    on:click={closeMobileMenu}
-    on:keydown={handleBackdropKeyDown}
-  >
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <div
-      class="mobile-content"
-      on:click={(e) => e.stopPropagation()}
-      on:keydown={handleContentKeyDown}
-    >
-      <div class="mobile-header">
-        <span>$ menu</span>
-      </div>
-      {#each navItems as { label, id, icon }}
-        <button
-          class="mobile-link"
-          on:click={() => scrollToSection(id)}
-          aria-label="Go to {label}"
-        >
-          <svelte:component this={icon} size={18} />
-          <span>{label}</span>
-        </button>
-      {/each}
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <!-- svelte-ignore a11y-no-static-element-interactions -->
-      <div
-        class="mobile-cta-wrapper"
-        on:click={() => scrollToSection("contact")}
-      >
-        <Button class="mobile-cta">hire me</Button>
-      </div>
-    </div>
-  </div>
-{/if}
+</div>
 
 <style>
-  .nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    width: 100%;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform;
-  }
-
-  .nav.hidden {
-    transform: translateY(-100%);
-  }
-
-  .container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0.75rem 2rem;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    transition: all 0.3s ease;
-  }
-
-  :global(.dark) .container {
-    background: rgba(10, 15, 30, 0.4);
-    backdrop-filter: blur(32px) saturate(200%);
-    -webkit-backdrop-filter: blur(32px) saturate(200%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  }
-
-  /* Terminal-style logo */
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-family: var(--font-mono);
-    font-size: 0.9375rem;
-    transition: opacity 0.2s ease;
-    padding: 0;
-  }
-
-  .logo:hover {
-    opacity: 0.8;
-  }
-
-  .prompt {
-    color: hsl(var(--accent));
-    font-weight: 700;
-  }
-
-  .cursor {
-    color: hsl(var(--primary));
-    font-weight: 700;
-    animation: blink 1.5s step-end infinite;
-  }
-
-  @keyframes blink {
-    0%,
-    50% {
-      opacity: 1;
-    }
-    51%,
-    100% {
-      opacity: 0;
-    }
-  }
-
-  .name {
-    color: hsl(var(--foreground));
-    font-weight: 500;
-  }
-
-  /* Command-style links with icons */
-  .links {
-    display: none;
-    gap: 0.5rem;
-    flex: 1;
-  }
-
-  @media (min-width: 768px) {
-    .links {
-      display: flex;
-    }
-  }
-
-  .link {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-family: var(--font-mono);
-    font-size: 0.875rem;
-    transition: all 0.15s ease;
-  }
-
-  .link:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  :global(.dark) .link:hover {
-    background: rgba(255, 255, 255, 0.08);
-  }
-
-  .label {
-    color: hsl(var(--muted-foreground));
-    font-weight: 500;
-  }
-
-  .link:hover .label {
-    color: hsl(var(--foreground));
-  }
-
-  /* Simple actions */
-  .actions {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  :global(.cta) {
-    display: none;
-    background: hsl(var(--primary)) !important;
-    color: white !important;
-    font-family: var(--font-mono) !important;
-    text-transform: lowercase !important;
-    letter-spacing: 0.02em !important;
-  }
-
-  @media (min-width: 1024px) {
-    :global(.cta) {
-      display: inline-flex;
-    }
-  }
-
-  .menu-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    background: none;
-    border: none;
-    color: hsl(var(--foreground));
-    cursor: pointer;
-    border-radius: 6px;
-    transition: background 0.15s ease;
-  }
-
-  .menu-toggle:hover {
-    background: hsl(var(--muted));
-  }
-
-  @media (min-width: 768px) {
-    .menu-toggle {
-      display: none;
-    }
-  }
-
-  /* Data flow visualization */
-  .flow-line {
-    position: relative;
-    height: 2px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      hsl(var(--primary) / 0.6) 30%,
-      hsl(var(--primary)) 50%,
-      hsl(var(--primary) / 0.6) 70%,
-      transparent 100%
-    );
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .flow-line.active {
-    transform: scaleX(1);
-  }
-
-  .flow-particle {
-    position: absolute;
-    top: -2px;
-    left: 0;
-    width: 6px;
-    height: 6px;
-    background: hsl(var(--primary));
-    border-radius: 50%;
-    box-shadow: 0 0 8px hsl(var(--primary));
-    animation: flowMove 3s linear infinite;
-  }
-
-  @keyframes flowMove {
-    0% {
-      left: 0;
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      left: 100%;
-      opacity: 0;
-    }
-  }
-
-  /* Mobile menu */
-  .mobile {
-    position: fixed;
-    inset: 0;
-    z-index: 90;
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(40px) saturate(200%);
-    -webkit-backdrop-filter: blur(40px) saturate(200%);
-    animation: fadeIn 0.2s ease;
-    cursor: pointer;
-  }
-
-  :global(.dark) .mobile {
-    background: rgba(5, 10, 20, 0.95);
-  }
-
-  .mobile:focus {
-    outline: none;
-  }
-
-  .mobile-content {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 5rem 1.5rem 2rem;
-    max-width: 400px;
-    margin: 0 auto;
-    cursor: default;
-  }
-
-  .mobile-header {
-    padding: 0 0.5rem 1rem;
-    color: hsl(var(--accent));
-    font-family: var(--font-mono);
-    font-size: 0.875rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    border-bottom: 1px solid hsl(var(--border));
-  }
-
-  .mobile-link {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.25rem;
-    background: hsl(var(--muted) / 0.5);
-    border: 1px solid hsl(var(--border));
-    border-left: 3px solid hsl(var(--primary));
-    border-radius: 6px;
-    color: hsl(var(--foreground));
-    font-family: var(--font-mono);
-    font-size: 1rem;
-    font-weight: 600;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-  }
-
-  .mobile-link:hover {
-    background: hsl(var(--muted));
-    border-left-width: 5px;
-    transform: translateX(2px);
-  }
-
-  :global(.mobile-cta) {
-    margin-top: 1rem;
-    width: 100%;
-    padding: 1rem;
-    font-family: var(--font-mono) !important;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @media (max-width: 767px) {
-    .container {
-      padding: 0.75rem 1.5rem;
-    }
-
-    .logo {
-      flex: 1;
-    }
-  }
-
-  @media (min-width: 768px) {
-    .mobile {
-      display: none;
-    }
-  }
 </style>
