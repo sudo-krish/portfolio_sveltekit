@@ -1,0 +1,157 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --radius: 0.75rem;
+  
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-heading: "Space Grotesk", var(--font-sans);
+  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.dark {
+  /* === WORLD CLASS REDESIGN: DARK GLASSMORPHISM === */
+  
+  /* Deep Space Black Foundation */
+  --background: 0 0% 2%;     
+  --foreground: 0 0% 98%;    
+  
+  /* Glass Panels */
+  --card: 0 0% 5%;           
+  --card-foreground: 0 0% 98%;
+  
+  /* Accents: Hyper Cyan & Neon Violet */
+  --primary: 185 100% 50%;         
+  --primary-foreground: 0 0% 5%;
+  
+  --secondary: 260 100% 65%;
+  --secondary-foreground: 0 0% 98%;
+  
+  --muted: 0 0% 12%;
+  --muted-foreground: 0 0% 60%;
+  
+  --accent: 185 100% 50%;
+  --accent-foreground: 0 0% 5%;
+  
+  --border: 0 0% 15%;
+  --input: 0 0% 10%;
+  --ring: 185 100% 50%;
+  
+  /* Soft Edge Shadows */
+  --shadow-sm: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.7);
+  --glow-primary: 0 0 30px hsla(185, 100%, 50%, 0.15);
+  --glow-secondary: 0 0 30px hsla(260, 100%, 65%, 0.15);
+}
+
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  
+  --font-family-sans: var(--font-sans);
+  --font-family-mono: var(--font-mono);
+  --font-family-heading: var(--font-heading);
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Crucial for GSAP layout overhaul */
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(circle at 15% 50%, hsla(260, 100%, 65%, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 85% 30%, hsla(185, 100%, 50%, 0.03) 0%, transparent 50%);
+  background-attachment: fixed;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: hsl(var(--foreground));
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+/* ==================== GLOBAL UI UTILITIES ==================== */
+
+/* 1. Glassmorphism Panels */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-md);
+}
+
+/* 2. Magnetic/Hover Interactive Cards */
+.glass-card-hover {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-hover:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-4px);
+  box-shadow: var(--glow-primary), var(--shadow-lg);
+}
+
+/* 3. Kinetic Texts */
+.text-gradient-cyan {
+  background: linear-gradient(135deg, hsl(var(--primary)), #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-violet {
+  background: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--primary)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Base Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}

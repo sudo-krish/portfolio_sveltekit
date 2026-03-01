@@ -1,0 +1,16 @@
+[
+  {
+    "slug": "real-time-cdc-patterns",
+    "title": "Real-Time CDC Patterns with Kafka",
+    "description": "How we scaled database replication to 50M events.",
+    "datePublished": "2024-01-15",
+    "category": "Data Engineering",
+    "readTime": "8 min read",
+    "keywords": [
+      "Kafka",
+      "Debezium",
+      "CDC"
+    ],
+    "rawMarkdown": "## The Problem with Batch Processing\r\nWhen you process 50M+ tracking events daily, a 3-hour batch lag means the customer doesn't know their shipment is delayed until it's too late.\r\n\r\nEnter Change Data Capture (CDC). Instead of running heavy SQL queries spanning hours of data, we listen to the database's transaction log. \r\n\r\n### Architecture Overview\r\n1. **Source Strategy:** Primary PostgreSQL databases emit changes to the Write-Ahead Log (WAL).\r\n2. **Debezium Connectors:** We use Kafka Connect running Debezium to read the WAL and serialize rows into Avro format.\r\n3. **Kafka Streams / Python Consumers:** The heavy lifting. We apply stateless transformations (masking PII) and stateful aggregations (windowing events by shipment ID) in real-time.\r\n\r\n\\`\\`\\`python\r\n# Example: Using confluent-kafka for a high-throughput consumer\r\nfrom confluent_kafka import Consumer, KafkaException\r\n\r\nconf = {\r\n    'bootstrap.servers': 'broker1:9092,broker2:9092',\r\n    'group.id': 'cdc-lakehouse-ingestion',\r\n    'auto.offset.reset': 'earliest',\r\n    'enable.auto.commit': False\r\n}\r\n\r\nconsumer = Consumer(conf)\r\nconsumer.subscribe(['pg_public_tracking_events'])\r\n\r\ndef process_event(msg):\r\n    # Deserialization and business logic here\r\n    pass\r\n\r\ntry:\r\n    while True:\r\n        msg = consumer.poll(timeout=1.0)\r\n        if msg is None: continue\r\n        if msg.error(): raise KafkaException(msg.error())\r\n        \r\n        process_event(msg)\r\n        # Manually commit to ensure exactly-once semantics\r\n        consumer.commit(asynchronous=True)\r\nfinally:\r\n    consumer.close()\r\n\\`\\`\\`\r\n\r\n### Lessons Hard Learned\r\n* **Schema Evolution:** Hardcode schemas and you will fail. Use a Schema Registry (like Confluent's or AWS Glue) and configure Debezium to evolve gracefully.\r\n* **Tombstone Records:** Handling \\`DELETE\\` operations requires careful downstream logic, especially if syncing to an immutable Data Lake. We trigger tombstone logic that tags records as deleted in Delta Lake rather than actually deleting them.\r\n\r\nIf you are building pipelines that require sub-second latency, this architecture pattern is the industry standard for a reason.\r\n"
+  }
+]

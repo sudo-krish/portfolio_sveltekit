@@ -1,0 +1,343 @@
+﻿Loading svelte-check in workspace: d:\projects\portfolio_sveltekit
+Getting Svelte diagnostics...
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.ts[39m:9:57
+[31mError[39m: Property 'slug' does not exist on type 'Project'. 
+[36m    // We find the project that matches the slug
+    const project = portfolioData.projects?.find(p => p.[35mslug[36m === slug);
+    const blog = portfolioData.blogPosts?.find(b => b.slug === slug);[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\lib\components\Navigation.svelte[39m:152:5
+[33mWarn[39m: noninteractive element cannot have nonnegative tabIndex value
+https://svelte.dev/e/a11y_no_noninteractive_tabindex (svelte)
+[36m  >
+    [35m<div
+      class="absolute right-4 top-24 w-64 glass-panel rounded-2xl p-4 flex flex-col gap-2 shadow-2xl border border-white/10"
+      on:click|stopPropagation
+      on:keydown={handleContentKeyDown}
+      role="document"
+      tabindex="0"
+    >
+      <div
+        class="text-xs font-mono text-primary/70 mb-2 px-2 uppercase tracking-widest border-b border-white/10 pb-2"
+      >
+        Navigation Matrix
+      </div>
+      {#each navItems as { label, href, icon }}
+        <a
+          {href}
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-foreground hover:bg-primary/10 hover:text-primary transition-colors font-mono text-sm"
+          on:click={closeMobileMenu}
+        >
+          <svelte:component this={icon} size={16} />
+          <span>{label}</span>
+        </a>
+      {/each}
+      <a href="/contact" class="mt-4" on:click={closeMobileMenu}>
+        <Button
+          class="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-mono tracking-wider"
+        >
+          HIRE_ME
+        </Button>
+      </a>
+    </div>[36m
+  </div>[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\lib\components\Navigation.svelte[39m:152:5
+[33mWarn[39m: Non-interactive element `<div>` should not be assigned mouse or keyboard event listeners
+https://svelte.dev/e/a11y_no_noninteractive_element_interactions (svelte)
+[36m  >
+    [35m<div
+      class="absolute right-4 top-24 w-64 glass-panel rounded-2xl p-4 flex flex-col gap-2 shadow-2xl border border-white/10"
+      on:click|stopPropagation
+      on:keydown={handleContentKeyDown}
+      role="document"
+      tabindex="0"
+    >
+      <div
+        class="text-xs font-mono text-primary/70 mb-2 px-2 uppercase tracking-widest border-b border-white/10 pb-2"
+      >
+        Navigation Matrix
+      </div>
+      {#each navItems as { label, href, icon }}
+        <a
+          {href}
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-foreground hover:bg-primary/10 hover:text-primary transition-colors font-mono text-sm"
+          on:click={closeMobileMenu}
+        >
+          <svelte:component this={icon} size={16} />
+          <span>{label}</span>
+        </a>
+      {/each}
+      <a href="/contact" class="mt-4" on:click={closeMobileMenu}>
+        <Button
+          class="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-mono tracking-wider"
+        >
+          HIRE_ME
+        </Button>
+      </a>
+    </div>[36m
+  </div>[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\lib\components\Navigation.svelte[39m:194:3
+[33mWarn[39m: Unused CSS selector ".glow-on-hover:hover"
+https://svelte.dev/e/css_unused_selector (svelte)
+[36m
+  [35m.glow-on-hover:hover[36m {
+    box-shadow: 0 0 15px hsla(var(--primary), 0.3);[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\lib\components\Navigation.svelte[39m:198:3
+[33mWarn[39m: Unused CSS selector ".neon-pulse"
+https://svelte.dev/e/css_unused_selector (svelte)
+[36m
+  [35m.neon-pulse[36m {
+    text-shadow: 0 0 10px hsla(var(--primary), 0.5);[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\lib\components\home\HeroSection.svelte[39m:54:30
+[31mError[39m: Type 'true' is not assignable to type 'undefined'. (ts)
+[36m      <Canvas>
+        <T.PerspectiveCamera [35mmakeDefault[36m position={[5, 2, 8]} fov={35}>
+          <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={2} />[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\lib\components\home\3d\DataHouse.svelte[39m:8:9
+[31mError[39m: Variable 'points' implicitly has type 'any[]' in some locations where its type cannot be determined. (ts)
+[36m  // --- 1. GEOMETRY: HOUSE PROFILE ---
+  const [35mpoints[36m = [];
+  points.push(new Vector2(0.0, 0.0));     // Center Bottom[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\lib\components\home\3d\DataHouse.svelte[39m:106:31
+[31mError[39m: Variable 'points' implicitly has an 'any[]' type. (ts)
+[36m    <T.Mesh>
+      <T.LatheGeometry args={[[35mpoints[36m, 64]} />[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\lib\components\home\3d\HomeScene.svelte[39m:332:22
+[31mError[39m: Type 'true' is not assignable to type 'undefined'. (ts)
+[36m
+<T.PerspectiveCamera [35mmakeDefault[36m position={[0, 0, cameraZ]} fov={cameraFov}>
+  <T.DirectionalLight position={[5, 5, 5]} intensity={2} />[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\about\+page.svelte[39m:120:35
+[31mError[39m: Property 'organization' does not exist on type '{ year: string; title: string; organization: string; description: string | undefined; type: string; current: boolean; icon: string; } | { year: string | undefined; title: string | undefined; ... 4 more ...; icon: string; } | { ...; }'.
+  Property 'organization' does not exist on type '{ year: string; title: string; description: string; type: string; current: boolean; icon: string; }'. (ts)
+[36m
+                        {#if item.[35morganization[36m}
+                            <h4[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\about\+page.svelte[39m:124:41
+[31mError[39m: Property 'organization' does not exist on type '{ year: string; title: string; organization: string; description: string | undefined; type: string; current: boolean; icon: string; } | { year: string | undefined; title: string | undefined; ... 4 more ...; icon: string; } | { ...; }'.
+  Property 'organization' does not exist on type '{ year: string; title: string; description: string; type: string; current: boolean; icon: string; }'. (ts)
+[36m                            >
+                                @ {item.[35morganization[36m}
+                            </h4>[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\learning\+page.svelte[39m:143:47
+[31mError[39m: Property 'link' does not exist on type '{ title: string; description: string; technologies: string[]; } | { title: string; description: string; technologies: string[]; link: string; }'.
+  Property 'link' does not exist on type '{ title: string; description: string; technologies: string[]; }'. (ts)
+[36m
+                                    {#if item.[35mlink[36m}
+                                        <div[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\learning\+page.svelte[39m:148:60
+[31mError[39m: Property 'link' does not exist on type '{ title: string; description: string; technologies: string[]; } | { title: string; description: string; technologies: string[]; link: string; }'.
+  Property 'link' does not exist on type '{ title: string; description: string; technologies: string[]; }'. (ts)
+[36m                                            <a
+                                                href={item.[35mlink[36m}
+                                                class="inline-flex text-[11px] font-mono font-medium text-blue-400/80 hover:text-blue-300 transition-colors items-center gap-1"[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:10:13
+[31mError[39m: 'item' is possibly 'undefined'. (ts)
+[36m<svelte:head>
+    <title>{[35mitem[36m.title} | {type === "project" ? "Project" : "Blog"}</title>
+    <meta name="description" content={item.description} />[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:10:18
+[31mError[39m: Property 'title' does not exist on type 'Project | BlogPost'.
+  Property 'title' does not exist on type 'Project'. (ts)
+[36m<svelte:head>
+    <title>{item.[35mtitle[36m} | {type === "project" ? "Project" : "Blog"}</title>
+    <meta name="description" content={item.description} />[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:11:39
+[31mError[39m: 'item' is possibly 'undefined'. (ts)
+[36m    <title>{item.title} | {type === "project" ? "Project" : "Blog"}</title>
+    <meta name="description" content={[35mitem[36m.description} />
+</svelte:head>[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:62:18
+[31mError[39m: 'item' is possibly 'undefined'. (ts)
+[36m            >
+                {[35mitem[36m.title}
+            </h1>[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:62:23
+[31mError[39m: Property 'title' does not exist on type 'Project | BlogPost'.
+  Property 'title' does not exist on type 'Project'. (ts)
+[36m            >
+                {item.[35mtitle[36m}
+            </h1>[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:68:18
+[31mError[39m: 'item' is possibly 'undefined'. (ts)
+[36m            >
+                {[35mitem[36m.description}
+            </p>[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:72:18
+[31mError[39m: 'item' is possibly 'undefined'. (ts)
+[36m            <!-- Tech Stack Tags -->
+            {#if [35mitem[36m.technologies && item.technologies.length > 0}
+                <div class="flex flex-wrap gap-2 mb-8">[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:72:23
+[31mError[39m: Property 'technologies' does not exist on type 'Project | BlogPost'.
+  Property 'technologies' does not exist on type 'BlogPost'. (ts)
+[36m            <!-- Tech Stack Tags -->
+            {#if item.[35mtechnologies[36m && item.technologies.length > 0}
+                <div class="flex flex-wrap gap-2 mb-8">[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:72:39
+[31mError[39m: 'item' is possibly 'undefined'. (ts)
+[36m            <!-- Tech Stack Tags -->
+            {#if item.technologies && [35mitem[36m.technologies.length > 0}
+                <div class="flex flex-wrap gap-2 mb-8">[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:72:44
+[31mError[39m: Property 'technologies' does not exist on type 'Project | BlogPost'.
+  Property 'technologies' does not exist on type 'BlogPost'. (ts)
+[36m            <!-- Tech Stack Tags -->
+            {#if item.technologies && item.[35mtechnologies[36m.length > 0}
+                <div class="flex flex-wrap gap-2 mb-8">[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:74:28
+[31mError[39m: 'item' is possibly 'undefined'. (ts)
+[36m                <div class="flex flex-wrap gap-2 mb-8">
+                    {#each [35mitem[36m.technologies as tech}
+                        <span[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:74:33
+[31mError[39m: Property 'technologies' does not exist on type 'Project | BlogPost'.
+  Property 'technologies' does not exist on type 'BlogPost'. (ts)
+[36m                <div class="flex flex-wrap gap-2 mb-8">
+                    {#each item.[35mtechnologies[36m as tech}
+                        <span[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:86:22
+[31mError[39m: 'item' is possibly 'undefined'. (ts)
+[36m            <div class="flex flex-wrap gap-4">
+                {#if [35mitem[36m.demoUrl}
+                    <a[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:86:27
+[31mError[39m: Property 'demoUrl' does not exist on type 'Project | BlogPost'.
+  Property 'demoUrl' does not exist on type 'Project'. (ts)
+[36m            <div class="flex flex-wrap gap-4">
+                {#if item.[35mdemoUrl[36m}
+                    <a[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:88:31
+[31mError[39m: 'item' is possibly 'undefined'. (ts)
+[36m                    <a
+                        href={[35mitem[36m.demoUrl}
+                        target="_blank"[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:88:36
+[31mError[39m: Property 'demoUrl' does not exist on type 'Project | BlogPost'.
+  Property 'demoUrl' does not exist on type 'Project'. (ts)
+[36m                    <a
+                        href={item.[35mdemoUrl[36m}
+                        target="_blank"[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:96:22
+[31mError[39m: 'item' is possibly 'undefined'. (ts)
+[36m                {/if}
+                {#if [35mitem[36m.githubUrl}
+                    <a[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:96:27
+[31mError[39m: Property 'githubUrl' does not exist on type 'Project | BlogPost'.
+  Property 'githubUrl' does not exist on type 'Project'. (ts)
+[36m                {/if}
+                {#if item.[35mgithubUrl[36m}
+                    <a[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:98:31
+[31mError[39m: 'item' is possibly 'undefined'. (ts)
+[36m                    <a
+                        href={[35mitem[36m.githubUrl}
+                        target="_blank"[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:98:36
+[31mError[39m: Property 'githubUrl' does not exist on type 'Project | BlogPost'.
+  Property 'githubUrl' does not exist on type 'Project'. (ts)
+[36m                    <a
+                        href={item.[35mgithubUrl[36m}
+                        target="_blank"[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:115:18
+[31mError[39m: 'item' is possibly 'undefined'. (ts)
+[36m        <article class="prose prose-invert prose-blue max-w-none">
+            {#if [35mitem[36m.longDescription}
+                <div[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:115:23
+[31mError[39m: Property 'longDescription' does not exist on type 'Project | BlogPost'. Did you mean 'description'?
+  Property 'longDescription' does not exist on type 'BlogPost'. (ts)
+[36m        <article class="prose prose-invert prose-blue max-w-none">
+            {#if item.[35mlongDescription[36m}
+                <div[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:119:22
+[31mError[39m: 'item' is possibly 'undefined'. (ts)
+[36m                >
+                    {[35mitem[36m.longDescription}
+                </div>[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:119:27
+[31mError[39m: Property 'longDescription' does not exist on type 'Project | BlogPost'. Did you mean 'description'?
+  Property 'longDescription' does not exist on type 'BlogPost'. (ts)
+[36m                >
+                    {item.[35mlongDescription[36m}
+                </div>[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:133:40
+[31mError[39m: 'item' is possibly 'undefined'. (ts)
+[36m            <!-- Metrics Section (if applicable) -->
+            {#if type === "project" && [35mitem[36m.metrics && item.metrics.length > 0}
+                <div class="mt-16">[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:133:45
+[31mError[39m: Property 'metrics' does not exist on type 'Project | BlogPost'.
+  Property 'metrics' does not exist on type 'BlogPost'. (ts)
+[36m            <!-- Metrics Section (if applicable) -->
+            {#if type === "project" && item.[35mmetrics[36m && item.metrics.length > 0}
+                <div class="mt-16">[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:133:56
+[31mError[39m: 'item' is possibly 'undefined'. (ts)
+[36m            <!-- Metrics Section (if applicable) -->
+            {#if type === "project" && item.metrics && [35mitem[36m.metrics.length > 0}
+                <div class="mt-16">[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:133:61
+[31mError[39m: Property 'metrics' does not exist on type 'Project | BlogPost'.
+  Property 'metrics' does not exist on type 'BlogPost'. (ts)
+[36m            <!-- Metrics Section (if applicable) -->
+            {#if type === "project" && item.metrics && item.[35mmetrics[36m.length > 0}
+                <div class="mt-16">[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:139:32
+[31mError[39m: 'item' is possibly 'undefined'. (ts)
+[36m                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {#each [35mitem[36m.metrics as metric}
+                            <div[39m
+
+d:\projects\portfolio_sveltekit\[32msrc\routes\projects\[slug]\+page.svelte[39m:139:37
+[31mError[39m: Property 'metrics' does not exist on type 'Project | BlogPost'.
+  Property 'metrics' does not exist on type 'BlogPost'. (ts)
+[36m                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {#each item.[35mmetrics[36m as metric}
+                            <div[39m
+
+====================================
+[31msvelte-check found 39 errors and 4 warnings in 8 files
+[39m
