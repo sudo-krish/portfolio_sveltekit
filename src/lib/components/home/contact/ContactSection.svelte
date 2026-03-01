@@ -1,5 +1,5 @@
 <!-- src/lib/components/home/contact/ContactSection.svelte -->
-<!-- 3D: LEFT (x:-4.5) | Content: RIGHT -->
+<!-- 3D: RIGHT (x:4.5) | Content: LEFT -->
 <script lang="ts">
     import { onMount } from "svelte";
     import gsap from "gsap";
@@ -12,10 +12,12 @@
         Linkedin,
         Copy,
         Check,
-        ArrowRight,
     } from "lucide-svelte";
     import { getPersonalInfo } from "$lib/data/portfolio-data";
     import { getSectionContent } from "$lib/data/section-content";
+    import GlassPanel from "$lib/components/ui/GlassPanel.svelte";
+    import CtaLink from "$lib/components/ui/CtaLink.svelte";
+    import GlowAccent from "$lib/components/ui/GlowAccent.svelte";
 
     const personal = getPersonalInfo();
     const content = getSectionContent("contact")!;
@@ -55,29 +57,23 @@
 <div
     class="relative w-full h-[100dvh] overflow-hidden pointer-events-none z-20"
 >
-    <div
-        class="absolute top-1/3 right-[10%] w-[500px] h-[500px] bg-pink-500/[0.06] rounded-full blur-[120px]"
-    ></div>
+    <GlowAccent color="#ec4899" position="top-1/3 left-[10%]" />
 
     <!-- Content: LEFT (3D on RIGHT) -->
     <div
         class="absolute top-[15%] md:top-[20%] left-[5%] md:left-[10%] w-full max-w-sm md:max-w-xl lg:max-w-2xl lg:w-[45%] flex flex-col gap-4"
     >
-        <!-- SEO INTRO -->
         <p
             class="contact-panel pointer-events-auto text-[11px] leading-relaxed text-white/40 px-2"
         >
             {content.introParagraph}
         </p>
 
-        <!-- MAIN CONTACT CARD -->
-        <div
-            class="contact-panel pointer-events-auto w-full border border-white/10 bg-black/40 backdrop-blur-2xl rounded-3xl shadow-2xl relative overflow-hidden"
+        <!-- TERMINAL CONTACT CARD -->
+        <GlassPanel
+            glow="#ec4899"
+            className="contact-panel pointer-events-auto w-full"
         >
-            <div
-                class="absolute top-0 right-0 w-32 h-32 bg-pink-500/20 blur-[50px]"
-            ></div>
-
             <!-- Terminal Header -->
             <div
                 class="flex items-center gap-2 px-5 py-3 border-b border-white/[0.06] bg-white/[0.02]"
@@ -94,12 +90,10 @@
                 >
             </div>
 
-            <!-- Terminal Body -->
             <div
-                class="p-6 lg:p-8 font-mono text-sm space-y-5 relative z-10"
+                class="p-6 font-mono text-sm space-y-5"
                 style="text-shadow: 0 0 5px rgba(236,72,153,0.1);"
             >
-                <!-- Status -->
                 <div class="space-y-1.5">
                     <div class="flex gap-2 text-white/30">
                         <span class="text-pink-400">➜</span>
@@ -113,7 +107,6 @@
                     </p>
                 </div>
 
-                <!-- Location -->
                 <div class="space-y-1">
                     <div class="flex gap-2 text-white/30">
                         <span class="text-pink-400">➜</span>
@@ -126,7 +119,6 @@
                     </p>
                 </div>
 
-                <!-- Email -->
                 <div class="space-y-2">
                     <div class="flex gap-2 text-white/30">
                         <span class="text-pink-400">➜</span>
@@ -152,7 +144,6 @@
                     </button>
                 </div>
 
-                <!-- Quick Actions -->
                 <div class="pt-4 border-t border-white/[0.06] space-y-2">
                     <p
                         class="text-[10px] text-white/20 uppercase tracking-[0.2em] font-bold mb-3"
@@ -165,21 +156,22 @@
                             target="_blank"
                             class="flex items-center gap-2 px-4 py-3 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:bg-pink-500/10 hover:border-pink-500/20 transition-all text-xs text-white/50 hover:text-white/80"
                         >
-                            <Calendar size={14} class="text-pink-400/60" />
-                            <span>Schedule Call</span>
+                            <Calendar size={14} class="text-pink-400/60" /><span
+                                >Schedule Call</span
+                            >
                         </a>
                         <a
                             href={COFFEE_URL}
                             target="_blank"
                             class="flex items-center gap-2 px-4 py-3 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:bg-amber-500/10 hover:border-amber-500/20 transition-all text-xs text-white/50 hover:text-white/80"
                         >
-                            <Coffee size={14} class="text-amber-400/60" />
-                            <span>Buy Coffee</span>
+                            <Coffee size={14} class="text-amber-400/60" /><span
+                                >Buy Coffee</span
+                            >
                         </a>
                     </div>
                 </div>
 
-                <!-- Social -->
                 <div class="pt-3 flex gap-4">
                     <a
                         href={personal.socialLinks.github}
@@ -195,22 +187,14 @@
                     >
                 </div>
             </div>
-        </div>
+        </GlassPanel>
 
-        <!-- CTA -->
-        <div
-            class="contact-panel pointer-events-auto px-6 py-3 border border-white/10 bg-black/40 backdrop-blur-2xl rounded-3xl"
-        >
-            <a
+        <GlassPanel className="contact-panel pointer-events-auto px-6 py-3">
+            <CtaLink
                 href={content.ctaSlug}
-                class="group/cta flex items-center gap-2 text-[11px] font-bold text-pink-400/70 hover:text-pink-400 transition-colors"
-            >
-                <span>{content.ctaLabel}</span>
-                <ArrowRight
-                    size={12}
-                    class="group-hover/cta:translate-x-1 transition-transform"
-                />
-            </a>
-        </div>
+                label={content.ctaLabel}
+                color="#ec4899"
+            />
+        </GlassPanel>
     </div>
 </div>

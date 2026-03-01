@@ -1,22 +1,18 @@
 <!-- src/lib/components/home/credentials/CredentialsSection.svelte -->
-<!-- 3D: RIGHT (x:4) | Content: LEFT -->
+<!-- 3D: LEFT (x:-4.5) | Content: RIGHT -->
 <script lang="ts">
     import { onMount } from "svelte";
     import gsap from "gsap";
-    import {
-        Award,
-        Shield,
-        CheckCircle,
-        ExternalLink,
-        ArrowRight,
-        GraduationCap,
-    } from "lucide-svelte";
-    import { getCertifications, getEducation } from "$lib/data/portfolio-data";
+    import { Award, Shield, CheckCircle, ExternalLink } from "lucide-svelte";
+    import { getCertifications } from "$lib/data/portfolio-data";
     import { getSectionContent } from "$lib/data/section-content";
+    import GlassPanel from "$lib/components/ui/GlassPanel.svelte";
+    import StatusBadge from "$lib/components/ui/StatusBadge.svelte";
+    import CtaLink from "$lib/components/ui/CtaLink.svelte";
+    import GlowAccent from "$lib/components/ui/GlowAccent.svelte";
 
     const content = getSectionContent("credentials")!;
     const certifications = getCertifications().slice(0, 3);
-    const education = getEducation();
 
     onMount(() => {
         let ctx = gsap.context(() => {
@@ -41,64 +37,38 @@
 <div
     class="relative w-full h-[100dvh] overflow-hidden pointer-events-none z-20"
 >
-    <div
-        class="absolute top-[15%] left-[10%] w-[400px] h-[400px] bg-orange-500/10 rounded-full blur-[120px]"
-    ></div>
+    <GlowAccent color="#f97316" position="top-[15%] right-[10%]" size={400} />
 
     <!-- Content: RIGHT (3D on LEFT) -->
     <div
         class="absolute top-[15%] md:top-[20%] right-[5%] md:right-[10%] w-full max-w-sm md:max-w-xl lg:max-w-2xl lg:w-[45%] flex flex-col gap-4"
     >
-        <!-- MAIN NARRATIVE -->
-        <div
-            class="cred-panel pointer-events-auto w-full p-8 border border-white/10 bg-black/40 backdrop-blur-2xl rounded-3xl shadow-2xl relative overflow-hidden"
+        <GlassPanel
+            glow="#f97316"
+            className="cred-panel pointer-events-auto w-full p-8"
         >
-            <div
-                class="absolute top-0 right-0 w-32 h-32 bg-orange-500/20 blur-[50px]"
-            ></div>
-
-            <div class="relative z-10">
-                <div class="mb-6 flex items-center gap-3">
-                    <div
-                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-orange-500/30 bg-orange-500/10 backdrop-blur-sm"
-                    >
-                        <span class="relative flex h-1.5 w-1.5">
-                            <span
-                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"
-                            ></span>
-                            <span
-                                class="relative inline-flex rounded-full h-1.5 w-1.5 bg-orange-500"
-                            ></span>
-                        </span>
-                        <span
-                            class="font-mono text-[10px] font-semibold text-orange-200 tracking-widest uppercase"
-                        >
-                            Verified Credentials
-                        </span>
-                    </div>
-                </div>
-
-                <h3
-                    class="text-3xl lg:text-5xl font-black mb-4 leading-tight text-white tracking-tight"
-                >
-                    Certified & <br />
-                    <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-400 to-orange-500"
-                    >
-                        Validated.
-                    </span>
-                </h3>
-
-                <p class="text-sm text-muted-foreground leading-relaxed">
-                    {content.introParagraph}
-                </p>
+            <div class="mb-6 flex items-center gap-3">
+                <StatusBadge color="#f97316" label="Verified Credentials" />
             </div>
-        </div>
+
+            <h3
+                class="text-3xl lg:text-5xl font-black mb-4 leading-tight text-white tracking-tight"
+            >
+                Certified & <br />
+                <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-400 to-orange-500"
+                >
+                    Validated.
+                </span>
+            </h3>
+
+            <p class="text-sm text-muted-foreground leading-relaxed">
+                {content.introParagraph}
+            </p>
+        </GlassPanel>
 
         <!-- CERTIFICATIONS LIST -->
-        <div
-            class="cred-panel pointer-events-auto w-full border border-white/10 bg-black/40 backdrop-blur-2xl rounded-3xl shadow-2xl p-6 relative overflow-hidden"
-        >
+        <GlassPanel className="cred-panel pointer-events-auto w-full p-6">
             <div class="flex items-center justify-between mb-4 opacity-70">
                 <div class="flex items-center gap-2">
                     <Award size={14} class="text-orange-400" />
@@ -160,28 +130,22 @@
                     </a>
                 {/each}
             </div>
-        </div>
+        </GlassPanel>
 
-        <!-- CTA -->
-        <div
-            class="cred-panel pointer-events-auto px-6 py-3 border border-white/10 bg-black/40 backdrop-blur-2xl rounded-3xl flex items-center justify-between"
-        >
-            <div
-                class="flex items-center gap-2 text-[10px] text-white/20 font-mono"
-            >
-                <Shield size={10} class="text-orange-400/50" />
-                <span>Signed by AWS</span>
-            </div>
-            <a
-                href={content.ctaSlug}
-                class="group/cta flex items-center gap-1.5 text-[11px] font-bold text-orange-400/70 hover:text-orange-400 transition-colors"
-            >
-                <span>{content.ctaLabel}</span>
-                <ArrowRight
-                    size={12}
-                    class="group-hover/cta:translate-x-1 transition-transform"
+        <GlassPanel className="cred-panel pointer-events-auto px-6 py-3">
+            <div class="flex items-center justify-between">
+                <div
+                    class="flex items-center gap-2 text-[10px] text-white/20 font-mono"
+                >
+                    <Shield size={10} class="text-orange-400/50" />
+                    <span>Signed by AWS</span>
+                </div>
+                <CtaLink
+                    href={content.ctaSlug}
+                    label={content.ctaLabel}
+                    color="#f97316"
                 />
-            </a>
-        </div>
+            </div>
+        </GlassPanel>
     </div>
 </div>

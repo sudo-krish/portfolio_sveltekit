@@ -5,20 +5,19 @@
     Github,
     Linkedin,
     FileText,
-    Activity,
     Terminal,
     Database,
-    ShieldCheck,
   } from "lucide-svelte";
   import { getPersonalInfo } from "$lib/data/portfolio-data";
   import { onMount } from "svelte";
   import gsap from "gsap";
+  import GlassPanel from "$lib/components/ui/GlassPanel.svelte";
+  import GlowAccent from "$lib/components/ui/GlowAccent.svelte";
 
   const personal = getPersonalInfo();
   const RESUME_URL =
     "https://drive.google.com/file/d/1-HcNEDahb4LZHz2QR1g_hNq4_Pk3mkVw/view?usp=drive_link";
 
-  // SEO & Technical Keywords
   const techTags = [
     "Apache Spark",
     "Airflow",
@@ -32,44 +31,48 @@
 
   onMount(() => {
     let ctx = gsap.context(() => {
-        mounted = true;
-
-        // Entrance animations for the floating panels
-        gsap.fromTo(
-          ".float-panel",
-          { y: 30, opacity: 0, scale: 0.95 },
-          {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            duration: 1,
-            stagger: 0.2,
-            ease: "power3.out",
-            delay: 0.2,
-          },
-        );
-
-        gsap.fromTo(
-          ".massive-text",
-          { y: 50, opacity: 0 },
-          { y: 0, opacity: 1, duration: 1.2, ease: "expo.out", delay: 0.1 },
-        );
+      mounted = true;
+      gsap.fromTo(
+        ".float-panel",
+        { y: 30, opacity: 0, scale: 0.95 },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 1,
+          stagger: 0.2,
+          ease: "power3.out",
+          delay: 0.2,
+        },
+      );
+      gsap.fromTo(
+        ".massive-text",
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.2, ease: "expo.out", delay: 0.1 },
+      );
     });
-    return () => ctx.revert();  });
+    return () => ctx.revert();
+  });
 </script>
 
 <div
   class="relative w-full h-[100dvh] overflow-hidden pointer-events-none z-20"
 >
   <!-- BACKGROUND AMBIENT GLOWS -->
-  <div
-    class="absolute top-1/4 -left-32 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px]"
-  ></div>
-  <div
-    class="absolute bottom-1/4 right-10 w-80 h-80 bg-cyan-500/10 rounded-full blur-[100px]"
-  ></div>
+  <GlowAccent
+    color="#2563eb"
+    position="top-1/4 -left-32"
+    size={384}
+    opacity={0.2}
+  />
+  <GlowAccent
+    color="#06b6d4"
+    position="bottom-1/4 right-10"
+    size={320}
+    opacity={0.1}
+  />
 
-  <!-- MASSIVE TYPOGRAPHY WATERMARK (Absolute Positioning) -->
+  <!-- MASSIVE TYPOGRAPHY WATERMARK -->
   <div
     class="absolute top-[18%] left-[5%] md:left-[8%] lg:left-[10%] z-0 opacity-20 pointer-events-none"
   >
@@ -97,12 +100,12 @@
     </div>
   </div>
 
-  <!-- FLOATING BENTO PANEL: BIO -->
-  <div
-    class="float-panel pointer-events-auto absolute top-[55%] lg:top-[45%] left-[5%] md:left-[8%] lg:left-[10%] max-w-[280px] sm:max-w-sm border border-white/10 bg-black/40 backdrop-blur-2xl rounded-2xl p-6 shadow-2xl"
+  <!-- BIO PANEL -->
+  <GlassPanel
+    className="float-panel pointer-events-auto absolute top-[55%] lg:top-[45%] left-[5%] md:left-[8%] lg:left-[10%] max-w-[280px] sm:max-w-sm p-6 rounded-2xl"
   >
     <div
-      class="absolute -top-3 -left-3 border border-white/20 bg-background/80 backdrop-blur-md w-8 h-8 rounded-full flex items-center justify-center"
+      class="absolute -top-3 -left-3 border border-white/20 bg-background/80 backdrop-blur-md w-8 h-8 rounded-full flex items-center justify-center z-20"
     >
       <Terminal size={12} class="text-blue-400" />
     </div>
@@ -126,16 +129,14 @@
         Core Logic <ArrowRight size={14} />
       </button>
     </div>
-  </div>
+  </GlassPanel>
 
-  <!-- FLOATING BENTO PANEL: TELEMETRY (Right Side) -->
+  <!-- TELEMETRY PANEL (Right Side, Desktop Only) -->
   <div
     class="float-panel hidden lg:flex pointer-events-auto absolute top-[25%] right-[8%] w-64 flex-col gap-4"
   >
     <!-- Mini Status Panel -->
-    <div
-      class="border border-white/10 bg-black/40 backdrop-blur-2xl rounded-xl p-4 shadow-2xl"
-    >
+    <GlassPanel className="p-4 rounded-xl">
       <div class="flex items-center justify-between mb-4">
         <span
           class="font-mono text-[10px] text-muted-foreground tracking-wider uppercase"
@@ -156,9 +157,9 @@
 
       <div class="space-y-3">
         <div class="flex justify-between items-end">
-          <span class="text-xs text-white/70 flex items-center gap-1.5"
-            ><Database size={12} class="text-blue-400" /> Throughput</span
-          >
+          <span class="text-xs text-white/70 flex items-center gap-1.5">
+            <Database size={12} class="text-blue-400" /> Throughput
+          </span>
           <span class="font-mono text-sm font-semibold text-white"
             >4.2 TB/s</span
           >
@@ -169,25 +170,27 @@
           ></div>
         </div>
       </div>
-    </div>
+    </GlassPanel>
 
     <!-- Social Terminal -->
-    <div
-      class="border border-white/10 bg-black/40 backdrop-blur-2xl rounded-xl p-2 shadow-2xl flex justify-between items-center px-4"
+    <GlassPanel
+      className="p-2 rounded-xl flex justify-between items-center px-4"
     >
       <a
         href={personal.socialLinks.github}
         target="_blank"
         class="hover:text-white text-white/50 transition-colors p-2"
-        ><Github size={16} /></a
       >
+        <Github size={16} />
+      </a>
       <div class="w-px h-4 bg-white/10"></div>
       <a
         href={personal.socialLinks.linkedin}
         target="_blank"
         class="hover:text-blue-400 text-white/50 transition-colors p-2"
-        ><Linkedin size={16} /></a
       >
+        <Linkedin size={16} />
+      </a>
       <div class="w-px h-4 bg-white/10"></div>
       <a
         href={RESUME_URL}
@@ -196,7 +199,7 @@
       >
         <FileText size={14} /> Resume
       </a>
-    </div>
+    </GlassPanel>
   </div>
 
   <!-- FLOATING DATA TAGS -->

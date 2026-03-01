@@ -1,5 +1,5 @@
 <!-- src/lib/components/home/techstack/TechStackSection.svelte -->
-<!-- 3D: LEFT (x:-4.5) | Content: RIGHT -->
+<!-- 3D: RIGHT (x:4.5) | Content: LEFT -->
 <script lang="ts">
     import { onMount } from "svelte";
     import gsap from "gsap";
@@ -10,9 +10,12 @@
         GitBranch,
         Layers,
         Zap,
-        ArrowRight,
     } from "lucide-svelte";
     import { getSectionContent } from "$lib/data/section-content";
+    import GlassPanel from "$lib/components/ui/GlassPanel.svelte";
+    import StatusBadge from "$lib/components/ui/StatusBadge.svelte";
+    import CtaLink from "$lib/components/ui/CtaLink.svelte";
+    import GlowAccent from "$lib/components/ui/GlowAccent.svelte";
 
     const content = getSectionContent("techstack")!;
 
@@ -71,65 +74,39 @@
 <div
     class="relative w-full h-[100dvh] overflow-hidden pointer-events-none z-20"
 >
-    <!-- BACKGROUND AMBIENT GLOW -->
-    <div
-        class="absolute top-[20%] left-[10%] w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px]"
-    ></div>
+    <GlowAccent color="#06b6d4" position="top-[20%] left-[10%]" />
 
     <!-- Content: LEFT (3D on RIGHT) -->
     <div
         class="absolute top-[15%] md:top-[20%] left-[5%] md:left-[10%] w-full max-w-sm md:max-w-xl lg:max-w-2xl lg:w-[45%] flex flex-col gap-4"
     >
-        <!-- MAIN NARRATIVE PANEL -->
-        <div
-            class="ts-panel pointer-events-auto w-full p-8 border border-white/10 bg-black/40 backdrop-blur-2xl rounded-3xl shadow-2xl relative overflow-hidden"
+        <!-- MAIN NARRATIVE -->
+        <GlassPanel
+            glow="#06b6d4"
+            className="ts-panel pointer-events-auto w-full p-8"
         >
-            <div
-                class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/20 blur-[50px]"
-            ></div>
-
-            <div class="relative z-10">
-                <div class="mb-6 flex items-center gap-3">
-                    <div
-                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-500/10 backdrop-blur-sm"
-                    >
-                        <span class="relative flex h-1.5 w-1.5">
-                            <span
-                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"
-                            ></span>
-                            <span
-                                class="relative inline-flex rounded-full h-1.5 w-1.5 bg-cyan-500"
-                            ></span>
-                        </span>
-                        <span
-                            class="font-mono text-[10px] font-semibold text-cyan-200 tracking-widest uppercase"
-                        >
-                            Technical Arsenal
-                        </span>
-                    </div>
-                </div>
-
-                <h3
-                    class="text-3xl lg:text-5xl font-black mb-4 leading-tight text-white tracking-tight"
-                >
-                    {totalSkills}+ Tools in the <br />
-                    <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-500"
-                    >
-                        Stack.
-                    </span>
-                </h3>
-
-                <p class="text-sm text-muted-foreground leading-relaxed">
-                    {content.introParagraph}
-                </p>
+            <div class="mb-6 flex items-center gap-3">
+                <StatusBadge color="#06b6d4" label="Technical Arsenal" />
             </div>
-        </div>
 
-        <!-- TECH GRID PANEL -->
-        <div
-            class="ts-panel pointer-events-auto w-full border border-white/10 bg-black/40 backdrop-blur-2xl rounded-3xl shadow-2xl p-6 relative overflow-hidden"
-        >
+            <h3
+                class="text-3xl lg:text-5xl font-black mb-4 leading-tight text-white tracking-tight"
+            >
+                {totalSkills}+ Tools in the <br />
+                <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-500"
+                >
+                    Stack.
+                </span>
+            </h3>
+
+            <p class="text-sm text-muted-foreground leading-relaxed">
+                {content.introParagraph}
+            </p>
+        </GlassPanel>
+
+        <!-- TECH GRID -->
+        <GlassPanel className="ts-panel pointer-events-auto w-full p-6">
             <div class="flex items-center justify-between mb-4 opacity-70">
                 <div class="flex items-center gap-2">
                     <Layers size={14} class="text-cyan-400" />
@@ -170,22 +147,15 @@
                     </div>
                 {/each}
             </div>
-        </div>
+        </GlassPanel>
 
         <!-- CTA -->
-        <div
-            class="ts-panel pointer-events-auto px-6 py-3 border border-white/10 bg-black/40 backdrop-blur-2xl rounded-3xl"
-        >
-            <a
+        <GlassPanel className="ts-panel pointer-events-auto px-6 py-3">
+            <CtaLink
                 href={content.ctaSlug}
-                class="group/cta flex items-center gap-2 text-[11px] font-bold text-cyan-400/70 hover:text-cyan-400 transition-colors"
-            >
-                <span>{content.ctaLabel}</span>
-                <ArrowRight
-                    size={12}
-                    class="group-hover/cta:translate-x-1 transition-transform"
-                />
-            </a>
-        </div>
+                label={content.ctaLabel}
+                color="#06b6d4"
+            />
+        </GlassPanel>
     </div>
 </div>

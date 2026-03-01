@@ -1,9 +1,11 @@
 <!-- src/lib/components/home/github/LeetCodeCard.svelte -->
-<!-- LeetCode Theme: #ffa116 amber, #2cbb5d easy, #ffc01e medium, #ef4743 hard -->
+<!-- LeetCode Theme: #ffa116 amber -->
 <script lang="ts">
     import { onMount } from "svelte";
     import { ExternalLink } from "lucide-svelte";
     import { getLeetCodeStatsCached } from "$lib/services/leetcode";
+    import GlassPanel from "$lib/components/ui/GlassPanel.svelte";
+    import StatusBadge from "$lib/components/ui/StatusBadge.svelte";
 
     let stats: any = null;
     let loading = true;
@@ -47,13 +49,7 @@
     ];
 </script>
 
-<div
-    class="pointer-events-auto w-full border border-white/10 bg-black/40 backdrop-blur-2xl rounded-3xl shadow-2xl relative overflow-hidden"
->
-    <div
-        class="absolute top-0 right-0 w-32 h-32 bg-[#ffa116]/15 blur-[50px]"
-    ></div>
-
+<GlassPanel glow="#ffa116" className="pointer-events-auto w-full">
     {#if loading}
         <div class="flex items-center justify-center p-8">
             <div
@@ -61,25 +57,9 @@
             ></div>
         </div>
     {:else if stats}
-        <div class="relative z-10 p-6">
-            <!-- Header -->
+        <div class="p-6">
             <div class="flex items-center justify-between mb-3">
-                <div
-                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#ffa116]/30 bg-[#ffa116]/10 backdrop-blur-sm"
-                >
-                    <span class="relative flex h-1.5 w-1.5">
-                        <span
-                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ffa116] opacity-75"
-                        ></span>
-                        <span
-                            class="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#ffa116]"
-                        ></span>
-                    </span>
-                    <span
-                        class="font-mono text-[10px] font-semibold text-[#ffa116] tracking-widest uppercase"
-                        >LeetCode</span
-                    >
-                </div>
+                <StatusBadge color="#ffa116" label="LeetCode" />
                 <a
                     href="https://leetcode.com/user8673j"
                     target="_blank"
@@ -90,7 +70,6 @@
                 </a>
             </div>
 
-            <!-- Hero + Difficulty in one row -->
             <div class="flex items-center gap-4">
                 <div class="shrink-0">
                     <span
@@ -122,7 +101,6 @@
             </div>
         </div>
 
-        <!-- Bottom -->
         <div
             class="px-6 py-2.5 border-t border-white/[0.06] flex justify-between text-[9px] font-mono text-white/20"
         >
@@ -130,4 +108,4 @@
             <span>Rank: #{stats.ranking?.toLocaleString()}</span>
         </div>
     {/if}
-</div>
+</GlassPanel>
