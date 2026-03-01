@@ -1,9 +1,9 @@
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
   import { Canvas } from "@threlte/core";
-  import { onMount } from "svelte";
+  import { onMount, onDestroy, tick } from "svelte";
   import gsap from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
   import HomeScene from "$lib/components/home/3d/HomeScene.svelte";
 
   // Existing Content Components
@@ -22,11 +22,14 @@
   import CredentialsSection from "$lib/components/home/credentials/CredentialsSection.svelte";
   import ContactSection from "$lib/components/home/contact/ContactSection.svelte";
 
-  onMount(() => {
+  onMount(async () => {
     // --- 1. ROBUST SCROLL RESET LOGIC ---
     if ("scrollRestoration" in history) {
       history.scrollRestoration = "manual";
     }
+
+    // Lock body scroll for the home page (it uses .snap-container)
+    document.body.style.overflow = "hidden";
 
     const resetScroll = () => {
       window.scrollTo(0, 0);
@@ -47,9 +50,32 @@
       scroller: ".snap-container",
     });
 
+    // Wait for Svelte to finish rendering children
+    await tick();
+
+    // Give 3D canvas and components time to mount
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+
+    // Fallback refresh for slower renders
     setTimeout(() => {
       ScrollTrigger.refresh();
     }, 500);
+  });
+
+  onDestroy(() => {
+    // Restore normal body scroll when leaving the home page
+    if (typeof document !== "undefined") {
+      document.body.style.overflow = "";
+    }
+
+    // CRITICAL: Reset the global GSAP scroller default so it doesn't break slug pages!
+    ScrollTrigger.defaults({ scroller: window });
+
+    // Clean up all ScrollTriggers created on the home page when navigating away
+    // This prevents scroll math errors when returning back from a slug route
+    ScrollTrigger.getAll().forEach((t) => t.kill());
   });
 </script>
 
@@ -175,7 +201,6 @@
 
   :global(body) {
     background-color: hsl(var(--background));
-    overflow: hidden;
     margin: 0;
   }
   .fixed-canvas {

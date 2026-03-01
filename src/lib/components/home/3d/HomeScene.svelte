@@ -478,9 +478,10 @@
 </T.Group>
 
 <!-- V9: METRIC SECTION 3D OBJECTS -->
+<!-- Experience: LEFT (content RIGHT) — continues from Warehouse RIGHT -->
 <T.Group
   bind:ref={expGroup}
-  position={[isMobile ? 0 : 4, 0, 0]}
+  position={[isMobile ? 0 : -4.5, 0, 0]}
   visible={false}
 >
   <Float speed={1.5} rotationIntensity={0.4} floatIntensity={0.6}>
@@ -488,6 +489,7 @@
   </Float>
 </T.Group>
 
+<!-- TechStack: RIGHT (content LEFT) -->
 <T.Group
   bind:ref={techGroup}
   position={[isMobile ? 0 : 4.5, 0, 0]}
@@ -498,6 +500,7 @@
   </Float>
 </T.Group>
 
+<!-- GitHub: LEFT (content RIGHT) -->
 <T.Group
   bind:ref={ghGroup}
   position={[isMobile ? 0 : -4.5, 0, 0]}
@@ -508,6 +511,7 @@
   </Float>
 </T.Group>
 
+<!-- Impact: RIGHT (content LEFT) -->
 <T.Group
   bind:ref={impactGroup}
   position={[isMobile ? 0 : 4.5, 0, 0]}
@@ -518,9 +522,10 @@
   </Float>
 </T.Group>
 
+<!-- Credentials: LEFT (content RIGHT) -->
 <T.Group
   bind:ref={credGroup}
-  position={[isMobile ? 0 : 4, 0, 0]}
+  position={[isMobile ? 0 : -4.5, 0, 0]}
   visible={false}
 >
   <Float speed={1.3} rotationIntensity={0.4} floatIntensity={0.5}>
@@ -528,6 +533,7 @@
   </Float>
 </T.Group>
 
+<!-- Contact: RIGHT (content LEFT) -->
 <T.Group
   bind:ref={contactGroup}
   position={[isMobile ? 0 : 4.5, 0, 0]}

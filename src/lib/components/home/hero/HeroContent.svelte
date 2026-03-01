@@ -31,29 +31,31 @@
   let mounted = false;
 
   onMount(() => {
-    mounted = true;
+    let ctx = gsap.context(() => {
+        mounted = true;
 
-    // Entrance animations for the floating panels
-    gsap.fromTo(
-      ".float-panel",
-      { y: 30, opacity: 0, scale: 0.95 },
-      {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 1,
-        stagger: 0.2,
-        ease: "power3.out",
-        delay: 0.2,
-      },
-    );
+        // Entrance animations for the floating panels
+        gsap.fromTo(
+          ".float-panel",
+          { y: 30, opacity: 0, scale: 0.95 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 1,
+            stagger: 0.2,
+            ease: "power3.out",
+            delay: 0.2,
+          },
+        );
 
-    gsap.fromTo(
-      ".massive-text",
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.2, ease: "expo.out", delay: 0.1 },
-    );
-  });
+        gsap.fromTo(
+          ".massive-text",
+          { y: 50, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1.2, ease: "expo.out", delay: 0.1 },
+        );
+    });
+    return () => ctx.revert();  });
 </script>
 
 <div

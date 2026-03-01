@@ -11,19 +11,22 @@
   import gsap from "gsap";
 
   onMount(() => {
-    gsap.fromTo(
-      ".warehouse-panel",
-      { y: 50, opacity: 0, scale: 0.95 },
-      {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 1.2,
-        stagger: 0.15,
-        ease: "power3.out",
-        scrollTrigger: { trigger: "#warehouse", start: "top 60%" },
-      },
-    );
+    let ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".warehouse-panel",
+        { y: 50, opacity: 0, scale: 0.95 },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 1.2,
+          stagger: 0.15,
+          ease: "power3.out",
+          delay: 0.1,
+        },
+      );
+    });
+    return () => ctx.revert();
   });
 </script>
 

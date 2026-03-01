@@ -6,23 +6,22 @@
   import gsap from "gsap";
 
   onMount(() => {
-    // Pipeline entrance animation
-    gsap.fromTo(
-      ".pipeline-panel",
-      { x: 50, opacity: 0, scale: 0.95 },
-      {
-        x: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 1.2,
-        stagger: 0.15,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: "#pipeline",
-          start: "top 60%",
+    let ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".pipeline-panel",
+        { x: 50, opacity: 0, scale: 0.95 },
+        {
+          x: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 1.2,
+          stagger: 0.15,
+          ease: "power3.out",
+          delay: 0.1,
         },
-      },
-    );
+      );
+    });
+    return () => ctx.revert();
   });
 </script>
 

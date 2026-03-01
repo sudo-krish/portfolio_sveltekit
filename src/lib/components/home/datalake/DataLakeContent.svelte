@@ -26,21 +26,21 @@
   ];
 
   onMount(() => {
-    gsap.fromTo(
-      ".lake-panel",
-      { y: 50, opacity: 0, scale: 0.98 },
-      {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: "#datalake",
-          start: "top 70%",
+    let ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".lake-panel",
+        { y: 50, opacity: 0, scale: 0.98 },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 1,
+          ease: "power3.out",
+          delay: 0.1,
         },
-      },
-    );
+      );
+    });
+    return () => ctx.revert();
   });
 </script>
 

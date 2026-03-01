@@ -25,17 +25,20 @@
   ];
 
   onMount(() => {
-    gsap.fromTo(
-      ".lakehouse-bento-wrapper",
-      { y: 40, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: { trigger: "#lakehouse", start: "top 60%" },
-      },
-    );
+    let ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".lakehouse-bento-wrapper",
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power3.out",
+          delay: 0.1,
+        },
+      );
+    });
+    return () => ctx.revert();
   });
 </script>
 
