@@ -13,7 +13,12 @@
 <p
 	bind:this={ref}
 	data-slot="card-description"
-	class={cn("text-muted-foreground text-sm", className)}
+	class={cn(
+		"text-sm font-medium text-muted-foreground",
+		// Ensures description text contrasts beautifully against the frosted blur
+		"opacity-90",
+		className,
+	)}
 	{...restProps}
 >
 	{@render children?.()}

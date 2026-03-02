@@ -14,7 +14,7 @@
   import LakehouseContent from "$lib/components/home/lakehouse/LakehouseContent.svelte";
   import WarehouseContent from "$lib/components/home/warehouse/WarehouseContent.svelte";
 
-  // NEW V9: Full-Viewport Metric Sections
+  // Full-Viewport Metric Sections
   import ExperienceSection from "$lib/components/home/experience/ExperienceSection.svelte";
   import TechStackSection from "$lib/components/home/techstack/TechStackSection.svelte";
   import GithubSection from "$lib/components/home/github/GithubSection.svelte";
@@ -22,59 +22,49 @@
   import CredentialsSection from "$lib/components/home/credentials/CredentialsSection.svelte";
   import ContactSection from "$lib/components/home/contact/ContactSection.svelte";
 
-  onMount(async () => {
-    // --- 1. ROBUST SCROLL RESET LOGIC ---
+  onMount(() => {
+    // 1. SCROLL RESET LOGIC
     if ("scrollRestoration" in history) {
       history.scrollRestoration = "manual";
     }
 
-    // Lock body scroll for the home page (it uses .snap-container)
+    // Lock body scroll - handled smoothly
+    document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
 
-    const resetScroll = () => {
-      window.scrollTo(0, 0);
-      const container = document.querySelector(".snap-container");
-      if (container) {
-        container.scrollTop = 0;
-      }
-    };
-
-    resetScroll();
-    requestAnimationFrame(resetScroll);
-    setTimeout(resetScroll, 10);
-
-    // --- 2. GSAP INITIALIZATION ---
+    // 2. GSAP INITIALIZATION
     gsap.registerPlugin(ScrollTrigger);
 
     ScrollTrigger.defaults({
       scroller: ".snap-container",
+      // Important for scroll-snap compatibility
+      fastScrollEnd: true,
     });
 
-    // Wait for Svelte to finish rendering children
-    await tick();
+    let ro: ResizeObserver | null = null;
 
-    // Give 3D canvas and components time to mount
-    setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 100);
+    tick().then(() => {
+      // Use a ResizeObserver to trigger GSAP refresh only when the DOM actually settles
+      const container = document.querySelector(".snap-container");
+      if (container) {
+        ro = new ResizeObserver(() => {
+          ScrollTrigger.refresh();
+        });
+        ro.observe(container);
+      }
+    });
 
-    // Fallback refresh for slower renders
-    setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 500);
+    return () => {
+      if (ro) ro.disconnect();
+    };
   });
 
   onDestroy(() => {
-    // Restore normal body scroll when leaving the home page
     if (typeof document !== "undefined") {
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
     }
-
-    // CRITICAL: Reset the global GSAP scroller default so it doesn't break slug pages!
     ScrollTrigger.defaults({ scroller: window });
-
-    // Clean up all ScrollTriggers created on the home page when navigating away
-    // This prevents scroll math errors when returning back from a slug route
     ScrollTrigger.getAll().forEach((t) => t.kill());
   });
 </script>
@@ -91,85 +81,70 @@
 </div>
 
 <!-- MAIN SCROLL CONTAINER -->
-<main class="snap-container" style="scroll-snap-type: y mandatory;">
-  <!-- 1. HERO -->
+<main class="snap-container">
   <section id="hero" class="snap-section">
     <div class="hero-bg-layer"><HeroBackground /></div>
-    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+    <div class="absolute inset-0 w-full h-full z-20 pointer-events-none">
       <HeroContent />
     </div>
   </section>
 
-  <!-- 2. PIPELINE -->
   <section id="pipeline" class="snap-section">
-    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+    <div class="absolute inset-0 w-full h-full z-20 pointer-events-none">
       <PipelineContent />
     </div>
   </section>
 
-  <!-- 3. DATA LAKE -->
   <section id="datalake" class="snap-section">
-    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+    <div class="absolute inset-0 w-full h-full z-20 pointer-events-none">
       <DataLakeContent />
     </div>
   </section>
 
-  <!-- 4. LAKEHOUSE -->
   <section id="lakehouse" class="snap-section">
-    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+    <div class="absolute inset-0 w-full h-full z-20 pointer-events-none">
       <LakehouseContent />
     </div>
   </section>
 
-  <!-- 5. WAREHOUSE -->
   <section id="warehouse" class="snap-section">
-    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+    <div class="absolute inset-0 w-full h-full z-20 pointer-events-none">
       <WarehouseContent />
     </div>
   </section>
 
-  <!-- ============================================= -->
-  <!-- V9: NEW FULL-VIEWPORT METRIC SECTIONS         -->
-  <!-- ============================================= -->
-
-  <!-- 6. EXPERIENCE -->
   <section id="experience" class="snap-section">
-    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+    <div class="absolute inset-0 w-full h-full z-20 pointer-events-none">
       <ExperienceSection />
     </div>
   </section>
 
-  <!-- 7. TECH STACK -->
   <section id="techstack" class="snap-section">
-    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+    <div class="absolute inset-0 w-full h-full z-20 pointer-events-none">
       <TechStackSection />
     </div>
   </section>
 
-  <!-- 8. GITHUB -->
   <section id="github" class="snap-section">
-    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+    <div class="absolute inset-0 w-full h-full z-20 pointer-events-none">
       <GithubSection />
     </div>
   </section>
 
-  <!-- 9. IMPACT -->
   <section id="impact" class="snap-section">
-    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+    <div class="absolute inset-0 w-full h-full z-20 pointer-events-none">
       <ImpactSection />
     </div>
   </section>
 
-  <!-- 10. CREDENTIALS -->
   <section id="credentials" class="snap-section">
-    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+    <div class="absolute inset-0 w-full h-full z-20 pointer-events-none">
       <CredentialsSection />
     </div>
   </section>
 
-  <!-- 11. CONTACT -->
   <section id="contact" class="snap-section">
-    <div class="absolute inset-0 w-full h-full pointer-events-none z-10">
+    <div class="absolute inset-0 w-full h-full z-20 pointer-events-none">
       <ContactSection />
     </div>
   </section>
@@ -179,16 +154,26 @@
   /* PARENT CONTAINER */
   .snap-container {
     height: 100dvh;
+    height: 100vh; /* Fallback */
     width: 100%;
-    overflow-y: scroll;
+    overflow-y: auto; /* Changed from scroll to auto for cleaner OS handling */
     scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
     position: relative;
     z-index: 10;
+    /* Hide scrollbar for a seamless app-like feel */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
-  /* STANDARD SECTIONS — All sections are now uniform snap sections */
+  .snap-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* STANDARD SECTIONS */
   .snap-section {
     height: 100dvh;
+    height: 100vh;
     width: 100%;
     scroll-snap-align: start;
     scroll-snap-stop: always;
@@ -199,21 +184,18 @@
     overflow: hidden;
   }
 
-  :global(body) {
-    background-color: hsl(var(--background));
-    margin: 0;
-  }
   .fixed-canvas {
     position: fixed;
     inset: 0;
-    z-index: -1;
+    z-index: 0;
     pointer-events: none;
-    background: hsl(var(--background));
+    background: transparent;
   }
+
   .hero-bg-layer {
     position: absolute;
     inset: 0;
-    z-index: -1;
+    z-index: 5;
     opacity: 0.3;
     pointer-events: none;
   }

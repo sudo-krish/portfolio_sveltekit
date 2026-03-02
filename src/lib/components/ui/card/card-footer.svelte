@@ -13,7 +13,12 @@
 <div
 	bind:this={ref}
 	data-slot="card-footer"
-	class={cn("[.border-t]:pt-6 flex items-center px-6", className)}
+	class={cn(
+		"flex items-center px-6 pb-6 pt-2",
+		// Beautiful glass-etched separator line
+		"[.border-t]:pt-6 [.border-t]:mt-2 [.border-t]:border-t [.border-t]:border-[hsl(var(--border)/0.2)] [.border-t]:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]",
+		className,
+	)}
 	{...restProps}
 >
 	{@render children?.()}

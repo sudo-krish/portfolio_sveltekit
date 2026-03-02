@@ -49,16 +49,24 @@
     ];
 </script>
 
-<GlassPanel glow="#ffa116" className="pointer-events-auto w-full">
+<GlassPanel
+    glow="#ffa116"
+    className="pointer-events-auto w-full rounded-3xl relative overflow-hidden"
+>
+    <!-- Ambient Inner Glow -->
+    <div
+        class="absolute -bottom-10 -right-10 w-40 h-40 bg-[#ffa116]/10 blur-[50px] rounded-full pointer-events-none mix-blend-screen z-0"
+    ></div>
+
     {#if loading}
-        <div class="flex items-center justify-center p-8">
+        <div class="flex items-center justify-center p-8 relative z-10">
             <div
-                class="w-5 h-5 border-2 border-[#ffa116]/30 border-t-[#ffa116] rounded-full animate-spin"
+                class="w-6 h-6 border-2 border-[#ffa116]/30 border-t-[#ffa116] rounded-full animate-spin"
             ></div>
         </div>
     {:else if stats}
-        <div class="p-6">
-            <div class="flex items-center justify-between mb-3">
+        <div class="p-6 sm:p-8 relative z-10">
+            <div class="flex items-center justify-between mb-6">
                 <StatusBadge color="#ffa116" label="LeetCode" />
                 <a
                     href="https://leetcode.com/user8673j"
@@ -70,28 +78,30 @@
                 </a>
             </div>
 
-            <div class="flex items-center gap-4">
-                <div class="shrink-0">
+            <div class="flex items-center gap-6 sm:gap-8 mt-2">
+                <div class="shrink-0 flex flex-col items-center">
                     <span
-                        class="text-4xl font-black text-[#ffa116] font-mono leading-none"
+                        class="text-5xl font-black text-[#ffa116] font-mono leading-none drop-shadow-[0_0_15px_rgba(255,161,22,0.3)]"
                         >{stats.totalSolved}</span
                     >
-                    <p class="text-[9px] text-white/25 font-mono mt-0.5">
+                    <p
+                        class="text-[10px] text-white/40 uppercase tracking-widest font-mono mt-2 font-bold"
+                    >
                         solved
                     </p>
                 </div>
-                <div class="flex-1 grid grid-cols-3 gap-2">
+                <div class="flex-1 grid grid-cols-3 gap-3">
                     {#each difficulties as d}
                         <div
-                            class="p-2 rounded-lg border border-white/[0.06] text-center"
-                            style="background: {d.bg}"
+                            class="p-3 rounded-2xl border border-white/5 text-center shadow-inner transition-colors"
+                            style="background: {d.bg}; border-color: {d.color}20;"
                         >
                             <span
-                                class="text-base font-black font-mono"
+                                class="text-xl sm:text-2xl font-black font-mono mb-1 block"
                                 style="color: {d.color}">{stats[d.key]}</span
                             >
                             <p
-                                class="text-[8px] font-mono text-white/30 uppercase"
+                                class="text-[9px] sm:text-[10px] font-mono text-white/50 uppercase tracking-widest"
                             >
                                 {d.label}
                             </p>
@@ -102,10 +112,16 @@
         </div>
 
         <div
-            class="px-6 py-2.5 border-t border-white/[0.06] flex justify-between text-[9px] font-mono text-white/20"
+            class="px-6 sm:px-8 py-4 border-t border-white/5 flex justify-between text-[10px] sm:text-[11px] font-mono font-bold tracking-widest uppercase text-white/30 relative z-10 bg-black/20"
         >
-            <span>Accept: {stats.acceptanceRate}%</span>
-            <span>Rank: #{stats.ranking?.toLocaleString()}</span>
+            <span class="flex items-center gap-2"
+                ><div class="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                Accept: {stats.acceptanceRate}%</span
+            >
+            <span class="flex items-center gap-2"
+                ><div class="w-1.5 h-1.5 rounded-full bg-[#ffa116]"></div>
+                Rank: #{stats.ranking?.toLocaleString()}</span
+            >
         </div>
     {/if}
 </GlassPanel>

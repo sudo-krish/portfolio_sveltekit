@@ -4,6 +4,7 @@
   import { Environment, Float } from "@threlte/extras";
   import gsap from "gsap";
   import { onMount } from "svelte";
+  import { carouselSwipeFraction } from "$lib/stores/carousel-store";
 
   import DataMascot from "./DataMascot.svelte";
   import GlassPipe from "./GlassPipe.svelte";
@@ -11,7 +12,6 @@
   import DataHouse from "./DataHouse.svelte";
   import DataWarehouse from "./DataWarehouse.svelte";
 
-  // V9: Metric section 3D models
   import ExperienceGem from "./ExperienceGem.svelte";
   import TechCube from "./TechCube.svelte";
   import GithubOcta from "./GithubOcta.svelte";
@@ -25,7 +25,6 @@
   let houseGroup: any;
   let warehouseGroup: any;
 
-  // V9: Metric section 3D objects
   let expGroup: any;
   let techGroup: any;
   let ghGroup: any;
@@ -33,19 +32,22 @@
   let credGroup: any;
   let contactGroup: any;
 
-  // --- RESPONSIVE STATE ---
   let isMobile = false;
   let cameraZ = 10;
   let cameraFov = 35;
 
-  // --- SCROLL DAMPING ---
   let scrollY_target = 0;
   let scrollY_current = 0;
   let innerHeight = 1000;
 
-  // --- CONFIGURATION OBJECTS ---
+  // This is now purely the X positional offset (e.g. -10 or +10), already calculated by the carousel
+  let calculatedSwipeOffset = 0;
+  const unsubFraction = carouselSwipeFraction.subscribe(
+    (v) => (calculatedSwipeOffset = v),
+  );
+
   const DESKTOP_POS = {
-    start: { x: 3.5, y: 0.2, z: 0 },
+    start: { x: 4.8, y: -0.2, z: 0 },
     pipe: { x: -3.5, y: -0.5, z: 0 },
     lake: { x: 3.5, y: -1.0, z: 0 },
     house: { x: -3.5, y: 0.2, z: 0 },
@@ -53,11 +55,11 @@
   };
 
   const MOBILE_POS = {
-    start: { x: 0, y: -2.0, z: 0 },
-    pipe: { x: 0, y: 1.8, z: 0 },
-    lake: { x: 0, y: -2.0, z: 0 },
-    house: { x: 0, y: 1.8, z: 0 },
-    ware: { x: 0, y: -2.0, z: 0 },
+    start: { x: 0, y: 1.5, z: 0 },
+    pipe: { x: 0, y: 1.5, z: 0 },
+    lake: { x: 0, y: 1.5, z: 0 },
+    house: { x: 0, y: 1.5, z: 0 },
+    ware: { x: 0, y: 1.5, z: 0 },
   };
 
   let pos = DESKTOP_POS;
@@ -84,33 +86,23 @@
     }
   }
 
-  // --- HELPER: EASE FUNCTIONS ---
-  // Simple cubic ease for smoother movement than linear
   const easeInOutCubic = (t: number) =>
     t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
-  // --- THE ANIMATION LOOP ---
   const tick = () => {
     if (!mascotGroup) return;
 
-    // 1. Damping: Slightly tighter (0.08) for better responsiveness
     scrollY_current += (scrollY_target - scrollY_current) * 0.08;
-
-    // 2. Progress
     const rawProgress = scrollY_current / innerHeight;
-
-    // 3. Optimization — extended for V9 metric sections (11 total sections)
     const isVisible = rawProgress <= 12;
-
-    // Original pipeline models: visible only in phases 0-4.5
     const pipelineVisible = rawProgress < 4.6;
+
     mascotGroup.visible = pipelineVisible;
     if (pipeGroup) pipeGroup.visible = pipelineVisible;
     if (lakeGroup) lakeGroup.visible = pipelineVisible;
     if (houseGroup) houseGroup.visible = pipelineVisible;
     if (warehouseGroup) warehouseGroup.visible = pipelineVisible;
 
-    // V9: Metric section 3D objects — each appears in its own phase
     const metricGroups = [
       expGroup,
       techGroup,
@@ -124,29 +116,31 @@
       const phaseStart = 4.8 + i;
       const phaseEnd = phaseStart + 1.2;
       const inPhase = rawProgress >= phaseStart && rawProgress < phaseEnd;
+
       g.visible = inPhase;
+
       if (inPhase) {
         const localP = Math.min((rawProgress - phaseStart) / 0.5, 1);
         const s = localP * 0.8;
         g.scale.set(s, s, s);
         g.rotation.y += 0.005;
         g.rotation.x += 0.002;
+
+        if (isMobile) {
+          // Simply assign the offset directly. The carousel calculated if it should be right or left.
+          g.position.x = calculatedSwipeOffset;
+          g.position.y = MOBILE_POS.start.y;
+        }
       }
     });
 
     if (!isVisible) return;
 
-    // --- PHASE 1: HERO -> PIPELINE (0.0 - 1.0) ---
     if (rawProgress <= 1.0) {
       const p1 = Math.max(0, rawProgress);
-
-      // MOVEMENT: Ease the mascot movement
-      const rawMoveP = gsap.utils.clamp(
-        0,
-        1,
-        gsap.utils.mapRange(0, 0.6, 0, 1, p1),
-      ); // End movement slightly later
-      const moveP = easeInOutCubic(rawMoveP);
+      const moveP = easeInOutCubic(
+        gsap.utils.clamp(0, 1, gsap.utils.mapRange(0, 0.6, 0, 1, p1)),
+      );
 
       mascotGroup.position.x = gsap.utils.interpolate(
         pos.start.x,
@@ -167,18 +161,12 @@
       const mScale = gsap.utils.interpolate(HERO_SCALE, PIPE_SCALE, moveP);
       mascotGroup.scale.set(mScale, mScale, mScale);
 
-      // PIPE RISE: Start earlier (0.3) for overlap
-      const rawPipeRise = gsap.utils.clamp(
-        0,
-        1,
-        gsap.utils.mapRange(0.3, 0.8, 0, 1, p1),
+      const pipeRiseP = easeInOutCubic(
+        gsap.utils.clamp(0, 1, gsap.utils.mapRange(0.3, 0.8, 0, 1, p1)),
       );
-      const pipeRiseP = easeInOutCubic(rawPipeRise);
-
       pipeGroup.position.x = pos.pipe.x;
       pipeGroup.position.y = gsap.utils.interpolate(-20, pos.pipe.y, pipeRiseP);
 
-      // ROTATION: Happen near end of movement
       const rotP = gsap.utils.clamp(
         0,
         1,
@@ -186,7 +174,6 @@
       );
       pipeGroup.rotation.z = gsap.utils.interpolate(0, Math.PI / 2, rotP);
 
-      // SHRINK: "Pop" into the pipe
       const finalShrink = gsap.utils.interpolate(
         PIPE_SCALE,
         COMPACT_SCALE,
@@ -195,22 +182,14 @@
       pipeGroup.scale.set(finalShrink, finalShrink, finalShrink);
       if (rotP > 0)
         mascotGroup.scale.set(finalShrink, finalShrink, finalShrink);
-
-      // --- PHASE 2: PIPELINE -> DATA LAKE (1.0 - 2.0) ---
     } else if (rawProgress <= 2.0) {
       const p2 = rawProgress - 1;
       houseGroup.scale.set(0, 0, 0);
 
-      // PIPE MOVE: Move quickly to lake position
-      const rawPipeMove = gsap.utils.clamp(
-        0,
-        1,
-        gsap.utils.mapRange(0, 0.4, 0, 1, p2),
+      const pipeMoveP = easeInOutCubic(
+        gsap.utils.clamp(0, 1, gsap.utils.mapRange(0, 0.4, 0, 1, p2)),
       );
-      const pipeMoveP = easeInOutCubic(rawPipeMove);
-
       const pourX = gsap.utils.interpolate(pos.pipe.x, pos.lake.x, pipeMoveP);
-      // On mobile, keep pipe higher longer, then drop
       const pourY = gsap.utils.interpolate(
         pos.pipe.y,
         pos.lake.y + (isMobile ? 3 : 2),
@@ -230,25 +209,22 @@
         mascotGroup.position.y = pipeGroup.position.y;
       }
 
-      // FALL: Gravity effect (Ease In Quad)
       const fallP = gsap.utils.clamp(
         0,
         1,
         gsap.utils.mapRange(0.4, 0.6, 0, 1, p2),
       );
-      const easeFall = fallP * fallP; // Quadratic ease in
+      const easeFall = fallP * fallP;
 
       if (p2 >= 0.4) {
         mascotGroup.position.x = pos.lake.x;
-        const startFallY = pipeGroup.position.y;
         mascotGroup.position.y = gsap.utils.interpolate(
-          startFallY,
+          pipeGroup.position.y,
           pos.lake.y,
           easeFall,
         );
       }
 
-      // PIPE EXIT: Leave quickly after drop
       const pipeExitP = gsap.utils.clamp(
         0,
         1,
@@ -260,19 +236,13 @@
         pipeExitP,
       );
 
-      // LAKE RISE: Start rising AS the mascot falls (Overlap)
-      const rawLakeRise = gsap.utils.clamp(
-        0,
-        1,
-        gsap.utils.mapRange(0.5, 0.9, 0, 1, p2),
+      const lakeRiseP = easeInOutCubic(
+        gsap.utils.clamp(0, 1, gsap.utils.mapRange(0.5, 0.9, 0, 1, p2)),
       );
-      const lakeRiseP = easeInOutCubic(rawLakeRise);
-
       lakeGroup.position.x = pos.lake.x;
       lakeGroup.position.y = gsap.utils.interpolate(-20, pos.lake.y, lakeRiseP);
       lakeGroup.scale.set(1, 1, 1);
 
-      // MASK DISSOLVE
       const dissolveP = gsap.utils.clamp(
         0,
         1,
@@ -280,21 +250,14 @@
       );
       const mScale = gsap.utils.interpolate(COMPACT_SCALE, 0.0, dissolveP);
       mascotGroup.scale.set(mScale, mScale, mScale);
-
-      // --- PHASE 3: DATA LAKE -> LAKEHOUSE (2.0 - 3.0) ---
     } else if (rawProgress <= 3.0) {
       const p3 = rawProgress - 2;
       mascotGroup.scale.set(0, 0, 0);
       warehouseGroup.scale.set(0, 0, 0);
 
-      // MOVEMENT: Smooth slide
-      const rawMove = gsap.utils.clamp(
-        0,
-        1,
-        gsap.utils.mapRange(0, 0.6, 0, 1, p3),
+      const moveP = easeInOutCubic(
+        gsap.utils.clamp(0, 1, gsap.utils.mapRange(0, 0.6, 0, 1, p3)),
       );
-      const moveP = easeInOutCubic(rawMove);
-
       const targetX = gsap.utils.interpolate(pos.lake.x, pos.house.x, moveP);
       const lakeTargetY = pos.house.y - 1.2;
       const targetY = gsap.utils.interpolate(pos.lake.y, lakeTargetY, moveP);
@@ -303,36 +266,28 @@
       lakeGroup.position.y = targetY;
       lakeGroup.scale.set(1, 1, 1);
 
-      // HOUSE GROW: Pop in (Elastic-ish feel via BackOut)
       const rawGrow = gsap.utils.clamp(
         0,
         1,
         gsap.utils.mapRange(0.4, 0.9, 0, 1, p3),
       );
-      // Custom overshoot ease
       const easeBackOut = (t: number) => {
         const c1 = 1.70158;
-        const c3 = c1 + 1;
-        return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+        return 1 + (c1 + 1) * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
       };
       const growP = easeBackOut(rawGrow);
 
-      const hScale = gsap.utils.interpolate(0, HOUSE_SCALE, Math.min(growP, 1)); // Clamp scale to prevent too much overshoot
+      const hScale = gsap.utils.interpolate(0, HOUSE_SCALE, Math.min(growP, 1));
       houseGroup.scale.set(hScale, hScale, hScale);
       houseGroup.position.x = targetX;
-
-      const riseStart = lakeTargetY - 0.5;
       houseGroup.position.y = gsap.utils.interpolate(
-        riseStart,
+        lakeTargetY - 0.5,
         pos.house.y,
         rawGrow,
-      ); // Use linear y for stability
-
-      // --- PHASE 4: LAKEHOUSE -> WAREHOUSE (3.0 - 4.0+) ---
+      );
     } else {
       const p4 = Math.min(Math.max(rawProgress - 3, 0), 1);
 
-      // HOUSE EXIT: Fast up
       const houseExitP = gsap.utils.clamp(
         0,
         1,
@@ -347,61 +302,39 @@
       const hScale = gsap.utils.interpolate(HOUSE_SCALE, 0, houseExitP);
       houseGroup.scale.set(hScale, hScale, hScale);
 
-      // LAKE MOVE
-      const rawLakeMove = gsap.utils.clamp(
-        0,
-        1,
-        gsap.utils.mapRange(0.1, 0.5, 0, 1, p4),
-      ); // Overlap with house exit
-      const lakeMoveP = easeInOutCubic(rawLakeMove);
-
-      const lakeTargetX = pos.ware.x;
+      const lakeMoveP = easeInOutCubic(
+        gsap.utils.clamp(0, 1, gsap.utils.mapRange(0.1, 0.5, 0, 1, p4)),
+      );
       const lakeTargetY = pos.ware.y - 1.2;
-      const lakeCurrentY = gsap.utils.interpolate(
+
+      lakeGroup.position.x = gsap.utils.interpolate(
+        pos.house.x,
+        pos.ware.x,
+        lakeMoveP,
+      );
+      lakeGroup.position.y = gsap.utils.interpolate(
         pos.house.y - 1.2,
         lakeTargetY,
         lakeMoveP,
       );
 
-      lakeGroup.position.x = gsap.utils.interpolate(
-        pos.house.x,
-        lakeTargetX,
-        lakeMoveP,
-      );
-      lakeGroup.position.y = lakeCurrentY;
-
-      // WAREHOUSE DROP: Heavy Impact
       const rawDrop = gsap.utils.clamp(
         0,
         1,
         gsap.utils.mapRange(0.4, 0.8, 0, 1, p4),
       );
-      // Bounce ease for heavy object
-      const easeBounce = (x: number): number => {
-        const n1 = 7.5625;
-        const d1 = 2.75;
-        if (x < 1 / d1) return n1 * x * x;
-        else if (x < 2 / d1) return n1 * (x -= 1.5 / d1) * x + 0.75;
-        else if (x < 2.5 / d1) return n1 * (x -= 2.25 / d1) * x + 0.9375;
-        else return n1 * (x -= 2.625 / d1) * x + 0.984375;
-      };
-      // Use regular EaseOut for position, bounce might jitter too much on scroll
       const easeDrop = 1 - Math.pow(1 - rawDrop, 3);
-
-      const dropYStart = pos.ware.y + 12;
-      const dropYEnd = pos.ware.y;
 
       warehouseGroup.position.x = pos.ware.x;
       warehouseGroup.position.y = gsap.utils.interpolate(
-        dropYStart,
-        dropYEnd,
+        pos.ware.y + 12,
+        pos.ware.y,
         easeDrop,
       );
 
       const wScale = rawDrop > 0.01 ? WAREHOUSE_SCALE : 0;
       warehouseGroup.scale.set(wScale, wScale, wScale);
 
-      // ABSORB
       const absorbP = gsap.utils.clamp(
         0,
         1,
@@ -409,6 +342,21 @@
       );
       const lScale = gsap.utils.interpolate(1, 0, absorbP);
       lakeGroup.scale.set(lScale, lScale, lScale);
+    }
+
+    // THE FIX: CORE PIPELINE MODELS PARALLAX
+    // No more direction math. Just add the exact calculated offset blindly.
+    if (isMobile && pipelineVisible) {
+      if (mascotGroup.visible)
+        mascotGroup.position.x = pos.start.x + calculatedSwipeOffset;
+      if (pipeGroup?.visible)
+        pipeGroup.position.x = pos.pipe.x + calculatedSwipeOffset;
+      if (lakeGroup?.visible)
+        lakeGroup.position.x = pos.lake.x + calculatedSwipeOffset;
+      if (houseGroup?.visible)
+        houseGroup.position.x = pos.house.x + calculatedSwipeOffset;
+      if (warehouseGroup?.visible)
+        warehouseGroup.position.x = pos.ware.x + calculatedSwipeOffset;
     }
   };
 
@@ -431,6 +379,7 @@
     return () => {
       window.removeEventListener("resize", updateLayout);
       gsap.ticker.remove(tick);
+      unsubFraction();
     };
   });
 </script>
@@ -439,10 +388,9 @@
 
 <T.PerspectiveCamera makeDefault position={[0, 0, cameraZ]} fov={cameraFov}>
   <T.DirectionalLight position={[5, 5, 5]} intensity={2} />
-  <T.AmbientLight intensity={0.5} />
+  <T.AmbientLight intensity={0.7} />
 </T.PerspectiveCamera>
 
-<!-- MASCOT -->
 <T.Group
   bind:ref={mascotGroup}
   position={[pos.start.x, pos.start.y, pos.start.z]}
@@ -452,7 +400,6 @@
   </Float>
 </T.Group>
 
-<!-- PIPE -->
 <T.Group
   bind:ref={pipeGroup}
   position={[pos.pipe.x, -15, 0]}
@@ -462,23 +409,19 @@
   <GlassPipe />
 </T.Group>
 
-<!-- DATA LAKE -->
 <T.Group bind:ref={lakeGroup} position={[pos.lake.x, -20, 0]}>
   <DataLake />
 </T.Group>
 
-<!-- LAKE HOUSE -->
 <T.Group bind:ref={houseGroup} position={[pos.house.x, -20, 0]} scale={0}>
   <DataHouse />
 </T.Group>
 
-<!-- WAREHOUSE -->
 <T.Group bind:ref={warehouseGroup} position={[pos.ware.x, -20, 0]} scale={0}>
   <DataWarehouse />
 </T.Group>
 
-<!-- V9: METRIC SECTION 3D OBJECTS -->
-<!-- Experience: LEFT (content RIGHT) — continues from Warehouse RIGHT -->
+<!-- Metrics Section -->
 <T.Group
   bind:ref={expGroup}
   position={[isMobile ? 0 : -4.5, 0, 0]}
@@ -488,8 +431,6 @@
     <ExperienceGem />
   </Float>
 </T.Group>
-
-<!-- TechStack: RIGHT (content LEFT) -->
 <T.Group
   bind:ref={techGroup}
   position={[isMobile ? 0 : 4.5, 0, 0]}
@@ -499,8 +440,6 @@
     <TechCube />
   </Float>
 </T.Group>
-
-<!-- GitHub: LEFT (content RIGHT) -->
 <T.Group
   bind:ref={ghGroup}
   position={[isMobile ? 0 : -4.5, 0, 0]}
@@ -510,8 +449,6 @@
     <GithubOcta />
   </Float>
 </T.Group>
-
-<!-- Impact: RIGHT (content LEFT) -->
 <T.Group
   bind:ref={impactGroup}
   position={[isMobile ? 0 : 4.5, 0, 0]}
@@ -521,8 +458,6 @@
     <ImpactTorus />
   </Float>
 </T.Group>
-
-<!-- Credentials: LEFT (content RIGHT) -->
 <T.Group
   bind:ref={credGroup}
   position={[isMobile ? 0 : -4.5, 0, 0]}
@@ -532,8 +467,6 @@
     <CredentialShield />
   </Float>
 </T.Group>
-
-<!-- Contact: RIGHT (content LEFT) -->
 <T.Group
   bind:ref={contactGroup}
   position={[isMobile ? 0 : 4.5, 0, 0]}

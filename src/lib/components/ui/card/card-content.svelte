@@ -10,6 +10,16 @@
 	}: WithElementRef<HTMLAttributes<HTMLDivElement>> = $props();
 </script>
 
-<div bind:this={ref} data-slot="card-content" class={cn("px-6", className)} {...restProps}>
+<div
+	bind:this={ref}
+	data-slot="card-content"
+	class={cn(
+		"px-6",
+		// Ensures content fills available space if card height is fixed
+		"flex-grow",
+		className,
+	)}
+	{...restProps}
+>
 	{@render children?.()}
 </div>

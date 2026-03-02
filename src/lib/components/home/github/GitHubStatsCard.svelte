@@ -16,14 +16,22 @@
     ];
 </script>
 
-<GlassPanel glow="#238636" className="pointer-events-auto w-full">
-    <div class="p-6">
-        <div class="mb-4 flex items-center gap-3">
+<GlassPanel
+    glow="#238636"
+    className="pointer-events-auto w-full rounded-3xl relative overflow-hidden"
+>
+    <!-- Ambient Inner Glow -->
+    <div
+        class="absolute -top-10 -left-10 w-40 h-40 bg-[#238636]/10 blur-[50px] rounded-full pointer-events-none mix-blend-screen z-0"
+    ></div>
+
+    <div class="p-6 sm:p-8 relative z-10">
+        <div class="mb-5 flex items-center gap-4">
             <StatusBadge color="#238636" label="GitHub" />
         </div>
 
         <h3
-            class="text-2xl lg:text-3xl font-black mb-2 leading-tight text-white tracking-tight"
+            class="text-3xl sm:text-4xl lg:text-5xl font-black mb-4 leading-[1.1] text-white tracking-tighter"
         >
             Building in
             <span
@@ -33,51 +41,51 @@
         </h3>
 
         <p
-            class="text-[11px] text-muted-foreground leading-relaxed mb-4 line-clamp-2"
+            class="text-sm sm:text-base text-white/70 leading-relaxed font-light mb-6 line-clamp-2"
         >
             {content.introParagraph}
         </p>
 
         <!-- Metrics -->
-        <div class="grid grid-cols-3 gap-3 mb-4">
+        <div class="grid grid-cols-3 gap-3 mb-6">
             <div
-                class="p-2 rounded-xl border border-white/[0.06] bg-white/[0.02] text-center"
+                class="p-3 rounded-2xl border border-white/5 bg-white/5 text-center shadow-inner hover:bg-white/10 transition-colors"
             >
                 <div
-                    class="text-lg font-black text-white font-mono leading-none"
+                    class="text-xl sm:text-2xl font-black text-white font-mono leading-none mb-1"
                 >
                     42
                 </div>
                 <div
-                    class="text-[8px] font-mono text-white/25 uppercase tracking-wider mt-0.5"
+                    class="text-[9px] sm:text-[10px] font-mono text-white/40 uppercase tracking-widest"
                 >
                     Repos
                 </div>
             </div>
             <div
-                class="p-2 rounded-xl border border-white/[0.06] bg-white/[0.02] text-center"
+                class="p-3 rounded-2xl border border-[#7ee787]/10 bg-[#7ee787]/5 text-center shadow-inner hover:bg-[#7ee787]/10 transition-colors"
             >
                 <div
-                    class="text-lg font-black text-[#7ee787] font-mono leading-none"
+                    class="text-xl sm:text-2xl font-black text-[#7ee787] font-mono leading-none mb-1"
                 >
                     4.2k
                 </div>
                 <div
-                    class="text-[8px] font-mono text-white/25 uppercase tracking-wider mt-0.5"
+                    class="text-[9px] sm:text-[10px] font-mono text-[#7ee787]/60 uppercase tracking-widest"
                 >
                     Commits
                 </div>
             </div>
             <div
-                class="p-2 rounded-xl border border-white/[0.06] bg-white/[0.02] text-center"
+                class="p-3 rounded-2xl border border-white/5 bg-white/5 text-center shadow-inner hover:bg-white/10 transition-colors"
             >
                 <div
-                    class="text-lg font-black text-white font-mono leading-none"
+                    class="text-xl sm:text-2xl font-black text-white font-mono leading-none mb-1"
                 >
                     128
                 </div>
                 <div
-                    class="text-[8px] font-mono text-white/25 uppercase tracking-wider mt-0.5"
+                    class="text-[9px] sm:text-[10px] font-mono text-white/40 uppercase tracking-widest"
                 >
                     Stars
                 </div>
@@ -86,32 +94,40 @@
 
         <!-- Commit Log -->
         <div
-            class="rounded-xl bg-black/40 border border-white/[0.06] p-3 font-mono text-[9px]"
+            class="rounded-2xl bg-black/40 border border-white/5 p-4 sm:p-5 font-mono text-[10px] sm:text-xs shadow-inner"
         >
             <div
-                class="flex items-center gap-2 text-[#7ee787]/60 mb-2 pb-1.5 border-b border-white/[0.06]"
+                class="flex items-center gap-2 text-[#7ee787]/60 mb-3 pb-2 border-b border-white/5"
             >
-                <Terminal size={9} /><span class="tracking-wider">RECENT</span>
-            </div>
-            {#each commits as c}
-                <div
-                    class="flex items-start gap-2 text-white/30 mb-1 last:mb-0"
+                <Terminal size={12} class="text-[#7ee787]/80" /><span
+                    class="tracking-[0.2em] font-bold">RECENT</span
                 >
-                    <span class="text-[#7ee787]/70 font-bold shrink-0"
-                        >{c.sha}</span
+            </div>
+            <div class="flex flex-col gap-2 relative">
+                {#each commits as c}
+                    <div
+                        class="flex items-start gap-3 sm:gap-4 text-white/40 hover:text-white/60 transition-colors group"
                     >
-                    <span class="flex-1 truncate">{c.msg}</span>
-                    <span class="text-white/15 shrink-0">{c.time}</span>
-                </div>
-            {/each}
+                        <span
+                            class="text-[#7ee787]/70 font-bold shrink-0 group-hover:text-[#7ee787]/90 transition-colors"
+                            >{c.sha}</span
+                        >
+                        <span class="flex-1 truncate">{c.msg}</span>
+                        <span
+                            class="text-white/20 shrink-0 group-hover:text-white/40 transition-colors font-medium"
+                            >{c.time}</span
+                        >
+                    </div>
+                {/each}
+            </div>
         </div>
-    </div>
 
-    <div class="px-6 py-2.5 border-t border-white/[0.06]">
-        <CtaLink
-            href={content.ctaSlug}
-            label={content.ctaLabel}
-            color="#7ee787"
-        />
+        <div class="mt-6 sm:mt-8">
+            <CtaLink
+                href={content.ctaSlug}
+                label={content.ctaLabel}
+                color="#238636"
+            />
+        </div>
     </div>
 </GlassPanel>

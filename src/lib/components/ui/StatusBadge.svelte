@@ -8,22 +8,33 @@
 </script>
 
 <div
-    class="inline-flex items-center gap-2 px-3 py-1 rounded-full backdrop-blur-sm border"
-    style="border-color: color-mix(in srgb, {color} 30%, transparent); background: color-mix(in srgb, {color} 10%, transparent);"
+    class="relative inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full overflow-hidden shadow-lg group transition-transform duration-300 hover:scale-[1.02]"
 >
-    <span class="relative flex h-1.5 w-1.5">
+    <!-- Glass Base Layer -->
+    <div
+        class="absolute inset-0 backdrop-blur-md"
+        style="background: linear-gradient(135deg, color-mix(in srgb, {color} 15%, transparent), color-mix(in srgb, {color} 5%, transparent));"
+    ></div>
+
+    <!-- Light Reflection / Border -->
+    <div
+        class="absolute inset-0 rounded-full border border-white/10 border-t-white/30 pointer-events-none"
+    ></div>
+
+    <span class="relative flex h-2 w-2">
         <span
             class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
-            style="background: {color}"
+            style="background: {color}; box-shadow: 0 0 10px {color};"
         ></span>
         <span
-            class="relative inline-flex rounded-full h-1.5 w-1.5"
-            style="background: {color}"
+            class="relative inline-flex rounded-full h-2 w-2"
+            style="background: {color}; box-shadow: 0 0 8px {color};"
         ></span>
     </span>
+
     <span
-        class="font-mono text-[10px] font-semibold tracking-widest uppercase"
-        style="color: color-mix(in srgb, {color} 80%, white)"
+        class="relative font-mono text-[10px] sm:text-xs font-bold tracking-[0.15em] uppercase"
+        style="color: color-mix(in srgb, {color} 90%, white); text-shadow: 0 1px 2px rgba(0,0,0,0.5);"
     >
         {label}
     </span>

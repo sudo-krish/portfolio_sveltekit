@@ -5,14 +5,16 @@
     Github,
     Linkedin,
     FileText,
-    Terminal,
-    Database,
+    TerminalSquare,
+    Zap,
+    Cpu,
   } from "lucide-svelte";
   import { getPersonalInfo } from "$lib/data/portfolio-data";
   import { onMount } from "svelte";
   import gsap from "gsap";
-  import GlassPanel from "$lib/components/ui/GlassPanel.svelte";
-  import GlowAccent from "$lib/components/ui/GlowAccent.svelte";
+
+  import { Button } from "$lib/components/ui/button";
+  import MobileCarousel from "$lib/components/ui/MobileCarousel.svelte";
 
   const personal = getPersonalInfo();
   const RESUME_URL =
@@ -27,203 +29,341 @@
     "Snowflake",
   ];
 
-  let mounted = false;
+  let mounted = $state(false);
 
   onMount(() => {
     let ctx = gsap.context(() => {
       mounted = true;
-      gsap.fromTo(
-        ".float-panel",
-        { y: 30, opacity: 0, scale: 0.95 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 1,
-          stagger: 0.2,
-          ease: "power3.out",
-          delay: 0.2,
-        },
-      );
-      gsap.fromTo(
-        ".massive-text",
-        { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.2, ease: "expo.out", delay: 0.1 },
-      );
+
+      const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+      tl.fromTo(
+        ".vfx-flare",
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 2, stagger: 0.2 },
+      )
+        .fromTo(
+          ".hero-type",
+          { y: 60, opacity: 0, rotationX: -10, transformPerspective: 1000 },
+          { y: 0, opacity: 1, rotationX: 0, duration: 1.5, stagger: 0.1 },
+          "-=1.5",
+        )
+        .fromTo(
+          ".glass-shard",
+          { x: -30, opacity: 0, backdropFilter: "blur(0px)" },
+          { x: 0, opacity: 1, backdropFilter: "blur(30px)", duration: 1.2 },
+          "-=1.2",
+        )
+        .fromTo(
+          ".action-dock",
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1.2, ease: "elastic.out(1, 0.8)" },
+          "-=0.8",
+        );
     });
     return () => ctx.revert();
   });
 </script>
 
-<div
-  class="relative w-full h-[100dvh] overflow-hidden pointer-events-none z-20"
+<MobileCarousel
+  layout="left"
+  sectionTitle="Data Engine"
+  sectionDescription="Initialize Core"
+  accentColor="hsl(var(--primary))"
 >
-  <!-- BACKGROUND AMBIENT GLOWS -->
-  <GlowAccent
-    color="#2563eb"
-    position="top-1/4 -left-32"
-    size={384}
-    opacity={0.2}
-  />
-  <GlowAccent
-    color="#06b6d4"
-    position="bottom-1/4 right-10"
-    size={320}
-    opacity={0.1}
-  />
-
-  <!-- MASSIVE TYPOGRAPHY WATERMARK -->
-  <div
-    class="absolute top-[18%] left-[5%] md:left-[8%] lg:left-[10%] z-0 opacity-20 pointer-events-none"
-  >
-    <div class="massive-text">
-      <div class="flex items-center gap-4 mb-6">
-        <div class="h-px w-12 bg-blue-500/50"></div>
-        <span
-          class="font-mono text-[10px] md:text-xs font-bold text-blue-400 tracking-[0.3em] uppercase"
-        >
-          System Genesis
-        </span>
-      </div>
-
-      <h1
-        class="font-black leading-[0.85] tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-white/40 drop-shadow-2xl"
-        style="font-size: clamp(6rem, 15vw, 12rem);"
-      >
-        RAW <br />
-        <span
-          class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500"
-        >
-          DATA
-        </span>
-      </h1>
-    </div>
-  </div>
-
-  <!-- BIO PANEL -->
-  <GlassPanel
-    className="float-panel pointer-events-auto absolute top-[55%] lg:top-[45%] left-[5%] md:left-[8%] lg:left-[10%] max-w-[280px] sm:max-w-sm p-6 rounded-2xl"
-  >
+  <!-- ========================================================= -->
+  <!-- 🖥️ DESKTOP: REFINED BRUTALIST VOLUMETRICS                 -->
+  <!-- ========================================================= -->
+  <svelte:fragment slot="content-pc">
+    <!-- VFX Lighting -->
     <div
-      class="absolute -top-3 -left-3 border border-white/20 bg-background/80 backdrop-blur-md w-8 h-8 rounded-full flex items-center justify-center z-20"
+      class="vfx-flare absolute top-[10%] left-[5%] w-[40vw] h-[40vw] rounded-full bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.25)_0%,transparent_60%)] mix-blend-screen pointer-events-none z-0"
+    ></div>
+    <div
+      class="vfx-flare absolute bottom-[-10%] right-[10%] w-[35vw] h-[35vw] rounded-full bg-[radial-gradient(ellipse_at_center,hsl(var(--accent)/0.15)_0%,transparent_60%)] mix-blend-color-dodge blur-[40px] pointer-events-none z-0"
+    ></div>
+
+    <!-- Master Grid Container -->
+    <div
+      class="absolute inset-0 z-20 flex items-center justify-center w-full h-full pointer-events-none"
     >
-      <Terminal size={12} class="text-blue-400" />
-    </div>
-
-    <p class="text-sm md:text-base text-muted-foreground leading-relaxed">
-      Every great insight starts as a single raw event. I'm <strong
-        class="text-white">{personal.name}</strong
-      >, a Data Engineer specializing in capturing, harnessing, and hyperscaling
-      petabytes of unstructured data into autonomous business intelligence
-      frameworks.
-    </p>
-
-    <div class="mt-6 flex gap-3">
-      <button
-        onclick={() =>
-          document
-            .getElementById("projects")
-            ?.scrollIntoView({ behavior: "smooth" })}
-        class="flex-1 bg-white/10 hover:bg-white/20 border border-white/10 text-white text-xs font-semibold py-2.5 rounded-lg transition-all flex items-center justify-center gap-2"
+      <div
+        class="w-full max-w-[1400px] px-8 lg:px-16 flex items-center justify-between"
       >
-        Core Logic <ArrowRight size={14} />
-      </button>
-    </div>
-  </GlassPanel>
+        <!-- LEFT COLUMN: Typography & Marquee -->
+        <div class="relative z-10 w-3/5 flex flex-col justify-center">
+          <div class="hero-type flex items-center gap-4 mb-6 pl-2">
+            <div class="h-[2px] w-12 bg-white/40"></div>
+            <span
+              class="font-mono text-[11px] font-bold tracking-[0.4em] text-white/80 uppercase"
+            >
+              {personal.name}
+            </span>
+            <div
+              class="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-3 py-1"
+            >
+              <div
+                class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_currentColor]"
+              ></div>
+              <span
+                class="font-mono text-[9px] uppercase tracking-widest text-emerald-400 font-bold"
+                >Node Live</span
+              >
+            </div>
+          </div>
 
-  <!-- TELEMETRY PANEL (Right Side, Desktop Only) -->
-  <div
-    class="float-panel hidden lg:flex pointer-events-auto absolute top-[25%] right-[8%] w-64 flex-col gap-4"
-  >
-    <!-- Mini Status Panel -->
-    <GlassPanel className="p-4 rounded-xl">
-      <div class="flex items-center justify-between mb-4">
-        <span
-          class="font-mono text-[10px] text-muted-foreground tracking-wider uppercase"
-          >Node Status</span
+          <!-- Fluid Typography ensures no overflow on narrow desktop screens -->
+          <h1
+            class="hero-type font-black text-[clamp(5rem,8vw,9rem)] leading-[0.85] tracking-tighter text-white drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)] mix-blend-overlay"
+          >
+            DATA
+          </h1>
+          <h1
+            class="hero-type font-black text-[clamp(5rem,8vw,9rem)] leading-[0.85] tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white via-primary to-accent relative"
+          >
+            ENGINEER
+          </h1>
+
+          <!-- Refined Tech Marquee -->
+          <div class="hero-type mt-10 flex flex-wrap gap-2.5 max-w-[90%] pl-2">
+            <div
+              class="flex items-center gap-2 mr-3 border border-white/5 bg-white/[0.02] px-3 py-1.5 rounded-lg"
+            >
+              <Cpu size={14} class="text-primary" />
+              <span
+                class="font-mono text-[10px] text-primary tracking-widest uppercase font-bold"
+                >Payload</span
+              >
+            </div>
+            {#each techTags as tag}
+              <div
+                class="px-3.5 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md text-white/90 font-mono text-[11px] uppercase tracking-widest shadow-lg transition-colors hover:bg-primary/20 hover:border-primary/50 cursor-default"
+              >
+                {tag}
+              </div>
+            {/each}
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Glass Bio & Dock -->
+        <div
+          class="relative z-30 w-2/5 flex flex-col justify-center items-start pointer-events-auto -ml-12"
         >
-        <div class="flex items-center gap-1.5">
-          <span class="relative flex h-2 w-2">
-            <span
-              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
-            ></span>
-            <span
-              class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"
-            ></span>
-          </span>
-          <span class="font-mono text-[9px] text-emerald-400">ONLINE</span>
+          <!-- Structurally Sound Glass Shard -->
+          <div
+            class="glass-shard w-full mb-6 rounded-2xl rounded-tl-none p-8 xl:p-10 bg-white/[0.03] backdrop-blur-[40px] border border-white/10 border-t-primary/50 shadow-[-20px_20px_60px_rgba(0,0,0,0.6)] relative overflow-hidden"
+          >
+            <!-- Architectural light leak -->
+            <div
+              class="absolute top-0 left-0 w-32 h-[1px] bg-gradient-to-r from-primary to-transparent"
+            ></div>
+
+            <TerminalSquare
+              size={28}
+              class="text-primary mb-5 drop-shadow-[0_0_15px_currentColor]"
+            />
+            <p
+              class="text-xl xl:text-2xl leading-relaxed text-white/90 font-light"
+            >
+              I don't just move data—I forge <strong
+                class="text-white font-bold drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]"
+                >hyperscaled, autonomous intelligence systems.</strong
+              > Specializing in high-velocity capture and petabyte-scale pipelines.
+            </p>
+          </div>
+
+          <!-- Refined Action Dock -->
+          <div
+            class="action-dock flex items-stretch gap-3 w-full p-2 bg-black/40 backdrop-blur-xl rounded-[1.5rem] border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]"
+          >
+            <Button
+              variant="default"
+              class="flex-1 h-14 text-base font-bold rounded-[1.2rem] shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_15px_hsl(var(--primary)/0.3)] group overflow-hidden relative"
+              onclick={() =>
+                document
+                  .getElementById("pipeline")
+                  ?.scrollIntoView({ behavior: "smooth" })}
+            >
+              <div
+                class="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:translate-x-[150%] transition-transform duration-1000 ease-out"
+              ></div>
+              Deploy Core <Zap class="ml-2 fill-white" size={18} />
+            </Button>
+
+            <div
+              class="flex items-center gap-1.5 px-2 bg-white/5 rounded-[1.2rem]"
+            >
+              <Button
+                variant="ghost"
+                class="w-12 h-12 p-0 rounded-xl hover:bg-white/10 transition-colors"
+                href={personal.socialLinks.github}
+                target="_blank"
+              >
+                <Github size={20} class="text-white/80" />
+              </Button>
+              <div class="w-[1px] h-6 bg-white/10"></div>
+              <Button
+                variant="ghost"
+                class="w-12 h-12 p-0 rounded-xl hover:bg-white/10 transition-colors"
+                href={personal.socialLinks.linkedin}
+                target="_blank"
+              >
+                <Linkedin size={20} class="text-white/80" />
+              </Button>
+              <div class="w-[1px] h-6 bg-white/10"></div>
+              <Button
+                variant="ghost"
+                class="h-12 px-4 rounded-xl hover:bg-white/10 font-mono text-[11px] uppercase tracking-widest text-primary transition-colors"
+                href={RESUME_URL}
+                target="_blank"
+              >
+                Resume
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+  </svelte:fragment>
 
-      <div class="space-y-3">
-        <div class="flex justify-between items-end">
-          <span class="text-xs text-white/70 flex items-center gap-1.5">
-            <Database size={12} class="text-blue-400" /> Throughput
-          </span>
-          <span class="font-mono text-sm font-semibold text-white"
-            >4.2 TB/s</span
+  <!-- ========================================================= -->
+  <!-- 📱 MOBILE: CAROUSEL-SAFE DYNAMIC LAYOUT                   -->
+  <!-- ========================================================= -->
+  <svelte:fragment slot="content-mobile">
+    <!-- 
+      FIX APPLIED: No more 'fixed' bottom elements. 
+      Uses flex-col and 'mt-auto' to push the dock to the bottom of the slide, 
+      respecting the Carousel's internal scrolling logic and safe areas.
+    -->
+    <div
+      class="z-20 w-full min-h-[100svh] pointer-events-auto flex flex-col pt-[12vh] pb-[calc(env(safe-area-inset-bottom)+1.5rem)] relative overflow-hidden"
+    >
+      <!-- VFX Flares -->
+      <div
+        class="vfx-flare absolute top-[15%] right-[-20%] w-[120vw] h-[120vw] rounded-full bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.6)_0%,transparent_60%)] mix-blend-screen pointer-events-none z-0"
+      ></div>
+
+      <!-- Typography Block -->
+      <div class="w-full px-6 z-10 pointer-events-none mb-6">
+        <div class="hero-type flex items-center gap-3 mb-5">
+          <div class="h-[1px] w-8 bg-white/50"></div>
+          <span
+            class="font-mono text-[9px] font-bold tracking-[0.4em] text-white/70 uppercase"
           >
-        </div>
-        <div class="h-1 w-full bg-white/10 rounded-full overflow-hidden">
+            {personal.name}
+          </span>
           <div
-            class="h-full bg-blue-500 w-[85%] rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"
+            class="ml-auto w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_currentColor]"
           ></div>
         </div>
+
+        <h1
+          class="hero-type font-black text-[20vw] leading-[0.8] tracking-tighter text-white drop-shadow-[0_20px_40px_rgba(0,0,0,0.8)] mix-blend-overlay"
+        >
+          DATA
+        </h1>
+        <h1
+          class="hero-type font-black text-[20vw] leading-[0.8] tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white via-primary to-accent relative z-10"
+        >
+          ENGINEER
+        </h1>
       </div>
-    </GlassPanel>
 
-    <!-- Social Terminal -->
-    <GlassPanel
-      className="p-2 rounded-xl flex justify-between items-center px-4"
-    >
-      <a
-        href={personal.socialLinks.github}
-        target="_blank"
-        class="hover:text-white text-white/50 transition-colors p-2"
-      >
-        <Github size={16} />
-      </a>
-      <div class="w-px h-4 bg-white/10"></div>
-      <a
-        href={personal.socialLinks.linkedin}
-        target="_blank"
-        class="hover:text-blue-400 text-white/50 transition-colors p-2"
-      >
-        <Linkedin size={16} />
-      </a>
-      <div class="w-px h-4 bg-white/10"></div>
-      <a
-        href={RESUME_URL}
-        target="_blank"
-        class="flex items-center gap-2 hover:text-white text-white/50 transition-colors p-2 font-mono text-[10px] uppercase"
-      >
-        <FileText size={14} /> Resume
-      </a>
-    </GlassPanel>
-  </div>
-
-  <!-- FLOATING DATA TAGS -->
-  <div
-    class="float-panel absolute bottom-[15%] left-[5%] md:left-[8%] lg:left-[10%] max-w-2xl flex flex-wrap gap-2 pointer-events-auto"
-  >
-    {#each techTags as tag}
+      <!-- Bleeding Glass Bio -->
       <div
-        class="px-3 py-1.5 rounded-lg border border-white/10 bg-black/40 backdrop-blur-md flex items-center gap-2 group hover:border-blue-500/50 hover:bg-blue-500/10 transition-all cursor-default"
+        class="glass-shard w-[92%] ml-auto relative z-20 mb-8 pl-6 py-6 rounded-l-3xl bg-white/[0.03] backdrop-blur-[30px] border-y border-l border-white/10 shadow-[-15px_15px_40px_rgba(0,0,0,0.6)]"
       >
         <div
-          class="w-1.5 h-1.5 rounded-full bg-white/30 group-hover:bg-blue-400 group-hover:shadow-[0_0_8px_rgba(96,165,250,0.8)] transition-all"
+          class="absolute top-0 left-0 w-[2px] h-full bg-gradient-to-b from-transparent via-primary to-transparent"
         ></div>
-        <span
-          class="font-mono text-[10px] font-medium text-white/70 group-hover:text-white transition-colors uppercase tracking-wider"
-          >{tag}</span
-        >
+        <TerminalSquare size={22} class="text-primary mb-3" />
+        <p class="text-[4vw] leading-relaxed text-white/90 font-light pr-4">
+          Forging <strong
+            class="text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]"
+            >hyperscaled, autonomous intelligence systems.</strong
+          > Specializing in petabyte-scale pipelines.
+        </p>
       </div>
-    {/each}
-  </div>
-</div>
+
+      <!-- Scrolling Tech Ribbon -->
+      <div
+        class="hero-type w-full relative z-20 mb-6 overflow-hidden pointer-events-auto"
+      >
+        <div
+          class="absolute inset-0 w-full h-full bg-gradient-to-r from-background via-transparent to-background z-10 pointer-events-none"
+        ></div>
+        <div
+          class="flex gap-2.5 w-max px-6 overflow-x-auto no-scrollbar snap-x snap-mandatory"
+        >
+          {#each techTags as tag}
+            <div
+              class="snap-center flex items-center gap-2 bg-black/40 backdrop-blur-md border border-white/5 rounded-full px-4 py-2.5 shadow-lg"
+            >
+              <Cpu size={12} class="text-primary/70" />
+              <span
+                class="font-mono text-[10px] font-bold uppercase tracking-widest text-white/90"
+                >{tag}</span
+              >
+            </div>
+          {/each}
+        </div>
+      </div>
+
+      <!-- 
+        Dynamic Action Dock 
+        Uses mt-auto to naturally rest at the bottom of this specific slide.
+      -->
+      <div
+        class="action-dock mt-auto w-full px-5 relative z-30 pointer-events-auto"
+      >
+        <div
+          class="w-full flex items-stretch gap-2 p-1.5 bg-white/5 backdrop-blur-2xl rounded-[1.5rem] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.1)]"
+        >
+          <Button
+            variant="default"
+            class="flex-1 h-14 text-[14px] font-bold rounded-xl shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_15px_hsl(var(--primary)/0.4)] group overflow-hidden relative"
+            onclick={() =>
+              document
+                .getElementById("pipeline")
+                ?.scrollIntoView({ behavior: "smooth" })}
+          >
+            <div
+              class="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/20 to-transparent group-active:translate-x-[150%] transition-transform duration-700 ease-out"
+            ></div>
+            Deploy <Zap class="ml-2 fill-white" size={16} />
+          </Button>
+
+          <div class="flex items-center gap-1 px-1 bg-black/40 rounded-xl">
+            <Button
+              variant="ghost"
+              class="w-12 h-12 p-0 rounded-lg hover:bg-white/10"
+              href={personal.socialLinks.github}
+              target="_blank"
+            >
+              <Github size={20} class="text-white/70" />
+            </Button>
+            <div class="w-[1px] h-6 bg-white/10"></div>
+            <Button
+              variant="ghost"
+              class="w-12 h-12 p-0 rounded-lg hover:bg-white/10"
+              href={RESUME_URL}
+              target="_blank"
+            >
+              <FileText size={20} class="text-primary" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </svelte:fragment>
+</MobileCarousel>
 
 <style>
-  h1 {
-    font-size: clamp(4rem, 12vw, 9rem);
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 </style>
