@@ -11,16 +11,14 @@
 
     import { heroContent } from "$lib/data/hero_content";
 
-    // Allow dynamic overrides from parent (HeroContent.svelte)
     let props = $props<{
-        metaLabel?: string; // optional override
-        metaTitle?: string; // optional override
-        main?: string; // optional override
-        details?: string; // optional override
-        techTags: string[]; // always passed
+        metaLabel?: string;
+        metaTitle?: string;
+        main?: string;
+        details?: string;
+        techTags: string[];
     }>();
 
-    // Default to heroContent, but allow parent to override
     const metaLabel = props.metaLabel ?? heroContent.bioCard.metaLabel;
     const metaTitle = props.metaTitle ?? heroContent.bioCard.metaTitle;
     const main = props.main ?? heroContent.bioCard.main;
@@ -28,47 +26,52 @@
     const techTags = props.techTags;
 </script>
 
+<!-- Bio card -->
 <Card
-    class="relative z-20 w-[94%] mb-6 ml-auto rounded-2xl rounded-l-3xl
-         bg-white/[0.05] backdrop-blur-2xl 
-         border border-white/10 
-         shadow-[0_16px_40px_rgba(0,0,0,0.75)] 
-         overflow-hidden px-5 py-4"
+    class="relative z-20 w-[92%] mb-8 ml-auto rounded-3xl
+           bg-white/[0.03] backdrop-blur-[32px] 
+           border border-white/[0.08] 
+           shadow-[0_24px_48px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.15)] 
+           overflow-hidden px-4 py-5"
 >
-    <!-- Accent spine -->
+    <!-- Soft glow behind icon -->
     <div
-        class="pointer-events-none absolute inset-y-2 left-3 w-[2px]
-           bg-gradient-to-b from-primary/0 via-primary/70 to-primary/0"
+        class="pointer-events-none absolute top-4 left-8 w-24 h-24 rounded-full
+               bg-primary/20 mix-blend-screen blur-[24px]"
     ></div>
 
-    <CardHeader class="pl-6 pb-2 pt-1 flex items-center gap-3">
+    <CardHeader class="pl-7 pb-4 pt-0 flex items-center gap-3.5">
         <div
-            class="flex h-8 w-8 items-center justify-center rounded-xl
-             bg-primary/15 border border-primary/40"
+            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl
+                   bg-white/[0.06] border border-white/10"
         >
             <TerminalSquare
                 size={16}
-                class="text-primary drop-shadow-[0_0_8px_rgba(56,189,248,0.8)]"
+                class="text-primary drop-shadow-[0_0_8px_hsl(var(--primary)/0.8)]"
             />
         </div>
-        <div class="flex flex-col gap-0.5">
+        <div class="flex flex-col gap-1">
             <CardTitle
-                class="font-mono text-[9px] tracking-[0.22em] uppercase text-white/55"
+                class="font-mono text-[9px] tracking-[0.25em] uppercase text-white/50"
             >
                 {metaLabel}
             </CardTitle>
-            <CardDescription class="text-[11px] text-white/80">
+            <CardDescription
+                class="text-[12px] font-medium tracking-wide text-white/90"
+            >
                 {metaTitle}
             </CardDescription>
         </div>
     </CardHeader>
 
-    <CardContent class="pl-6 pr-1 pt-1 pb-1">
-        <p class="text-[3.6vw] leading-[1.55] text-white/85 font-light">
-            {main}
+    <CardContent class="pl-7 pr-2 pt-0 pb-1 flex flex-col gap-3">
+        <p
+            class="text-[15px] leading-[1.6] text-white/80 font-light tracking-[-0.01em]"
+        >
+            {@html main}
         </p>
-        <p class="mt-2 text-[3.2vw] leading-[1.6] text-white/65">
-            {details}
+        <p class="text-[13px] leading-[1.65] text-white/50 font-light">
+            {@html details}
         </p>
     </CardContent>
 </Card>
@@ -77,5 +80,5 @@
 <div
     class="hero-type relative w-full z-20 mb-10 -mx-4 px-4 pointer-events-auto"
 >
-    <InfiniteMarquee items={techTags} speed="20s" />
+    <InfiniteMarquee items={techTags} speed="25s" />
 </div>

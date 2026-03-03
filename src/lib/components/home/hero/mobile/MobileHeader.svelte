@@ -5,13 +5,12 @@
         name: string;
         prefix?: string;
         suffix?: string;
-        metaLabelMobile?: string; // fixed the prop naming
+        metaLabel?: string; // fixed the prop naming
     }>();
 
     const prefix = props.prefix ?? heroContent.headline.prefix;
     const suffix = props.suffix ?? heroContent.headline.suffix;
-    const metaLabelMobile =
-        props.metaLabelMobile ?? heroContent.headline.metaLabelMobile;
+    const metaLabel = props.metaLabel ?? heroContent.headline.metaLabelMobile;
 </script>
 
 <div class="w-full relative z-10 mb-10 flex flex-col gap-6">
@@ -43,7 +42,7 @@
             <span
                 class="font-mono text-[9px] uppercase tracking-widest text-emerald-400 font-bold pt-px"
             >
-                {metaLabelMobile}
+                {metaLabel}
             </span>
         </div>
     </div>
