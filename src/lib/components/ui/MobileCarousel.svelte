@@ -32,18 +32,20 @@
 
     function resetTo3D() {
         if (!carouselEl) return;
+
+        // Use instant scroll behavior for initialization to prevent GSAP/CSS conflicts
         if (layout === "right") {
-            carouselEl.scrollTo({
-                left: carouselEl.clientWidth,
-                behavior: "instant",
-            });
+            carouselEl.style.scrollBehavior = "auto";
+            carouselEl.scrollLeft = carouselEl.clientWidth;
             activeSlide = 1;
+            carouselEl.style.scrollBehavior = "smooth";
         } else {
-            carouselEl.scrollTo({ left: 0, behavior: "instant" });
+            carouselEl.style.scrollBehavior = "auto";
+            carouselEl.scrollLeft = 0;
             activeSlide = 0;
+            carouselEl.style.scrollBehavior = "smooth";
         }
 
-        // When reset, the offset is strictly 0.
         if (isCurrentlyVisible) {
             carouselSwipeFraction.set(0);
         }
@@ -61,33 +63,28 @@
             if (hintVisible) hintVisible = false;
         }
 
-        // Calculate a 0.0 to 1.0 percentage of how far the container is scrolled
         let scrollPercentage = scrollPos / slideWidth;
         scrollPercentage = Math.max(0, Math.min(scrollPercentage, 1));
 
-        const SWIPE_OFFSET = 10; // Max 3D units to move
+        const SWIPE_OFFSET = 10;
         let actual3DOffset = 0;
 
         if (layout === "left") {
-            // 3D is on left (scroll=0). User swipes right to show content.
-            // As scroll goes 0 -> 1, 3D model must be pushed LEFT (negative).
             actual3DOffset = -(scrollPercentage * SWIPE_OFFSET);
         } else {
-            // 3D is on right (scroll=1). User swipes left to show content.
-            // As scroll goes 1 -> 0, 3D model must be pushed RIGHT (positive).
-            // When scroll is 1 (3D visible), offset should be 0.
-            // When scroll is 0 (Content visible), offset should be +10.
             actual3DOffset = (1 - scrollPercentage) * SWIPE_OFFSET;
         }
 
-        // We push the EXACT calculated positional offset directly to HomeScene
         carouselSwipeFraction.set(actual3DOffset);
     }
 
     let hintTimer: ReturnType<typeof setTimeout>;
 
     onMount(() => {
-        resetTo3D();
+        // Delay initialization by 1 frame to let Svelte mount the DOM properly
+        requestAnimationFrame(() => {
+            resetTo3D();
+        });
 
         observer = new IntersectionObserver(
             (entries) => {
@@ -105,26 +102,10 @@
 
         if (wrapperEl) observer.observe(wrapperEl);
 
-        if (carouselEl) {
-            const nudgeOffset = layout === "left" ? 50 : -50;
+        // GSAP is ONLY used for 3D card flipping now. No more scrollLeft animation conflicts!
+        if (wrapperEl) {
             const flipAngle = layout === "left" ? -12 : 12;
-
-            gsap.to(carouselEl, {
-                scrollLeft: carouselEl.scrollLeft + nudgeOffset,
-                duration: 0.6,
-                ease: "power2.out",
-                delay: 1.5,
-                onComplete: () => {
-                    if (!carouselEl) return;
-                    gsap.to(carouselEl, {
-                        scrollLeft: carouselEl.scrollLeft - nudgeOffset,
-                        duration: 0.8,
-                        ease: "elastic.out(1, 0.5)",
-                    });
-                },
-            });
-
-            gsap.to(wrapperEl?.querySelector(".flip-card") || ".flip-card", {
+            gsap.to(wrapperEl.querySelector(".flip-card") || ".flip-card", {
                 rotationY: flipAngle,
                 transformPerspective: 1200,
                 transformOrigin:
@@ -166,10 +147,11 @@
     </div>
 
     <div class="lg:hidden w-full h-[100dvh] relative">
+        <!-- FIXED: Pure CSS Snap scrolling. No GSAP interference. -->
         <div
             bind:this={carouselEl}
             onscroll={onScroll}
-            class="hide-scroll flex w-full h-full overflow-x-auto snap-x snap-mandatory pointer-events-auto touch-pan-x"
+            class="hide-scroll flex w-full h-full overflow-x-auto snap-x snap-mandatory pointer-events-auto touch-pan-y"
             style="scroll-behavior: smooth;"
         >
             {#if layout === "left"}
@@ -211,7 +193,7 @@
                                     class="w-full mt-2 flex flex-col items-center justify-center cursor-pointer group hover:bg-transparent bg-transparent border-none outline-none"
                                 >
                                     <span
-                                        class="font-mono text-[9px] font-bold uppercase tracking-[0.3em] text-white/50 mb-2"
+                                        class="font-mono text-[9px] font-bold uppercase tracking-[0.3em] text-white/50 mb-2 transition-colors group-hover:text-white"
                                         >Swipe to turn page</span
                                     >
                                     <div
@@ -231,14 +213,14 @@
                     </div>
                 </div>
                 <div
-                    class="w-full h-full shrink-0 snap-center overflow-y-auto hide-scroll pt-8 pb-32 px-4 flex flex-col relative z-20 pointer-events-auto"
+                    class="w-full h-full shrink-0 snap-center relative z-20 pointer-events-auto"
                 >
                     <!-- svelte-ignore slot_element_deprecated -->
                     <slot name="content-mobile" />
                 </div>
             {:else}
                 <div
-                    class="w-full h-full shrink-0 snap-center overflow-y-auto hide-scroll pt-8 pb-32 px-4 flex flex-col relative z-20 pointer-events-auto"
+                    class="w-full h-full shrink-0 snap-center relative z-20 pointer-events-auto"
                 >
                     <!-- svelte-ignore slot_element_deprecated -->
                     <slot name="content-mobile" />
@@ -283,7 +265,7 @@
                                     class="w-full mt-2 flex flex-col items-center justify-center cursor-pointer group hover:bg-transparent bg-transparent border-none outline-none"
                                 >
                                     <span
-                                        class="font-mono text-[9px] font-bold uppercase tracking-[0.3em] text-white/50 mb-2"
+                                        class="font-mono text-[9px] font-bold uppercase tracking-[0.3em] text-white/50 mb-2 transition-colors group-hover:text-white"
                                         >Swipe to turn page</span
                                     >
                                     <div
@@ -305,6 +287,7 @@
             {/if}
         </div>
 
+        <!-- Pagination Indicator -->
         <div
             class="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 pointer-events-auto"
         >
@@ -380,7 +363,7 @@
     .hide-scroll {
         -ms-overflow-style: none;
         scrollbar-width: none;
-        overscroll-behavior-x: contain;
+        overscroll-behavior-x: none;
     }
     .hide-scroll::-webkit-scrollbar {
         display: none;
@@ -388,6 +371,8 @@
     .flip-card {
         will-change: transform;
     }
+
+    /* Native CSS Swipe Hints that will not interfere with scroll-snap */
     .swipe-track-left {
         transform: translateX(-100%);
         animation: swipeLightLeft 2.5s infinite ease-in-out;
