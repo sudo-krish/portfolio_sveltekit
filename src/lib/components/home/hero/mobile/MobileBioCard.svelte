@@ -9,21 +9,21 @@
         CardContent,
     } from "$lib/components/ui/card";
 
-    import { heroContent } from "$lib/data/hero_content";
+    import { heroContent, type TechItem } from "$lib/data/hero_content";
 
     let props = $props<{
         metaLabel?: string;
         metaTitle?: string;
         main?: string;
         details?: string;
-        techTags: string[];
+        techStack: TechItem[];
     }>();
 
     const metaLabel = props.metaLabel ?? heroContent.bioCard.metaLabel;
     const metaTitle = props.metaTitle ?? heroContent.bioCard.metaTitle;
     const main = props.main ?? heroContent.bioCard.main;
     const details = props.details ?? heroContent.bioCard.details;
-    const techTags = props.techTags;
+    const techStack = props.techStack;
 </script>
 
 <!-- Bio card -->
@@ -80,5 +80,5 @@
 <div
     class="hero-type relative w-full z-20 mb-10 -mx-4 px-4 pointer-events-auto"
 >
-    <InfiniteMarquee items={techTags} speed="25s" />
+    <InfiniteMarquee items={techStack} />
 </div>

@@ -1,13 +1,6 @@
 <script lang="ts">
     import { TerminalSquare } from "lucide-svelte";
-    import {
-        Card,
-        CardHeader,
-        CardTitle,
-        CardDescription,
-        CardContent,
-        CardFooter,
-    } from "$lib/components/ui/card";
+    import { Card } from "$lib/components/ui/card";
 
     // Import the shared hero text
     import { heroContent } from "$lib/data/hero_content";
@@ -24,68 +17,85 @@
     const metaLabel = props.metaLabel ?? heroContent.bioCard.metaLabel;
     const metaTitle = props.metaTitle ?? heroContent.bioCard.metaTitle;
 
-    // For the main text, since you have HTML tags (<strong>) in your design,
-    // you have two choices: render as raw HTML using {@html main} or keep the HTML in hero_content.ts.
-    // Assuming heroContent.bioCard.main contains the HTML tags:
     const main = props.main ?? heroContent.bioCard.main;
     const details = props.details ?? heroContent.bioCard.details;
 </script>
 
 <Card
-    class="glass-shard relative w-full mb-8 rounded-2xl rounded-tl-xl 
-         bg-white/[0.04] backdrop-blur-2xl border border-white/12 
-         shadow-[0_22px_60px_rgba(0,0,0,0.70)] overflow-hidden"
+    class="glass-shard relative w-full max-w-[800px] mb-8 rounded-[2rem] rounded-tl-[1rem] 
+         bg-black/40 backdrop-blur-2xl border border-white/10 
+         shadow-[0_30px_80px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.1)] overflow-hidden group"
 >
-    <!-- Accent + glow -->
+    <!-- Soft background glow -->
     <div
-        class="pointer-events-none absolute inset-x-6 top-0 h-[1px]
-           bg-gradient-to-r from-primary/70 via-white/40 to-transparent"
-    ></div>
-    <div
-        class="pointer-events-none absolute -right-10 -bottom-10
-           w-40 h-40 rounded-full
-           bg-[radial-gradient(circle_at_center,hsl(var(--primary)/0.45)_0%,transparent_65%)]
-           opacity-70 mix-blend-screen"
+        class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
     ></div>
 
-    <CardHeader class="relative z-10 flex items-center gap-3 pb-4">
-        <div
-            class="flex h-9 w-9 items-center justify-center rounded-xl
-             bg-primary/15 border border-primary/35
-             shadow-[0_0_20px_rgba(0,0,0,0.65)]"
-        >
-            <TerminalSquare
-                size={18}
-                class="text-primary drop-shadow-[0_0_10px_rgba(56,189,248,0.9)]"
-            />
-        </div>
-        <div class="flex flex-col gap-0.5">
-            <CardTitle
-                class="font-mono text-[10px] tracking-[0.24em] uppercase text-white/60"
+    <!-- Accent line top -->
+    <div
+        class="pointer-events-none absolute inset-x-0 top-0 h-[1px]
+           bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-50"
+    ></div>
+
+    <!-- Radial Glow Blob -->
+    <div
+        class="pointer-events-none absolute -right-20 -top-20
+           w-64 h-64 rounded-full
+           bg-[radial-gradient(circle_at_center,hsl(var(--primary)/0.3)_0%,transparent_60%)]
+           opacity-60 mix-blend-screen transition-opacity duration-700 group-hover:opacity-100"
+    ></div>
+
+    <div class="relative z-10 p-8 xl:p-10 flex flex-col gap-8">
+        <!-- Floating Header Area -->
+        <div class="flex items-start justify-between w-full">
+            <div class="flex flex-col gap-1.5 mt-2">
+                <span
+                    class="font-mono text-[clamp(9px,1vw,11px)] tracking-[0.3em] uppercase text-primary/80 font-semibold drop-shadow-[0_0_8px_hsl(var(--primary)/0.3)]"
+                >
+                    {metaLabel}
+                </span>
+                <span
+                    class="text-[clamp(12px,1.2vw,14px)] font-medium text-white/50 tracking-wide"
+                >
+                    {metaTitle}
+                </span>
+            </div>
+
+            <!-- Floating Terminal Badge -->
+            <div
+                class="flex h-12 w-12 items-center justify-center rounded-2xl
+                 bg-white/[0.03] border border-white/10 backdrop-blur-md
+                 shadow-[0_8px_16px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.1)]
+                 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 shrink-0"
             >
-                {metaLabel}
-            </CardTitle>
-            <CardDescription class="text-sm font-medium text-white/85">
-                {metaTitle}
-            </CardDescription>
+                <TerminalSquare
+                    size={22}
+                    class="text-white/80 group-hover:text-primary transition-colors duration-500 drop-shadow-[0_0_12px_rgba(255,255,255,0.2)]"
+                />
+            </div>
         </div>
-    </CardHeader>
 
-    <CardContent class="relative z-10 pt-0 space-y-4">
-        <p
-            class="text-[1.1rem] xl:text-[1.25rem] leading-[1.6] text-white/85 font-light"
+        <!-- Main Statement (Pull Quote Style) -->
+        <div class="relative pl-6 py-2 border-l-2 border-primary/40">
+            <div
+                class="absolute left-[-2px] top-0 w-[2px] h-1/3 bg-gradient-to-b from-primary to-transparent"
+            ></div>
+            <p
+                class="text-[clamp(1.2rem,2vw,1.875rem)] leading-[1.4] text-white/95 font-medium tracking-tight"
+            >
+                {@html main}
+            </p>
+        </div>
+
+        <!-- Details Box (Inner Frosted Glass) -->
+        <div
+            class="relative mt-2 p-6 rounded-2xl bg-white/[0.02] border border-white/[0.05] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
         >
-            {@html main}
-        </p>
-        <p class="text-[0.9rem] xl:text-[0.95rem] leading-[1.7] text-white/60">
-            {details}
-        </p>
-    </CardContent>
-
-    <!-- Optional footer if you ever need a CTA/meta -->
-    <!--
-  <CardFooter class="relative z-10 pt-4">
-    ...
-  </CardFooter>
-  -->
+            <p
+                class="text-[clamp(0.85rem,1vw,1rem)] leading-[1.8] text-white/60"
+            >
+                {details}
+            </p>
+        </div>
+    </div>
 </Card>

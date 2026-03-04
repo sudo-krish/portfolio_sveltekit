@@ -36,35 +36,54 @@
   sectionDescription={heroContent.identity.sectionDescription}
   accentColor="hsl(var(--primary))"
 >
-  <!-- 🖥️ DESKTOP: use heroContent text -->
+  <!-- 🖥️ DESKTOP: Wide Split Canvas -->
   <svelte:fragment slot="content-pc">
     <!-- ... VFX flares ... -->
 
+    <!-- We use padding to define the outermost boundaries -->
     <div
-      class="absolute inset-0 z-20 flex items-center justify-center w-full h-full pointer-events-none"
+      class="absolute inset-0 z-20 w-full h-full pointer-events-none flex justify-center px-10 xl:px-20 2xl:px-32 overflow-hidden"
     >
-      <div
-        class="w-full max-w-[1400px] px-8 lg:px-16 flex items-center justify-between"
-      >
-        <DesktopHeader
-          name={personal.name}
-          prefix={heroContent.headline.prefix}
-          suffix={heroContent.headline.suffix}
-          metaLabel={heroContent.headline.metaLabelDesktop}
-          payloadLabel={heroContent.marquee.payloadLabel}
-          {techTags}
-        />
-
+      <!-- max-w-none lets it use all available screen real estate up to the padding -->
+      <div class="relative w-full h-full max-w-none">
+        <!-- Main Content Grid -->
+        <!-- pb-32 pushes the grid up so the bottom action dock has room -->
         <div
-          class="relative z-30 w-2/5 flex flex-col justify-center items-start pointer-events-auto -ml-12"
+          class="w-full h-full grid grid-cols-12 gap-12 xl:gap-20 items-center pb-32"
         >
-          <DesktopBioCard
-            metaLabel={heroContent.bioCard.metaLabel}
-            metaTitle={heroContent.bioCard.metaTitle}
-            main={heroContent.bioCard.main}
-            details={heroContent.bioCard.details}
-          />
+          <!-- 1. Header: Completely Left (Spans cols 1 to 5) -->
+          <div
+            class="col-span-6 xl:col-span-5 flex flex-col justify-center items-start pointer-events-auto z-10 w-full"
+          >
+            <DesktopHeader
+              name={personal.name}
+              prefix={heroContent.headline.prefix}
+              suffix={heroContent.headline.suffix}
+              metaLabel={heroContent.headline.metaLabelDesktop}
+              payloadLabel={heroContent.marquee.payloadLabel}
+              techStack={heroContent.marquee.techStack}
+            />
+          </div>
 
+          <!-- 2. Bio Card: Mid to Right -->
+          <!-- col-start-7 starts the card exactly at the 50% line of the screen -->
+          <div
+            class="col-span-6 col-start-7 relative z-30 flex flex-col justify-center items-start pointer-events-auto"
+          >
+            <DesktopBioCard
+              metaLabel={heroContent.bioCard.metaLabel}
+              metaTitle={heroContent.bioCard.metaTitle}
+              main={heroContent.bioCard.main}
+              details={heroContent.bioCard.details}
+            />
+          </div>
+        </div>
+
+        <!-- 3. Action Dock: Center Bottom -->
+        <!-- Anchored independently in the bottom center -->
+        <div
+          class="absolute bottom-10 xl:bottom-12 left-1/2 -translate-x-1/2 z-40 w-full max-w-[480px] pointer-events-auto flex justify-center"
+        >
           <DesktopActionDock
             cta={heroContent.actionDock.ctaDesktop}
             links={heroContent.actionDock.links}
@@ -74,7 +93,7 @@
     </div>
   </svelte:fragment>
 
-  <!-- 📱 MOBILE: use the same heroContent text -->
+  <!-- 📱 MOBILE: Unchanged -->
   <svelte:fragment slot="content-mobile">
     <div
       class="h-full w-full overflow-y-auto no-scrollbar relative z-20 pointer-events-auto"
@@ -101,7 +120,7 @@
             metaTitle={heroContent.bioCard.metaTitle}
             main={heroContent.bioCard.main}
             details={heroContent.bioCard.details}
-            {techTags}
+            techStack={heroContent.marquee.techStack}
           />
 
           <MobileActionDock

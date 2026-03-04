@@ -1,51 +1,140 @@
 <script lang="ts">
-    import { Cpu } from "lucide-svelte";
+    import { onMount, onDestroy } from "svelte";
+
+    type TechItem = {
+        name: string;
+        iconUrl: string;
+    };
 
     let {
         items = [],
-        speed = "30s",
-        pauseOnHover = true,
+        baseSpeed = 0.5, // Pixels per frame
         direction = "left",
     } = $props<{
-        items: string[];
-        speed?: string;
-        pauseOnHover?: boolean;
+        items: TechItem[];
+        baseSpeed?: number;
         direction?: "left" | "right";
     }>();
 
-    // We duplicate the items array so it seamlessly loops without jumping
-    const doubleItems = [...items, ...items, ...items];
+    // Quadruple items to ensure we always have enough off-screen to loop safely
+    const loopItems = [...items, ...items, ...items, ...items];
+
+    let trackElement: HTMLDivElement;
+    let containerElement: HTMLDivElement;
+
+    let position = 0;
+    let isDragging = false;
+    let isHovered = false;
+    let startX = 0;
+    let currentSpeed = baseSpeed;
+    let animationFrameId: number;
+
+    function loop() {
+        if (!trackElement) return;
+
+        // If not dragging and not hovered, auto-scroll
+        if (!isDragging && !isHovered) {
+            currentSpeed = direction === "left" ? baseSpeed : -baseSpeed;
+            position -= currentSpeed;
+        }
+
+        // The exact width of one full set of items (we divide by 4 since we quadrupled the array)
+        const totalScrollWidth = trackElement.scrollWidth / 4;
+
+        // Infinite Loop Logic
+        if (position <= -totalScrollWidth) {
+            position += totalScrollWidth; // Reset seamlessly without jumping
+        } else if (position > 0) {
+            position -= totalScrollWidth;
+        }
+
+        trackElement.style.transform = `translate3d(${position}px, 0, 0)`;
+        animationFrameId = requestAnimationFrame(loop);
+    }
+
+    // --- Drag Handlers ---
+    function onPointerDown(e: PointerEvent) {
+        isDragging = true;
+        startX = e.clientX;
+        trackElement.style.cursor = "grabbing";
+        containerElement.setPointerCapture(e.pointerId);
+    }
+
+    function onPointerMove(e: PointerEvent) {
+        if (!isDragging) return;
+        const deltaX = e.clientX - startX;
+        position += deltaX;
+        startX = e.clientX; // Update startX for the next frame
+    }
+
+    function onPointerUp(e: PointerEvent) {
+        isDragging = false;
+        trackElement.style.cursor = "grab";
+        containerElement.releasePointerCapture(e.pointerId);
+    }
+
+    onMount(() => {
+        animationFrameId = requestAnimationFrame(loop);
+    });
+
+    onDestroy(() => {
+        cancelAnimationFrame(animationFrameId);
+    });
 </script>
 
 <div
-    class="relative flex w-full overflow-hidden"
-    style="--marquee-speed: {speed};"
+    bind:this={containerElement}
+    class="relative flex w-full overflow-hidden mask-fade-edges py-4 cursor-grab active:cursor-grabbing touch-none"
+    onpointerdown={onPointerDown}
+    onpointermove={onPointerMove}
+    onpointerup={onPointerUp}
+    onpointerleave={onPointerUp}
+    onmouseenter={() => (isHovered = true)}
+    onmouseleave={() => (isHovered = false)}
 >
-    <!-- Optional Fading edges for a premium look -->
+    <!-- Marquee Track (Now hardware-accelerated via JS translate3d) -->
     <div
-        class="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none"
-    ></div>
-    <div
-        class="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none"
-    ></div>
-
-    <!-- Marquee Track -->
-    <div
-        class="flex w-max min-w-full shrink-0 gap-3 py-2 {pauseOnHover
-            ? 'hover:[animation-play-state:paused]'
-            : ''}"
-        class:animate-marquee-left={direction === "left"}
-        class:animate-marquee-right={direction === "right"}
+        bind:this={trackElement}
+        class="flex w-max shrink-0 gap-5 will-change-transform"
     >
-        {#each doubleItems as tag, i}
+        {#each loopItems as tag, i}
+            <!-- 
+               Redesigned Tech Card:
+               Outer container uses heavy glass.
+               Inner container uses solid high-contrast white. 
+            -->
             <div
-                class="flex items-center gap-1.5 bg-white/5 backdrop-blur-md border border-white/10 rounded-full px-3.5 py-1.5 transition-colors hover:bg-primary/20 hover:border-primary/50 cursor-default"
+                class="group relative flex flex-col items-center justify-center gap-3 w-24 h-28
+                       bg-black/20 backdrop-blur-2xl border border-white/10 rounded-2xl
+                       transition-colors duration-300 hover:bg-white/[0.08] hover:border-white/20
+                       select-none shadow-[0_8px_24px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)]"
             >
-                <Cpu size={12} class="text-primary" />
-                <span
-                    class="font-mono text-[10px] font-bold uppercase tracking-widest text-white/90 whitespace-nowrap"
+                <!-- Inner High-Contrast Pedestal -->
+                <!-- We use a nearly solid white/silver background so dark-green logos NEVER get lost -->
+                <div
+                    class="relative flex items-center justify-center w-[52px] h-[52px] rounded-xl
+                           bg-white/90 border border-white/40 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1),0_4px_12px_rgba(0,0,0,0.4)]
+                           transition-transform duration-300 group-hover:scale-105"
                 >
-                    {tag}
+                    <!-- Small subtle reflection on the top of the pedestal -->
+                    <div
+                        class="absolute inset-x-1 top-1 h-2 bg-gradient-to-b from-white to-transparent rounded-t-lg opacity-80 pointer-events-none"
+                    ></div>
+
+                    <img
+                        src={tag.iconUrl}
+                        alt={tag.name}
+                        class="relative w-8 h-8 object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-110 pointer-events-none"
+                        loading="lazy"
+                        draggable="false"
+                    />
+                </div>
+
+                <!-- Text Label -->
+                <span
+                    class="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 group-hover:text-white transition-colors duration-300 pointer-events-none"
+                >
+                    {tag.name}
                 </span>
             </div>
         {/each}
@@ -53,29 +142,21 @@
 </div>
 
 <style>
-    .animate-marquee-left {
-        animation: scroll-left var(--marquee-speed) linear infinite;
-    }
-    .animate-marquee-right {
-        animation: scroll-right var(--marquee-speed) linear infinite;
-    }
-
-    @keyframes scroll-left {
-        from {
-            transform: translateX(0);
-        }
-        to {
-            transform: translateX(
-                -33.33%
-            ); /* Shifts exactly 1/3 since we tripled the array */
-        }
-    }
-    @keyframes scroll-right {
-        from {
-            transform: translateX(-33.33%);
-        }
-        to {
-            transform: translateX(0);
-        }
+    /* CSS Mask for a perfect, native fade effect on the left/right edges */
+    .mask-fade-edges {
+        mask-image: linear-gradient(
+            to right,
+            transparent,
+            black 10%,
+            black 90%,
+            transparent
+        );
+        -webkit-mask-image: linear-gradient(
+            to right,
+            transparent,
+            black 10%,
+            black 90%,
+            transparent
+        );
     }
 </style>
