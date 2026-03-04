@@ -71,7 +71,7 @@
     uTime: { value: 0 },
     uDeepColor: { value: deepColor },
     uSurfColor: { value: surfColor },
-    uFoamColor: { value: foamColor }
+    uFoamColor: { value: foamColor },
   };
 
   useTask((dt) => {
@@ -80,15 +80,15 @@
 </script>
 
 <T.Group>
-  
   <!-- THE LIQUID CONDUIT -->
   <T.Mesh>
     <!-- 
        Radius: 2.0, Height: 10.0
        OpenEnded: true
     -->
-    <T.CylinderGeometry args={[2.0, 2.0, 10, 64, 32, true]} /> <!-- 32 height segments for smooth waves -->
-    
+    <T.CylinderGeometry args={[2.0, 2.0, 10, 64, 32, true]} />
+    <!-- 32 height segments for smooth waves -->
+
     <T.ShaderMaterial
       {vertexShader}
       {fragmentShader}
@@ -101,13 +101,9 @@
   <!-- INTERNAL GLOW RINGS (Visual Speed) -->
   <!-- Moving rings inside to emphasize flow direction -->
   {#each Array(5) as _, i}
-     <T.Mesh 
-       position={[0, (i - 2) * 2, 0]} 
-       scale={[1.8, 0.05, 1.8]}
-     >
-       <T.TorusGeometry args={[1, 0.05, 16, 64]} />
-       <T.MeshBasicMaterial color={surfColor} transparent opacity={0.5} />
-     </T.Mesh>
+    <T.Mesh position={[0, (i - 2) * 2, 0]} scale={[1.8, 0.05, 1.8]}>
+      <T.TorusGeometry args={[1, 0.05, 16, 64]} />
+      <T.MeshBasicMaterial color={surfColor} transparent opacity={0.5} />
+    </T.Mesh>
   {/each}
-
 </T.Group>

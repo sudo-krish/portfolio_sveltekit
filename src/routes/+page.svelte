@@ -1,9 +1,9 @@
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
   import { Canvas } from "@threlte/core";
   import { onMount, onDestroy, tick } from "svelte";
   import gsap from "gsap";
   import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+  import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin"; // MUST IMPORT THIS
   import HomeScene from "$lib/components/home/3d/HomeScene.svelte";
 
   // Existing Content Components
@@ -22,33 +22,93 @@
   import CredentialsSection from "$lib/components/home/credentials/CredentialsSection.svelte";
   import ContactSection from "$lib/components/home/contact/ContactSection.svelte";
 
+  let observer: any;
+  let keydownHandler: any;
+
   onMount(() => {
     // 1. SCROLL RESET LOGIC
     if ("scrollRestoration" in history) {
       history.scrollRestoration = "manual";
     }
 
-    // Lock body scroll - handled smoothly
     document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
 
     // 2. GSAP INITIALIZATION
-    gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
+    // Keep the defaults exactly as they were so HomeScene tracks correctly
     ScrollTrigger.defaults({
       scroller: ".snap-container",
-      // Important for scroll-snap compatibility
-      fastScrollEnd: true,
     });
 
     let ro: ResizeObserver | null = null;
 
     tick().then(() => {
-      // Use a ResizeObserver to trigger GSAP refresh only when the DOM actually settles
-      const container = document.querySelector(".snap-container");
-      if (container) {
+      const container = document.querySelector(
+        ".snap-container",
+      ) as HTMLElement;
+      const sections = gsap.utils.toArray(".snap-section") as HTMLElement[];
+
+      if (container && sections.length > 0) {
+        let currentIndex = 0;
+        let isAnimating = false;
+
+        // Reset scroll position on load
+        container.scrollTo(0, 0);
+
+        // 3. The Controlled Slow Snap Function
+        function gotoSection(index: number) {
+          if (index < 0 || index >= sections.length) return;
+
+          isAnimating = true;
+          currentIndex = index;
+
+          // We animate the container's scroll position, which triggers HomeScene perfectly
+          gsap.to(container, {
+            scrollTo: { y: sections[currentIndex], autoKill: false },
+            duration: 1.5, // THIS IS THE SPEED (1.2 seconds is beautifully slow)
+            ease: "power2.inOut",
+            onComplete: () => {
+              // Add a tiny 50ms buffer before allowing the next scroll
+              setTimeout(() => {
+                isAnimating = false;
+              }, 50);
+            },
+          });
+        }
+
+        // 4. Intercept the user's mouse wheel / trackpad
+        observer = ScrollTrigger.observe({
+          target: container,
+          type: "wheel,touch,pointer",
+          wheelSpeed: -1,
+          tolerance: 10,
+          preventDefault: true, // Blocks the fast native browser scrolling
+          onUp: () => {
+            if (!isAnimating) gotoSection(currentIndex + 1);
+          },
+          onDown: () => {
+            if (!isAnimating) gotoSection(currentIndex - 1);
+          },
+        });
+
+        // 5. Intercept the keyboard keys
+        keydownHandler = (e: KeyboardEvent) => {
+          if (["ArrowDown", "PageDown", " "].includes(e.key)) {
+            e.preventDefault();
+            if (!isAnimating) gotoSection(currentIndex + 1);
+          } else if (["ArrowUp", "PageUp"].includes(e.key)) {
+            e.preventDefault();
+            if (!isAnimating) gotoSection(currentIndex - 1);
+          }
+        };
+        window.addEventListener("keydown", keydownHandler, { passive: false });
+
+        // Refresh and realign on window resize
         ro = new ResizeObserver(() => {
           ScrollTrigger.refresh();
+          gotoSection(currentIndex); // Snap back strictly to current section
         });
         ro.observe(container);
       }
@@ -63,6 +123,10 @@
     if (typeof document !== "undefined") {
       document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
+    }
+    if (observer) observer.kill();
+    if (typeof window !== "undefined" && keydownHandler) {
+      window.removeEventListener("keydown", keydownHandler);
     }
     ScrollTrigger.defaults({ scroller: window });
     ScrollTrigger.getAll().forEach((t) => t.kill());
@@ -156,12 +220,14 @@
     height: 100dvh;
     height: 100vh; /* Fallback */
     width: 100%;
-    overflow-y: auto; /* Changed from scroll to auto for cleaner OS handling */
-    scroll-behavior: smooth;
-    scroll-snap-type: y mandatory;
+
+    /* VERY IMPORTANT: Keep overflow-y: auto so GSAP can scroll it! */
+    overflow-y: auto;
+
+    /* REMOVED scroll-snap-type and smooth behavior so they don't fight GSAP */
     position: relative;
     z-index: 10;
-    /* Hide scrollbar for a seamless app-like feel */
+
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
@@ -175,8 +241,7 @@
     height: 100dvh;
     height: 100vh;
     width: 100%;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
+    /* REMOVED scroll-snap-align and stop. GSAP handles the locking entirely */
     position: relative;
     display: flex;
     flex-direction: column;
@@ -188,6 +253,7 @@
     position: fixed;
     inset: 0;
     z-index: 0;
+    opacity: 1;
     pointer-events: none;
     background: transparent;
   }
@@ -196,7 +262,7 @@
     position: absolute;
     inset: 0;
     z-index: 5;
-    opacity: 0.3;
+    opacity: 0.4;
     pointer-events: none;
   }
 </style>

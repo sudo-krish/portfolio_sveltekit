@@ -55,19 +55,22 @@
     });
 </script>
 
+<!-- CHANGED: layout="left" -->
 <MobileCarousel
-    layout="right"
+    layout="left"
     sectionTitle="Contact"
     sectionDescription="Let's build something together"
     accentColor="#ec4899"
 >
-    <!-- DESKTOP / TABLET (Original Preserved floating layout) -->
+    <!-- DESKTOP / TABLET -->
     <svelte:fragment slot="content-pc">
-        <GlowAccent color="#ec4899" position="top-1/3 left-[10%]" />
+        <!-- CHANGED: Glow position moved to right side to balance left content -->
+        <GlowAccent color="#ec4899" position="top-1/3 right-[10%]" />
 
-        <!-- MAIN CONTENT CARD (RIGHT SIDE PC) -->
+        <!-- MAIN CONTENT CARD (LEFT SIDE PC) -->
+        <!-- CHANGED: right-[8%] to left-[8%] -->
         <div
-            class="absolute top-[18%] right-[8%] w-full max-w-lg lg:max-w-xl z-20 pointer-events-auto flex flex-col gap-6"
+            class="absolute top-[18%] left-[8%] w-full max-w-lg lg:max-w-xl z-20 pointer-events-auto flex flex-col gap-6"
         >
             <p
                 class="contact-panel text-sm lg:text-base text-white/50 px-2 shrink-0 font-light leading-relaxed"

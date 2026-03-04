@@ -1,25 +1,29 @@
 <script lang="ts">
-  import { T, useTask } from "@threlte/core";
-  import { Float, interactivity } from "@threlte/extras";
-  import { Color, DoubleSide, MathUtils } from "three";
-  import * as THREE from "three";
+    import { T, useTask } from "@threlte/core";
+    import { Float, useGltf, interactivity, Align } from "@threlte/extras";
+    import { Color, DoubleSide, Mesh, ShaderMaterial } from "three";
+    import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
+    import * as THREE from "three";
 
-  interactivity();
+    interactivity();
 
-  // --- 1. THEME: OCEANIC MACHINERY ---
-  const deepColor = new Color("#1e3a8a"); // Deep Blue
-  const surfColor = new Color("#38bdf8"); // Cyan
-  const foamColor = new Color("#ffffff"); // White Foam
+    // --- Draco Decompression ---
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath("/draco/");
 
-  // --- 2. SHADER (TIGHTER DISPLACEMENT) ---
-  const vertexShader = `
+    // --- 1. THEME: OCEANIC MACHINERY ---
+    const deepColor = new Color("#1e3a8a"); // Deep Blue
+    const surfColor = new Color("#38bdf8"); // Cyan
+    const foamColor = new Color("#ffffff"); // White Foam
+
+    // --- 2. SHADER (TIGHTER DISPLACEMENT) ---
+    const vertexShader = `
     uniform float uTime;
     varying vec2 vUv;
     varying float vElevation;
     varying vec3 vNormal;
     varying vec3 vViewPosition;
 
-    // (Standard Noise Function Omitted for brevity, assumed same as before)
     vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
     vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
     vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
@@ -72,7 +76,6 @@
       vNormal = normalize(normalMatrix * normal);
       vec3 pos = position;
 
-      // Reduced noise amplitude (0.02) to keep edges sharp, increased frequency (3.0) for "ripples"
       float noise = snoise(pos * 3.0 + uTime * 0.8); 
       pos += normal * noise * 0.02; 
 
@@ -83,7 +86,7 @@
     }
   `;
 
-  const fragmentShader = `
+    const fragmentShader = `
     uniform vec3 uDeepColor;
     uniform vec3 uSurfColor;
     uniform vec3 uFoamColor;
@@ -95,7 +98,6 @@
       float mixStrength = smoothstep(-0.5, 0.5, vElevation);
       vec3 color = mix(uDeepColor, uSurfColor, mixStrength);
       
-      // Sharper Fresnel for "Metallic Liquid" look
       vec3 viewDir = normalize(vViewPosition);
       float fresnel = pow(1.0 - dot(vNormal, viewDir), 3.0);
       
@@ -104,183 +106,56 @@
     }
   `;
 
-  const uniforms = {
-    uTime: { value: 0 },
-    uDeepColor: { value: deepColor },
-    uSurfColor: { value: surfColor },
-    uFoamColor: { value: foamColor }
-  };
+    const uniforms = {
+        uTime: { value: 0 },
+        uDeepColor: { value: deepColor },
+        uSurfColor: { value: surfColor },
+        uFoamColor: { value: foamColor },
+    };
 
-  // --- 3. MECHANICS ---
-  const crankRadius = 0.35;
-  const rodLength = 1.0;
-  let crankAngle = 0;
-  
-  function getPistonData(angleOffset: number) {
-    const theta = crankAngle + angleOffset;
-    const sinTheta = Math.sin(theta);
-    const cosTheta = Math.cos(theta);
-    const pistonLocalY = crankRadius * cosTheta + Math.sqrt(rodLength**2 - (crankRadius * sinTheta)**2);
-    const rodRock = Math.asin((crankRadius * sinTheta) / rodLength);
-    return { y: pistonLocalY - 1.0, rot: rodRock }; 
-  }
+    const customMaterial = new ShaderMaterial({
+        vertexShader,
+        fragmentShader,
+        uniforms,
+        transparent: true,
+        side: DoubleSide,
+    });
 
-  useTask((dt) => {
-    crankAngle -= dt * 4;
-    uniforms.uTime.value += dt;
-  });
+    // Load the GLTF File (Ensure this path is exactly correct relative to your static folder)
+    const gltf = useGltf("/3d/engine/scene.gltf", { dracoLoader });
+
+    // We use Svelte's reactive statement. When the GLTF loads, we manually traverse and overwrite the materials.
+    $: if ($gltf) {
+        $gltf.scene.traverse((child) => {
+            if ((child as Mesh).isMesh) {
+                const mesh = child as Mesh;
+                // Overwrite the original materials from the GLB
+                mesh.material = customMaterial;
+                // Optional: Ensure shadows work
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+            }
+        });
+    }
+
+    let rotationY = -Math.PI / 4;
+
+    useTask((dt) => {
+        uniforms.uTime.value += dt;
+        // Rotate the entire GLB to simulate mechanics
+        rotationY += dt * 0.2;
+    });
 </script>
 
 <Float speed={2} rotationIntensity={0.2} floatIntensity={0.2}>
-    <!-- SCALING: 0.65 for compact but detailed look -->
-    <T.Group rotation.y={-Math.PI / 4} rotation.x={0.2} scale={0.65}>
-        
-        <!-- === 1. ENGINE BLOCK (Structural) === -->
-        
-        <!-- The "V" Valley -->
-        <T.Mesh position={[0, -0.4, 0]} rotation.x={Math.PI/2}>
-             <T.CylinderGeometry args={[0.4, 0.6, 3.8, 4]} /> <!-- 4 segments = Diamond/V shape -->
-             <T.ShaderMaterial {vertexShader} {fragmentShader} {uniforms} transparent />
-        </T.Mesh>
+    <T.Group rotation.y={rotationY} rotation.x={0.2} scale={0.01}>
+        <!-- Reduced scale to 0.02 since the model is ~100 units wide and wrap it in Align so it spins from its center -->
 
-        <!-- Oil Pan (Squared off bottom) -->
-        <T.Mesh position={[0, -0.9, 0]}>
-             <T.BoxGeometry args={[0.9, 0.4, 3.0]} />
-             <T.ShaderMaterial {vertexShader} {fragmentShader} {uniforms} transparent />
-        </T.Mesh>
-
-        <!-- === 2. CYLINDER HEADS & INTAKE === -->
-        
-        <!-- Left Head -->
-        <T.Group rotation.z={Math.PI / 4} position={[-0.45, 0.2, 0]}>
-            <!-- Head Casting -->
-            <T.Mesh position={[0, 0.6, 0]}>
-                <T.BoxGeometry args={[0.6, 1.2, 3.6]} />
-                <T.ShaderMaterial {vertexShader} {fragmentShader} {uniforms} transparent />
-            </T.Mesh>
-            <!-- Valve Cover (Beveled look via scaled cylinder) -->
-            <T.Mesh position={[0, 1.3, 0]} scale={[1, 0.3, 1]}>
-                <T.CylinderGeometry args={[0.3, 0.4, 3.5, 16]} />
-                <T.ShaderMaterial {vertexShader} {fragmentShader} {uniforms} transparent />
-            </T.Mesh>
-            <!-- Exhaust Headers (Curved Tubes) -->
-            {#each Array(4) as _, i}
-                <T.Mesh position={[-0.4, 0.6, (i - 1.5) * 0.9]} rotation.z={Math.PI/2}>
-                    <T.TorusGeometry args={[0.3, 0.08, 16, 16, Math.PI/2]} />
-                    <T.ShaderMaterial {vertexShader} {fragmentShader} {uniforms} transparent />
-                </T.Mesh>
-            {/each}
-        </T.Group>
-
-        <!-- Right Head -->
-        <T.Group rotation.z={-Math.PI / 4} position={[0.45, 0.2, 0]}>
-            <T.Mesh position={[0, 0.6, 0]}>
-                <T.BoxGeometry args={[0.6, 1.2, 3.6]} />
-                <T.ShaderMaterial {vertexShader} {fragmentShader} {uniforms} transparent />
-            </T.Mesh>
-            <T.Mesh position={[0, 1.3, 0]} scale={[1, 0.3, 1]}>
-                <T.CylinderGeometry args={[0.3, 0.4, 3.5, 16]} />
-                <T.ShaderMaterial {vertexShader} {fragmentShader} {uniforms} transparent />
-            </T.Mesh>
-             <!-- Exhaust Headers -->
-             {#each Array(4) as _, i}
-                <T.Mesh position={[0.4, 0.6, (i - 1.5) * 0.9]} rotation.z={-Math.PI/2} rotation.y={Math.PI}>
-                    <T.TorusGeometry args={[0.3, 0.08, 16, 16, Math.PI/2]} />
-                    <T.ShaderMaterial {vertexShader} {fragmentShader} {uniforms} transparent />
-                </T.Mesh>
-            {/each}
-        </T.Group>
-
-        <!-- Intake Manifold (The "Spider") -->
-        <T.Group position={[0, 1.0, 0]}>
-            <!-- Plenum -->
-            <T.Mesh>
-                <T.BoxGeometry args={[0.5, 0.2, 2.8]} />
-                <T.ShaderMaterial {vertexShader} {fragmentShader} {uniforms} transparent />
-            </T.Mesh>
-            <!-- Runners -->
-            {#each Array(4) as _, i}
-                <T.Mesh position={[0, -0.2, (i-1.5)*0.7]} rotation.z={Math.PI/2}>
-                     <T.CylinderGeometry args={[0.06, 0.06, 0.8, 8]} />
-                     <T.ShaderMaterial {vertexShader} {fragmentShader} {uniforms} transparent />
-                </T.Mesh>
-            {/each}
-        </T.Group>
-
-        <!-- === 3. ROTATING INTERNALS === -->
-        <T.Group rotation.z={crankAngle}>
-            <!-- Crank Shaft -->
-            <T.Mesh rotation.x={Math.PI/2}>
-                <T.CylinderGeometry args={[0.08, 0.08, 4.0, 16]} />
-                <T.ShaderMaterial {vertexShader} {fragmentShader} {uniforms} transparent />
-            </T.Mesh>
-            <!-- Counterweights -->
-            {#each Array(4) as _, i}
-                <T.Group position={[0, 0, (i - 1.5) * 1.0]}>
-                    <T.Mesh position.y={-0.2}>
-                        <T.BoxGeometry args={[0.15, 0.35, 0.1]} />
-                        <T.ShaderMaterial {vertexShader} {fragmentShader} {uniforms} transparent />
-                    </T.Mesh>
-                </T.Group>
-            {/each}
-        </T.Group>
-
-        <!-- Front Pulleys -->
-        <T.Group position={[0, 0, 2.1]}>
-             <!-- Main Pulley -->
-             <T.Mesh rotation.x={Math.PI/2} rotation.y={crankAngle}>
-                 <T.CylinderGeometry args={[0.3, 0.3, 0.1, 32]} />
-                 <T.ShaderMaterial {vertexShader} {fragmentShader} {uniforms} transparent />
-             </T.Mesh>
-             <!-- Top Fan/Pulley -->
-             <T.Mesh position={[0, 1.0, 0]} rotation.x={Math.PI/2} rotation.y={crankAngle * 1.5}>
-                 <T.CylinderGeometry args={[0.2, 0.2, 0.1, 32]} />
-                 <T.ShaderMaterial {vertexShader} {fragmentShader} {uniforms} transparent />
-             </T.Mesh>
-             <!-- Belt (Simplified Ring) -->
-             <T.Mesh position={[0, 0.5, 0]} scale={[1, 1.8, 1]}>
-                 <T.RingGeometry args={[0.28, 0.32, 32]} />
-                 <T.ShaderMaterial {vertexShader} {fragmentShader} {uniforms} transparent side={DoubleSide} />
-             </T.Mesh>
-        </T.Group>
-
-        <!-- === 4. PISTONS (Visible through "Liquid" block) === -->
-        
-        <!-- Left Bank Pistons -->
-        <T.Group rotation.z={Math.PI / 4} position={[-0.45, 0.2, 0]}>
-            {#each [0, 90, 270, 180] as degrees, i}
-                 {@const offset = degrees * (Math.PI / 180)}
-                 {@const data = getPistonData(offset)}
-                 <T.Group position={[0, 0, (i - 1.5) * 0.9]}>
-                     <T.Mesh position.y={data.y + 1.2}>
-                         <T.CylinderGeometry args={[0.33, 0.33, 0.4, 32]} />
-                         <T.ShaderMaterial {vertexShader} {fragmentShader} {uniforms} transparent />
-                     </T.Mesh>
-                     <T.Mesh position.y={data.y + 0.9} rotation.z={data.rot} position.x={-Math.sin(data.rot) * 0.4}>
-                         <T.CylinderGeometry args={[0.07, 0.09, rodLength, 8]} />
-                         <T.ShaderMaterial {vertexShader} {fragmentShader} {uniforms} transparent />
-                     </T.Mesh>
-                 </T.Group>
-            {/each}
-        </T.Group>
-
-        <!-- Right Bank Pistons -->
-        <T.Group rotation.z={-Math.PI / 4} position={[0.45, 0.2, 0]}>
-            {#each [0, 90, 270, 180] as degrees, i}
-                 {@const offset = (degrees + 90) * (Math.PI / 180)} 
-                 {@const data = getPistonData(offset)}
-                 <T.Group position={[0, 0, (i - 1.5) * 0.9 + 0.15]}>
-                     <T.Mesh position.y={data.y + 1.2}>
-                         <T.CylinderGeometry args={[0.33, 0.33, 0.4, 32]} />
-                         <T.ShaderMaterial {vertexShader} {fragmentShader} {uniforms} transparent />
-                     </T.Mesh>
-                     <T.Mesh position.y={data.y + 0.9} rotation.z={-data.rot} position.x={Math.sin(data.rot) * 0.4}>
-                         <T.CylinderGeometry args={[0.07, 0.09, rodLength, 8]} />
-                         <T.ShaderMaterial {vertexShader} {fragmentShader} {uniforms} transparent />
-                     </T.Mesh>
-                 </T.Group>
-            {/each}
-        </T.Group>
-
+        <!-- Render the GLB strictly once it exists -->
+        {#if $gltf}
+            <Align>
+                <T is={$gltf.scene} />
+            </Align>
+        {/if}
     </T.Group>
 </Float>

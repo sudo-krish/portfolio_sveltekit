@@ -47,7 +47,7 @@
   );
 
   const DESKTOP_POS = {
-    start: { x: 4.8, y: -0.2, z: 0 },
+    start: { x: 3, y: -0.2, z: 0 },
     pipe: { x: -3.5, y: -0.5, z: 0 },
     lake: { x: 3.5, y: -1.0, z: 0 },
     house: { x: -3.5, y: 0.2, z: 0 },
@@ -95,7 +95,9 @@
     scrollY_current += (scrollY_target - scrollY_current) * 0.08;
     const rawProgress = scrollY_current / innerHeight;
     const isVisible = rawProgress <= 12;
-    const pipelineVisible = rawProgress < 4.6;
+
+    // Extend pipeline visibility so Warehouse can exit smoothly during scroll index 4 -> 5
+    const pipelineVisible = rawProgress < 5.5;
 
     mascotGroup.visible = pipelineVisible;
     if (pipeGroup) pipeGroup.visible = pipelineVisible;
@@ -103,6 +105,7 @@
     if (houseGroup) houseGroup.visible = pipelineVisible;
     if (warehouseGroup) warehouseGroup.visible = pipelineVisible;
 
+    // --- 1. PROCESS METRICS MODELS (Sections 5 through 10) ---
     const metricGroups = [
       expGroup,
       techGroup,
@@ -111,32 +114,54 @@
       credGroup,
       contactGroup,
     ];
+
     metricGroups.forEach((g, i) => {
       if (!g) return;
-      const phaseStart = 4.8 + i;
-      const phaseEnd = phaseStart + 1.2;
-      const inPhase = rawProgress >= phaseStart && rawProgress < phaseEnd;
+
+      // Each metric perfectly centers at index (5 + i)
+      // They begin fading in at (index - 0.8) and fade out at (index + 0.8)
+      const centerIndex = 5 + i;
+      const phaseStart = centerIndex - 0.8;
+      const phaseEnd = centerIndex + 0.8;
+      const inPhase = rawProgress >= phaseStart && rawProgress <= phaseEnd;
 
       g.visible = inPhase;
 
       if (inPhase) {
-        const localP = Math.min((rawProgress - phaseStart) / 0.5, 1);
-        const s = localP * 0.8;
+        // Calculate a bell curve for scale (0 at edges, 1 at center)
+        const distanceFromCenter = Math.abs(rawProgress - centerIndex);
+        const scaleP = Math.max(0, 1 - distanceFromCenter * 1.5);
+        const s = easeInOutCubic(scaleP) * 0.8;
+
         g.scale.set(s, s, s);
-        g.rotation.y += 0.005;
-        g.rotation.x += 0.002;
+
+        // Constant predictable rotation based on global time, not scroll speed
+        const time = performance.now() * 0.001;
+        g.rotation.y = time * 0.5;
+        // g.rotation.x = time * 0.2;
 
         if (isMobile) {
-          // Simply assign the offset directly. The carousel calculated if it should be right or left.
+          // Slide cleanly into view based on user swipe
           g.position.x = calculatedSwipeOffset;
           g.position.y = MOBILE_POS.start.y;
+        } else {
+          // Desktop: Alternate sides, slight Y float for dynamic feel
+          const baseOffset = i % 2 === 0 ? -4.5 : 4.5;
+
+          // Allow them to subtly slide vertically into place based on scroll
+          const verticalSlide = (rawProgress - centerIndex) * -5;
+
+          g.position.x = baseOffset;
+          g.position.y = verticalSlide;
         }
       }
     });
 
     if (!isVisible) return;
 
+    // --- 2. PROCESS PIPELINE MODELS ---
     if (rawProgress <= 1.0) {
+      // Hero to Pipe
       const p1 = Math.max(0, rawProgress);
       const moveP = easeInOutCubic(
         gsap.utils.clamp(0, 1, gsap.utils.mapRange(0, 0.6, 0, 1, p1)),
@@ -183,6 +208,7 @@
       if (rotP > 0)
         mascotGroup.scale.set(finalShrink, finalShrink, finalShrink);
     } else if (rawProgress <= 2.0) {
+      // Pipe to Lake
       const p2 = rawProgress - 1;
       houseGroup.scale.set(0, 0, 0);
 
@@ -209,12 +235,10 @@
         mascotGroup.position.y = pipeGroup.position.y;
       }
 
-      const fallP = gsap.utils.clamp(
-        0,
-        1,
-        gsap.utils.mapRange(0.4, 0.6, 0, 1, p2),
+      const easeFall = Math.pow(
+        gsap.utils.clamp(0, 1, gsap.utils.mapRange(0.4, 0.6, 0, 1, p2)),
+        2,
       );
-      const easeFall = fallP * fallP;
 
       if (p2 >= 0.4) {
         mascotGroup.position.x = pos.lake.x;
@@ -248,9 +272,10 @@
         1,
         gsap.utils.mapRange(0.55, 0.7, 0, 1, p2),
       );
-      const mScale = gsap.utils.interpolate(COMPACT_SCALE, 0.0, dissolveP);
+      const mScale = gsap.utils.interpolate(COMPACT_SCALE, 0.1, dissolveP);
       mascotGroup.scale.set(mScale, mScale, mScale);
     } else if (rawProgress <= 3.0) {
+      // Lake to House
       const p3 = rawProgress - 2;
       mascotGroup.scale.set(0, 0, 0);
       warehouseGroup.scale.set(0, 0, 0);
@@ -271,13 +296,16 @@
         1,
         gsap.utils.mapRange(0.4, 0.9, 0, 1, p3),
       );
-      const easeBackOut = (t: number) => {
-        const c1 = 1.70158;
-        return 1 + (c1 + 1) * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
-      };
-      const growP = easeBackOut(rawGrow);
+      const growP =
+        1 +
+        2.70158 * Math.pow(rawGrow - 1, 3) +
+        1.70158 * Math.pow(rawGrow - 1, 2);
 
-      const hScale = gsap.utils.interpolate(0, HOUSE_SCALE, Math.min(growP, 1));
+      const hScale = gsap.utils.interpolate(
+        0,
+        HOUSE_SCALE,
+        Math.min(Math.max(0, growP), 1),
+      );
       houseGroup.scale.set(hScale, hScale, hScale);
       houseGroup.position.x = targetX;
       houseGroup.position.y = gsap.utils.interpolate(
@@ -285,8 +313,9 @@
         pos.house.y,
         rawGrow,
       );
-    } else {
-      const p4 = Math.min(Math.max(rawProgress - 3, 0), 1);
+    } else if (rawProgress <= 4.0) {
+      // House to Warehouse
+      const p4 = rawProgress - 3;
 
       const houseExitP = gsap.utils.clamp(
         0,
@@ -342,10 +371,28 @@
       );
       const lScale = gsap.utils.interpolate(1, 0, absorbP);
       lakeGroup.scale.set(lScale, lScale, lScale);
+    } else if (rawProgress <= 5.0) {
+      // WAREHOUSE EXIT TRANSITION (Scroll section 4 -> 5)
+      // Smoothly exits the warehouse model so it doesn't persist into the Experience section
+      const p5 = rawProgress - 4;
+
+      const warehouseExitP = easeInOutCubic(
+        gsap.utils.clamp(0, 1, gsap.utils.mapRange(0, 0.6, 0, 1, p5)),
+      );
+
+      warehouseGroup.position.x = pos.ware.x;
+      // Drop it down through the floor as we enter the metrics section
+      warehouseGroup.position.y = gsap.utils.interpolate(
+        pos.ware.y,
+        pos.ware.y - 15,
+        warehouseExitP,
+      );
+
+      const wScale = gsap.utils.interpolate(WAREHOUSE_SCALE, 0, warehouseExitP);
+      warehouseGroup.scale.set(wScale, wScale, wScale);
     }
 
-    // THE FIX: CORE PIPELINE MODELS PARALLAX
-    // No more direction math. Just add the exact calculated offset blindly.
+    // --- 3. GLOBAL MOBILE SWIPE OVERRIDE FOR PIPELINE MODELS ---
     if (isMobile && pipelineVisible) {
       if (mascotGroup.visible)
         mascotGroup.position.x = pos.start.x + calculatedSwipeOffset;
@@ -463,7 +510,7 @@
   position={[isMobile ? 0 : -4.5, 0, 0]}
   visible={false}
 >
-  <Float speed={1.3} rotationIntensity={0.4} floatIntensity={0.5}>
+  <Float speed={1.3} rotationIntensity={0} floatIntensity={0}>
     <CredentialShield />
   </Float>
 </T.Group>

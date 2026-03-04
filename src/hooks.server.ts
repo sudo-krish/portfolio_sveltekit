@@ -1,6 +1,7 @@
 // src/hooks.server.ts
 
 import type { Handle } from '@sveltejs/kit';
+import { dev } from '$app/environment';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const response = await resolve(event);
@@ -33,20 +34,25 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// 6. X-XSS-Protection (legacy)
 	response.headers.set('X-XSS-Protection', '1; mode=block');
 
-	// 7. Content-Security-Policy (UPDATED - Allow Google Analytics + Cloudflare)
-	const csp = [
-		"default-src 'self'",
-		"script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://static.cloudflareinsights.com", // Added external domains
-		"style-src 'self' 'unsafe-inline'",
-		"img-src 'self' data: https: https://www.google-analytics.com https://www.googletagmanager.com", // Added analytics domains
-		"font-src 'self' data:",
-		"connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://api.github.com https://leetcode.com", // Added analytics endpoints
-		"frame-ancestors 'none'",
-		"base-uri 'self'",
-		"form-action 'self'"
-	].join('; ');
+	// 7. Content-Security-Policy (Production only)
+	// Skipped in dev mode because Three.js GLTFLoader uses blob: URLs for textures,
+	// and the dev server CSP can interfere with rapid iteration.
+	if (!dev) {
+		const csp = [
+			"default-src 'self'",
+			"script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://static.cloudflareinsights.com",
+			"style-src 'self' 'unsafe-inline'",
+			"img-src 'self' data: blob: https: https://www.google-analytics.com https://www.googletagmanager.com",
+			"font-src 'self' data:",
+			"connect-src 'self' blob: https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://api.github.com https://leetcode.com",
+			"worker-src 'self' blob:",
+			"frame-ancestors 'none'",
+			"base-uri 'self'",
+			"form-action 'self'"
+		].join('; ');
 
-	response.headers.set('Content-Security-Policy', csp);
+		response.headers.set('Content-Security-Policy', csp);
+	}
 
 	// 8. Remove conflicting CORS header (if exists)
 	response.headers.delete('Access-Control-Allow-Origin');

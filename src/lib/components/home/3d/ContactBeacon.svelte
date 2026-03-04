@@ -1,122 +1,161 @@
-<!-- src/lib/components/home/3d/ContactBeacon.svelte -->
-<!-- STORY: A communication beacon — a central pulsing core emitting
-     expanding signal rings outward, like a radio tower broadcasting
-     a connection signal. Small particles orbit like incoming/outgoing messages. -->
-<script>
+<script lang="ts">
     import { T, useTask } from "@threlte/core";
-    import { BufferGeometry, Float32BufferAttribute } from "three";
+    import { Float, useGltf, interactivity, Align } from "@threlte/extras";
+    import { Color, DoubleSide, Mesh, ShaderMaterial } from "three";
+    import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
+    import * as THREE from "three";
 
-    let time = 0;
-    useTask((delta) => {
-        time += delta;
+    interactivity();
+
+    // --- Draco Decompression ---
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath("/draco/");
+
+    // --- 1. THEME: OCEANIC MACHINERY ---
+    const deepColor = new Color("#1e3a8a"); // Deep Blue
+    const surfColor = new Color("#38bdf8"); // Cyan
+    const foamColor = new Color("#ffffff"); // White Foam
+
+    // --- 2. SHADER (TIGHTER DISPLACEMENT) ---
+    const vertexShader = `
+    uniform float uTime;
+    varying vec2 vUv;
+    varying float vElevation;
+    varying vec3 vNormal;
+    varying vec3 vViewPosition;
+
+    vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+    vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+    vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
+    vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+    float snoise(vec3 v) {
+      const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;
+      const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);
+      vec3 i  = floor(v + dot(v, C.yyy) );
+      vec3 x0 = v - i + dot(i, C.xxx) ;
+      vec3 g = step(x0.yzx, x0.xyz);
+      vec3 l = 1.0 - g;
+      vec3 i1 = min( g.xyz, l.zxy );
+      vec3 i2 = max( g.xyz, l.zxy );
+      vec3 x1 = x0 - i1 + C.xxx;
+      vec3 x2 = x0 - i2 + C.yyy;
+      vec3 x3 = x0 - D.yyy;
+      i = mod289(i);
+      vec4 p = permute( permute( permute( 
+                 i.z + vec4(0.0, i1.z, i2.z, 1.0 ))
+               + i.y + vec4(0.0, i1.y, i2.y, 1.0 )) 
+               + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
+      float n_ = 0.142857142857;
+      vec3  ns = n_ * D.wyz - D.xzx;
+      vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+      vec4 x_ = floor(j * ns.z);
+      vec4 y_ = floor(j - 7.0 * x_ );
+      vec4 x = x_ *ns.x + ns.yyyy;
+      vec4 y = y_ *ns.x + ns.yyyy;
+      vec4 h = 1.0 - abs(x) - abs(y);
+      vec4 b0 = vec4( x.xy, y.xy );
+      vec4 b1 = vec4( x.zw, y.zw );
+      vec4 s0 = floor(b0)*2.0 + 1.0;
+      vec4 s1 = floor(b1)*2.0 + 1.0;
+      vec4 sh = -step(h, vec4(0.0));
+      vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;
+      vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;
+      vec3 p0 = vec3(a0.xy,h.x);
+      vec3 p1 = vec3(a0.zw,h.y);
+      vec3 p2 = vec3(a1.xy,h.z);
+      vec3 p3 = vec3(a1.zw,h.w);
+      vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
+      p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+      vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+      m = m * m;
+      return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3) ) );
+    }
+
+    void main() {
+      vUv = uv;
+      vNormal = normalize(normalMatrix * normal);
+      vec3 pos = position;
+
+      float noise = snoise(pos * 3.0 + uTime * 0.8); 
+      pos += normal * noise * 0.02; 
+
+      vElevation = noise;
+      vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+      gl_Position = projectionMatrix * mvPosition;
+      vViewPosition = -mvPosition.xyz;
+    }
+  `;
+
+    const fragmentShader = `
+    uniform vec3 uDeepColor;
+    uniform vec3 uSurfColor;
+    uniform vec3 uFoamColor;
+    varying float vElevation;
+    varying vec3 vNormal;
+    varying vec3 vViewPosition;
+
+    void main() {
+      float mixStrength = smoothstep(-0.5, 0.5, vElevation);
+      vec3 color = mix(uDeepColor, uSurfColor, mixStrength);
+      
+      vec3 viewDir = normalize(vViewPosition);
+      float fresnel = pow(1.0 - dot(vNormal, viewDir), 3.0);
+      
+      color = mix(color, uFoamColor, fresnel * 0.8);
+      gl_FragColor = vec4(color, 0.9); 
+    }
+  `;
+
+    const uniforms = {
+        uTime: { value: 0 },
+        uDeepColor: { value: deepColor },
+        uSurfColor: { value: surfColor },
+        uFoamColor: { value: foamColor },
+    };
+
+    const customMaterial = new ShaderMaterial({
+        vertexShader,
+        fragmentShader,
+        uniforms,
+        transparent: true,
+        side: DoubleSide,
     });
 
-    // Signal rings that expand outward (3 rings at different life stages)
-    const ringCount = 4;
+    // Load the GLTF File (Ensure this path is exactly correct relative to your static folder)
+    const gltf = useGltf("/3d/contact/iphone17.glb", { dracoLoader });
 
-    // Message particles orbiting the beacon
-    const msgCount = 30;
-    const msgPos = new Float32Array(msgCount * 3);
-    for (let i = 0; i < msgCount; i++) {
-        const angle = (i / msgCount) * Math.PI * 2;
-        const r = 0.5 + Math.random() * 0.4;
-        msgPos[i * 3] = Math.cos(angle) * r;
-        msgPos[i * 3 + 1] = (Math.random() - 0.5) * 0.8;
-        msgPos[i * 3 + 2] = Math.sin(angle) * r;
+    // We use Svelte's reactive statement. When the GLTF loads, we manually traverse and overwrite the materials.
+    $: if ($gltf) {
+        $gltf.scene.traverse((child) => {
+            if ((child as Mesh).isMesh) {
+                const mesh = child as Mesh;
+                // Overwrite the original materials from the GLB
+                mesh.material = customMaterial;
+                // Optional: Ensure shadows work
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+            }
+        });
     }
-    const msgGeo = new BufferGeometry();
-    msgGeo.setAttribute("position", new Float32BufferAttribute(msgPos, 3));
 
-    // Antenna structure lines
-    const antennaHeight = 0.8;
+    let rotationY = -Math.PI / 4;
+
+    useTask((dt) => {
+        uniforms.uTime.value += dt;
+        // Rotate the entire GLB to simulate mechanics
+        rotationY += dt * 0.2;
+    });
 </script>
 
-<T.Group>
-    <!-- Central beacon core (pulsing) -->
-    <T.Mesh>
-        <T.SphereGeometry args={[0.12 + Math.sin(time * 3) * 0.02, 16, 16]} />
-        <T.MeshStandardMaterial
-            color="#ec4899"
-            emissive="#ec4899"
-            emissiveIntensity={0.8 + Math.sin(time * 3) * 0.4}
-            transparent
-            opacity={0.95}
-        />
-    </T.Mesh>
+<Float speed={2} rotationIntensity={0.2} floatIntensity={0.2}>
+    <T.Group rotation.y={rotationY} rotation.x={0.2} scale={1.5}>
+        <!-- Reduced scale to 0.02 since the model is ~100 units wide and wrap it in Align so it spins from its center -->
 
-    <!-- Beacon glow halo -->
-    <T.Mesh>
-        <T.SphereGeometry args={[0.25, 12, 12]} />
-        <T.MeshBasicMaterial
-            color="#ec4899"
-            transparent
-            opacity={0.1 + Math.sin(time * 3) * 0.06}
-        />
-    </T.Mesh>
-
-    <!-- Antenna mast (vertical line upward) -->
-    <T.Mesh position={[0, antennaHeight / 2 + 0.12, 0]}>
-        <T.CylinderGeometry args={[0.012, 0.02, antennaHeight, 6]} />
-        <T.MeshStandardMaterial
-            color="#f472b6"
-            emissive="#f472b6"
-            emissiveIntensity={0.3}
-            transparent
-            opacity={0.6}
-        />
-    </T.Mesh>
-
-    <!-- Antenna tip -->
-    <T.Mesh position={[0, antennaHeight + 0.15, 0]}>
-        <T.SphereGeometry args={[0.04, 8, 8]} />
-        <T.MeshStandardMaterial
-            color="#f9a8d4"
-            emissive="#f9a8d4"
-            emissiveIntensity={1.0 + Math.sin(time * 4) * 0.5}
-            transparent
-            opacity={0.9}
-        />
-    </T.Mesh>
-
-    <!-- Expanding signal rings -->
-    {#each Array(ringCount) as _, i}
-        {@const phase = (time * 0.5 + i * 0.7) % 3}
-        {@const ringR = 0.2 + phase * 0.4}
-        {@const ringOpacity = Math.max(0, 0.3 - phase * 0.1)}
-        <T.Mesh position={[0, 0, 0]} rotation.x={Math.PI / 2}>
-            <T.TorusGeometry args={[ringR, 0.008, 8, 48]} />
-            <T.MeshStandardMaterial
-                color="#f472b6"
-                emissive="#f472b6"
-                emissiveIntensity={0.5}
-                transparent
-                opacity={ringOpacity}
-            />
-        </T.Mesh>
-    {/each}
-
-    <!-- Orbiting message particles -->
-    <T.Points geometry={msgGeo} rotation.y={time * 0.4}>
-        <T.PointsMaterial
-            size={0.03}
-            color="#f9a8d4"
-            transparent
-            opacity={0.5}
-            sizeAttenuation={true}
-        />
-    </T.Points>
-
-    <!-- Base platform -->
-    <T.Mesh position={[0, -0.15, 0]} rotation.x={Math.PI / 2}>
-        <T.CylinderGeometry args={[0.25, 0.25, 0.03, 6]} />
-        <T.MeshStandardMaterial
-            color="#831843"
-            emissive="#ec4899"
-            emissiveIntensity={0.1}
-            transparent
-            opacity={0.4}
-            metalness={0.8}
-            roughness={0.3}
-        />
-    </T.Mesh>
-</T.Group>
+        <!-- Render the GLB strictly once it exists -->
+        {#if $gltf}
+            <Align>
+                <T is={$gltf.scene} />
+            </Align>
+        {/if}
+    </T.Group>
+</Float>

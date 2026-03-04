@@ -82,15 +82,22 @@
     });
 </script>
 
+<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <div
     bind:this={containerElement}
-    class="relative flex w-full overflow-hidden mask-fade-edges py-4 cursor-grab active:cursor-grabbing touch-none"
+    role="region"
+    aria-roledescription="marquee"
+    aria-label="Technology Marquee"
+    tabindex="0"
+    class="relative flex w-full overflow-hidden mask-fade-edges py-20 cursor-grab active:cursor-grabbing touch-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
     onpointerdown={onPointerDown}
     onpointermove={onPointerMove}
     onpointerup={onPointerUp}
     onpointerleave={onPointerUp}
     onmouseenter={() => (isHovered = true)}
     onmouseleave={() => (isHovered = false)}
+    onfocus={() => (isHovered = true)}
+    onblur={() => (isHovered = false)}
 >
     <!-- Marquee Track (Now hardware-accelerated via JS translate3d) -->
     <div
@@ -107,7 +114,7 @@
                 class="group relative flex flex-col items-center justify-center gap-3 w-24 h-28
                        bg-black/20 backdrop-blur-2xl border border-white/10 rounded-2xl
                        transition-colors duration-300 hover:bg-white/[0.08] hover:border-white/20
-                       select-none shadow-[0_8px_24px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)]"
+                       select-none shadow-[0_8px_24px_rgba(0,0,0,0.4),0_24px_64px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)]"
             >
                 <!-- Inner High-Contrast Pedestal -->
                 <!-- We use a nearly solid white/silver background so dark-green logos NEVER get lost -->

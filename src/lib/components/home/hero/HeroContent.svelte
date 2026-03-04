@@ -101,12 +101,6 @@
       <div
         class="flex flex-col items-center w-full min-h-max px-4 pt-[14vh] pb-[18vh] mx-auto relative"
       >
-        <div
-          class="absolute top-0 right-[-10%] w-[100vw] h-[100vw] rounded-full
-                 bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.4)_0%,transparent_70%)]
-                 mix-blend-screen pointer-events-none z-0"
-        ></div>
-
         <div class="w-full flex flex-col items-center relative z-10">
           <MobileHeader
             prefix={heroContent.headline.prefix}
