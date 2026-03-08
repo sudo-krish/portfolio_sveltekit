@@ -6,8 +6,13 @@
     import MobileCarousel from "$lib/components/ui/MobileCarousel.svelte";
     import { codingStatsData } from "$lib/data/coding_stats";
 
+    // Desktop
     import LeftAnchor from "./desktop/LeftAnchor.svelte";
-    import RightGrid from "./desktop/RightGrid.svelte"; // NEW
+    import RightGrid from "./desktop/RightGrid.svelte";
+
+    // Mobile
+    import MobileAnchor from "./mobile/MobileAnchor.svelte";
+    import MobileGrid from "./mobile/MobileGrid.svelte";
 
     let leftPanel: HTMLElement;
     let rightPanel: HTMLElement;
@@ -73,7 +78,6 @@
             </div>
 
             <!-- RIGHT 65%: Glassmorphism Grid -->
-            <!-- Adjusted width splits to give the new 1000px grid more room to breathe -->
             <div
                 bind:this={rightPanel}
                 class="w-[65%] h-full pr-12 lg:pr-24 flex flex-col justify-center items-end gap-6 pointer-events-auto"
@@ -83,5 +87,20 @@
         </div>
     </svelte:fragment>
 
-    <!-- Mobile view implementation omitted for brevity, but you would stack them vertically there -->
+    <!-- MOBILE / SMALL TABLET -->
+    <svelte:fragment slot="content-mobile">
+        <div
+            class="h-full w-full overflow-y-auto overscroll-contain no-scrollbar relative z-20 pointer-events-auto"
+        >
+            <div
+                class="flex flex-col w-full max-w-lg mx-auto gap-6 px-4 pt-[12vh] pb-[16vh]"
+            >
+                <!-- Mobile specific text intro -->
+                <MobileAnchor />
+
+                <!-- Mobile specific stats and cards -->
+                <MobileGrid />
+            </div>
+        </div>
+    </svelte:fragment>
 </MobileCarousel>
