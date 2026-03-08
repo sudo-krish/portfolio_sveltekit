@@ -86,10 +86,14 @@
           wheelSpeed: -1,
           tolerance: 10,
           preventDefault: true, // Blocks the fast native browser scrolling
-          onUp: () => {
+          onUp: (self) => {
+            // Must be distinctly scrolling UP, not swiping left/right
+            if (Math.abs(self.deltaX) > Math.abs(self.deltaY)) return;
             if (!isAnimating) gotoSection(currentIndex + 1);
           },
-          onDown: () => {
+          onDown: (self) => {
+            // Must be distinctly scrolling DOWN, not swiping left/right
+            if (Math.abs(self.deltaX) > Math.abs(self.deltaY)) return;
             if (!isAnimating) gotoSection(currentIndex - 1);
           },
         });

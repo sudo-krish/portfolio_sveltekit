@@ -119,29 +119,12 @@
         } catch (err) {}
     }
 
-    function handleTouchMove(e: TouchEvent) {
-        if (isDragging) {
-            e.preventDefault(); // Forcibly prevent swipe-to-go-back navigation
-        }
-    }
-
     onMount(() => {
         animationFrameId = requestAnimationFrame(loop);
-
-        if (containerElement) {
-            // Must be attached non-passively to actually cancel the browser's touch action
-            containerElement.addEventListener("touchmove", handleTouchMove, {
-                passive: false,
-            });
-        }
     });
 
     onDestroy(() => {
         cancelAnimationFrame(animationFrameId);
-
-        if (containerElement) {
-            containerElement.removeEventListener("touchmove", handleTouchMove);
-        }
     });
 </script>
 
@@ -166,7 +149,7 @@
         aria-roledescription="marquee"
         aria-label="{title} Marquee"
         tabindex="0"
-        style="touch-action: none; overscroll-behavior-x: none; user-select: none; -webkit-user-select: none;"
+        style="touch-action: pan-y; overscroll-behavior-x: none; user-select: none; -webkit-user-select: none;"
         class="relative flex w-full overflow-hidden mask-fade-edges py-2 cursor-grab active:cursor-grabbing focus:outline-none"
         onpointerdown={onPointerDown}
         onpointermove={onPointerMove}
