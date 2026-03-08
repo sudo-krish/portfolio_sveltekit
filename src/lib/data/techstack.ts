@@ -70,7 +70,6 @@ export const techstackData = {
             skills: [
                 { name: "Python", icon: "/icons/python.png" },
                 { name: "Go", icon: "/icons/go.png" },
-                { name: "TypeScript", icon: "/icons/typescript.png" },
                 { name: "SQL", icon: "/icons/sql.png" },
             ]
         },

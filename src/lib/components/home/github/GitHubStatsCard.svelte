@@ -1,27 +1,47 @@
-<!-- src/lib/components/home/github/GitHubStatsCard.svelte -->
-<!-- GitHub Dark Theme: #238636 green, #7ee787 highlight -->
 <script lang="ts">
     import { onMount } from "svelte";
-    import { Terminal } from "lucide-svelte";
-    import { getSectionContent } from "$lib/data/section-content";
+    import {
+        Terminal,
+        Github,
+        Star,
+        GitFork,
+        Activity,
+        GitCommit,
+        GitPullRequest,
+        ExternalLink,
+    } from "lucide-svelte";
+    import { codingStatsData } from "$lib/data/coding_stats";
     import {
         getGitHubStatsCached,
         getGitHubEventsCached,
     } from "$lib/services/github";
-    import GlassPanel from "$lib/components/ui/GlassPanel.svelte";
-    import StatusBadge from "$lib/components/ui/StatusBadge.svelte";
-    import CtaLink from "$lib/components/ui/CtaLink.svelte";
-
-    const content = getSectionContent("github")!;
 
     let stats: any = null;
     let fallbackCommits = [
-        { sha: "a1b2c3d", msg: "feat: lakehouse architecture", time: "2h" },
-        { sha: "e4f5g6h", msg: "fix: redshift query plan", time: "5h" },
-        { sha: "i7j8k9l", msg: "refactor: CDC pipeline", time: "1d" },
+        {
+            sha: "a1b2c3d",
+            msg: "feat: lakehouse architecture implementation",
+            time: "2h ago",
+            type: "commit",
+        },
+        {
+            sha: "e4f5g6h",
+            msg: "fix: optimize redshift query execution plan",
+            time: "5h ago",
+            type: "pr",
+        },
+        {
+            sha: "i7j8k9l",
+            msg: "refactor: realtime CDC pipeline",
+            time: "1d ago",
+            type: "commit",
+        },
     ];
     let commits: any[] = [];
     let loading = true;
+
+    const githubUsername = "sudo-krish";
+    const githubProfileUrl = `https://github.com/${githubUsername}`;
 
     onMount(async () => {
         try {
@@ -29,163 +49,277 @@
                 getGitHubStatsCached(),
                 getGitHubEventsCached(),
             ]);
-
-            if (statsData && !statsData.error) {
-                stats = statsData;
-            }
-            if (eventsData && eventsData.length > 0) {
-                commits = eventsData;
-            } else {
-                commits = fallbackCommits;
-            }
+            if (statsData && !statsData.error) stats = statsData;
+            if (eventsData && eventsData.length > 0) commits = eventsData;
+            else commits = fallbackCommits;
         } catch (e) {
-            console.error("Failed to fetch Github data for card", e);
             commits = fallbackCommits;
         } finally {
             loading = false;
         }
     });
+
+    function handleImageError(e: Event) {
+        const target = e.target as HTMLImageElement;
+        target.src = "https://github.com/github.png";
+    }
 </script>
 
-<GlassPanel
-    glow="#238636"
-    className="pointer-events-auto w-full rounded-3xl relative overflow-hidden h-full flex flex-col"
+<a
+    href={githubProfileUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="group block relative flex flex-col p-5 2xl:p-7 rounded-[2rem] bg-[#050505]/80 backdrop-blur-3xl border border-white/10 hover:border-white/20 transition-all duration-700 overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.6)] w-full h-full"
 >
-    <!-- Ambient Inner Glow -->
+    <!-- Ultra-premium internal top highlight -->
     <div
-        class="absolute -top-10 -left-10 w-40 h-40 bg-[#238636]/10 blur-[50px] rounded-full pointer-events-none mix-blend-screen z-0"
+        class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-60"
     ></div>
 
-    <div class="p-6 sm:p-8 relative z-10 flex-1 flex flex-col">
-        <div class="mb-5 flex items-center gap-4">
-            <StatusBadge color="#238636" label="GitHub" />
-        </div>
+    <!-- Colored gradient border accent on the left -->
+    <div
+        class="absolute inset-y-0 left-0 w-[1px] bg-gradient-to-b from-transparent via-[#22c55e]/50 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500"
+    ></div>
 
-        <h3
-            class="text-3xl sm:text-4xl lg:text-5xl font-black mb-4 leading-[1.1] text-white tracking-tighter"
-        >
-            Building in
-            <span
-                class="text-transparent bg-clip-text bg-gradient-to-r from-[#238636] via-[#7ee787] to-[#238636]"
-                >The Open.</span
-            >
-        </h3>
+    <!-- Ambient organic green glow behind the UI -->
+    <div
+        class="absolute -right-20 -top-20 w-64 h-64 rounded-full blur-[80px] opacity-10 group-hover:opacity-25 transition-opacity duration-1000 pointer-events-none"
+        style="background-color: {codingStatsData.github.accent}"
+    ></div>
 
-        <p
-            class="text-sm sm:text-base text-white/70 leading-relaxed font-light mb-6 line-clamp-2"
-        >
-            {content.introParagraph}
-        </p>
+    <div
+        class="absolute -left-20 -bottom-20 w-64 h-64 rounded-full blur-[80px] opacity-[0.05] group-hover:opacity-15 transition-opacity duration-1000 pointer-events-none"
+        style="background-color: {codingStatsData.github.accent}"
+    ></div>
 
-        <!-- Metrics -->
-        <div class="grid grid-cols-3 gap-3 mb-6 mt-auto">
+    <!-- Profile Header Row -->
+    <div
+        class="flex items-center justify-between mb-6 relative z-10 bg-black/40 p-3 2xl:p-4 rounded-[1.25rem] border border-white/5 shadow-inner backdrop-blur-md"
+    >
+        <div class="flex items-center gap-3.5 2xl:gap-4">
+            <!-- Profile Picture -->
             <div
-                class="p-3 rounded-2xl border border-white/5 bg-white/5 text-center shadow-inner hover:bg-white/10 transition-colors"
+                class="relative w-12 h-12 2xl:w-14 2xl:h-14 rounded-full bg-gradient-to-br from-[#22c55e] to-[#22c55e]/20 p-[2px] shadow-[0_0_15px_rgba(34,197,94,0.3)] group-hover:shadow-[0_0_25px_rgba(34,197,94,0.5)] transition-shadow duration-500"
             >
                 <div
-                    class="text-xl sm:text-2xl font-black text-white font-mono leading-none mb-1 flex items-center justify-center min-h-[24px]"
+                    class="w-full h-full bg-black rounded-full overflow-hidden border-2 border-transparent"
                 >
-                    {#if loading}
-                        <div
-                            class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"
-                        ></div>
-                    {:else}
-                        {stats?.totalRepos || 0}
-                    {/if}
-                </div>
-                <div
-                    class="text-[9px] sm:text-[10px] font-mono text-white/40 uppercase tracking-widest"
-                >
-                    Repos
+                    <img
+                        src={stats?.avatarUrl ||
+                            `https://github.com/${githubUsername}.png`}
+                        alt={stats?.name || "GitHub Avatar"}
+                        class="w-full h-full object-cover rounded-full"
+                        onerror={handleImageError}
+                    />
                 </div>
             </div>
-            <div
-                class="p-3 rounded-2xl border border-[#7ee787]/10 bg-[#7ee787]/5 text-center shadow-inner hover:bg-[#7ee787]/10 transition-colors"
-            >
-                <div
-                    class="text-xl sm:text-2xl font-black text-[#7ee787] font-mono leading-none mb-1 flex items-center justify-center min-h-[24px]"
+            <!-- Name & Username -->
+            <div class="flex flex-col">
+                <span
+                    class="text-[clamp(14px,1.2vw,18px)] font-bold text-white leading-tight drop-shadow-sm group-hover:text-[#22c55e] transition-colors duration-300"
                 >
-                    {#if loading}
-                        <div
-                            class="w-4 h-4 border-2 border-[#7ee787]/30 border-t-[#7ee787] rounded-full animate-spin"
-                        ></div>
-                    {:else}
-                        {stats?.contributionStreak || 0}
-                    {/if}
-                </div>
-                <div
-                    class="text-[9px] sm:text-[10px] font-mono text-[#7ee787]/60 uppercase tracking-widest leading-tight"
+                    {stats?.name || "Krishnanand Anil"}
+                </span>
+                <span
+                    class="text-[11px] 2xl:text-xs font-mono text-white/50 mt-0.5"
                 >
-                    Day Streak
-                </div>
-            </div>
-            <div
-                class="p-3 rounded-2xl border border-white/5 bg-white/5 text-center shadow-inner hover:bg-white/10 transition-colors"
-            >
-                <div
-                    class="text-xl sm:text-2xl font-black text-white font-mono leading-none mb-1 flex items-center justify-center min-h-[24px]"
-                >
-                    {#if loading}
-                        <div
-                            class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"
-                        ></div>
-                    {:else}
-                        {stats?.totalStars || 0}
-                    {/if}
-                </div>
-                <div
-                    class="text-[9px] sm:text-[10px] font-mono text-white/40 uppercase tracking-widest"
-                >
-                    Stars
-                </div>
+                    @{githubUsername}
+                </span>
             </div>
         </div>
 
-        <!-- Commit Log -->
+        <!-- External Link Icon (Replaces Active indicator) -->
         <div
-            class="rounded-2xl bg-black/40 border border-white/5 p-4 sm:p-5 font-mono text-[10px] sm:text-xs shadow-inner min-h-[120px]"
+            class="flex items-center justify-center w-8 h-8 rounded-full bg-white/5 border border-white/10 group-hover:bg-[#22c55e]/10 group-hover:border-[#22c55e]/30 transition-colors duration-300"
         >
-            <div
-                class="flex items-center gap-2 text-[#7ee787]/60 mb-3 pb-2 border-b border-white/5"
-            >
-                <Terminal size={12} class="text-[#7ee787]/80" /><span
-                    class="tracking-[0.2em] font-bold">RECENT PUSHES</span
-                >
-            </div>
-            <div class="flex flex-col gap-2.5 relative">
-                {#if loading}
-                    <div class="flex items-center justify-center py-4">
-                        <div
-                            class="w-4 h-4 border-2 border-[#7ee787]/30 border-t-[#7ee787] rounded-full animate-spin"
-                        ></div>
-                    </div>
-                {:else}
-                    {#each commits.slice(0, 3) as c}
-                        <div
-                            class="flex items-start gap-3 sm:gap-4 text-white/40 hover:text-white/60 transition-colors group"
-                            title={c.repo ? `Pushed to ${c.repo}` : ""}
-                        >
-                            <span
-                                class="text-[#7ee787]/70 font-bold shrink-0 group-hover:text-[#7ee787]/90 transition-colors"
-                                >{c.sha}</span
-                            >
-                            <span class="flex-1 truncate">{c.msg}</span>
-                            <span
-                                class="text-white/20 shrink-0 group-hover:text-white/40 transition-colors font-medium text-[9px]"
-                                >{c.time}</span
-                            >
-                        </div>
-                    {/each}
-                {/if}
-            </div>
-        </div>
-
-        <div class="mt-6 sm:mt-8 pt-4">
-            <CtaLink
-                href={content.ctaSlug}
-                label={content.ctaLabel}
-                color="#238636"
+            <ExternalLink
+                size={14}
+                class="text-white/40 group-hover:text-[#22c55e] transition-colors duration-300"
             />
         </div>
     </div>
-</GlassPanel>
+
+    {#if loading}
+        <!-- Loading State for Content Body -->
+        <div
+            class="flex-1 flex flex-col items-center justify-center py-12 relative z-10 gap-4"
+        >
+            <div
+                class="w-8 h-8 border-2 border-[#22c55e]/30 border-t-[#22c55e] rounded-full animate-spin"
+            ></div>
+            <span
+                class="text-xs font-mono text-white/40 animate-pulse uppercase tracking-widest"
+                >Loading Activity...</span
+            >
+        </div>
+    {:else}
+        <!-- Core Metrics Dashboard Layout -->
+        <div class="grid grid-cols-2 gap-3 2xl:gap-4 mb-5 relative z-10">
+            <!-- Primary Metric: The Streak -->
+            <div
+                class="col-span-2 sm:col-span-1 flex flex-col justify-center p-4 2xl:p-5 rounded-[1.25rem] bg-gradient-to-br from-[#22c55e]/10 to-transparent border border-[#22c55e]/20 shadow-inner group/streak relative overflow-hidden backdrop-blur-md"
+            >
+                <div
+                    class="absolute right-0 top-0 w-24 h-24 bg-[radial-gradient(circle_at_top_right,rgba(34,197,94,0.1)_0,transparent_70%)]"
+                ></div>
+                <div
+                    class="flex items-center justify-between mb-3 text-[#22c55e]/80 relative z-10"
+                >
+                    <Activity
+                        size={14}
+                        class="group-hover/streak:animate-pulse"
+                    />
+                    <span
+                        class="text-[9px] 2xl:text-[10px] font-mono uppercase tracking-widest font-bold"
+                        >Daily Streak</span
+                    >
+                </div>
+                <div class="flex items-baseline gap-1.5 relative z-10">
+                    <span
+                        class="text-3xl 2xl:text-4xl font-black text-white font-mono leading-none drop-shadow-[0_0_15px_rgba(34,197,94,0.3)] group-hover/streak:text-[#22c55e] transition-colors duration-300"
+                    >
+                        {stats?.contributionStreak || 0}
+                    </span>
+                    <span class="text-[10px] text-white/40 font-mono uppercase"
+                        >Days</span
+                    >
+                </div>
+            </div>
+
+            <!-- Secondary Metrics Grid -->
+            <div
+                class="col-span-2 sm:col-span-1 grid grid-cols-2 gap-3 2xl:gap-4"
+            >
+                <!-- Repositories -->
+                <div
+                    class="flex flex-col justify-center p-3 2xl:p-4 rounded-xl bg-gradient-to-br from-black/80 to-white/[0.02] border border-white/5 shadow-[inset_0_4px_20px_rgba(0,0,0,0.5)] hover:bg-white/[0.04] transition-colors group/card overflow-hidden relative"
+                >
+                    <div
+                        class="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity"
+                    ></div>
+                    <div
+                        class="flex items-center gap-1.5 text-white/40 mb-2 relative z-10 group-hover/card:text-white transition-colors"
+                    >
+                        <GitFork size={12} />
+                        <span
+                            class="text-[9px] font-mono uppercase tracking-widest"
+                            >Repos</span
+                        >
+                    </div>
+                    <span
+                        class="text-xl 2xl:text-2xl font-black text-white font-mono leading-none relative z-10"
+                    >
+                        {stats?.totalRepos || 0}
+                    </span>
+                </div>
+
+                <!-- Stars -->
+                <div
+                    class="flex flex-col justify-center p-3 2xl:p-4 rounded-xl bg-gradient-to-br from-black/80 to-white/[0.02] border border-white/5 shadow-[inset_0_4px_20px_rgba(0,0,0,0.5)] hover:bg-[#eab308]/5 hover:border-[#eab308]/20 transition-colors group/stars overflow-hidden relative"
+                >
+                    <div
+                        class="absolute inset-0 bg-gradient-to-b from-[#eab308]/[0.02] to-transparent opacity-0 group-hover/stars:opacity-100 transition-opacity"
+                    ></div>
+                    <div
+                        class="flex items-center gap-1.5 text-white/40 mb-2 group-hover/stars:text-[#eab308] transition-colors relative z-10"
+                    >
+                        <Star
+                            size={12}
+                            class="group-hover/stars:fill-[#eab308]/20"
+                        />
+                        <span
+                            class="text-[9px] font-mono uppercase tracking-widest"
+                            >Stars</span
+                        >
+                    </div>
+                    <span
+                        class="text-xl 2xl:text-2xl font-black text-white font-mono leading-none group-hover/stars:text-[#eab308] transition-colors relative z-10"
+                    >
+                        {stats?.totalStars || 0}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity Console log -->
+        <div
+            class="rounded-[1.25rem] bg-gradient-to-b from-black/60 to-black/90 border border-white/5 p-4 2xl:p-5 font-mono text-[10px] 2xl:text-xs shadow-[inset_0_4px_20px_rgba(0,0,0,0.5)] relative z-10 flex-1 flex flex-col backdrop-blur-md hover:border-white/10 transition-colors duration-300"
+        >
+            <div
+                class="flex items-center justify-between mb-4 pb-2.5 border-b border-white/5 font-bold tracking-[0.1em] text-[9px] uppercase"
+            >
+                <div class="flex items-center gap-2 text-white/40">
+                    <Terminal size={12} class="text-[#22c55e]" /> Recent Pushes
+                </div>
+                <div
+                    class="w-2 h-2 rounded-full bg-[#22c55e] animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)]"
+                ></div>
+            </div>
+
+            <div class="flex flex-col gap-3 relative mt-1 flex-1">
+                <!-- Left timeline line -->
+                <div
+                    class="absolute left-[5px] top-1.5 bottom-1.5 w-[1px] bg-white/10 z-0"
+                ></div>
+
+                {#each commits.slice(0, 3) as c}
+                    <div
+                        class="flex items-start gap-3 text-white/50 hover:text-white/90 transition-colors group/commit relative z-10 cursor-pointer"
+                    >
+                        <!-- Timeline Node -->
+                        <div class="mt-0.5 shrink-0 bg-black py-0.5 relative">
+                            <div
+                                class="absolute inset-0 bg-white/5 rounded-full scale-0 group-hover/commit:scale-150 transition-transform duration-300"
+                            ></div>
+                            {#if c.type === "pr"}
+                                <GitPullRequest
+                                    size={10}
+                                    class="text-[#8b5cf6] relative z-10 drop-shadow-[0_0_2px_rgba(139,92,246,0.6)]"
+                                />
+                            {:else}
+                                <GitCommit
+                                    size={10}
+                                    class="text-[#22c55e] relative z-10 drop-shadow-[0_0_2px_rgba(34,197,94,0.6)]"
+                                />
+                            {/if}
+                        </div>
+
+                        <!-- Content -->
+                        <div class="flex flex-col gap-0.5 w-full min-w-0">
+                            <div
+                                class="flex items-center justify-between gap-2"
+                            >
+                                <span
+                                    class="text-[#22c55e] font-bold text-[10px] 2xl:text-[11px] shrink-0 group-hover/commit:text-[#4ade80] transition-colors"
+                                    >{c.sha}</span
+                                >
+                                <span
+                                    class="text-white/30 text-[8px] 2xl:text-[9px] shrink-0 font-sans tracking-wide"
+                                    >{c.time}</span
+                                >
+                            </div>
+                            <span
+                                class="truncate text-[10px] 2xl:text-[11px] text-white/60 group-hover/commit:text-white transition-colors"
+                                >{c.msg}</span
+                            >
+                        </div>
+                    </div>
+                {/each}
+            </div>
+        </div>
+
+        <!-- Bottom Footer -->
+        <div
+            class="mt-4 pt-3 border-t border-white/5 flex items-center justify-end relative z-10 text-white/40"
+        >
+            <div
+                class="flex items-center gap-2 group-hover:text-[#22c55e] transition-colors duration-300"
+            >
+                <span
+                    class="text-[9px] 2xl:text-[10px] font-mono tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform -translate-x-2 group-hover:translate-x-0"
+                    >View Profile on GitHub</span
+                >
+            </div>
+        </div>
+    {/if}
+</a>
