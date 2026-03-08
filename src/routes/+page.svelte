@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { browser } from "$app/environment";
   import { Canvas } from "@threlte/core";
   import { onMount, onDestroy, tick } from "svelte";
   import gsap from "gsap";
@@ -139,9 +140,11 @@
 
 <!-- BACKGROUND CANVAS -->
 <div class="fixed-canvas">
-  <Canvas>
-    <HomeScene />
-  </Canvas>
+  {#if browser}
+    <Canvas>
+      <HomeScene />
+    </Canvas>
+  {/if}
 </div>
 
 <!-- MAIN SCROLL CONTAINER -->

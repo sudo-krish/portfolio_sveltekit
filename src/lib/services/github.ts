@@ -20,3 +20,14 @@ export async function getGitHubProjectsCached(): Promise<any[]> {
     return [];
   }
 }
+
+export async function getGitHubEventsCached(): Promise<any[]> {
+  try {
+    const response = await fetch('/api/github/events');
+    if (!response.ok) throw new Error('Failed to fetch events');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching GitHub events:', error);
+    return [];
+  }
+}

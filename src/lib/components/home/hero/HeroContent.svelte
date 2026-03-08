@@ -92,11 +92,10 @@
       </div>
     </div>
   </svelte:fragment>
-
-  <!-- 📱 MOBILE: Unchanged -->
+  <!-- 📱 MOBILE: Fixed Scroll Chaining -->
   <svelte:fragment slot="content-mobile">
     <div
-      class="h-full w-full overflow-y-auto no-scrollbar relative z-20 pointer-events-auto"
+      class="h-full w-full overflow-y-auto overscroll-contain no-scrollbar relative z-20 pointer-events-auto"
     >
       <div
         class="flex flex-col items-center w-full min-h-max px-4 pt-[14vh] pb-[18vh] mx-auto relative"

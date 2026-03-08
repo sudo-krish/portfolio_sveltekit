@@ -1,44 +1,82 @@
 <!-- src/lib/components/home/datalake/DataLakeContent.svelte -->
 <script lang="ts">
-  import {
-    HardDrive,
-    Lock,
-    FileJson,
-    Archive,
-    Search,
-    Layers,
-  } from "lucide-svelte";
   import { onMount } from "svelte";
+  import { ChevronDown } from "lucide-svelte";
   import gsap from "gsap";
-  import GlassPanel from "$lib/components/ui/GlassPanel.svelte";
-  import StatusBadge from "$lib/components/ui/StatusBadge.svelte";
   import GlowAccent from "$lib/components/ui/GlowAccent.svelte";
   import MobileCarousel from "$lib/components/ui/MobileCarousel.svelte";
-  import CtaLink from "$lib/components/ui/CtaLink.svelte";
+  import { datalakeData } from "$lib/data/datalake";
 
-  const lakeTech = [
-    { name: "Amazon S3", icon: HardDrive, desc: "Object Store" },
-    { name: "Intelligent Tiering", icon: Layers, desc: "Cost Optimization" },
-    { name: "Glacier Archive", icon: Archive, desc: "Cold Storage" },
-    { name: "Object Lock", icon: Lock, desc: "Immutability" },
-    { name: "Glue Crawler", icon: Search, desc: "Discovery" },
-    { name: "Parquet/Avro", icon: FileJson, desc: "Columnar Data" },
-  ];
+  import RightAnchor from "./desktop/RightAnchor.svelte";
+  import LeftCard from "./desktop/LeftCard.svelte";
+  import StorageGrid from "./desktop/StorageGrid.svelte";
+
+  import MobileCard from "./mobile/MobileCard.svelte";
+  import MobileStorageGrid from "./mobile/MobileStorageGrid.svelte";
+
+  let rightPanel: HTMLElement;
+  let leftPanel: HTMLElement;
+  let mobilePanel: HTMLElement;
+  let scrollHint: HTMLElement;
 
   onMount(() => {
     let ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".lake-panel",
-        { y: 50, opacity: 0, scale: 0.98 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 1,
-          ease: "power3.out",
-          delay: 0.1,
-        },
-      );
+      // Right Anchor Animation (Desktop)
+      if (rightPanel) {
+        gsap.fromTo(
+          rightPanel.children,
+          { x: 30, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 1.0,
+            stagger: 0.15,
+            ease: "power3.out",
+            delay: 0.2,
+          },
+        );
+      }
+
+      // Left Content Panel Animation (Desktop)
+      if (leftPanel) {
+        gsap.fromTo(
+          leftPanel.children,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            stagger: 0.2,
+            ease: "power3.out",
+            delay: 0.1,
+          },
+        );
+      }
+
+      // Scroll Hint Animation
+      if (scrollHint) {
+        gsap.fromTo(
+          scrollHint,
+          { opacity: 0, y: -10 },
+          { opacity: 1, y: 0, duration: 1.5, ease: "power2.out", delay: 1.0 },
+        );
+      }
+
+      // Mobile Animation
+      if (mobilePanel) {
+        gsap.fromTo(
+          mobilePanel.children,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.0,
+            stagger: 0.15,
+            ease: "power3.out",
+            delay: 0.1,
+          },
+        );
+      }
     });
     return () => ctx.revert();
   });
@@ -46,163 +84,62 @@
 
 <MobileCarousel
   layout="left"
-  sectionTitle="Data Reservoir"
-  sectionDescription="Discover the infinite storage lake"
-  accentColor="#10b981"
+  sectionTitle={datalakeData.ui.carousel.sectionTitle}
+  sectionDescription={datalakeData.ui.carousel.sectionDescription}
+  accentColor={datalakeData.ui.carousel.accentColor}
 >
-  <!-- DESKTOP / TABLET (Original Preserved floating layout) -->
+  <!-- ========================================== -->
+  <!-- DESKTOP / TABLET                           -->
+  <!-- ========================================== -->
   <svelte:fragment slot="content-pc">
     <GlowAccent
-      color="#10b981"
-      position="top-0 left-1/2 -translate-x-1/2"
-      size={600}
-      opacity={0.1}
+      color={datalakeData.ui.carousel.accentColor}
+      position="top-[20%] left-[15%]"
+      size={700}
     />
 
-    <!-- MAIN CONTENT CARD (LEFT SIDE PC) -->
     <div
-      class="absolute top-[20%] left-[8%] w-full max-w-xl z-20 pointer-events-auto"
+      class="absolute inset-0 z-20 pointer-events-none flex pt-24 pb-12 relative"
     >
-      <!-- CENTER-TOP STORAGE CONSOLE -->
-      <GlassPanel
-        glow="#10b981"
-        className="lake-panel w-full max-w-lg lg:max-w-xl p-8 rounded-3xl z-10"
+      <!-- LEFT 55%: Dense Content & Grid -->
+      <div
+        bind:this={leftPanel}
+        class="w-[55%] h-full pl-12 lg:pl-24 flex flex-col justify-center gap-8 pointer-events-auto"
       >
-        <!-- Narrative -->
-        <div class="w-full">
-          <div class="mb-6 flex items-center gap-4">
-            <StatusBadge color="#10b981" label="Raw Storage Foundation" />
-          </div>
+        <LeftCard />
+        <StorageGrid />
+      </div>
 
-          <h3
-            class="text-4xl lg:text-5xl font-black mb-6 leading-[1.1] text-white tracking-tighter"
-          >
-            The Central Data <br />
-            <span
-              class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500"
-              >Reservoir.</span
-            >
-          </h3>
+      <!-- RIGHT 45%: Typographic Anchor & 3D Space -->
+      <div
+        bind:this={rightPanel}
+        class="w-[45%] h-full pr-12 lg:pr-24 flex flex-col justify-end items-end text-right pb-24 pointer-events-auto"
+      >
+        <RightAnchor />
+      </div>
 
-          <p
-            class="text-base lg:text-lg text-white/70 leading-relaxed font-light"
-          >
-            I architect limitless, secure data lakes designed for petabyte-scale
-            aggregation. By meticulously configuring <strong
-              class="text-white font-medium">intelligent tiering</strong
-            >
-            and
-            <span class="text-emerald-300 font-medium tracking-wide"
-              >Iceberg tables</span
-            >, every byte is cataloged, cost-optimized, and instantly queryable.
-          </p>
-        </div>
-
-        <!-- Storage Nodes Grid -->
-        <div class="w-full grid grid-cols-2 sm:grid-cols-3 gap-3">
-          {#each lakeTech as tech}
-            <div
-              class="group border border-white/5 bg-white/5 hover:bg-emerald-500/10 hover:border-emerald-500/30 transition-all duration-300 rounded-2xl p-4 flex flex-col gap-3 relative overflow-hidden"
-            >
-              <div
-                class="absolute -top-10 -right-10 w-24 h-24 bg-emerald-500/10 blur-xl group-hover:bg-emerald-500/30 transition-all rounded-full"
-              ></div>
-              <svelte:component
-                this={tech.icon}
-                size={18}
-                class="text-emerald-400"
-              />
-              <div>
-                <div
-                  class="font-mono text-xs font-bold text-white tracking-wide"
-                >
-                  {tech.name}
-                </div>
-                <div class="text-[10px] text-white/50 uppercase mt-1">
-                  {tech.desc}
-                </div>
-              </div>
-            </div>
-          {/each}
-        </div>
-
-        <div class="mt-8">
-          <CtaLink href="#lakehouse" label="Enter the layer" color="#10b981" />
-        </div>
-      </GlassPanel>
+      <!-- ABSOLUTE CENTER SCROLL HINT -->
+      <div
+        bind:this={scrollHint}
+        class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center gap-3 pointer-events-auto z-50 opacity-0"
+      ></div>
     </div>
   </svelte:fragment>
 
-  <!-- MOBILE / SMALL TABLET (Carousel Slide Layout) -->
+  <!-- ========================================== -->
+  <!-- MOBILE / SMALL TABLET                      -->
+  <!-- ========================================== -->
   <svelte:fragment slot="content-mobile">
-    <div class="z-20 w-full max-w-lg mx-auto pointer-events-auto mt-4">
-      <!-- CENTER-TOP STORAGE CONSOLE -->
-      <GlassPanel
-        glow="#10b981"
-        className="lake-panel w-full p-6 sm:p-8 rounded-3xl z-10"
+    <div
+      class="h-full w-full overflow-y-auto overscroll-contain no-scrollbar relative z-20 pointer-events-auto"
+    >
+      <div
+        bind:this={mobilePanel}
+        class="flex flex-col items-center w-full max-w-lg mx-auto gap-6 px-4 pt-[14vh] pb-[18vh]"
       >
-        <!-- Narrative -->
-        <div class="w-full">
-          <div class="mb-5 flex items-center gap-3">
-            <StatusBadge color="#10b981" label="Raw Storage Foundation" />
-          </div>
-
-          <h3
-            class="text-3xl sm:text-4xl font-black mb-4 leading-[1.15] text-white tracking-tighter"
-          >
-            The Central Data <br />
-            <span
-              class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500"
-              >Reservoir.</span
-            >
-          </h3>
-
-          <p
-            class="text-sm sm:text-base text-white/70 leading-relaxed font-light"
-          >
-            I architect limitless, secure data lakes designed for petabyte-scale
-            aggregation. By meticulously configuring <strong
-              class="text-white font-medium">intelligent tiering</strong
-            >
-            and
-            <span class="text-emerald-300 font-medium tracking-wide"
-              >Iceberg tables</span
-            >, every byte is cataloged, cost-optimized, and instantly queryable.
-          </p>
-        </div>
-
-        <!-- Storage Nodes Grid -->
-        <div class="w-full grid grid-cols-2 gap-3 mt-8">
-          {#each lakeTech as tech}
-            <div
-              class="group border border-white/5 bg-white/5 hover:bg-emerald-500/10 hover:border-emerald-500/30 transition-all duration-300 rounded-2xl p-4 flex flex-col gap-3 relative overflow-hidden"
-            >
-              <div
-                class="absolute -top-10 -right-10 w-20 h-20 bg-emerald-500/10 blur-xl rounded-full pointer-events-none"
-              ></div>
-              <svelte:component
-                this={tech.icon}
-                size={16}
-                class="text-emerald-400"
-              />
-              <div>
-                <div
-                  class="font-mono text-[11px] font-bold text-white tracking-wide"
-                >
-                  {tech.name}
-                </div>
-                <div class="text-[9px] text-white/50 uppercase mt-1">
-                  {tech.desc}
-                </div>
-              </div>
-            </div>
-          {/each}
-        </div>
-
-        <div class="mt-8">
-          <CtaLink href="#lakehouse" label="Enter the layer" color="#10b981" />
-        </div>
-      </GlassPanel>
+        <MobileCard />
+        <MobileStorageGrid />
+      </div>
     </div>
   </svelte:fragment>
 </MobileCarousel>

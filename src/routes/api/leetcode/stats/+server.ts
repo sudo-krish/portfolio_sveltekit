@@ -2,12 +2,14 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 const LEETCODE_USERNAME = 'user8673j';
-const CACHE_DURATION = 1000 * 60 * 60; // 1 hour
+const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 hours
 
 let cachedStats: any = null;
 let lastFetch = 0;
 
 interface LeetCodeStats {
+  name: string;
+  avatar: string;
   totalSolved: number;
   easySolved: number;
   mediumSolved: number;
@@ -30,55 +32,93 @@ interface LeetCodeStats {
     name: string;
     icon: string;
   }>;
-  contestRating: number;
-  contestAttended: number;
-  contestGlobalRanking: number;
+  recentSubmissions: Array<any>;
 }
 
-export const GET: RequestHandler = async () => {
+export const GET: RequestHandler = async ({ fetch, setHeaders }) => {
   const now = Date.now();
 
-  if (cachedStats && (now - lastFetch) < CACHE_DURATION) {
+  // Set browser/CDN cache to 24 hours to aggressively prevent API calls
+  setHeaders({
+    'Cache-Control': 'public, max-age=86400, s-maxage=86400'
+  });
 
+  if (cachedStats && (now - lastFetch) < CACHE_DURATION) {
     return json(cachedStats);
   }
 
   try {
-    // Primary API
-    const response = await fetch(
-      `https://leetcode-stats-api.herokuapp.com/${LEETCODE_USERNAME}`
-    );
+    const ALFA_API = 'https://alfa-leetcode-api.onrender.com';
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch LeetCode stats');
+    // Fetch multiple endpoints using Promise.all
+    const [
+      profileRes,
+      solvedRes,
+      languageRes,
+      skillRes,
+      calendarRes,
+      badgesRes
+    ] = await Promise.all([
+      fetch(`${ALFA_API}/${LEETCODE_USERNAME}`),
+      fetch(`${ALFA_API}/${LEETCODE_USERNAME}/solved`),
+      fetch(`${ALFA_API}/${LEETCODE_USERNAME}/language`),
+      fetch(`${ALFA_API}/${LEETCODE_USERNAME}/skill`),
+      fetch(`${ALFA_API}/${LEETCODE_USERNAME}/calendar`),
+      fetch(`${ALFA_API}/${LEETCODE_USERNAME}/badges`)
+    ]);
+
+    if (!profileRes.ok || !solvedRes.ok) {
+      throw new Error(`Failed to fetch LeetCode stats. Profile: ${profileRes.status}, Solved: ${solvedRes.status}`);
     }
 
-    const data = await response.json();
+    const [profile, solved, language, skill, calendar, badges] = await Promise.all([
+      profileRes.json(),
+      solvedRes.json(),
+      languageRes.ok ? languageRes.json() : { languageProblemCount: [] },
+      skillRes.ok ? skillRes.json() : { advanced: [], intermediate: [], fundamental: [] },
+      calendarRes.ok ? calendarRes.json() : { streak: 0, totalActiveDays: 0 },
+      badgesRes.ok ? badgesRes.json() : { badges: [] }
+    ]);
 
-    // Enhanced stats object
+    // Calculate acceptance rate from acSubmissionNum and totalSubmissionNum
+    let totalSubmissions = 0;
+    let acSubmissions = 0;
+
+    if (solved.totalSubmissionNum && solved.acSubmissionNum) {
+      const allSub = solved.totalSubmissionNum.find((s: any) => s.difficulty === "All");
+      const acSub = solved.acSubmissionNum.find((s: any) => s.difficulty === "All");
+      if (allSub) totalSubmissions = allSub.submissions;
+      if (acSub) acSubmissions = acSub.submissions;
+    }
+
+    const acceptanceRate = totalSubmissions > 0 ? Number(((acSubmissions / totalSubmissions) * 100).toFixed(2)) : 0;
+
+    // Advanced, intermediate, fundamental counts from skill endpoint
+    const sumProblems = (arr: any[]) => arr ? arr.reduce((acc, curr) => acc + (curr.problemsSolved || 0), 0) : 0;
+
     const stats: LeetCodeStats = {
-      totalSolved: data.totalSolved || 0,
-      easySolved: data.easySolved || 0,
-      mediumSolved: data.mediumSolved || 0,
-      hardSolved: data.hardSolved || 0,
-      totalSubmissions: data.totalSubmissions || 0,
-      totalQuestions: data.totalQuestions || 3000,
-      acceptanceRate: data.acceptanceRate || 0,
-      ranking: data.ranking || 0,
-      contributionPoints: data.contributionPoints || 0,
-      reputation: data.reputation || 0,
-      streak: data.streak || 0,
-      activeDays: data.activeDays || 0,
-      languages: data.languages || ['Python', 'JavaScript', 'C++'],
+      name: profile.name || LEETCODE_USERNAME,
+      avatar: profile.avatar || '',
+      totalSolved: solved.solvedProblem || 0,
+      easySolved: solved.easySolved || 0,
+      mediumSolved: solved.mediumSolved || 0,
+      hardSolved: solved.hardSolved || 0,
+      totalSubmissions: totalSubmissions,
+      totalQuestions: 3000, // Leetcode total changes often, approx.
+      acceptanceRate: acceptanceRate,
+      ranking: profile.ranking || 0,
+      contributionPoints: 0,
+      reputation: profile.reputation || 0,
+      streak: calendar.streak || 0,
+      activeDays: calendar.totalActiveDays || 0,
+      languages: language.languageProblemCount ? language.languageProblemCount.map((l: any) => l.languageName) : [],
       skillStats: {
-        advanced: data.advancedCount || 0,
-        intermediate: data.intermediateCount || 0,
-        fundamental: data.fundamentalCount || 0
+        advanced: sumProblems(skill.advanced),
+        intermediate: sumProblems(skill.intermediate),
+        fundamental: sumProblems(skill.fundamental)
       },
-      badges: data.badges || [],
-      contestRating: data.contestRating || 0,
-      contestAttended: data.contestAttended || 0,
-      contestGlobalRanking: data.contestGlobalRanking || 0
+      badges: badges.badges || [],
+      recentSubmissions: []
     };
 
     cachedStats = stats;
@@ -93,30 +133,6 @@ export const GET: RequestHandler = async () => {
       return json(cachedStats);
     }
 
-    // Fallback dummy data so SSR never crashes
-    return json({
-      totalSolved: 154,
-      easySolved: 80,
-      mediumSolved: 60,
-      hardSolved: 14,
-      totalSubmissions: 500,
-      totalQuestions: 3000,
-      acceptanceRate: 55,
-      ranking: 100000,
-      contributionPoints: 100,
-      reputation: 0,
-      streak: 5,
-      activeDays: 60,
-      languages: ['Python', 'JavaScript', 'C++'],
-      skillStats: {
-        advanced: 10,
-        intermediate: 40,
-        fundamental: 100
-      },
-      badges: [],
-      contestRating: 1500,
-      contestAttended: 5,
-      contestGlobalRanking: 50000
-    });
+    return json({ error: 'Failed to fetch LeetCode stats' }, { status: 500 });
   }
 };

@@ -24,6 +24,33 @@
     let observer: IntersectionObserver;
     let isCurrentlyVisible = $state(false);
 
+    // Lock GSAP from seeing ANY wheel or touch events inside scrollable content containers.
+    function handleWheel(e: WheelEvent) {
+        const target = e.target as HTMLElement;
+        const container = target.closest(
+            ".overflow-y-auto, .overflow-y-scroll",
+        ) as HTMLElement;
+
+        if (container && container.scrollHeight > container.clientHeight) {
+            e.stopPropagation();
+        }
+    }
+
+    function handleTouchStart(e: TouchEvent) {
+        // No state tracking needed for unconditional blocking
+    }
+
+    function handleTouchMove(e: TouchEvent) {
+        const target = e.target as HTMLElement;
+        const container = target.closest(
+            ".overflow-y-auto, .overflow-y-scroll",
+        ) as HTMLElement;
+
+        if (container && container.scrollHeight > container.clientHeight) {
+            e.stopPropagation();
+        }
+    }
+
     function goToSlide(index: number) {
         if (!carouselEl) return;
         const slideWidth = carouselEl.clientWidth;
@@ -146,7 +173,12 @@
         <slot name="content-pc" />
     </div>
 
-    <div class="lg:hidden w-full h-[100dvh] relative">
+    <div
+        class="lg:hidden w-full h-[100dvh] relative"
+        onwheel={handleWheel}
+        ontouchstart={handleTouchStart}
+        ontouchmove={handleTouchMove}
+    >
         <!-- FIXED: Pure CSS Snap scrolling. No GSAP interference. -->
         <div
             bind:this={carouselEl}

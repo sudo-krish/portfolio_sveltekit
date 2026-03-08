@@ -593,6 +593,57 @@ export const sectionContent: Record<string, SectionContent> = {
             },
         ],
     },
+
+    leetcode: {
+        id: "leetcode",
+        slug: "/leetcode",
+        seoTitle:
+            "LeetCode & Algorithms | Krishnanand Anil — Problem Solving Portfolio",
+        seoDescription:
+            "View Krishnanand Anil's LeetCode statistics, problem-solving journey, and algorithmic skills. Tracking progress across Easy, Medium, and Hard challenges.",
+        seoKeywords: [
+            "leetcode problem solving",
+            "algorithms data structures",
+            "competitive programming",
+            "python leetcode solutions",
+            "dynamic programming",
+            "software engineer interviews",
+        ],
+        headline: "Algorithmic Precision",
+        subHeadline: "Sharpening Problem-Solving Skills Daily",
+        introParagraph:
+            "While architectural design and system building are my primary focus, maintaining a strong grasp of fundamental computer science concepts is crucial for writing efficient, optimized code. My LeetCode practice is a deliberate effort to continuously challenge my algorithmic thinking.",
+        paragraphs: [
+            "Data engineering at scale means even minor inefficiencies in data processing logic can manifest as significant performance bottlenecks or cloud cost overruns. A strong foundation in time and space complexity analysis helps me write robust transformations that scale elegantly.",
+            "I regularly solve problems covering a wide range of algorithms and data structures, from dynamic programming and graph traversals to advanced tree manipulations and sliding window patterns. This practice ensures I approach complex business logic with the sharpest possible mindset.",
+            "Below are my live statistics fetched dynamically from my LeetCode profile, reflecting my ongoing journey in algorithmic problem solving."
+        ],
+        highlights: [
+            {
+                label: "Total Solved",
+                value: "140+",
+                description: "Problems solved across all difficulties",
+            },
+            {
+                label: "Primary Language",
+                value: "Python",
+                description: "For rapid implementation and clarity",
+            },
+            {
+                label: "Streak",
+                value: "Active",
+                description: "Consistent daily problem-solving",
+            },
+            {
+                label: "Focus Areas",
+                value: "Graphs",
+                description: "Dynamic Programming, Trees, Arrays",
+            },
+        ],
+        ctaLabel: "View LeetCode Profile",
+        ctaSlug: "https://leetcode.com/user8673j",
+        detailSections: [],
+    },
 };
 
 // Helper function to get content by section id

@@ -130,7 +130,7 @@
             if ((child as Mesh).isMesh) {
                 const mesh = child as Mesh;
                 // Overwrite the original materials from the GLB
-                mesh.material = customMaterial;
+                // mesh.material = customMaterial;
                 // Optional: Ensure shadows work
                 mesh.castShadow = true;
                 mesh.receiveShadow = true;
