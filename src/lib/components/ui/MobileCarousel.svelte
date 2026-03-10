@@ -188,7 +188,7 @@
         >
             {#if layout === "left"}
                 <div
-                    class="w-full h-full shrink-0 snap-center relative pointer-events-none flex flex-col justify-end pb-[14vh]"
+                    class="w-full h-full shrink-0 snap-center relative pointer-events-none flex flex-col justify-center"
                 >
                     <div class="mx-4 w-auto pointer-events-auto relative">
                         <div
@@ -258,7 +258,7 @@
                     <slot name="content-mobile" />
                 </div>
                 <div
-                    class="w-full h-full shrink-0 snap-center relative pointer-events-none flex flex-col justify-end pb-[14vh]"
+                    class="w-full h-full shrink-0 snap-center relative pointer-events-none flex flex-col justify-center"
                 >
                     <div class="mx-4 w-auto pointer-events-auto relative">
                         <div

@@ -104,7 +104,7 @@
       <!-- LEFT 55%: Dense Content & Grid -->
       <div
         bind:this={leftPanel}
-        class="w-[55%] h-full pl-12 lg:pl-24 flex flex-col justify-center gap-8 pointer-events-auto"
+        class="w-[55%] h-full pl-12 lg:pl-24 flex flex-col items-start justify-center gap-8 pointer-events-auto"
       >
         <LeftCard />
         <StorageGrid />
@@ -113,7 +113,7 @@
       <!-- RIGHT 45%: Typographic Anchor & 3D Space -->
       <div
         bind:this={rightPanel}
-        class="w-[45%] h-full pr-12 lg:pr-24 flex flex-col justify-end items-end text-right pb-24 pointer-events-auto"
+        class="w-[45%] h-full pr-12 lg:pr-24 flex flex-col items-end justify-end text-right pb-24 pointer-events-auto"
       >
         <RightAnchor />
       </div>
@@ -135,7 +135,7 @@
     >
       <div
         bind:this={mobilePanel}
-        class="flex flex-col items-center w-full max-w-lg mx-auto gap-6 px-4 pt-[14vh] pb-[18vh]"
+        class="flex flex-col items-center justify-center w-full min-h-[100dvh] max-w-lg mx-auto gap-6 px-4 pt-[12dvh] pb-[20dvh]"
       >
         <MobileCard />
         <MobileStorageGrid />

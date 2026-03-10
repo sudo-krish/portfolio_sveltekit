@@ -118,7 +118,7 @@
     >
       <div
         bind:this={mobilePanel}
-        class="flex flex-col items-center w-full max-w-lg mx-auto gap-5 px-4 pt-[14vh] pb-[18vh]"
+        class="flex flex-col items-center justify-center w-full min-h-[100dvh] max-w-lg mx-auto gap-5 px-4 pt-[12dvh] pb-[20dvh]"
       >
         <MobileCard />
         <MobileWarehouseGrid />

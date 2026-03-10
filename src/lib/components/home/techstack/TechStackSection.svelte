@@ -88,7 +88,7 @@
             <!-- LEFT 55%: Skill Cards Grid -->
             <div
                 bind:this={leftPanel}
-                class="w-[55%] h-full pl-12 lg:pl-24 flex flex-col justify-center gap-6 pointer-events-auto"
+                class="w-[55%] h-full pl-12 lg:pl-24 flex flex-col items-start justify-center gap-6 pointer-events-auto"
             >
                 <LeftGrid />
             </div>
@@ -96,7 +96,7 @@
             <!-- RIGHT 45%: Typographic Anchor -->
             <div
                 bind:this={rightPanel}
-                class="w-[45%] pr-12 lg:pr-24 flex flex-col justify-end items-end text-right pb-8 pointer-events-auto"
+                class="w-[45%] pr-12 lg:pr-24 flex flex-col items-end justify-end text-right pb-8 pointer-events-auto"
             >
                 <RightAnchor />
             </div>
@@ -109,7 +109,7 @@
         >
             <div
                 bind:this={mobilePanel}
-                class="flex flex-col items-center w-full max-w-lg mx-auto gap-5 px-4 pt-[14vh] pb-[18vh]"
+                class="flex flex-col items-center justify-center w-full min-h-[100dvh] max-w-lg mx-auto gap-5 px-4 pt-[12dvh] pb-[20dvh]"
             >
                 <MobileGrid />
             </div>

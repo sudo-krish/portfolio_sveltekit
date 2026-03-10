@@ -93,7 +93,7 @@
             <!-- LEFT 45%: Typographic Anchor & 3D Space -->
             <div
                 bind:this={leftPanel}
-                class="w-[45%] pl-12 lg:pl-24 flex flex-col justify-end pb-8 pointer-events-auto"
+                class="w-[45%] pl-12 lg:pl-24 flex flex-col items-start justify-end pb-8 pointer-events-auto"
             >
                 <LeftAnchor />
             </div>
@@ -101,7 +101,7 @@
             <!-- RIGHT 55%: Dense Content & Timeline -->
             <div
                 bind:this={rightPanel}
-                class="w-[55%] h-full pr-12 lg:pr-24 flex flex-col justify-center gap-6 pointer-events-auto"
+                class="w-[55%] h-full pr-12 lg:pr-24 flex flex-col items-end justify-center gap-6 pointer-events-auto"
             >
                 <RightCard />
                 <CareerTimeline />
@@ -118,7 +118,7 @@
         >
             <div
                 bind:this={mobilePanel}
-                class="flex flex-col items-center w-full max-w-lg mx-auto gap-5 px-4 pt-[14vh] pb-[18vh]"
+                class="flex flex-col items-center justify-center w-full min-h-[100dvh] max-w-lg mx-auto gap-5 px-4 pt-[12dvh] pb-[20dvh]"
             >
                 <MobileCard />
                 <MobileCareerTimeline />

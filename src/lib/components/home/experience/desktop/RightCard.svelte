@@ -7,7 +7,7 @@
 
 <Card
     class="glass-shard relative w-full max-w-[1000px] rounded-[2rem] rounded-tl-[1rem] 
-           bg-black/40 backdrop-blur-2xl border border-white/10 
+           bg-black/40 backdrop-blur-2xl border border-white/10
            shadow-[0_30px_80px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.1)] overflow-hidden group flex-shrink-0"
 >
     <div
@@ -24,12 +24,12 @@
         <div class="flex items-start justify-between w-full">
             <div class="flex flex-col gap-1 mt-1">
                 <span
-                    class="font-mono text-[clamp(9px,1vw,11px)] tracking-[0.3em] uppercase text-blue-400/80 font-semibold drop-shadow-[0_0_8px_rgba(59,130,246,0.3)]"
+                    class="font-mono text-[clamp(9px,0.4vh+0.6vw,14px)] tracking-[0.3em] uppercase text-blue-400/80 font-semibold drop-shadow-[0_0_8px_rgba(59,130,246,0.3)]"
                 >
                     {experienceData.header.badge}
                 </span>
                 <span
-                    class="text-[clamp(11px,1.2vw,13px)] font-medium text-white/50 tracking-wide uppercase"
+                    class="text-[clamp(11px,0.5vh+0.7vw,18px)] font-medium text-white/50 tracking-wide uppercase mt-1"
                 >
                     Career Log
                 </span>
@@ -48,7 +48,7 @@
                 class="absolute left-[-2px] top-0 w-[2px] h-1/3 bg-gradient-to-b from-blue-400 to-transparent"
             ></div>
             <p
-                class="text-[clamp(1.1rem,1.8vw,1.5rem)] leading-[1.4] text-white/95 font-medium tracking-tight"
+                class="text-[clamp(1.1rem,1vh+1.2vw,2.5rem)] leading-[1.4] text-white/95 font-medium tracking-tight"
             >
                 {@html experienceData.content.shortDescription}
             </p>
@@ -58,7 +58,7 @@
             class="relative p-5 rounded-2xl bg-white/[0.02] border border-white/[0.05] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
         >
             <p
-                class="text-[clamp(0.8rem,0.9vw,0.95rem)] leading-[1.7] text-white/60"
+                class="text-[clamp(0.8rem,0.5vh+0.7vw,1.2rem)] leading-[1.7] text-white/60"
             >
                 {experienceData.content.detailedPhilosophy}
             </p>

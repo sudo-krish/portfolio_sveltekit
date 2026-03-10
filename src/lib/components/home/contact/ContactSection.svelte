@@ -222,7 +222,7 @@
     <!-- MOBILE / SMALL TABLET (Carousel Slide Layout) -->
     <svelte:fragment slot="content-mobile">
         <div
-            class="z-20 w-full max-w-lg mx-auto pointer-events-auto flex flex-col gap-4 mt-4"
+            class="flex flex-col items-center justify-center z-20 w-full min-h-[100dvh] max-w-lg mx-auto pointer-events-auto gap-4 px-4 pt-[12dvh] pb-[20dvh]"
         >
             <p
                 class="contact-panel text-xs sm:text-sm leading-relaxed text-white/50 px-2 shrink-0 font-light"

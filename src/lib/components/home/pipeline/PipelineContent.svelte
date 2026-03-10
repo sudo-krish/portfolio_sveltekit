@@ -79,7 +79,7 @@
       <!-- LEFT 45% -->
       <div
         bind:this={leftPanel}
-        class="w-[45%] h-full pl-12 lg:pl-24 flex flex-col justify-end pb-24 pointer-events-auto"
+        class="w-[45%] h-full pl-12 lg:pl-24 flex flex-col items-start justify-end pb-24 pointer-events-auto"
       >
         <LeftAnchor />
       </div>
@@ -87,7 +87,7 @@
       <!-- RIGHT 55% -->
       <div
         bind:this={rightPanel}
-        class="w-[55%] h-full pr-12 lg:pr-24 flex flex-col justify-center gap-0 pointer-events-auto"
+        class="w-[55%] h-full pr-12 lg:pr-24 flex flex-col items-end justify-center gap-0 pointer-events-auto"
       >
         <RightCard />
         <MarqueeRail />
@@ -103,7 +103,7 @@
       class="h-full w-full overflow-y-auto overscroll-contain no-scrollbar relative z-20 pointer-events-auto"
     >
       <div
-        class="flex flex-col items-center w-full min-h-max px-4 pt-[14vh] pb-[18vh] mx-auto relative"
+        class="flex flex-col items-center justify-center w-full min-h-[100dvh] max-w-lg mx-auto gap-6 px-4 pt-[12dvh] pb-[20dvh] relative"
       >
         <div class="w-full flex flex-col items-center relative z-10">
           <MobileCard />
