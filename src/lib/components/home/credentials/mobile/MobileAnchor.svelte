@@ -12,13 +12,13 @@
     </div>
 
     <h2
-        class="text-4xl sm:text-5xl font-black text-white/90 leading-[1.1] tracking-tight whitespace-pre-line mb-4"
+        class="text-4xl sm:text-5xl font-black text-foreground/90 leading-[1.1] tracking-tight whitespace-pre-line mb-4"
     >
         {certificatesData.leftAnchor.title.replace("\n", " ")}
     </h2>
 
     <p
-        class="text-[0.85rem] text-white/50 font-light leading-relaxed max-w-[320px]"
+        class="text-[0.85rem] text-foreground/50 font-light leading-relaxed max-w-[320px]"
     >
         {@html certificatesData.leftAnchor.description}
     </p>
@@ -26,7 +26,7 @@
     <!-- Mobile CTA -->
     <a
         href={certificatesData.ui.cta.href}
-        class="group relative inline-flex items-center gap-3 pl-4 pr-1.5 py-1.5 mt-6 rounded-full bg-white/[0.03] border border-white/10 hover:bg-white/[0.08] transition-all duration-300 shadow-md"
+        class="group relative inline-flex items-center gap-3 pl-4 pr-1.5 py-1.5 mt-6 rounded-full bg-foreground/[0.03] border border-foreground/10 hover:bg-foreground/[0.08] transition-all duration-300 shadow-md"
     >
         <div class="flex flex-col z-10 py-1 text-left">
             <span
@@ -34,7 +34,7 @@
             >
                 Explore Badges
             </span>
-            <span class="text-[11px] font-bold text-white leading-none">
+            <span class="text-[11px] font-bold text-foreground leading-none">
                 {certificatesData.ui.cta.label}
             </span>
         </div>

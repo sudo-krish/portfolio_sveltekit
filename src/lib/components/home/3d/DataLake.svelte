@@ -6,7 +6,7 @@
   // Configuration
   const deepColor = new Color("#1e3a8a"); // Deep Ocean Blue
   const surfColor = new Color("#38bdf8"); // Cyan Surface
-  const foamColor = new Color("#ffffff"); // White foam tips
+  const foamColor = new Color("#38bdf8"); // White foam tips
 
   // Custom Shader Material Logic
   const vertexShader = `

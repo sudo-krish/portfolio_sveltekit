@@ -13,14 +13,14 @@
 
     <!-- Title (replacing \n with a space to make it look better on mobile) -->
     <h2
-        class="text-4xl sm:text-5xl font-black text-white/90 leading-[1.1] tracking-tight whitespace-pre-line mb-4"
+        class="text-4xl sm:text-5xl font-black text-foreground/90 leading-[1.1] tracking-tight whitespace-pre-line mb-4"
     >
         {resultsData.rightAnchor.title.replace("\n", " ")}
     </h2>
 
     <!-- Subtitle description -->
     <p
-        class="text-[0.85rem] text-white/50 font-light leading-relaxed max-w-[320px]"
+        class="text-[0.85rem] text-foreground/50 font-light leading-relaxed max-w-[320px]"
     >
         {resultsData.rightAnchor.description}
     </p>

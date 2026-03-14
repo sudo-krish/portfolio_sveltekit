@@ -13,7 +13,7 @@ export const lakehouseData = {
         titleLine2: "The Ocean.",
     },
     content: {
-        shortDescription: `I architect <strong class="text-white font-medium">metadata-driven Lakehouses</strong> that eliminate fragile ETL silos, bringing warehouse performance directly to the data lake for seamless <span class="text-blue-400 font-medium tracking-wide">Analytics and AI integration</span>.`,
+        shortDescription: `I architect <strong class="text-foreground font-medium">metadata-driven Lakehouses</strong> that eliminate fragile ETL silos, bringing warehouse performance directly to the data lake for seamless <span class="text-blue-400 font-medium tracking-wide">Analytics and AI integration</span>.`,
 
         detailedPhilosophy: `By leveraging open-source Apache Spark alongside open table formats like Apache Iceberg and Delta Lake, I engineer architectures that support concurrent reads/writes and schema evolution on massive datasets. I implement centralized, metadata-driven governance using Databricks Unity Catalog and Snowflake Data Lake schemas, paired with AWS Lake Formation. This unifies disparate storage into a highly governed foundation that guarantees sub-second query execution—perfectly optimized for modern BI, advanced analytics, and Enterprise AI workloads.`
     },

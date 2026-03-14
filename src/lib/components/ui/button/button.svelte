@@ -52,7 +52,7 @@
 				// Subtle secondary actions
 				secondary: [
 					"bg-secondary text-secondary-foreground",
-					"border border-white/5",
+					"border border-foreground/5",
 					"shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_2px_5px_rgba(0,0,0,0.1)]",
 					"hover:bg-secondary/80 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_4px_10px_rgba(0,0,0,0.15)]",
 				].join(" "),

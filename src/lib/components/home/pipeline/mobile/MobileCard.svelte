@@ -7,7 +7,7 @@
 
 <Card
     class="glass-shard relative w-full mb-6 rounded-[1.5rem] rounded-tl-[1rem] 
-           bg-black/40 backdrop-blur-2xl border border-white/10 
+           bg-card/80 backdrop-blur-2xl border border-foreground/10 
            shadow-[0_20px_60px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.1)] overflow-hidden"
 >
     <!-- Soft background glow -->
@@ -26,7 +26,7 @@
         <div class="flex items-start justify-between w-full">
             <div class="flex flex-col gap-1 mt-1">
                 <span
-                    class="font-mono text-[10px] tracking-[0.25em] uppercase text-cyan-400/80 font-semibold drop-shadow-[0_0_8px_rgba(34,211,238,0.3)]"
+                    class="font-mono text-[10px] tracking-[0.25em] uppercase text-cyan-400/80 font-semibold drop-shadow-[0_0_8px_hsl(var(--primary)/)]"
                 >
                     {pipelineData.header.badge}
                 </span>
@@ -39,7 +39,7 @@
                 class="absolute left-[-2px] top-0 w-[2px] h-1/3 bg-gradient-to-b from-cyan-400 to-transparent"
             ></div>
             <p
-                class="text-[1.15rem] leading-[1.4] text-white/95 font-medium tracking-tight"
+                class="text-[1.15rem] leading-[1.4] text-foreground/95 font-medium tracking-tight"
             >
                 {@html pipelineData.content.shortDescription}
             </p>
@@ -47,9 +47,9 @@
 
         <!-- Details Box (Inner Frosted Glass) -->
         <div
-            class="relative p-5 rounded-[1.25rem] bg-white/[0.02] border border-white/[0.05] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
+            class="relative p-5 rounded-[1.25rem] bg-foreground/[0.02] border border-foreground/[0.05] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
         >
-            <p class="text-[0.85rem] leading-[1.7] text-white/60">
+            <p class="text-[0.85rem] leading-[1.7] text-foreground/60">
                 {pipelineData.content.detailedPhilosophy}
             </p>
         </div>

@@ -18,7 +18,7 @@
 
     <!-- Light Reflection / Border -->
     <div
-        class="absolute inset-0 rounded-full border border-white/10 border-t-white/30 pointer-events-none"
+        class="absolute inset-0 rounded-full border border-foreground/10 border-t-white/30 pointer-events-none"
     ></div>
 
     <span class="relative flex h-2 w-2">

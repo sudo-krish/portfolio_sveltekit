@@ -17,13 +17,13 @@
         </div>
 
         <h2
-            class="text-6xl xl:text-7xl font-black text-white/10 leading-[0.9] tracking-tighter whitespace-pre-line mb-6 block"
+            class="text-6xl xl:text-7xl font-black text-foreground/10 leading-[0.9] tracking-tighter whitespace-pre-line mb-6 block"
         >
             {codingStatsData.leftAnchor.title}
         </h2>
 
         <p
-            class="text-[clamp(0.85rem,1vw,1rem)] text-white/40 font-light leading-relaxed max-w-[280px]"
+            class="text-[clamp(0.85rem,1vw,1rem)] text-foreground/40 font-light leading-relaxed max-w-[280px]"
         >
             {codingStatsData.leftAnchor.description}
         </p>
@@ -34,30 +34,30 @@
         <!-- GitHub Button -->
         <a
             href="/github"
-            class="group relative inline-flex items-center gap-3 pl-4 pr-1.5 py-1.5 rounded-full bg-white/[0.03] border border-white/10 hover:bg-white/[0.08] hover:border-[#22c55e]/50 transition-all duration-500 overflow-hidden shadow-[0_8px_16px_rgba(0,0,0,0.4)]"
+            class="group relative inline-flex items-center gap-3 pl-4 pr-1.5 py-1.5 rounded-full bg-foreground/[0.03] border border-foreground/10 hover:bg-foreground/[0.08] hover:border-[#22c55e]/50 transition-all duration-500 overflow-hidden shadow-[0_8px_16px_rgba(0,0,0,0.4)]"
         >
             <div
-                class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(34,197,94,0.15)_0%,transparent_100%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                class="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(var(--success)/)_0%,transparent_100%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
             ></div>
 
             <div class="flex flex-col z-10 py-1">
                 <span
-                    class="font-mono text-[8px] text-white/40 uppercase tracking-widest leading-none mb-0.5"
+                    class="font-mono text-[8px] text-foreground/40 uppercase tracking-widest leading-none mb-0.5"
                 >
                     View Profile
                 </span>
-                <span class="text-xs font-bold text-white leading-none">
+                <span class="text-xs font-bold text-foreground leading-none">
                     GitHub
                 </span>
             </div>
 
             <!-- Animated Icon Circle -->
             <div
-                class="flex items-center justify-center w-8 h-8 rounded-full bg-[#22c55e]/10 border border-[#22c55e]/20 group-hover:bg-[#22c55e] group-hover:shadow-[0_0_15px_rgba(34,197,94,0.6)] transition-all duration-300 z-10"
+                class="flex items-center justify-center w-8 h-8 rounded-full bg-[#22c55e]/10 border border-[#22c55e]/20 group-hover:bg-[#22c55e] group-hover:shadow-[0_0_15px_hsl(var(--success)/)] transition-all duration-300 z-10"
             >
                 <Github
                     size={14}
-                    class="text-[#22c55e] group-hover:text-white transition-all duration-300"
+                    class="text-[#22c55e] group-hover:text-foreground transition-all duration-300"
                 />
             </div>
         </a>
@@ -65,30 +65,30 @@
         <!-- LeetCode Button -->
         <a
             href="/leetcode"
-            class="group relative inline-flex items-center gap-3 pl-4 pr-1.5 py-1.5 rounded-full bg-white/[0.03] border border-white/10 hover:bg-white/[0.08] hover:border-[#ffa116]/50 transition-all duration-500 overflow-hidden shadow-[0_8px_16px_rgba(0,0,0,0.4)]"
+            class="group relative inline-flex items-center gap-3 pl-4 pr-1.5 py-1.5 rounded-full bg-foreground/[0.03] border border-foreground/10 hover:bg-foreground/[0.08] hover:border-[#ffa116]/50 transition-all duration-500 overflow-hidden shadow-[0_8px_16px_rgba(0,0,0,0.4)]"
         >
             <div
-                class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,161,22,0.15)_0%,transparent_100%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                class="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(var(--warning)/)_0%,transparent_100%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
             ></div>
 
             <div class="flex flex-col z-10 py-1">
                 <span
-                    class="font-mono text-[8px] text-white/40 uppercase tracking-widest leading-none mb-0.5"
+                    class="font-mono text-[8px] text-foreground/40 uppercase tracking-widest leading-none mb-0.5"
                 >
                     View Stats
                 </span>
-                <span class="text-xs font-bold text-white leading-none">
+                <span class="text-xs font-bold text-foreground leading-none">
                     LeetCode
                 </span>
             </div>
 
             <!-- Animated Icon Circle -->
             <div
-                class="flex items-center justify-center w-8 h-8 rounded-full bg-[#ffa116]/10 border border-[#ffa116]/20 group-hover:bg-[#ffa116] group-hover:shadow-[0_0_15px_rgba(255,161,22,0.6)] transition-all duration-300 z-10"
+                class="flex items-center justify-center w-8 h-8 rounded-full bg-[#ffa116]/10 border border-[#ffa116]/20 group-hover:bg-[#ffa116] group-hover:shadow-[0_0_15px_hsl(var(--warning)/)] transition-all duration-300 z-10"
             >
                 <Code2
                     size={14}
-                    class="text-[#ffa116] group-hover:text-white transition-all duration-300"
+                    class="text-[#ffa116] group-hover:text-foreground transition-all duration-300"
                 />
             </div>
         </a>

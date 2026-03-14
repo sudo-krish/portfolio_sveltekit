@@ -13,7 +13,7 @@ export const warehouseData = {
         titleLine2: "Engine.",
     },
     content: {
-        shortDescription: `While Lakehouses solve massive scale, the Data Warehouse remains the undisputed king of <strong class="text-white font-medium">sub-second latency</strong>, strict semantic governance, and <span class="text-purple-300 font-medium tracking-wide">high concurrency</span> for Business Intelligence and operational AI.`,
+        shortDescription: `While Lakehouses solve massive scale, the Data Warehouse remains the undisputed king of <strong class="text-foreground font-medium">sub-second latency</strong>, strict semantic governance, and <span class="text-purple-300 font-medium tracking-wide">high concurrency</span> for Business Intelligence and operational AI.`,
 
         detailedPhilosophy: `Data Lakes and Lakehouses excel at raw compute, but they cannot match the absolute data consistency, complex join performance, and thousands-scale concurrency of a true Data Warehouse. I architect high-performance serving layers using Snowflake, Google BigQuery, and Amazon Redshift. By leveraging Airflow for orchestration and dbt for rigorous, metadata-driven modeling, I ensure every metric is version-controlled and tested. Furthermore, I integrate in-warehouse AI capabilities using Databricks Mosaic AI and Snowflake Cortex directly into the SQL workflows, empowering business operations with LLMs. All of this is strictly governed, mapped, and audited using enterprise lineage tools like OpenMetadata and Atlan.`
     },

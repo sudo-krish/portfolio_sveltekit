@@ -114,7 +114,7 @@
   <!-- ========================================== -->
   <svelte:fragment slot="content-mobile">
     <div
-      class="h-full w-full overflow-y-auto overscroll-contain no-scrollbar relative z-20 pointer-events-auto"
+      class="h-full w-full overflow-y-auto overscroll-contain no-scrollbar touch-pan-y relative z-20 pointer-events-auto"
     >
       <div
         bind:this={mobilePanel}

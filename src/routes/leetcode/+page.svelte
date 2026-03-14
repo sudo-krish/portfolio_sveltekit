@@ -134,7 +134,7 @@
 </svelte:head>
 
 <div
-    class="relative min-h-screen bg-[#03060c] text-white selection:bg-white/20 overflow-x-hidden"
+    class="relative min-h-screen bg-background text-foreground overflow-x-hidden"
 >
     <!-- Base Grain/Noise Layer -->
     <div
@@ -159,11 +159,11 @@
         class="fixed top-6 left-0 right-0 z-40 flex justify-center pointer-events-none"
     >
         <nav
-            class="pointer-events-auto flex items-center justify-between gap-12 px-6 py-3 rounded-full border border-white/[0.08] bg-black/50 backdrop-blur-2xl shadow-2xl transition-all duration-300 hover:border-white/20 hover:bg-black/60"
+            class="pointer-events-auto flex items-center justify-between gap-12 px-6 py-3 rounded-full border border-border bg-card/80 backdrop-blur-2xl shadow-xl transition-all duration-300 hover:border-primary/30 hover:bg-card"
         >
             <a
                 href="/"
-                class="group flex items-center gap-2 text-xs font-bold text-white/60 hover:text-white transition-colors"
+                class="group flex items-center gap-2 text-xs font-bold text-foreground/60 hover:text-foreground transition-colors"
             >
                 <ArrowLeft
                     size={14}
@@ -177,8 +177,8 @@
                     style="background: {accentColor}"
                 ></div>
                 <span
-                    class="font-mono text-[9px] text-white/50 tracking-[0.2em] uppercase"
-                    >{content.id}</span
+                    class="font-mono text-[9px] text-muted-foreground tracking-[0.2em] uppercase"
+                    >Statistics</span
                 >
             </div>
         </nav>
@@ -190,11 +190,11 @@
                 class="min-h-[60vh] flex flex-col items-center justify-center gap-4"
             >
                 <div
-                    class="w-12 h-12 border-4 border-white/20 border-t-[{accentColor}] rounded-full animate-spin"
+                    class="w-12 h-12 border-4 border-foreground/20 border-t-[{accentColor}] rounded-full animate-spin"
                     style="border-top-color: {accentColor}"
                 ></div>
                 <p
-                    class="font-mono text-sm tracking-widest text-white/50 uppercase"
+                    class="font-mono text-sm tracking-widest text-muted-foreground uppercase"
                 >
                     Loading LeetCode Data...
                 </p>
@@ -208,17 +208,17 @@
                 >
                     <ExternalLink size={24} />
                 </div>
-                <h2 class="text-2xl font-bold text-white/90">
+                <h2 class="text-2xl font-bold text-foreground">
                     API Connection Failed
                 </h2>
-                <p class="text-white/50 font-light leading-relaxed">
+                <p class="text-muted-foreground font-light leading-relaxed">
                     Unable to load LeetCode data from the external API. This
                     sometimes happens due to rate limits.
                 </p>
                 <a
                     href="https://leetcode.com/user8673j"
                     target="_blank"
-                    class="px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors flex items-center gap-2 text-sm font-bold"
+                    class="px-6 py-3 rounded-xl bg-card border border-border text-foreground hover:bg-card/80 transition-colors flex items-center gap-2 text-sm font-bold"
                 >
                     View LeetCode Profile Instead <ArrowUpRight size={14} />
                 </a>
@@ -227,7 +227,7 @@
             <!-- Hero Section -->
             <header class="mb-24 md:mb-32">
                 <div
-                    class="hero-elem inline-flex items-center gap-2 px-3 py-1.5 rounded-full border bg-white/[0.02] backdrop-blur-md mb-8"
+                    class="hero-elem inline-flex items-center gap-2 px-3 py-1.5 rounded-full border bg-foreground/[0.02] backdrop-blur-md mb-8"
                     style="border-color: {accentColor}30"
                 >
                     <Code2 size={12} style="color: {accentColor}" />
@@ -240,10 +240,12 @@
                 <h1
                     class="hero-elem text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8"
                 >
-                    <span class="block text-white/90">{content.headline}</span>
+                    <span class="block text-foreground/90"
+                        >{content.headline}</span
+                    >
                     <span
                         class="block text-transparent bg-clip-text pb-2 lg:pb-4"
-                        style="background-image: linear-gradient(135deg, {accentColor}, #ffffff)"
+                        style="background-image: linear-gradient(135deg, {accentColor}, hsl(var(--foreground)))"
                     >
                         {content.subHeadline}
                     </span>
@@ -258,28 +260,28 @@
                             style="background: {accentColor}"
                         ></div>
                         <p
-                            class="font-mono text-[10px] sm:text-xs text-white/40 tracking-widest uppercase mb-4"
+                            class="font-mono text-[10px] sm:text-xs text-foreground/40 tracking-widest uppercase mb-4"
                         >
                             Competitor Profile
                         </p>
 
                         <!-- Mini Profile Card -->
                         <div
-                            class="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/10 mt-4 backdrop-blur-sm"
+                            class="flex items-center gap-4 p-4 rounded-2xl bg-foreground/5 border border-foreground/10 mt-4 backdrop-blur-sm"
                         >
                             {#if stats.avatar}
                                 <img
                                     src={stats.avatar}
                                     alt="Profile"
-                                    class="w-12 h-12 rounded-full border border-white/20"
+                                    class="w-12 h-12 rounded-full border border-foreground/20"
                                 />
                             {/if}
                             <div>
-                                <h3 class="font-bold text-white/90">
+                                <h3 class="font-bold text-foreground/90">
                                     {stats.name || "user8673j"}
                                 </h3>
                                 <p
-                                    class="text-xs text-white/50 flex items-center gap-1.5 mt-1 text-[10px] font-mono tracking-widest uppercase"
+                                    class="text-xs text-foreground/50 flex items-center gap-1.5 mt-1 text-[10px] font-mono tracking-widest uppercase"
                                 >
                                     <span
                                         class="w-1.5 h-1.5 bg-[{accentColor}] rounded-full"
@@ -294,7 +296,7 @@
                         class="md:col-span-8 flex flex-col justify-center h-full"
                     >
                         <p
-                            class="text-xl md:text-2xl text-white/70 leading-relaxed font-light"
+                            class="text-xl md:text-2xl text-foreground/70 leading-relaxed font-light"
                         >
                             {content.introParagraph}
                         </p>
@@ -307,7 +309,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
                     <!-- Global Solved Stats -->
                     <div
-                        class="fade-up md:col-span-7 rounded-3xl border border-white/[0.06] bg-gradient-to-br from-white/[0.04] to-transparent p-8 lg:p-10 relative overflow-hidden group"
+                        class="fade-up md:col-span-7 rounded-3xl border border-foreground/[0.06] bg-gradient-to-br from-foreground/[0.04] to-transparent p-8 lg:p-10 relative overflow-hidden group"
                     >
                         <div
                             class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
@@ -315,7 +317,7 @@
                         ></div>
 
                         <h2
-                            class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-white/30 mb-8 border-b border-white/10 pb-4"
+                            class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-muted-foreground mb-8 border-b border-border pb-4"
                         >
                             Problem Solving Statistics
                         </h2>
@@ -325,19 +327,19 @@
                         >
                             <div class="shrink-0 flex flex-col items-center">
                                 <div
-                                    class="relative w-40 h-40 rounded-full border border-white/10 flex flex-col items-center justify-center p-4 before:absolute before:inset-2 before:rounded-full before:border before:border-white/5 before:-z-10 shadow-inner bg-black/20"
+                                    class="relative w-40 h-40 rounded-full border border-foreground/10 flex flex-col items-center justify-center p-4 before:absolute before:inset-2 before:rounded-full before:border before:border-foreground/5 before:-z-10 shadow-inner bg-card/60"
                                 >
                                     <div
                                         class="absolute inset-0 rounded-full bg-gradient-to-b from-[{accentColor}]/10 to-transparent pointer-events-none"
                                         style="--tw-gradient-from: {accentColor}10;"
                                     ></div>
                                     <span
-                                        class="text-5xl lg:text-6xl font-black font-mono leading-none drop-shadow-[0_0_15px_rgba(255,161,22,0.3)]"
+                                        class="text-5xl lg:text-6xl font-black font-mono leading-none drop-shadow-[0_0_15px_hsl(var(--warning)/)]"
                                         style="color: {accentColor}"
                                         >{stats.totalSolved}</span
                                     >
                                     <p
-                                        class="text-[10px] text-white/40 uppercase tracking-widest font-mono mt-2 font-bold flex items-center gap-1"
+                                        class="text-[10px] text-foreground/40 uppercase tracking-widest font-mono mt-2 font-bold flex items-center gap-1"
                                     >
                                         <Code2 size={10} /> Solved
                                     </p>
@@ -347,11 +349,11 @@
                             <div class="flex-1 grid gap-3 w-full">
                                 {#each difficulties as d}
                                     <div
-                                        class="px-6 py-4 rounded-2xl border border-white/5 shadow-inner transition-colors flex items-center justify-between"
+                                        class="px-6 py-4 rounded-2xl border border-foreground/5 shadow-inner transition-colors flex items-center justify-between"
                                         style="background: {d.bg}; border-color: {d.color}15;"
                                     >
                                         <span
-                                            class="text-sm font-mono tracking-widest uppercase font-bold text-white/60"
+                                            class="text-sm font-mono tracking-widest uppercase font-bold text-foreground/60"
                                             >{d.label}</span
                                         >
                                         <div class="flex items-center gap-4">
@@ -362,7 +364,7 @@
                                             >
                                             <!-- Small visual bar -->
                                             <div
-                                                class="hidden sm:block w-32 h-1.5 bg-black/40 rounded-full overflow-hidden"
+                                                class="hidden sm:block w-32 h-1.5 bg-card/80 rounded-full overflow-hidden"
                                             >
                                                 <div
                                                     class="h-full rounded-full"
@@ -387,7 +389,7 @@
                     <div class="fade-up md:col-span-5 grid grid-rows-2 gap-6">
                         <!-- Details -->
                         <div
-                            class="rounded-3xl border border-white/[0.06] bg-gradient-to-br from-white/[0.04] to-transparent p-8 relative overflow-hidden group flex flex-col justify-center"
+                            class="rounded-3xl border border-foreground/[0.06] bg-gradient-to-br from-foreground/[0.04] to-transparent p-8 relative overflow-hidden group flex flex-col justify-center"
                         >
                             <div
                                 class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
@@ -396,21 +398,21 @@
 
                             <div class="flex items-center gap-4 mb-6">
                                 <div
-                                    class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center"
+                                    class="w-12 h-12 rounded-xl bg-foreground/5 border border-foreground/10 flex items-center justify-center"
                                 >
                                     <Flame size={24} class="text-orange-500" />
                                 </div>
                                 <div>
                                     <span
-                                        class="text-2xl font-black tracking-tighter text-white"
+                                        class="text-2xl font-black tracking-tighter text-foreground"
                                         >{stats.streak}
                                         <span
-                                            class="text-lg text-white/50 font-normal"
+                                            class="text-lg text-foreground/50 font-normal"
                                             >Days</span
                                         ></span
                                     >
                                     <p
-                                        class="text-[10px] font-mono tracking-widest uppercase text-white/40 font-bold"
+                                        class="text-[10px] font-mono tracking-widest uppercase text-foreground/40 font-bold"
                                     >
                                         Active Streak
                                     </p>
@@ -419,26 +421,26 @@
 
                             <div class="grid grid-cols-2 gap-4 mt-2">
                                 <div
-                                    class="p-4 rounded-xl bg-black/20 border border-white/5"
+                                    class="p-4 rounded-xl bg-card/60 border border-foreground/5"
                                 >
                                     <span
-                                        class="block text-xl font-mono text-white mb-1"
+                                        class="block text-xl font-mono text-foreground mb-1"
                                         >{stats.acceptanceRate}%</span
                                     >
                                     <span
-                                        class="block text-[9px] font-mono tracking-widest uppercase text-white/40"
+                                        class="block text-[9px] font-mono tracking-widest uppercase text-foreground/40"
                                         >Acceptance Rate</span
                                     >
                                 </div>
                                 <div
-                                    class="p-4 rounded-xl bg-black/20 border border-white/5"
+                                    class="p-4 rounded-xl bg-card/60 border border-foreground/5"
                                 >
                                     <span
-                                        class="block text-xl font-mono text-white mb-1"
+                                        class="block text-xl font-mono text-foreground mb-1"
                                         >{stats.activeDays}</span
                                     >
                                     <span
-                                        class="block text-[9px] font-mono tracking-widest uppercase text-white/40"
+                                        class="block text-[9px] font-mono tracking-widest uppercase text-foreground/40"
                                         >Active Days</span
                                     >
                                 </div>
@@ -447,10 +449,10 @@
 
                         <!-- Skills / Topics -->
                         <div
-                            class="rounded-3xl border border-white/[0.06] bg-gradient-to-br from-white/[0.04] to-transparent p-8 relative overflow-hidden group"
+                            class="rounded-3xl border border-foreground/[0.06] bg-gradient-to-br from-foreground/[0.04] to-transparent p-8 relative overflow-hidden group"
                         >
                             <h2
-                                class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-white/30 mb-6 flex items-center gap-2"
+                                class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-foreground/30 mb-6 flex items-center gap-2"
                             >
                                 <Brain size={14} class="text-[#ffa116]" /> Topic
                                 Proficiency
@@ -458,17 +460,19 @@
 
                             <div class="space-y-4">
                                 <div
-                                    class="flex items-center justify-between text-sm font-mono border-b border-white/5 pb-2"
+                                    class="flex items-center justify-between text-sm font-mono border-b border-foreground/5 pb-2"
                                 >
-                                    <span class="text-white/60">Advanced</span>
+                                    <span class="text-foreground/60"
+                                        >Advanced</span
+                                    >
                                     <span class="text-[#ef4743] font-bold"
                                         >{stats.skillStats?.advanced || 0}</span
                                     >
                                 </div>
                                 <div
-                                    class="flex items-center justify-between text-sm font-mono border-b border-white/5 pb-2"
+                                    class="flex items-center justify-between text-sm font-mono border-b border-foreground/5 pb-2"
                                 >
-                                    <span class="text-white/60"
+                                    <span class="text-foreground/60"
                                         >Intermediate</span
                                     >
                                     <span class="text-[#ffc01e] font-bold"
@@ -479,7 +483,7 @@
                                 <div
                                     class="flex items-center justify-between text-sm font-mono"
                                 >
-                                    <span class="text-white/60"
+                                    <span class="text-foreground/60"
                                         >Fundamental</span
                                     >
                                     <span class="text-[#2cbb5d] font-bold"
@@ -496,10 +500,10 @@
             <!-- Languages and Badges -->
             <section class="max-w-6xl mx-auto mb-32 grid md:grid-cols-2 gap-6">
                 <div
-                    class="fade-up rounded-3xl border border-white/[0.06] bg-white/[0.01] p-8 md:p-10"
+                    class="fade-up rounded-3xl border border-foreground/[0.06] bg-foreground/[0.01] p-8 md:p-10"
                 >
                     <h2
-                        class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-white/30 mb-8 border-b border-white/10 pb-4 flex items-center gap-2"
+                        class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-foreground/30 mb-8 border-b border-foreground/10 pb-4 flex items-center gap-2"
                     >
                         <Code2 size={14} /> Languages Used
                     </h2>
@@ -508,13 +512,13 @@
                         {#if stats.languages && stats.languages.length > 0}
                             {#each stats.languages as lang}
                                 <span
-                                    class="px-4 py-2 border border-white/10 bg-white/5 rounded-xl text-sm font-mono text-white/70 hover:bg-white/10 transition-colors cursor-default"
+                                    class="px-4 py-2 border border-foreground/10 bg-foreground/5 rounded-xl text-sm font-mono text-foreground/70 hover:bg-foreground/10 transition-colors cursor-default"
                                 >
                                     {lang}
                                 </span>
                             {/each}
                         {:else}
-                            <p class="text-white/40 text-sm font-mono">
+                            <p class="text-foreground/40 text-sm font-mono">
                                 No language data available.
                             </p>
                         {/if}
@@ -522,10 +526,10 @@
                 </div>
 
                 <div
-                    class="fade-up rounded-3xl border border-white/[0.06] bg-white/[0.01] p-8 md:p-10"
+                    class="fade-up rounded-3xl border border-foreground/[0.06] bg-foreground/[0.01] p-8 md:p-10"
                 >
                     <h2
-                        class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-white/30 mb-8 border-b border-white/10 pb-4 flex items-center gap-2"
+                        class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-foreground/30 mb-8 border-b border-foreground/10 pb-4 flex items-center gap-2"
                     >
                         <Award size={14} /> Earned Badges
                     </h2>
@@ -534,7 +538,7 @@
                         {#if stats.badges && stats.badges.length > 0}
                             {#each stats.badges as badge}
                                 <div
-                                    class="flex items-center gap-3 p-3 rounded-xl border border-white/10 bg-black/40"
+                                    class="flex items-center gap-3 p-3 rounded-xl border border-foreground/10 bg-card/80"
                                     title={badge.name}
                                 >
                                     <!-- Since some icons might be missing absolute urls, prepend leetcode domain if it's relative -->
@@ -546,13 +550,15 @@
                                         class="w-10 h-10 object-contain drop-shadow"
                                     />
                                     <span
-                                        class="text-xs font-mono text-white/60 truncate max-w-[120px]"
+                                        class="text-xs font-mono text-foreground/60 truncate max-w-[120px]"
                                         >{badge.name}</span
                                     >
                                 </div>
                             {/each}
                         {:else}
-                            <p class="text-white/40 text-sm font-mono italic">
+                            <p
+                                class="text-foreground/40 text-sm font-mono italic"
+                            >
                                 No badges earned yet.
                             </p>
                         {/if}
@@ -564,19 +570,20 @@
             <section class="max-w-4xl mx-auto mb-32">
                 <div class="fade-up mb-12">
                     <h2
-                        class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-white/30 flex items-center gap-4"
+                        class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-foreground/30 flex items-center gap-4"
                     >
-                        <span class="w-8 h-px bg-white/20"></span> My Philosophy
-                        <span class="w-full h-px bg-white/10"></span>
+                        <span class="w-8 h-px bg-foreground/20"></span> My
+                        Philosophy
+                        <span class="w-full h-px bg-foreground/10"></span>
                     </h2>
                 </div>
 
                 <div
-                    class="space-y-8 pl-0 md:pl-12 border-l-0 md:border-l border-white/5"
+                    class="space-y-8 pl-0 md:pl-12 border-l-0 md:border-l border-foreground/5"
                 >
                     {#each content.paragraphs as para}
                         <p
-                            class="fade-up text-lg md:text-xl text-white/50 leading-relaxed font-light"
+                            class="fade-up text-lg md:text-xl text-foreground/50 leading-relaxed font-light"
                         >
                             {para}
                         </p>
@@ -586,12 +593,12 @@
 
             <!-- Footer CTA Banner -->
             <footer
-                class="fade-up relative overflow-hidden rounded-[2rem] border border-white/[0.08] p-10 md:p-16 text-center"
+                class="fade-up relative overflow-hidden rounded-[2rem] border border-foreground/[0.08] p-10 md:p-16 text-center"
             >
                 <!-- Banner Background -->
                 <div class="absolute inset-0 z-0">
                     <div
-                        class="absolute inset-0 bg-gradient-to-b from-transparent to-black/80"
+                        class="absolute inset-0 bg-gradient-to-b from-transparent to-background/80"
                     ></div>
                     <div
                         class="absolute inset-0 opacity-20"
@@ -603,18 +610,18 @@
                     class="relative z-10 flex flex-col items-center max-w-2xl mx-auto"
                 >
                     <div
-                        class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/[0.03] border border-white/10 mb-8 backdrop-blur-md"
+                        class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-foreground/[0.03] border border-foreground/10 mb-8 backdrop-blur-md"
                     >
                         <Sparkles size={24} style="color: {accentColor}" />
                     </div>
 
                     <h2
-                        class="text-4xl md:text-5xl font-black tracking-tight text-white mb-6"
+                        class="text-4xl md:text-5xl font-black tracking-tight text-foreground mb-6"
                     >
                         Algorithms in Action
                     </h2>
 
-                    <p class="text-lg text-white/50 mb-10">
+                    <p class="text-lg text-foreground/50 mb-10">
                         Interested in discussing problem-solving approaches or
                         seeing my live LeetCode profile directly?
                     </p>
@@ -632,7 +639,7 @@
                             class="relative z-10 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
                         />
                         <div
-                            class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity bg-white/20"
+                            class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity bg-foreground/20"
                         ></div>
                     </a>
                 </div>

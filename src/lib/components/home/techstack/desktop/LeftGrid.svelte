@@ -24,11 +24,11 @@
     <div class="grid grid-cols-2 xl:grid-cols-3 gap-3 2xl:gap-5">
         {#each techstackData.categories as cat}
             <div
-                class="group relative flex flex-col p-4 2xl:p-5 rounded-2xl 2xl:rounded-3xl bg-white/[0.03] backdrop-blur-2xl border border-white/10 hover:bg-white/[0.06] hover:border-white/20 transition-all duration-500 overflow-hidden shadow-[0_15px_35px_rgba(0,0,0,0.5)]"
+                class="group relative flex flex-col p-4 2xl:p-5 rounded-2xl 2xl:rounded-3xl bg-foreground/[0.03] backdrop-blur-2xl border border-foreground/10 hover:bg-foreground/[0.06] hover:border-foreground/20 transition-all duration-500 overflow-hidden shadow-[0_15px_35px_rgba(0,0,0,0.5)]"
             >
                 <!-- Subtle internal shine/highlight -->
                 <div
-                    class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50"
+                    class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent opacity-50"
                 ></div>
 
                 <!-- Soft Glow -->
@@ -39,10 +39,10 @@
 
                 <!-- Card Header -->
                 <div
-                    class="flex items-center gap-2.5 mb-3 2xl:mb-4 border-b border-white/[0.05] pb-2.5 2xl:pb-3 relative z-10"
+                    class="flex items-center gap-2.5 mb-3 2xl:mb-4 border-b border-border pb-2.5 2xl:pb-3 relative z-10"
                 >
                     <div
-                        class="w-8 h-8 2xl:w-10 2xl:h-10 rounded-lg 2xl:rounded-xl bg-black/20 border border-white/10 flex items-center justify-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] group-hover:-translate-y-0.5 transition-transform duration-300"
+                        class="w-8 h-8 2xl:w-10 2xl:h-10 rounded-lg 2xl:rounded-xl bg-muted border border-border flex items-center justify-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] group-hover:-translate-y-0.5 transition-transform duration-300"
                     >
                         <svelte:component
                             this={getIcon(cat.iconName)}
@@ -51,9 +51,8 @@
                             class="drop-shadow-[0_0_8px_currentColor]"
                         />
                     </div>
-                    <!-- Fluid Typography for the title -->
                     <span
-                        class="text-[clamp(12px,1.2vw,15px)] font-bold text-white/90 tracking-wide drop-shadow-md"
+                        class="text-[clamp(12px,1.2vw,15px)] font-bold text-foreground tracking-wide drop-shadow-md"
                     >
                         {cat.name}
                     </span>
@@ -63,11 +62,11 @@
                 <div class="flex flex-wrap gap-1.5 2xl:gap-2 relative z-10">
                     {#each cat.skills as skill}
                         <div
-                            class="flex items-center gap-1.5 px-2 py-1 2xl:px-2.5 2xl:py-1.5 rounded-md 2xl:rounded-lg border border-white/5 bg-black/30 hover:bg-black/50 hover:border-white/20 transition-all duration-300 cursor-default group/skill shadow-inner"
+                            class="flex items-center gap-1.5 px-2 py-1 2xl:px-2.5 2xl:py-1.5 rounded-md 2xl:rounded-lg border border-border bg-muted/50 hover:bg-muted hover:border-primary/20 transition-all duration-300 cursor-default group/skill shadow-inner"
                         >
                             <!-- UPDATED: Icon Wrapper with white background -->
                             <div
-                                class="flex items-center justify-center w-[18px] h-[18px] 2xl:w-[20px] 2xl:h-[20px] rounded-md bg-white/90 shadow-sm opacity-80 group-hover/skill:opacity-100 transition-opacity"
+                                class="flex items-center justify-center w-[18px] h-[18px] 2xl:w-[20px] 2xl:h-[20px] rounded-md bg-background shadow-sm opacity-80 group-hover/skill:opacity-100 transition-opacity"
                             >
                                 <img
                                     src={skill.icon}
@@ -76,9 +75,8 @@
                                 />
                             </div>
 
-                            <!-- Fluid typography for the skill text -->
                             <span
-                                class="text-[clamp(9px,0.9vw,11px)] font-mono text-white/70 group-hover/skill:text-white transition-colors"
+                                class="text-[clamp(9px,0.9vw,11px)] font-mono text-muted-foreground group-hover/skill:text-foreground transition-colors"
                             >
                                 {skill.name}
                             </span>
@@ -95,7 +93,7 @@
     >
         <!-- Fluid typography ensures paragraph never overflows -->
         <p
-            class="text-[clamp(0.75rem,0.9vw,0.95rem)] leading-[1.5] 2xl:leading-[1.6] text-white/80"
+            class="text-[clamp(0.75rem,0.9vw,0.95rem)] leading-[1.5] 2xl:leading-[1.6] text-foreground"
         >
             {@html techstackData.content.shortDescription}
             {@html techstackData.content.detailedPhilosophy}

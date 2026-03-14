@@ -6,7 +6,7 @@
 <div class="w-full max-w-[800px] grid grid-cols-3 gap-4 relative z-10">
     {#each warehouseData.warehouseNodes as node}
         <div
-            class="group relative p-4 rounded-2xl bg-[#050505]/60 backdrop-blur-md border border-white/[0.05] hover:bg-purple-950/20 hover:border-purple-500/30 transition-all duration-300 overflow-hidden flex items-center gap-4"
+            class="group relative p-4 rounded-2xl bg-card/60 backdrop-blur-md border border-border hover:bg-purple-950/20 hover:border-purple-500/30 transition-all duration-300 overflow-hidden flex items-center gap-4"
         >
             <div
                 class="absolute -right-4 -top-4 w-16 h-16 bg-purple-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity"
@@ -24,11 +24,11 @@
 
             <div class="flex flex-col">
                 <span
-                    class="text-sm font-bold text-white/90 group-hover:text-purple-400 transition-colors"
+                    class="text-sm font-bold text-foreground group-hover:text-purple-400 transition-colors"
                     >{node.name}</span
                 >
                 <span
-                    class="text-[10px] uppercase tracking-widest font-mono text-white/40"
+                    class="text-[10px] uppercase tracking-widest font-mono text-muted-foreground"
                     >{node.desc}</span
                 >
             </div>

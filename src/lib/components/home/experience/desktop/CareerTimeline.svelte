@@ -25,7 +25,7 @@
     <div class="relative w-full">
         <!-- The Track Line -->
         <div
-            class="absolute top-[2.5rem] left-[10%] right-[10%] h-0.5 bg-white/5 shadow-[0_0_10px_rgba(255,255,255,0.05)] rounded-full z-0"
+            class="absolute top-[2.5rem] left-[10%] right-[10%] h-0.5 bg-foreground/5 shadow-[0_0_10px_rgba(255,255,255,0.05)] rounded-full z-0"
         >
             <!-- Active gradient fill representing progress -->
             <div
@@ -47,7 +47,7 @@
 
                     <!-- Main Icon Node -->
                     <div
-                        class="relative flex items-center justify-center w-[3.5rem] h-[3.5rem] rounded-[1.25rem] bg-[#030303]/80 backdrop-blur-xl border border-white/5 shadow-[0_10px_30px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] transition-all duration-500
+                        class="relative flex items-center justify-center w-[3.5rem] h-[3.5rem] rounded-[1.25rem] bg-[#030303]/80 backdrop-blur-xl border border-foreground/5 shadow-[0_10px_30px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] transition-all duration-500
                         {i === experienceData.milestones.length - 1
                             ? 'border-amber-500/40 shadow-[0_0_20px_rgba(245,158,11,0.2)] scale-110 -translate-y-1'
                             : 'group-hover:border-blue-400/30 group-hover:-translate-y-1 group-hover:bg-[#0a0a0a]'}"
@@ -79,17 +79,17 @@
                         class="mt-6 flex flex-col items-center text-center max-w-[150px]"
                     >
                         <span
-                            class="text-[13px] font-bold text-white/70 group-hover:text-white transition-colors duration-300 leading-tight mb-1.5 tracking-wide"
+                            class="text-[13px] font-bold text-foreground/70 group-hover:text-foreground transition-colors duration-300 leading-tight mb-1.5 tracking-wide"
                         >
                             {m.label}
                         </span>
 
                         <div
-                            class="h-[1px] w-4 bg-gradient-to-r from-transparent via-white/20 to-transparent mb-1.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                            class="h-[1px] w-4 bg-gradient-to-r from-transparent via-foreground/20 to-transparent mb-1.5 opacity-0 group-hover:opacity-100 transition-opacity"
                         ></div>
 
                         <span
-                            class="text-[10px] text-white/30 group-hover:text-blue-200/80 font-mono leading-relaxed transition-colors duration-300"
+                            class="text-[10px] text-foreground/30 group-hover:text-blue-200/80 font-mono leading-relaxed transition-colors duration-300"
                         >
                             {m.role}
                         </span>

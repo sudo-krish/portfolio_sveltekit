@@ -154,7 +154,7 @@
 </svelte:head>
 
 <div
-    class="relative min-h-screen bg-[#03060c] text-white selection:bg-white/20 overflow-x-hidden"
+    class="relative min-h-screen bg-background text-foreground overflow-x-hidden"
 >
     <!-- Base Grain/Noise Layer -->
     <div
@@ -179,11 +179,11 @@
         class="fixed top-6 left-0 right-0 z-40 flex justify-center pointer-events-none"
     >
         <nav
-            class="pointer-events-auto flex items-center justify-between gap-12 px-6 py-3 rounded-full border border-white/[0.08] bg-black/50 backdrop-blur-2xl shadow-2xl transition-all duration-300 hover:border-white/20 hover:bg-black/60"
+            class="pointer-events-auto flex items-center justify-between gap-12 px-6 py-3 rounded-full border border-border bg-card/80 backdrop-blur-2xl shadow-xl transition-all duration-300 hover:border-primary/30 hover:bg-card"
         >
             <a
                 href="/"
-                class="group flex items-center gap-2 text-xs font-bold text-white/60 hover:text-white transition-colors"
+                class="group flex items-center gap-2 text-xs font-bold text-foreground/60 hover:text-foreground transition-colors"
             >
                 <ArrowLeft
                     size={14}
@@ -197,8 +197,8 @@
                     style="background: {accentColor}"
                 ></div>
                 <span
-                    class="font-mono text-[9px] text-white/50 tracking-[0.2em] uppercase"
-                    >GitHub Activity</span
+                    class="font-mono text-[9px] text-muted-foreground tracking-[0.2em] uppercase"
+                    >Statistics</span
                 >
             </div>
         </nav>
@@ -210,20 +210,20 @@
                 class="min-h-[60vh] flex flex-col items-center justify-center gap-4"
             >
                 <div
-                    class="w-12 h-12 border-4 border-white/20 border-t-{accentColor} rounded-full animate-spin"
+                    class="w-12 h-12 border-4 border-foreground/20 border-t-{accentColor} rounded-full animate-spin"
                     style="border-top-color: {accentColor}"
                 ></div>
                 <p
-                    class="font-mono text-sm tracking-widest text-white/50 uppercase"
+                    class="font-mono text-sm tracking-widest text-muted-foreground uppercase"
                 >
-                    Loading GitHub Data...
+                    Open Source Loading GitHub Data...
                 </p>
             </div>
         {:else}
             <!-- Hero Section -->
             <header class="mb-24 md:mb-32">
                 <div
-                    class="hero-elem inline-flex items-center gap-2 px-3 py-1.5 rounded-full border bg-white/[0.02] backdrop-blur-md mb-8"
+                    class="hero-elem inline-flex items-center gap-2 px-3 py-1.5 rounded-full border bg-foreground/[0.02] backdrop-blur-md mb-8"
                     style="border-color: {accentColor}30"
                 >
                     <Github size={12} style="color: {accentColor}" />
@@ -236,10 +236,10 @@
                 <h1
                     class="hero-elem text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8"
                 >
-                    <span class="block text-white/90">Building in</span>
+                    <span class="block text-foreground/90">Building in</span>
                     <span
                         class="block text-transparent bg-clip-text pb-2 lg:pb-4"
-                        style="background-image: linear-gradient(135deg, {accentColor}, #ffffff)"
+                        style="background-image: linear-gradient(135deg, {accentColor}, hsl(var(--foreground)))"
                     >
                         The Open
                     </span>
@@ -254,25 +254,25 @@
                             style="background: {accentColor}"
                         ></div>
                         <p
-                            class="font-mono text-[10px] sm:text-xs text-white/40 tracking-widest uppercase mb-4"
+                            class="font-mono text-[10px] sm:text-xs text-foreground/40 tracking-widest uppercase mb-4"
                         >
                             Profile Overview
                         </p>
 
                         {#if stats?.user}
                             <div
-                                class="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/10 mt-4 backdrop-blur-sm"
+                                class="flex items-center gap-4 p-4 rounded-2xl bg-foreground/5 border border-foreground/10 mt-4 backdrop-blur-sm"
                             >
                                 <img
                                     src={stats.user.avatar_url}
                                     alt="Profile"
-                                    class="w-12 h-12 rounded-full border border-white/20"
+                                    class="w-12 h-12 rounded-full border border-foreground/20"
                                 />
                                 <div>
-                                    <h3 class="font-bold text-white/90">
+                                    <h3 class="font-bold text-foreground/90">
                                         {stats.user.name || stats.user.login}
                                     </h3>
-                                    <p class="text-xs text-white/50">
+                                    <p class="text-xs text-foreground/50">
                                         @{stats.user.login}
                                     </p>
                                 </div>
@@ -283,7 +283,7 @@
                         class="md:col-span-8 flex flex-col justify-center h-full"
                     >
                         <p
-                            class="text-xl md:text-2xl text-white/70 leading-relaxed font-light"
+                            class="text-xl md:text-2xl text-foreground/70 leading-relaxed font-light"
                         >
                             {content.introParagraph}
                         </p>
@@ -295,17 +295,18 @@
             <section class="max-w-6xl mx-auto mb-24 md:mb-32">
                 <div class="mb-10 fade-up">
                     <h2
-                        class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-white/30 flex items-center gap-4"
+                        class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-muted-foreground flex items-center gap-4"
                     >
-                        <span class="w-8 h-px bg-white/20"></span> Aggregate
-                        Metrics <span class="w-full h-px bg-white/10"></span>
+                        <span class="w-8 h-px bg-foreground/20"></span>
+                        Aggregate Metrics
+                        <span class="w-full h-px bg-foreground/10"></span>
                     </h2>
                 </div>
 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
                     {#each [{ label: "Total Repos", value: stats?.totalRepos || 0, icon: Github }, { label: "Total Stars", value: stats?.totalStars || 0, icon: Star }, { label: "Day Streak", value: stats?.contributionStreak || 0, icon: Terminal }, { label: "Top Lang", value: stats?.topLanguages?.[0] || "Code", icon: Sparkles }] as h, i}
                         <div
-                            class="fade-up group relative overflow-hidden rounded-3xl border border-white/[0.06] bg-gradient-to-br from-white/[0.04] to-transparent p-6 flex flex-col justify-between hover:border-white/15 transition-all duration-500 min-h-[160px]"
+                            class="fade-up group relative overflow-hidden rounded-3xl border border-foreground/[0.06] bg-gradient-to-br from-foreground/[0.04] to-transparent p-6 flex flex-col justify-between hover:border-foreground/15 transition-all duration-500 min-h-[160px]"
                         >
                             <div
                                 class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
@@ -316,14 +317,14 @@
                                 class="relative z-10 flex items-center justify-between mb-4"
                             >
                                 <h3
-                                    class="text-xs font-mono font-bold tracking-widest uppercase text-white/40"
+                                    class="text-xs font-mono font-bold tracking-widest uppercase text-foreground/40"
                                 >
                                     {h.label}
                                 </h3>
                                 <svelte:component
                                     this={h.icon}
                                     size={16}
-                                    class="text-white/20 group-hover:text-[{accentColor}] transition-colors"
+                                    class="text-foreground/20 group-hover:text-[{accentColor}] transition-colors"
                                 />
                             </div>
 
@@ -346,12 +347,21 @@
                 <div class="md:col-span-7 lg:col-span-8">
                     <div class="fade-up mb-10">
                         <h2
-                            class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-white/30 flex items-center gap-4"
+                            class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-foreground/30 flex items-center gap-4"
                         >
-                            <span class="w-8 h-px bg-white/20"></span> Top
+                            <span class="w-8 h-px bg-foreground/20"></span> Top
                             Public Repositories
-                            <span class="w-full h-px bg-white/10"></span>
+                            <span class="w-full h-px bg-foreground/10"></span>
                         </h2>
+                        <h2 class="text-2xl font-bold text-foreground">
+                            Code Contributions
+                        </h2>
+                        <p
+                            class="text-muted-foreground font-light leading-relaxed"
+                        >
+                            A history of open-source projects and infrastructure
+                            development.
+                        </p>
                     </div>
 
                     <div class="bento-grid grid sm:grid-cols-2 gap-4">
@@ -360,7 +370,7 @@
                                 href={project.repository}
                                 target="_blank"
                                 rel="noopener"
-                                class="bento-card group relative overflow-hidden rounded-3xl border border-white/[0.06] bg-white/[0.02] p-6 hover:bg-white/[0.05] transition-colors duration-500 flex flex-col min-h-[220px]"
+                                class="bento-card group relative overflow-hidden rounded-3xl border border-foreground/[0.06] bg-foreground/[0.02] p-6 hover:bg-foreground/[0.05] transition-colors duration-500 flex flex-col min-h-[220px]"
                             >
                                 <div
                                     class="flex items-start justify-between mb-4 relative z-10"
@@ -368,7 +378,7 @@
                                     <div class="flex items-center gap-2">
                                         {#if project.languages?.[0]}
                                             <span
-                                                class="px-2 py-0.5 rounded-full border border-white/10 bg-white/5 text-[9px] font-mono text-white/60"
+                                                class="px-2 py-0.5 rounded-full border border-foreground/10 bg-foreground/5 text-[9px] font-mono text-foreground/60"
                                             >
                                                 {project.languages[0]}
                                             </span>
@@ -376,24 +386,24 @@
                                     </div>
                                     <ArrowUpRight
                                         size={16}
-                                        class="text-white/30 group-hover:text-white transition-colors"
+                                        class="text-foreground/30 group-hover:text-foreground transition-colors"
                                     />
                                 </div>
 
                                 <h3
-                                    class="text-xl font-bold tracking-tight text-white/90 mb-2 relative z-10 group-hover:text-[{accentColor}] transition-colors"
+                                    class="text-xl font-bold tracking-tight text-foreground/90 mb-2 relative z-10 group-hover:text-[{accentColor}] transition-colors"
                                 >
                                     {project.name}
                                 </h3>
 
                                 <p
-                                    class="text-[13px] text-white/50 leading-relaxed font-light mb-6 flex-1 relative z-10 line-clamp-3"
+                                    class="text-[13px] text-foreground/50 leading-relaxed font-light mb-6 flex-1 relative z-10 line-clamp-3"
                                 >
                                     {project.description}
                                 </p>
 
                                 <div
-                                    class="flex items-center gap-4 text-[10px] font-mono text-white/40 mt-auto relative z-10"
+                                    class="flex items-center gap-4 text-[10px] font-mono text-foreground/40 mt-auto relative z-10"
                                 >
                                     <span class="flex items-center gap-1.5"
                                         ><Star
@@ -421,18 +431,19 @@
                 <div class="md:col-span-5 lg:col-span-4">
                     <div class="fade-up mb-10">
                         <h2
-                            class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-white/30 flex items-center gap-4"
+                            class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-foreground/30 flex items-center gap-4"
                         >
-                            <span class="w-8 h-px bg-white/20"></span> Activity
-                            Stream <span class="w-full h-px bg-white/10"></span>
+                            <span class="w-8 h-px bg-foreground/20"></span>
+                            Activity Stream
+                            <span class="w-full h-px bg-foreground/10"></span>
                         </h2>
                     </div>
 
                     <div
-                        class="fade-up relative rounded-3xl border border-white/[0.06] bg-black/40 p-6 sm:p-8 overflow-hidden h-full"
+                        class="fade-up relative rounded-3xl border border-border bg-card p-6 sm:p-8 overflow-hidden h-full"
                     >
                         <div
-                            class="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 pointer-events-none z-0"
+                            class="absolute inset-0 bg-gradient-to-b from-transparent to-background/80 pointer-events-none z-0"
                         ></div>
 
                         <div class="relative z-10 flex flex-col gap-6">
@@ -446,13 +457,13 @@
                                     <!-- Timeline line -->
                                     {#if index !== Math.min(events.length, 5) - 1}
                                         <div
-                                            class="absolute left-[7px] top-6 bottom-0 w-px bg-white/10"
+                                            class="absolute left-[7px] top-6 bottom-0 w-px bg-foreground/10"
                                         ></div>
                                     {/if}
 
                                     <!-- Timeline dot -->
                                     <div
-                                        class="absolute left-0 top-1.5 w-4 h-4 rounded-full border border-white/20 bg-black flex items-center justify-center"
+                                        class="absolute left-0 top-1.5 w-4 h-4 rounded-full border border-foreground/20 bg-card flex items-center justify-center"
                                     >
                                         <div
                                             class="w-1.5 h-1.5 rounded-full"
@@ -465,11 +476,11 @@
                                             class="flex items-center justify-between gap-2"
                                         >
                                             <span
-                                                class="font-mono text-xs text-white/80 font-bold truncate"
+                                                class="font-mono text-xs text-foreground/80 font-bold truncate"
                                                 >{event.repo}</span
                                             >
                                             <span
-                                                class="font-mono text-[10px] text-white/30 shrink-0"
+                                                class="font-mono text-[10px] text-foreground/30 shrink-0"
                                                 >{event.time}</span
                                             >
                                         </div>
@@ -477,12 +488,12 @@
                                             class="flex items-start gap-2 mt-1"
                                         >
                                             <span
-                                                class="font-mono text-[10px] text-white/40 shrink-0 px-1 py-0.5 rounded bg-white/5 border border-white/10"
+                                                class="font-mono text-[10px] text-foreground/40 shrink-0 px-1 py-0.5 rounded bg-foreground/5 border border-foreground/10"
                                                 style="color: {accentColor}"
                                                 >{event.sha}</span
                                             >
                                             <p
-                                                class="text-xs text-white/60 line-clamp-2 leading-relaxed"
+                                                class="text-xs text-foreground/60 line-clamp-2 leading-relaxed"
                                             >
                                                 {event.msg}
                                             </p>
@@ -492,7 +503,7 @@
                             {:else}
                                 <div class="text-center py-10">
                                     <p
-                                        class="text-white/40 font-mono text-sm tracking-widest uppercase"
+                                        class="text-foreground/40 font-mono text-sm tracking-widest uppercase"
                                     >
                                         No recent activity found
                                     </p>
@@ -501,13 +512,13 @@
                         </div>
 
                         <div
-                            class="relative z-10 mt-8 pt-6 border-t border-white/10"
+                            class="relative z-10 mt-8 pt-6 border-t border-foreground/10"
                         >
                             <a
                                 href="https://github.com/sudo-krish"
                                 target="_blank"
                                 rel="noopener"
-                                class="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-white/5 border border-white/10 text-white/70 text-sm font-bold hover:bg-white/10 hover:text-white transition-colors"
+                                class="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-foreground/5 border border-foreground/10 text-foreground/70 text-sm font-bold hover:bg-foreground/10 hover:text-foreground transition-colors"
                             >
                                 View Full History <ArrowUpRight size={14} />
                             </a>

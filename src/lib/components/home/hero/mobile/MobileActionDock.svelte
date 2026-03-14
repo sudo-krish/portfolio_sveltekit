@@ -28,7 +28,7 @@
 
 <div class="action-dock w-full relative z-30 pointer-events-auto">
     <div
-        class="w-full flex items-stretch justify-between gap-2 p-1.5 bg-black/60 backdrop-blur-2xl rounded-[1.5rem] border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.15)]"
+        class="w-full flex items-stretch justify-between gap-2 p-1.5 bg-card/90 backdrop-blur-2xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.15)]"
     >
         <Button
             variant="default"
@@ -36,36 +36,36 @@
             onclick={scrollToPipeline}
         >
             <div
-                class="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/20 to-transparent group-active:translate-x-[150%] transition-transform duration-700 ease-out"
+                class="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-foreground/20 to-transparent group-active:translate-x-[150%] transition-transform duration-700 ease-out"
             ></div>
             {cta}
             <Zap class="ml-1.5 fill-white" size={14} />
         </Button>
 
         <div
-            class="flex items-center gap-1 px-1.5 bg-white/5 rounded-xl border border-white/5"
+            class="flex items-center gap-1 px-1.5 bg-foreground/5 rounded-xl border border-foreground/5"
         >
             <Button
                 variant="ghost"
-                class="w-11 h-11 p-0 rounded-lg hover:bg-white/10 transition-colors"
+                class="w-11 h-11 p-0 rounded-lg hover:bg-foreground/10 transition-colors"
                 href={links.github}
                 target="_blank"
             >
-                <Github size={18} class="text-white/80" />
+                <Github size={18} class="text-foreground/80" />
             </Button>
-            <div class="w-[1px] h-5 bg-white/10"></div>
+            <div class="w-[1px] h-5 bg-foreground/10"></div>
             <Button
                 variant="ghost"
-                class="w-11 h-11 p-0 rounded-lg hover:bg-white/10 transition-colors"
+                class="w-11 h-11 p-0 rounded-lg hover:bg-foreground/10 transition-colors"
                 href={links.linkedin}
                 target="_blank"
             >
-                <Linkedin size={18} class="text-white/80" />
+                <Linkedin size={18} class="text-foreground/80" />
             </Button>
-            <div class="w-[1px] h-5 bg-white/10"></div>
+            <div class="w-[1px] h-5 bg-foreground/10"></div>
             <Button
                 variant="ghost"
-                class="w-11 h-11 p-0 rounded-lg hover:bg-white/10 transition-colors"
+                class="w-11 h-11 p-0 rounded-lg hover:bg-foreground/10 transition-colors"
                 href={links.resume}
                 target="_blank"
             >

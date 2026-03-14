@@ -75,10 +75,10 @@
   <!-- Ambient Light Source -->
   <div class="absolute inset-0 z-0">
     <div
-      class="absolute top-[0%] left-[20%] w-[50vw] h-[50vw] bg-[hsl(var(--primary)/0.25)] rounded-full blur-[100px] mix-blend-screen"
+      class="absolute top-[0%] left-[20%] w-[50vw] h-[50vw] bg-[hsl(var(--primary)/0.25)] rounded-full blur-[100px] dark:mix-blend-screen"
     ></div>
     <div
-      class="absolute bottom-[20%] right-[10%] w-[40vw] h-[40vw] bg-[hsl(var(--accent)/0.2)] rounded-full blur-[100px] mix-blend-screen"
+      class="absolute bottom-[20%] right-[10%] w-[40vw] h-[40vw] bg-[hsl(var(--accent)/0.2)] rounded-full blur-[100px] dark:mix-blend-screen"
     ></div>
   </div>
 
@@ -99,7 +99,7 @@
           >
             {#each stream0 as item}
               {#if item.type === "text"}
-                <span class="frosted-text-white">{item.content}</span>
+                <span class="frosted-text-foreground">{item.content}</span>
               {:else}
                 <div class="frosted-icon-wrapper scale-90">
                   <img
@@ -126,7 +126,7 @@
           >
             {#each stream1 as item}
               {#if item.type === "text"}
-                <span class="frosted-text-white">{item.content}</span>
+                <span class="frosted-text-foreground">{item.content}</span>
               {:else}
                 <div class="frosted-icon-wrapper">
                   <img
@@ -151,7 +151,7 @@
           <div class="flex items-center gap-16 sm:gap-32 px-8 sm:px-16">
             {#each stream2 as item}
               {#if item.type === "text"}
-                <span class="frosted-text-white highlight-white"
+                <span class="frosted-text-foreground highlight-white"
                   >{item.content}</span
                 >
               {:else}
@@ -164,7 +164,7 @@
                   />
                 </div>
               {/if}
-              <span class="separator-white text-white/70">+++</span>
+              <span class="separator-white text-foreground/70">+++</span>
             {/each}
           </div>
         {/each}
@@ -180,7 +180,7 @@
           >
             {#each stream3 as item}
               {#if item.type === "text"}
-                <span class="frosted-text-white">{item.content}</span>
+                <span class="frosted-text-foreground">{item.content}</span>
               {:else}
                 <div class="frosted-icon-wrapper">
                   <img
@@ -207,7 +207,7 @@
           >
             {#each stream4 as item}
               {#if item.type === "text"}
-                <span class="frosted-text-white">{item.content}</span>
+                <span class="frosted-text-foreground">{item.content}</span>
               {:else}
                 <div class="frosted-icon-wrapper scale-90">
                   <img
@@ -232,7 +232,7 @@
     style="
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
-      background: radial-gradient(circle at center, hsl(var(--background)/0.4) 10%, hsl(var(--background)/0.1) 60%, transparent 100%);
+      background: radial-gradient(circle at center, transparent 10%, hsl(var(--background)/0.6) 80%, hsl(var(--background)) 100%);
     "
   ></div>
 
@@ -297,25 +297,27 @@
   }
 
   /* PURE WHITE FROSTED TYPOGRAPHY */
-  .frosted-text-white {
+  .frosted-text-foreground {
     font-family: var(--font-sans, "Inter", sans-serif);
     font-size: clamp(5rem, 10vw, 10rem);
     font-weight: 800;
     letter-spacing: -0.03em;
     white-space: nowrap;
 
-    color: rgba(255, 255, 255, 0.15);
-    -webkit-text-stroke: 2px rgba(255, 255, 255, 0.6);
-    text-shadow: 0 4px 30px rgba(255, 255, 255, 0.25);
+    color: hsl(
+      var(--foreground) / 0.08
+    ); /* Fainter center for more glass effect */
+    -webkit-text-stroke: 2px hsl(var(--foreground) / 0.4);
+    text-shadow: 0 4px 30px hsl(var(--foreground) / 0.15);
   }
 
   /* The Highlight Row */
   .highlight-white {
-    color: rgba(255, 255, 255, 0.25);
-    -webkit-text-stroke: 3px rgba(255, 255, 255, 1);
+    color: hsl(var(--foreground) / 0.2);
+    -webkit-text-stroke: 3px hsl(var(--foreground) / 0.8);
     text-shadow:
-      0 0 40px rgba(255, 255, 255, 0.5),
-      0 0 80px hsl(var(--primary) / 0.4);
+      0 0 40px hsl(var(--foreground) / 0.3),
+      0 0 80px hsl(var(--primary) / 0.3);
   }
 
   /* Icons */
@@ -332,15 +334,25 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    filter: grayscale(100%) brightness(1000%) contrast(1000%);
+    filter: grayscale(100%) brightness(1000%) contrast(1000%)
+      drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
     opacity: 0.6;
-    drop-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  }
+
+  :global(.light) .frosted-img-white {
+    filter: grayscale(100%) brightness(0) opacity(0.4)
+      drop-shadow(0 0 5px rgba(0, 0, 0, 0.1));
   }
 
   .highlight-img-white {
     opacity: 1;
     filter: grayscale(100%) brightness(1000%) contrast(1000%)
-      drop-shadow(0 0 40px rgba(255, 255, 255, 0.7));
+      drop-shadow(0 0 30px rgba(255, 255, 255, 0.5));
+  }
+
+  :global(.light) .highlight-img-white {
+    filter: grayscale(100%) brightness(0) opacity(0.7)
+      drop-shadow(0 0 15px rgba(0, 0, 0, 0.15));
   }
 
   /* Separators */
@@ -348,16 +360,16 @@
     font-family: var(--font-sans, "Inter", sans-serif);
     font-size: clamp(3rem, 6vw, 6rem);
     font-weight: 300;
-    color: rgba(255, 255, 255, 0.4);
+    color: hsl(var(--foreground) / 0.3);
     white-space: nowrap;
   }
 
   @media (max-width: 768px) {
-    .frosted-text-white {
-      -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.7);
+    .frosted-text-foreground {
+      -webkit-text-stroke: 1.5px hsl(var(--foreground) / 0.5);
     }
     .highlight-white {
-      -webkit-text-stroke: 2.5px rgba(255, 255, 255, 1);
+      -webkit-text-stroke: 2.5px hsl(var(--foreground) / 0.8);
     }
   }
 </style>

@@ -6,13 +6,11 @@
 </script>
 
 <Card
-    class="glass-shard relative w-full max-w-[1000px] mb-2 rounded-[2rem] rounded-tr-[1rem] 
-           bg-black/40 backdrop-blur-2xl border border-white/10
-           shadow-[0_30px_80px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.1)] overflow-hidden group flex-shrink-0"
+    class="group relative flex flex-col p-[clamp(1.5rem,1.5vh+1.5vw,3.5rem)] rounded-[3rem] bg-card/80 backdrop-blur-3xl border border-border overflow-hidden shadow-xl"
 >
-    <!-- Soft background glow -->
+    <!-- Top internal highlight -->
     <div
-        class="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+        class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-60 group-hover:via-primary/60 transition-all duration-700"
     ></div>
 
     <!-- Accent line top -->
@@ -22,7 +20,7 @@
 
     <!-- Radial Glow Blob (Purple tinted) -->
     <div
-        class="pointer-events-none absolute -left-20 -top-20 w-64 h-64 rounded-full bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.25)_0%,transparent_60%)] opacity-60 mix-blend-screen transition-opacity duration-700 group-hover:opacity-100"
+        class="pointer-events-none absolute -left-20 -top-20 w-64 h-64 rounded-full bg-[radial-gradient(circle_at_center,hsl(var(--accent)/)_0%,transparent_60%)] opacity-60 dark:mix-blend-screen transition-opacity duration-700 group-hover:opacity-100"
     ></div>
 
     <div class="relative z-10 p-6 xl:p-8 flex flex-col gap-6">
@@ -30,27 +28,26 @@
         <div class="flex items-start justify-between w-full">
             <div class="flex flex-col gap-1 mt-1">
                 <span
-                    class="font-mono text-[clamp(9px,0.4vh+0.6vw,14px)] tracking-[0.3em] uppercase text-purple-400/80 font-semibold drop-shadow-[0_0_8px_rgba(168,85,247,0.3)]"
+                    class="font-mono text-[clamp(9px,0.4vh+0.6vw,14px)] tracking-[0.3em] uppercase text-purple-400/80 font-semibold drop-shadow-[0_0_8px_hsl(var(--accent)/)]"
                 >
                     {warehouseData.header.badge}
                 </span>
                 <span
-                    class="text-[clamp(11px,0.5vh+0.7vw,18px)] font-medium text-white/50 tracking-wide uppercase mt-1"
+                    class="text-[clamp(11px,0.5vh+0.7vw,18px)] font-medium text-muted-foreground tracking-wide uppercase mt-1"
+                    >BI & Serving Layer</span
                 >
-                    BI & Serving Layer
-                </span>
             </div>
 
             <!-- Added Metrics into the Top Right -->
             <div class="flex gap-4">
                 <div class="text-right">
                     <div
-                        class="text-[10px] text-white/40 uppercase font-mono tracking-wider"
+                        class="text-[10px] text-foreground/40 uppercase font-mono tracking-wider"
                     >
                         Latency
                     </div>
                     <div
-                        class="text-xl font-black text-white flex items-baseline justify-end gap-1"
+                        class="text-xl font-black text-foreground flex items-baseline justify-end gap-1"
                     >
                         {warehouseData.metrics.latency}<span
                             class="text-xs text-purple-400 font-semibold"
@@ -58,15 +55,15 @@
                         >
                     </div>
                 </div>
-                <div class="w-px h-8 bg-white/10 self-center"></div>
+                <div class="w-px h-8 bg-foreground/10 self-center"></div>
                 <div class="text-right">
                     <div
-                        class="text-[10px] text-white/40 uppercase font-mono tracking-wider"
+                        class="text-[10px] text-foreground/40 uppercase font-mono tracking-wider"
                     >
                         Concurrency
                     </div>
                     <div
-                        class="text-xl font-black text-white flex items-baseline justify-end gap-1"
+                        class="text-xl font-black text-foreground flex items-baseline justify-end gap-1"
                     >
                         {warehouseData.metrics.concurrency}<span
                             class="text-xs text-purple-400 font-semibold"
@@ -82,19 +79,19 @@
             <div
                 class="absolute left-[-2px] top-0 w-[2px] h-1/3 bg-gradient-to-b from-purple-400 to-transparent"
             ></div>
-            <p
-                class="text-[clamp(1.1rem,1vh+1.2vw,2.5rem)] leading-[1.4] text-white/95 font-medium tracking-tight"
+            <h3
+                class="text-[clamp(1.1rem,1vh+1.2vw,2.5rem)] leading-[1.4] text-foreground font-medium tracking-tight"
             >
                 {@html warehouseData.content.shortDescription}
-            </p>
+            </h3>
         </div>
 
         <!-- Details Box -->
         <div
-            class="relative p-5 rounded-2xl bg-white/[0.02] border border-white/[0.05] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
+            class="relative p-5 rounded-2xl bg-foreground/[0.02] border border-foreground/[0.05] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
         >
             <p
-                class="text-[clamp(0.8rem,0.5vh+0.7vw,1.2rem)] leading-[1.7] text-white/60"
+                class="text-[clamp(0.8rem,0.5vh+0.7vw,1.2rem)] leading-[1.7] text-muted-foreground"
             >
                 {warehouseData.content.detailedPhilosophy}
             </p>

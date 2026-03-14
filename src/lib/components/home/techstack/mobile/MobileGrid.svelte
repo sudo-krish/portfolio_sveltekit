@@ -29,14 +29,14 @@
 <div class="w-full flex flex-col gap-4 relative z-10">
     <!-- Top Narrative Box -->
     <div
-        class="w-full p-6 rounded-[1.5rem] bg-[#050505]/80 backdrop-blur-xl border border-white/5 shadow-xl"
+        class="w-full p-6 rounded-[1.5rem] bg-card/80 backdrop-blur-xl border border-border shadow-xl"
     >
         <div
             class="text-[10px] font-mono text-cyan-400 uppercase tracking-[0.2em] mb-3 block"
         >
             {techstackData.rightAnchor.label}
         </div>
-        <p class="text-sm text-white/80 leading-relaxed mb-4">
+        <p class="text-sm text-foreground leading-relaxed mb-4">
             {@html techstackData.content.shortDescription}
         </p>
     </div>
@@ -45,7 +45,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {#each techstackData.categories as cat}
             <div
-                class="flex flex-col p-5 rounded-[1.25rem] bg-[#050505]/80 backdrop-blur-xl border border-white/5 relative overflow-hidden"
+                class="flex flex-col p-5 rounded-[1.25rem] bg-card/80 backdrop-blur-xl border border-border relative overflow-hidden"
             >
                 <!-- Background Accent Glow -->
                 <div
@@ -56,7 +56,7 @@
                 <!-- Card Header -->
                 <div class="flex items-center gap-3 mb-4">
                     <div
-                        class="w-8 h-8 rounded-lg bg-white/[0.02] border border-white/10 flex items-center justify-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]"
+                        class="w-8 h-8 rounded-lg bg-muted border border-border flex items-center justify-center shadow-sm"
                     >
                         <svelte:component
                             this={getIcon(cat.iconName)}
@@ -65,7 +65,7 @@
                         />
                     </div>
                     <span
-                        class="text-[13px] font-bold text-white/90 tracking-wide"
+                        class="text-[13px] font-bold text-foreground tracking-wide"
                         >{cat.name}</span
                     >
                 </div>
@@ -74,7 +74,7 @@
                 <div class="flex flex-wrap gap-1.5 relative z-10">
                     {#each cat.skills as skill}
                         <div
-                            class="flex items-center gap-1.5 px-2 py-1 rounded-md border border-white/5 bg-white/[0.03] text-[10px] font-mono text-white/60 group/skill"
+                            class="flex items-center gap-1.5 px-2 py-1 rounded-md border border-border bg-muted/50 text-[10px] font-mono text-muted-foreground group/skill"
                         >
                             <img
                                 src={skill.icon}
@@ -99,7 +99,7 @@
                 class="font-mono text-[9px] text-cyan-400 uppercase tracking-widest mb-1"
                 >Explore Work</span
             >
-            <span class="text-sm font-bold text-white leading-none"
+            <span class="text-sm font-bold text-foreground leading-none"
                 >{techstackData.ui.cta.label}</span
             >
         </div>

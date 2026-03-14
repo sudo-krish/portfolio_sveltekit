@@ -29,7 +29,7 @@
 
     <!-- Borders: Static & Hover -->
     <div
-        class="absolute inset-0 rounded-xl border border-white/10 border-t-white/20 pointer-events-none group-hover/cta:border-transparent transition-colors duration-300"
+        class="absolute inset-0 rounded-xl border border-foreground/10 border-t-white/20 pointer-events-none group-hover/cta:border-transparent transition-colors duration-300"
     ></div>
     <div
         class="absolute inset-0 rounded-xl border opacity-0 group-hover/cta:opacity-100 pointer-events-none transition-opacity duration-300"

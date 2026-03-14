@@ -23,12 +23,12 @@
 
 <Card
     class="glass-shard relative w-full max-w-[800px] mb-8 rounded-[2rem] rounded-tl-[1rem] 
-         bg-black/40 backdrop-blur-2xl border border-white/10 
+         bg-card/80 backdrop-blur-2xl border border-foreground/10 
          shadow-[0_30px_80px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.1)] overflow-hidden group"
 >
     <!-- Soft background glow -->
     <div
-        class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+        class="absolute inset-0 bg-gradient-to-br from-foreground/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
     ></div>
 
     <!-- Accent line top -->
@@ -42,7 +42,7 @@
         class="pointer-events-none absolute -right-20 -top-20
            w-64 h-64 rounded-full
            bg-[radial-gradient(circle_at_center,hsl(var(--primary)/0.3)_0%,transparent_60%)]
-           opacity-60 mix-blend-screen transition-opacity duration-700 group-hover:opacity-100"
+           opacity-60 dark:mix-blend-screen transition-opacity duration-700 group-hover:opacity-100"
     ></div>
 
     <div class="relative z-10 p-8 xl:p-10 flex flex-col gap-8">
@@ -55,7 +55,7 @@
                     {metaLabel}
                 </span>
                 <span
-                    class="text-[clamp(12px,1.2vw,14px)] font-medium text-white/50 tracking-wide"
+                    class="text-[clamp(12px,1.2vw,14px)] font-medium text-foreground/50 tracking-wide"
                 >
                     {metaTitle}
                 </span>
@@ -64,13 +64,13 @@
             <!-- Floating Terminal Badge -->
             <div
                 class="flex h-12 w-12 items-center justify-center rounded-2xl
-                 bg-white/[0.03] border border-white/10 backdrop-blur-md
+                 bg-foreground/[0.03] border border-foreground/10 backdrop-blur-md
                  shadow-[0_8px_16px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.1)]
                  transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 shrink-0"
             >
                 <TerminalSquare
                     size={22}
-                    class="text-white/80 group-hover:text-primary transition-colors duration-500 drop-shadow-[0_0_12px_rgba(255,255,255,0.2)]"
+                    class="text-foreground/80 group-hover:text-primary transition-colors duration-500 drop-shadow-[0_0_12px_rgba(255,255,255,0.2)]"
                 />
             </div>
         </div>
@@ -81,7 +81,7 @@
                 class="absolute left-[-2px] top-0 w-[2px] h-1/3 bg-gradient-to-b from-primary to-transparent"
             ></div>
             <p
-                class="text-[clamp(1.2rem,2vw,1.875rem)] leading-[1.4] text-white/95 font-medium tracking-tight"
+                class="text-[clamp(1.2rem,2vw,1.875rem)] leading-[1.4] text-foreground/95 font-medium tracking-tight"
             >
                 {@html main}
             </p>
@@ -89,10 +89,10 @@
 
         <!-- Details Box (Inner Frosted Glass) -->
         <div
-            class="relative mt-2 p-6 rounded-2xl bg-white/[0.02] border border-white/[0.05] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
+            class="relative mt-2 p-6 rounded-2xl bg-foreground/[0.02] border border-foreground/[0.05] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
         >
             <p
-                class="text-[clamp(0.85rem,1vw,1rem)] leading-[1.8] text-white/60"
+                class="text-[clamp(0.85rem,1vw,1rem)] leading-[1.8] text-foreground/60"
             >
                 {details}
             </p>

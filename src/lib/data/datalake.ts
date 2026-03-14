@@ -13,7 +13,7 @@ export const datalakeData = {
         titleLine2: "Reservoir.",
     },
     content: {
-        shortDescription: `I engineer data architectures that thrive across all generations of tech—from robust <strong class="text-white/90 font-medium">legacy Hadoop (HDFS)</strong> clusters to <span class="text-emerald-400 font-medium tracking-wide">modern governed lakehouses</span>.`,
+        shortDescription: `I engineer data architectures that thrive across all generations of tech—from robust <strong class="text-foreground font-medium">legacy Hadoop (HDFS)</strong> clusters to <span class="text-emerald-400 font-medium tracking-wide">modern governed lakehouses</span>.`,
 
         detailedPhilosophy: `Enterprise data is not monolithic; it demands engineering that bridges the past and the future. I have deep expertise in migrating and managing legacy on-premise Big Data ecosystems (Hadoop, HDFS, Hive), while simultaneously architecting next-generation cloud solutions on Amazon S3. By implementing strict security controls via AWS Lake Formation, Databricks Unity Catalog, and Snowflake Data Lake schemas, I modernize traditional data swamps into lightning-fast, highly governed transactional lakehouses.`
     },

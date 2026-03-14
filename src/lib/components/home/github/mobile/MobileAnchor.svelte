@@ -13,13 +13,13 @@
     </div>
 
     <h2
-        class="text-4xl sm:text-5xl font-black text-white/90 leading-[1.1] tracking-tight whitespace-pre-line mb-4"
+        class="text-4xl sm:text-5xl font-black text-foreground/90 leading-[1.1] tracking-tight whitespace-pre-line mb-4"
     >
         {codingStatsData.leftAnchor.title.replace("\n", " ")}
     </h2>
 
     <p
-        class="text-[0.85rem] text-white/50 font-light leading-relaxed max-w-[320px]"
+        class="text-[0.85rem] text-foreground/50 font-light leading-relaxed max-w-[320px]"
     >
         {codingStatsData.leftAnchor.description}
     </p>
@@ -29,14 +29,14 @@
         <!-- GitHub Button -->
         <a
             href="/github"
-            class="group relative inline-flex flex-1 sm:flex-none justify-center items-center gap-2 pl-3 pr-1 py-1 rounded-full bg-white/[0.03] border border-white/10 hover:bg-white/[0.08] transition-all duration-300 shadow-md"
+            class="group relative inline-flex flex-1 sm:flex-none justify-center items-center gap-2 pl-3 pr-1 py-1 rounded-full bg-foreground/[0.03] border border-foreground/10 hover:bg-foreground/[0.08] transition-all duration-300 shadow-md"
         >
             <div class="flex flex-col z-10 py-1 text-left">
                 <span
-                    class="font-mono text-[7px] text-white/40 uppercase tracking-widest leading-none mb-0.5"
+                    class="font-mono text-[7px] text-foreground/40 uppercase tracking-widest leading-none mb-0.5"
                     >Profile</span
                 >
-                <span class="text-[10px] font-bold text-white leading-none"
+                <span class="text-[10px] font-bold text-foreground leading-none"
                     >GitHub</span
                 >
             </div>
@@ -50,14 +50,14 @@
         <!-- LeetCode Button -->
         <a
             href="/leetcode"
-            class="group relative inline-flex flex-1 sm:flex-none justify-center items-center gap-2 pl-3 pr-1 py-1 rounded-full bg-white/[0.03] border border-white/10 hover:bg-white/[0.08] transition-all duration-300 shadow-md"
+            class="group relative inline-flex flex-1 sm:flex-none justify-center items-center gap-2 pl-3 pr-1 py-1 rounded-full bg-foreground/[0.03] border border-foreground/10 hover:bg-foreground/[0.08] transition-all duration-300 shadow-md"
         >
             <div class="flex flex-col z-10 py-1 text-left">
                 <span
-                    class="font-mono text-[7px] text-white/40 uppercase tracking-widest leading-none mb-0.5"
+                    class="font-mono text-[7px] text-foreground/40 uppercase tracking-widest leading-none mb-0.5"
                     >Stats</span
                 >
-                <span class="text-[10px] font-bold text-white leading-none"
+                <span class="text-[10px] font-bold text-foreground leading-none"
                     >LeetCode</span
                 >
             </div>

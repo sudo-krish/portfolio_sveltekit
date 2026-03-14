@@ -31,11 +31,11 @@
     <!-- MAIN ACHIEVEMENT CARD (Top Full Width) -->
     <!-- Clean, deep frosted glass: high blur, subtle gradient bg, white/10 border -->
     <div
-        class="group relative flex flex-col p-6 2xl:p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.06] to-white/[0.01] backdrop-blur-[60px] border border-white/10 hover:border-white/20 transition-all duration-700 overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
+        class="group relative flex flex-col p-6 2xl:p-8 rounded-[2rem] bg-card/80 backdrop-blur-[60px] border border-border hover:border-border/80 transition-all duration-700 overflow-hidden shadow-xl"
     >
         <!-- Crisp top highlight edge for physical glass realism -->
         <div
-            class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-60"
+            class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-60"
         ></div>
         <!-- Left edge colored highlight -->
         <div
@@ -51,16 +51,16 @@
             <!-- Header Section -->
             <div class="flex items-center gap-4">
                 <div
-                    class="flex items-center justify-center w-12 h-12 2xl:w-14 2xl:h-14 rounded-2xl bg-black/20 border border-white/10 shadow-[inset_0_1px_2px_rgba(255,255,255,0.1)] text-purple-400 group-hover:-translate-y-1 transition-all duration-500"
+                    class="flex items-center justify-center w-12 h-12 2xl:w-14 2xl:h-14 rounded-2xl bg-muted border border-border shadow-inner text-purple-500 group-hover:-translate-y-1 transition-all duration-500"
                 >
                     <CheckCircle2
                         size={24}
-                        class="drop-shadow-[0_0_8px_rgba(168,85,247,0.5)]"
+                        class="drop-shadow-[0_0_8px_hsl(var(--accent)/)]"
                     />
                 </div>
                 <div class="flex flex-col">
                     <span
-                        class="text-[clamp(18px,1.5vw,22px)] font-black text-white leading-tight tracking-tight"
+                        class="text-[clamp(18px,1.5vw,22px)] font-black text-foreground leading-tight tracking-tight"
                     >
                         {resultsData.achievement.title}
                     </span>
@@ -74,7 +74,7 @@
 
             <!-- Description -->
             <p
-                class="text-[clamp(0.95rem,1vw,1.1rem)] leading-[1.8] text-white/70 font-light max-w-[95%]"
+                class="text-[clamp(0.95rem,1vw,1.1rem)] leading-[1.8] text-muted-foreground font-light max-w-[95%]"
             >
                 {@html resultsData.achievement.description}
             </p>
@@ -85,11 +85,11 @@
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 2xl:gap-4">
         {#each resultsData.metrics as m}
             <div
-                class="group relative flex flex-col items-center justify-center text-center p-4 2xl:p-6 rounded-[1.5rem] bg-gradient-to-b from-white/[0.04] to-transparent backdrop-blur-[40px] border border-white/10 hover:bg-white/[0.06] transition-all duration-500 overflow-hidden shadow-[0_15px_30px_rgba(0,0,0,0.4)]"
+                class="group relative flex flex-col items-center justify-center text-center p-4 2xl:p-6 rounded-[1.5rem] bg-card/60 backdrop-blur-[40px] border border-border hover:bg-card/80 transition-all duration-500 overflow-hidden shadow-md"
             >
                 <!-- Card top highlight -->
                 <div
-                    class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50"
+                    class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent opacity-50"
                 ></div>
 
                 <!-- Dynamic Mini Glow based on Metric Color -->
@@ -101,7 +101,7 @@
                 <!-- Inner Content -->
                 <div class="relative z-10 flex flex-col items-center w-full">
                     <div
-                        class="flex items-center justify-center w-10 h-10 rounded-xl bg-black/30 border border-white/5 shadow-inner group-hover:-translate-y-1 transition-transform duration-500 mb-3"
+                        class="flex items-center justify-center w-10 h-10 rounded-xl bg-muted border border-border shadow-inner group-hover:-translate-y-1 transition-transform duration-500 mb-3"
                     >
                         <svelte:component
                             this={getIcon(m.iconName)}
@@ -120,14 +120,14 @@
                         </span>
 
                         <span
-                            class="text-[10px] 2xl:text-[11px] font-bold text-white/90 uppercase tracking-[0.1em] leading-tight mb-1.5"
+                            class="text-[10px] 2xl:text-[11px] font-bold text-foreground uppercase tracking-[0.1em] leading-tight mb-1.5"
                         >
                             {m.label}
                         </span>
 
                         <!-- Added Description Line -->
                         <p
-                            class="text-[8px] 2xl:text-[9px] font-mono text-white/40 leading-snug px-1 line-clamp-2"
+                            class="text-[8px] 2xl:text-[9px] font-mono text-muted-foreground leading-snug px-1 line-clamp-2"
                         >
                             {@html m.description}
                         </p>

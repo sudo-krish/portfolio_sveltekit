@@ -140,7 +140,7 @@
 </svelte:head>
 
 <div
-    class="relative min-h-screen bg-[#03060c] text-white selection:bg-white/20 overflow-x-hidden"
+    class="relative min-h-screen bg-background text-foreground overflow-x-hidden"
 >
     <!-- Base Grain/Noise Layer -->
     <div
@@ -165,11 +165,11 @@
         class="fixed top-6 left-0 right-0 z-40 flex justify-center pointer-events-none"
     >
         <nav
-            class="pointer-events-auto flex items-center justify-between gap-12 px-6 py-3 rounded-full border border-white/[0.08] bg-black/50 backdrop-blur-2xl shadow-2xl transition-all duration-300 hover:border-white/20 hover:bg-black/60"
+            class="pointer-events-auto flex items-center justify-between gap-12 px-6 py-3 rounded-full border border-border bg-card/80 backdrop-blur-2xl shadow-xl transition-all duration-300 hover:border-primary/30 hover:bg-card"
         >
             <a
                 href="/"
-                class="group flex items-center gap-2 text-xs font-bold text-white/60 hover:text-white transition-colors"
+                class="group flex items-center gap-2 text-xs font-bold text-muted-foreground hover:text-foreground transition-colors"
             >
                 <ArrowLeft
                     size={14}
@@ -183,7 +183,7 @@
                     style="background: {accentColor}"
                 ></div>
                 <span
-                    class="font-mono text-[9px] text-white/50 tracking-[0.2em] uppercase"
+                    class="font-mono text-[9px] text-muted-foreground tracking-[0.2em] uppercase"
                     >{content.id}</span
                 >
             </div>
@@ -194,7 +194,7 @@
         <!-- Hero Section -->
         <header class="mb-24 md:mb-32">
             <div
-                class="hero-elem inline-flex items-center gap-2 px-3 py-1.5 rounded-full border bg-white/[0.02] backdrop-blur-md mb-8"
+                class="hero-elem inline-flex items-center gap-2 px-3 py-1.5 rounded-full border bg-foreground/[0.02] backdrop-blur-md mb-8"
                 style="border-color: {accentColor}30"
             >
                 <Sparkles size={12} style="color: {accentColor}" />
@@ -207,10 +207,10 @@
             <h1
                 class="hero-elem text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8"
             >
-                <span class="block text-white/90">{content.headline}</span>
+                <span class="block text-foreground">{content.headline}</span>
                 <span
                     class="block text-transparent bg-clip-text pb-2 lg:pb-4"
-                    style="background-image: linear-gradient(135deg, {accentColor}, #ffffff)"
+                    style="background-image: linear-gradient(135deg, {accentColor}, hsl(var(--foreground)))"
                 >
                     {content.subHeadline}
                 </span>
@@ -225,14 +225,14 @@
                         style="background: {accentColor}"
                     ></div>
                     <p
-                        class="font-mono text-xs text-white/40 tracking-widest uppercase"
+                        class="font-mono text-xs text-muted-foreground tracking-widest uppercase"
                     >
                         Overview Synopsis
                     </p>
                 </div>
                 <div class="md:col-span-8">
                     <p
-                        class="text-xl md:text-2xl text-white/70 leading-relaxed font-light"
+                        class="text-xl md:text-2xl text-muted-foreground leading-relaxed font-light"
                     >
                         {content.introParagraph}
                     </p>
@@ -244,10 +244,10 @@
         <section class="max-w-6xl mx-auto mb-24 md:mb-32">
             <div class="mb-10 fade-up">
                 <h2
-                    class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-white/30 flex items-center gap-4"
+                    class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-muted-foreground flex items-center gap-4"
                 >
-                    <span class="w-8 h-px bg-white/20"></span> Key Metrics
-                    <span class="w-full h-px bg-white/10"></span>
+                    <span class="w-8 h-px bg-foreground/20"></span> Key Metrics
+                    <span class="w-full h-px bg-foreground/10"></span>
                 </h2>
             </div>
 
@@ -257,7 +257,7 @@
             >
                 {#each content.highlights as h, i}
                     <div
-                        class="bento-card group relative overflow-hidden rounded-3xl border border-white/[0.06] bg-gradient-to-br from-white/[0.04] to-transparent p-8 flex flex-col justify-between hover:border-white/15 transition-all duration-500 {getBentoClass(
+                        class="bento-card group relative overflow-hidden rounded-3xl border border-foreground/[0.06] bg-gradient-to-br from-foreground/[0.04] to-transparent p-8 flex flex-col justify-between hover:border-foreground/15 transition-all duration-500 {getBentoClass(
                             i,
                             content.highlights.length,
                         )}"
@@ -269,11 +269,13 @@
                         ></div>
 
                         <div class="relative z-10">
-                            <h3 class="text-sm font-bold text-white/60 mb-1">
+                            <h3
+                                class="text-sm font-bold text-muted-foreground mb-1"
+                            >
                                 {h.label}
                             </h3>
                             <p
-                                class="text-[11px] text-white/30 font-mono max-w-[200px] leading-relaxed"
+                                class="text-[11px] text-muted-foreground font-mono max-w-[200px] leading-relaxed"
                             >
                                 {h.description}
                             </p>
@@ -292,9 +294,12 @@
                             >
 
                             <div
-                                class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:-translate-y-2 transition-all duration-300 bg-white/5"
+                                class="w-8 h-8 rounded-full border border-foreground/10 flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:-translate-y-2 transition-all duration-300 bg-foreground/5"
                             >
-                                <ArrowUpRight size={14} class="text-white/70" />
+                                <ArrowUpRight
+                                    size={14}
+                                    class="text-foreground/70"
+                                />
                             </div>
                         </div>
                     </div>
@@ -306,19 +311,19 @@
         <section class="max-w-4xl mx-auto mb-24 md:mb-32">
             <div class="fade-up mb-12">
                 <h2
-                    class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-white/30 flex items-center gap-4"
+                    class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-muted-foreground/50 flex items-center gap-4"
                 >
-                    <span class="w-8 h-px bg-white/20"></span> Context &
-                    Approach <span class="w-full h-px bg-white/10"></span>
+                    <span class="w-8 h-px bg-border"></span> Context & Approach
+                    <span class="w-full h-px bg-border/50"></span>
                 </h2>
             </div>
 
             <div
-                class="space-y-8 pl-0 md:pl-12 border-l-0 md:border-l border-white/5"
+                class="space-y-8 pl-0 md:pl-12 border-l-0 md:border-l border-foreground/5"
             >
                 {#each content.paragraphs as para}
                     <p
-                        class="fade-up text-lg md:text-xl text-white/50 leading-relaxed font-light"
+                        class="fade-up text-lg md:text-xl text-muted-foreground leading-relaxed font-light"
                     >
                         {para}
                     </p>
@@ -330,17 +335,17 @@
         <section class="mb-32">
             <div class="fade-up mb-16">
                 <h2
-                    class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-white/30 flex items-center gap-4"
+                    class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-muted-foreground/50 flex items-center gap-4"
                 >
-                    <span class="w-8 h-px bg-white/20"></span> Technical Deep
-                    Dive <span class="w-full h-px bg-white/10"></span>
+                    <span class="w-8 h-px bg-border"></span> Technical Deep Dive
+                    <span class="w-full h-px bg-border/50"></span>
                 </h2>
             </div>
 
             <div class="space-y-6">
                 {#each content.detailSections as section, i}
                     <div
-                        class="fade-up group relative rounded-3xl border border-white/[0.06] bg-white/[0.01] p-8 md:p-12 overflow-hidden hover:bg-white/[0.02] transition-colors duration-500"
+                        class="fade-up group relative rounded-3xl border border-foreground/[0.06] bg-foreground/[0.01] p-8 md:p-12 overflow-hidden hover:bg-foreground/[0.02] transition-colors duration-500"
                     >
                         <!-- Geometric Accent -->
                         <div
@@ -361,13 +366,13 @@
                                         >0{i + 1}</span
                                     >
                                     <h3
-                                        class="text-2xl md:text-3xl font-bold tracking-tight text-white/90 mb-4"
+                                        class="text-2xl md:text-3xl font-bold tracking-tight text-foreground/90 mb-4"
                                     >
                                         {section.title}
                                     </h3>
                                 </div>
                                 <p
-                                    class="text-white/50 leading-relaxed font-light mt-4 md:mt-0"
+                                    class="text-muted-foreground leading-relaxed font-light mt-4 md:mt-0"
                                 >
                                     {section.content}
                                 </p>
@@ -381,7 +386,7 @@
                                         {#each section.bullets as bullet}
                                             <div class="flex items-start gap-3">
                                                 <div
-                                                    class="w-4 h-4 rounded flex items-center justify-center shrink-0 mt-0.5 bg-white/[0.03] border border-white/[0.08]"
+                                                    class="w-4 h-4 rounded flex items-center justify-center shrink-0 mt-0.5 bg-foreground/[0.03] border border-foreground/[0.08]"
                                                 >
                                                     <div
                                                         class="w-1.5 h-1.5 rounded-sm"
@@ -389,7 +394,7 @@
                                                     ></div>
                                                 </div>
                                                 <span
-                                                    class="text-sm text-white/60 leading-normal"
+                                                    class="text-sm text-foreground/60 leading-normal"
                                                     >{bullet}</span
                                                 >
                                             </div>
@@ -405,12 +410,12 @@
 
         <!-- Footer CTA Banner -->
         <footer
-            class="fade-up relative overflow-hidden rounded-[2rem] border border-white/[0.08] p-10 md:p-16 text-center"
+            class="fade-up relative overflow-hidden rounded-[2rem] border border-foreground/[0.08] p-10 md:p-16 text-center"
         >
             <!-- Banner Background -->
             <div class="absolute inset-0 z-0">
                 <div
-                    class="absolute inset-0 bg-gradient-to-b from-transparent to-black/80"
+                    class="absolute inset-0 bg-gradient-to-b from-transparent to-background/80"
                 ></div>
                 <div
                     class="absolute inset-0 opacity-20"
@@ -422,18 +427,18 @@
                 class="relative z-10 flex flex-col items-center max-w-2xl mx-auto"
             >
                 <div
-                    class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/[0.03] border border-white/10 mb-8 backdrop-blur-md"
+                    class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-foreground/[0.03] border border-foreground/10 mb-8 backdrop-blur-md"
                 >
                     <Sparkles size={24} style="color: {accentColor}" />
                 </div>
 
                 <h2
-                    class="text-4xl md:text-5xl font-black tracking-tight text-white mb-6"
+                    class="text-4xl md:text-5xl font-black tracking-tight text-foreground mb-6"
                 >
                     Ready to engineer data at scale?
                 </h2>
 
-                <p class="text-lg text-white/50 mb-10">
+                <p class="text-lg text-muted-foreground mb-10">
                     Whether you need to architect a real-time streaming pipeline
                     or design an enterprise data warehouse, let's build
                     something exceptional.
@@ -451,7 +456,7 @@
                     />
                     <!-- Inner glow -->
                     <div
-                        class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity bg-white/20"
+                        class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity bg-foreground/20"
                     ></div>
                 </a>
             </div>

@@ -33,7 +33,7 @@
 >
 	<!-- Inner ambient glow layer for depth -->
 	<div
-		class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none z-0"
+		class="absolute inset-0 bg-gradient-to-br from-foreground/5 to-transparent pointer-events-none z-0"
 	></div>
 
 	<!-- Render children on top of the glass effects -->

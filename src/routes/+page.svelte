@@ -79,6 +79,36 @@
           });
         }
 
+        // Guard: if a touch/pointer started inside a scrollable child, don't snap.
+        // Also exempt touches inside any content-mobile slide or horizontal carousel
+        // to prevent section-snapping from stealing touch events on content pages.
+        function isInsideScrollableChild(self: any): boolean {
+          const evt = self.event as TouchEvent | PointerEvent;
+          const target = evt?.target as HTMLElement;
+          if (!target) return false;
+
+          // If inside a vertical scrollable container that actually overflows, exempt
+          const scroller = target.closest(
+            ".overflow-y-auto, .overflow-y-scroll",
+          ) as HTMLElement;
+          if (scroller && scroller.scrollHeight > scroller.clientHeight)
+            return true;
+
+          // If inside a horizontal snap carousel (MobileCarousel content area), exempt
+          // This prevents GSAP from eating touch events on content slides even when
+          // the content fits without scrolling
+          const snapCarousel = target.closest(".snap-x") as HTMLElement;
+          if (snapCarousel) return true;
+
+          // If inside an overscroll-contain element (content-mobile wrapper), exempt
+          const overscrollContained = target.closest(
+            ".overscroll-contain",
+          ) as HTMLElement;
+          if (overscrollContained) return true;
+
+          return false;
+        }
+
         // 4. Intercept the user's mouse wheel / trackpad
         observer = ScrollTrigger.observe({
           target: container,
@@ -89,11 +119,13 @@
           onUp: (self) => {
             // Must be distinctly scrolling UP, not swiping left/right
             if (Math.abs(self.deltaX) > Math.abs(self.deltaY)) return;
+            if (isInsideScrollableChild(self)) return;
             if (!isAnimating) gotoSection(currentIndex + 1);
           },
           onDown: (self) => {
             // Must be distinctly scrolling DOWN, not swiping left/right
             if (Math.abs(self.deltaX) > Math.abs(self.deltaY)) return;
+            if (isInsideScrollableChild(self)) return;
             if (!isAnimating) gotoSection(currentIndex - 1);
           },
         });

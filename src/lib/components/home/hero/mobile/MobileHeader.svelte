@@ -18,15 +18,15 @@
     <div class="hero-type flex items-center justify-between w-full">
         <!-- Name Plate -->
         <div
-            class="flex items-center gap-3 bg-white/[0.03] border border-white/5 rounded-full pl-1 pr-4 py-1 backdrop-blur-md shrink-0"
+            class="flex items-center gap-3 bg-foreground/[0.03] border border-foreground/5 rounded-full pl-1 pr-4 py-1 backdrop-blur-md shrink-0"
         >
             <div
-                class="h-6 w-6 rounded-full bg-white/10 flex items-center justify-center"
+                class="h-6 w-6 rounded-full bg-foreground/10 flex items-center justify-center"
             >
-                <div class="h-1 w-2.5 bg-white/60 rounded-full"></div>
+                <div class="h-1 w-2.5 bg-foreground/60 rounded-full"></div>
             </div>
             <span
-                class="font-mono text-[9px] font-bold tracking-[0.25em] text-white/70 uppercase pt-px"
+                class="font-mono text-[9px] font-bold tracking-[0.25em] text-foreground/70 uppercase pt-px"
             >
                 {props.name}
             </span>
@@ -34,7 +34,7 @@
 
         <!-- Status Indicator -->
         <div
-            class="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-3 py-1.5 backdrop-blur-md shadow-[0_0_15px_rgba(16,185,129,0.1)] shrink-0"
+            class="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-3 py-1.5 backdrop-blur-md shadow-[0_0_15px_hsl(var(--primary)/)] shrink-0"
         >
             <div
                 class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_currentColor]"
@@ -53,12 +53,12 @@
         class="flex flex-col items-center w-full max-w-full relative mt-4 mb-2"
     >
         <h1
-            class="hero-type text-center font-black text-[clamp(3.5rem,17vw,6rem)] leading-[0.78] tracking-[-0.04em] text-white/95 mix-blend-plus-lighter w-full"
+            class="hero-type text-center font-black text-[clamp(3.5rem,17vw,6rem)] leading-[0.78] tracking-[-0.04em] text-foreground/95 mix-blend-plus-lighter w-full"
         >
             {prefix}
         </h1>
         <h1
-            class="hero-type text-center font-black text-[clamp(3.5rem,17vw,6rem)] leading-[0.78] tracking-[-0.04em] text-transparent bg-clip-text bg-gradient-to-br from-white via-primary to-accent drop-shadow-[0_4px_24px_hsl(var(--primary)/0.4)] w-full"
+            class="hero-type text-center font-black text-[clamp(3.5rem,17vw,6rem)] leading-[0.78] tracking-[-0.04em] text-transparent bg-clip-text bg-gradient-to-br from-foreground via-primary to-accent drop-shadow-[0_4px_24px_hsl(var(--primary)/0.4)] w-full"
         >
             {suffix}
         </h1>

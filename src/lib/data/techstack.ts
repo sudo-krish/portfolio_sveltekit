@@ -10,7 +10,7 @@ export const techstackData = {
         badge: "sys.modules",
     },
     content: {
-        shortDescription: `I prioritize <strong class="text-white font-medium">vendor-agnostic open-source frameworks</strong> alongside <span class="text-cyan-400 font-medium tracking-wide">highly specialized cloud platforms</span> to architect robust, multi-cloud data engineering solutions.`,
+        shortDescription: `I prioritize <strong class="text-foreground font-medium">vendor-agnostic open-source frameworks</strong> alongside <span class="text-cyan-400 font-medium tracking-wide">highly specialized cloud platforms</span> to architect robust, multi-cloud data engineering solutions.`,
         detailedPhilosophy: `My engineering philosophy centers on eliminating vendor lock-in while maximizing compute performance. I deliberately leverage open-source standards—like <b>Apache Kafka</b>, <b>Spark</b>, and <b>Iceberg</b>—to guarantee data interoperability and long-term data ownership. While native cloud tools are highly capable, I strategically integrate cross-cloud platforms like <b>Databricks</b> and <b>Snowflake</b>. Unlike single-cloud alternatives, these unified engines deliver superior ACID transactional guarantees, zero-copy cloning, high-concurrency BI serving, and seamless AI/ML integration across any cloud provider, ensuring your enterprise architecture remains entirely future-proof.`
     },
     categories: [

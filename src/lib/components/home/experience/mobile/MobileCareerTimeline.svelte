@@ -22,10 +22,10 @@
 <div class="w-full flex flex-col gap-3 relative z-10">
     <!-- Timeline Component -->
     <div
-        class="w-full p-4 rounded-[1.25rem] bg-[#050505]/60 backdrop-blur-md border border-white/[0.05] relative overflow-hidden"
+        class="w-full p-4 rounded-[1.25rem] bg-card/60 backdrop-blur-md border border-border relative overflow-hidden"
     >
         <div
-            class="absolute top-6 bottom-6 left-[29px] w-px bg-gradient-to-b from-blue-500/40 via-violet-500/20 to-transparent"
+            class="absolute top-6 bottom-6 left-[29px] w-px bg-gradient-to-b from-blue-500/40 via-violet-500/20 to-border"
         ></div>
 
         <div class="flex flex-col gap-4">
@@ -35,7 +35,7 @@
                         class="relative z-10 flex-shrink-0 w-7 h-7 rounded-lg border flex items-center justify-center transition-all duration-300 {i ===
                         experienceData.milestones.length - 1
                             ? 'bg-amber-500/15 border-amber-500/40 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
-                            : 'bg-black/60 border-white/10'}"
+                            : 'bg-muted border-border'}"
                     >
                         <svelte:component
                             this={getIcon(m.iconName)}
@@ -55,13 +55,13 @@
                                 class="font-mono text-[10px] font-bold"
                                 style="color: {m.color}">{m.year}</span
                             >
-                            <span class="text-white/20">·</span>
-                            <span class="text-[11px] font-bold text-white/90"
+                            <span class="text-muted-foreground">·</span>
+                            <span class="text-[11px] font-bold text-foreground"
                                 >{m.label}</span
                             >
                         </div>
                         <span
-                            class="text-[9px] text-white/40 font-mono leading-tight"
+                            class="text-[9px] text-muted-foreground font-mono leading-tight"
                             >{m.role}</span
                         >
                     </div>
@@ -73,20 +73,21 @@
     <!-- Action Button -->
     <a
         href={experienceData.ui.cta.href}
-        class="w-full p-4 rounded-[1.25rem] bg-[#050505]/60 backdrop-blur-md border border-white/[0.05] flex items-center justify-between group overflow-hidden"
+        class="w-full p-4 rounded-[1.25rem] bg-card/60 backdrop-blur-md border border-border flex items-center justify-between group overflow-hidden"
     >
         <div class="flex flex-col">
             <span
                 class="font-mono text-[9px] text-blue-400 uppercase tracking-widest mb-1 block"
                 >Deep Dive</span
             >
-            <span class="text-sm font-bold text-white">Explore Full Resume</span
+            <span class="text-sm font-bold text-foreground"
+                >Explore Full Resume</span
             >
         </div>
         <div
-            class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center"
+            class="w-8 h-8 rounded-full bg-foreground/5 flex items-center justify-center"
         >
-            <ArrowRight size={14} class="text-white/60" />
+            <ArrowRight size={14} class="text-foreground/60" />
         </div>
     </a>
 </div>

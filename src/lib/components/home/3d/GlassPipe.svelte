@@ -6,7 +6,7 @@
   // --- 1. UNIFIED THEME COLORS ---
   const deepColor = new Color("#1e3a8a"); // Deep Blue
   const surfColor = new Color("#38bdf8"); // Cyan
-  const foamColor = new Color("#ffffff"); // White Edge Glow
+  const foamColor = new Color("#38bdf8"); // White Edge Glow
 
   // --- 2. LIQUID SHADER (Tube Version) ---
   const vertexShader = `

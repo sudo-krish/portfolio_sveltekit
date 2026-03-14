@@ -16,12 +16,12 @@
 >
     <!-- Glass Base Layer -->
     <div
-        class="absolute inset-0 bg-gradient-to-br from-white/[0.08] via-black/40 to-black/80 backdrop-blur-3xl"
+        class="absolute inset-0 bg-gradient-to-br from-foreground/[0.08] via-black/40 to-background/80 backdrop-blur-3xl"
     ></div>
 
     <!-- Tactile Borders (Light reflection on top/left) -->
     <div
-        class="absolute inset-0 border border-white/5 border-t-white/20 border-l-white/10 rounded-3xl pointer-events-none"
+        class="absolute inset-0 border border-foreground/5 border-t-white/20 border-l-white/10 rounded-3xl pointer-events-none"
     ></div>
 
     <!-- Inner Shadow for depth -->
@@ -31,7 +31,7 @@
 
     {#if glow}
         <div
-            class="absolute top-0 right-0 w-48 h-48 blur-[60px] pointer-events-none opacity-40 mix-blend-screen"
+            class="absolute top-0 right-0 w-48 h-48 blur-[60px] pointer-events-none opacity-40 dark:mix-blend-screen"
             style="background: radial-gradient(circle, {glow} 0%, transparent 70%)"
         ></div>
     {/if}

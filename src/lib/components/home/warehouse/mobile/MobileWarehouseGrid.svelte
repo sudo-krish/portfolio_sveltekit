@@ -6,7 +6,7 @@
 <div class="w-full grid grid-cols-2 gap-3 relative z-10">
     {#each warehouseData.warehouseNodes as node}
         <div
-            class="group relative p-3 sm:p-4 rounded-[1.25rem] bg-[#050505]/60 backdrop-blur-md border border-white/[0.05] flex flex-col gap-2 overflow-hidden"
+            class="group relative p-3 sm:p-4 rounded-[1.25rem] bg-card/60 backdrop-blur-md border border-border flex flex-col gap-2 overflow-hidden"
         >
             <div
                 class="absolute -right-6 -top-6 w-20 h-20 bg-purple-500/10 rounded-full blur-xl pointer-events-none"
@@ -23,11 +23,12 @@
             </div>
 
             <div class="flex flex-col mt-1">
-                <span class="text-[13px] font-bold text-white/90 leading-tight"
+                <span
+                    class="text-[13px] font-bold text-foreground leading-tight"
                     >{node.name}</span
                 >
                 <span
-                    class="text-[9px] uppercase tracking-[0.15em] font-mono text-white/40 mt-0.5 truncate"
+                    class="text-[9px] uppercase tracking-[0.15em] font-mono text-muted-foreground mt-0.5 truncate"
                     >{node.desc}</span
                 >
             </div>

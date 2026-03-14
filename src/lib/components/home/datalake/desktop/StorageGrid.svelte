@@ -6,7 +6,7 @@
 <div class="w-full max-w-[800px] grid grid-cols-3 gap-4 relative z-10">
     {#each datalakeData.storageNodes as node}
         <div
-            class="group relative p-4 rounded-2xl bg-[#050505]/60 backdrop-blur-md border border-white/[0.05] hover:bg-emerald-950/20 hover:border-emerald-500/30 transition-all duration-300 overflow-hidden flex items-center gap-4"
+            class="group relative p-4 rounded-2xl bg-card/60 backdrop-blur-md border border-border hover:bg-emerald-950/20 hover:border-emerald-500/30 transition-all duration-300 overflow-hidden flex items-center gap-4"
         >
             <!-- Subtle hover glow behind the item -->
             <div
@@ -25,11 +25,11 @@
 
             <div class="flex flex-col">
                 <span
-                    class="text-sm font-bold text-white/90 group-hover:text-emerald-400 transition-colors"
+                    class="text-sm font-bold text-foreground group-hover:text-emerald-400 transition-colors"
                     >{node.name}</span
                 >
                 <span
-                    class="text-[10px] uppercase tracking-widest font-mono text-white/40"
+                    class="text-[10px] uppercase tracking-widest font-mono text-muted-foreground"
                     >{node.desc}</span
                 >
             </div>

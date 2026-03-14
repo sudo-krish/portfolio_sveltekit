@@ -14,7 +14,7 @@
     // --- 1. THEME: OCEANIC MACHINERY ---
     const deepColor = new Color("#1e3a8a"); // Deep Blue
     const surfColor = new Color("#38bdf8"); // Cyan
-    const foamColor = new Color("#ffffff"); // White Foam
+    const foamColor = new Color("#22c55e"); // White Foam
 
     // --- 2. SHADER (TIGHTER DISPLACEMENT) ---
     const vertexShader = `

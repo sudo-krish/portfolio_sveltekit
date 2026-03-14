@@ -7,7 +7,7 @@
   // --- CONFIG (Same as Lake & House) ---
   const deepColor = new Color("#1e3a8a"); // Deep Blue
   const surfColor = new Color("#38bdf8"); // Cyan
-  const foamColor = new Color("#ffffff"); // White Foam/Glow
+  const foamColor = new Color("#38bdf8"); // White Foam/Glow
 
   // --- SHADER LOGIC ---
   const vertexShader = `
@@ -116,7 +116,7 @@
     uTime: { value: 0 },
     uDeepColor: { value: deepColor },
     uSurfColor: { value: surfColor },
-    uFoamColor: { value: foamColor }
+    uFoamColor: { value: foamColor },
   };
 
   useTask((dt) => {
@@ -128,7 +128,7 @@
   <T.Mesh>
     <!-- Use Icosahedron with high detail (32) for smooth shader deformation -->
     <T.IcosahedronGeometry args={[1.5, 32]} />
-    
+
     <T.ShaderMaterial
       {vertexShader}
       {fragmentShader}

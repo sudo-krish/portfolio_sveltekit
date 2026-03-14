@@ -39,7 +39,7 @@
     <!-- Top Meta Bar -->
     <div class="flex items-center justify-between px-1 w-full mb-1">
         <div
-            class="flex items-center gap-1.5 text-[9px] text-white/30 font-mono uppercase tracking-widest"
+            class="flex items-center gap-1.5 text-[9px] text-foreground/30 font-mono uppercase tracking-widest"
         >
             <Shield size={10} class="text-orange-400" />
             <span>Globally Recognized</span>
@@ -57,11 +57,11 @@
 
     <!-- MAIN SCROLLABLE CONTAINER (Mobile sizing) -->
     <div
-        class="group relative flex flex-col w-full rounded-[1.5rem] bg-gradient-to-br from-white/[0.04] to-white/[0.01] backdrop-blur-[40px] border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.5)] overflow-hidden"
+        class="group relative flex flex-col w-full rounded-[1.5rem] bg-gradient-to-br from-foreground/[0.04] to-foreground/[0.01] backdrop-blur-[40px] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5)] overflow-hidden"
     >
         <!-- Top internal highlight -->
         <div
-            class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-60"
+            class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-foreground/30 to-transparent opacity-60"
         ></div>
         <!-- Ambient Orange Glow -->
         <div
@@ -75,12 +75,12 @@
         >
             {#each allItems as item}
                 <div
-                    class="flex flex-col border-b border-white/[0.05] last:border-none"
+                    class="flex flex-col border-b border-foreground/[0.05] last:border-none"
                 >
                     <!-- Accordion Header -->
                     <button
                         type="button"
-                        class="flex items-center gap-3 w-full p-3 sm:p-4 hover:bg-white/[0.02] rounded-xl transition-colors duration-300 text-left cursor-pointer"
+                        class="flex items-center gap-3 w-full p-3 sm:p-4 hover:bg-foreground/[0.02] rounded-xl transition-colors duration-300 text-left cursor-pointer"
                         on:click={() => toggleAccordion(item.id)}
                     >
                         <!-- Icon Circle -->
@@ -105,7 +105,7 @@
                         <!-- Title and Meta -->
                         <div class="flex flex-col flex-1 min-w-0 pr-1">
                             <span
-                                class="text-[12px] sm:text-[13px] font-bold text-white/90 truncate leading-tight"
+                                class="text-[12px] sm:text-[13px] font-bold text-foreground/90 truncate leading-tight"
                             >
                                 {item.name}
                             </span>
@@ -115,9 +115,9 @@
                                     style="color: {item.color}e6;"
                                     >{item.issuer}</span
                                 >
-                                <span class="text-[8px] text-white/30">·</span>
+                                <span class="text-[8px] text-foreground/30">·</span>
                                 <span
-                                    class="text-[9px] text-white/40 font-medium"
+                                    class="text-[9px] text-foreground/40 font-medium"
                                     >{item.date}</span
                                 >
                             </div>
@@ -151,7 +151,7 @@
                         >
                             <div class="pl-14 pr-3 pb-4 pt-1">
                                 <div
-                                    class="p-3 rounded-xl bg-black/40 border border-white/5 shadow-inner"
+                                    class="p-3 rounded-xl bg-card/80 border border-foreground/5 shadow-inner"
                                 >
                                     <h4
                                         class="text-[8px] font-mono uppercase tracking-[0.2em] mb-1.5 font-bold"
@@ -160,7 +160,7 @@
                                         {item.metaLabel}
                                     </h4>
                                     <p
-                                        class="text-[10px] sm:text-[11px] leading-relaxed text-white/70 font-light"
+                                        class="text-[10px] sm:text-[11px] leading-relaxed text-foreground/70 font-light"
                                     >
                                         {@html item.impact}
                                     </p>
@@ -171,7 +171,7 @@
                                                 href={item.url}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border hover:bg-white/5 transition-colors"
+                                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border hover:bg-foreground/5 transition-colors"
                                                 style="border-color: {item.color}40;"
                                             >
                                                 <span

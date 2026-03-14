@@ -9,10 +9,12 @@
     {pipelineData.leftAnchor.label}
 </span>
 <h2
-    class="text-6xl xl:text-7xl font-black text-white/10 leading-[0.9] tracking-tighter whitespace-pre-line mb-6"
+    class="text-6xl xl:text-7xl font-black text-muted-foreground/30 leading-[0.9] tracking-tighter whitespace-pre-line mb-6"
 >
     {pipelineData.leftAnchor.title}
 </h2>
-<p class="text-sm text-white/40 font-light leading-relaxed max-w-[280px]">
+<p
+    class="text-sm text-muted-foreground font-light leading-relaxed max-w-[280px]"
+>
     {pipelineData.leftAnchor.description}
 </p>

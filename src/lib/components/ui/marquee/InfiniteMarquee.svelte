@@ -112,20 +112,20 @@
             -->
             <div
                 class="group relative flex flex-col items-center justify-center gap-3 w-24 h-28
-                       bg-black/20 backdrop-blur-2xl border border-white/10 rounded-2xl
-                       transition-colors duration-300 hover:bg-white/[0.08] hover:border-white/20
+                       bg-card/60 backdrop-blur-2xl border border-foreground/10 rounded-2xl
+                       transition-colors duration-300 hover:bg-foreground/[0.08] hover:border-foreground/20
                        select-none shadow-[0_8px_24px_rgba(0,0,0,0.4),0_24px_64px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)]"
             >
                 <!-- Inner High-Contrast Pedestal -->
                 <!-- We use a nearly solid white/silver background so dark-green logos NEVER get lost -->
                 <div
                     class="relative flex items-center justify-center w-[52px] h-[52px] rounded-xl
-                           bg-white/90 border border-white/40 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1),0_4px_12px_rgba(0,0,0,0.4)]
+                           bg-foreground/90 border border-foreground/40 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1),0_4px_12px_rgba(0,0,0,0.4)]
                            transition-transform duration-300 group-hover:scale-105"
                 >
                     <!-- Small subtle reflection on the top of the pedestal -->
                     <div
-                        class="absolute inset-x-1 top-1 h-2 bg-gradient-to-b from-white to-transparent rounded-t-lg opacity-80 pointer-events-none"
+                        class="absolute inset-x-1 top-1 h-2 bg-gradient-to-b from-foreground to-transparent rounded-t-lg opacity-80 pointer-events-none"
                     ></div>
 
                     <img
@@ -139,7 +139,7 @@
 
                 <!-- Text Label -->
                 <span
-                    class="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 group-hover:text-white transition-colors duration-300 pointer-events-none"
+                    class="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground group-hover:text-foreground transition-colors duration-300 pointer-events-none"
                 >
                     {tag.name}
                 </span>

@@ -13,11 +13,11 @@
 
     <!-- Full-Width Bottom Philosophy Card (Glassmorphism) scaled for mobile -->
     <div
-        class="group relative w-full p-5 rounded-2xl bg-white/[0.03] backdrop-blur-2xl border border-white/10 hover:bg-white/[0.06] transition-all duration-500 overflow-hidden shadow-[0_15px_30px_rgba(0,0,0,0.5)]"
+        class="group relative w-full p-5 rounded-2xl bg-foreground/[0.03] backdrop-blur-2xl border border-foreground/10 hover:bg-foreground/[0.06] transition-all duration-500 overflow-hidden shadow-[0_15px_30px_rgba(0,0,0,0.5)]"
     >
         <!-- Top internal highlight -->
         <div
-            class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50"
+            class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-foreground/20 to-transparent opacity-50"
         ></div>
 
         <!-- Subtle Ambient Glow -->
@@ -26,7 +26,7 @@
         ></div>
 
         <div class="relative z-10">
-            <p class="text-[0.85rem] leading-[1.6] text-white/80 font-light">
+            <p class="text-[0.85rem] leading-[1.6] text-foreground/80 font-light">
                 {@html codingStatsData.philosophy.shortDescription}
                 {@html codingStatsData.philosophy.detailedPhilosophy}
             </p>

@@ -13,7 +13,7 @@ export const pipelineData = {
     },
     content: {
         shortDescription: `I specialize in building scalable, enterprise-grade data platforms. From raw ingestion to AI-ready insights, I engineer robust, 
-        <strong class="text-white/90 font-medium">real-time cloud architectures</strong> 
+        <strong class="text-foreground font-medium">real-time cloud architectures</strong> 
         that securely process <span class="text-cyan-300 font-medium tracking-wide">50M+ events daily</span> with sub-second latency.`,
 
         detailedPhilosophy: `My data engineering philosophy centers on Data Mesh principles, decoupled storage and compute, and the Medallion Architecture (Bronze, Silver, Gold zones). I design high-throughput CDC streaming pipelines using Apache Kafka and Debezium, alongside scalable Lakehouse batch ELT workflows via AWS Glue, EMR, and Databricks. By enforcing strict data contracts with dbt (Data Build Tool), I ensure 99.9% uptime, idempotency, and guaranteed data quality for mission-critical analytics and reporting.`
