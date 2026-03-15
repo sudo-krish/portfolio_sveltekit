@@ -47,7 +47,7 @@ export interface ContentItem {
 
 export interface ContentIndex {
   repo: ContentRepo;
-  items: ContentMeta & { slug: string }[];
+  items: (ContentMeta & { slug: string })[];
   fetchedAt: string;
 }
 
