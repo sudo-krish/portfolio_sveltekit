@@ -12,6 +12,7 @@
         Terminal,
         Calendar,
     } from "lucide-svelte";
+    import SEO from "$lib/components/SEO.svelte";
     import { getSectionContent } from "$lib/data/section-content";
     import {
         getGitHubStatsCached,
@@ -141,17 +142,12 @@
     };
 </script>
 
-<svelte:head>
-    <title>{content.seoTitle} - Live Stats</title>
-    <meta
-        name="description"
-        content="Live GitHub activity, repositories, and open source contributions."
-    />
-    <meta
-        name="keywords"
-        content="github, open source, repos, commits, developer, code"
-    />
-</svelte:head>
+<SEO 
+    title="{content.seoTitle} - Live Stats"
+    description="Live GitHub activity, repositories, and open source contributions."
+    keywords="github, open source, repos, commits, developer, code"
+    url="https://krishnanandanil.com/github"
+/>
 
 <div
     class="relative min-h-screen bg-background text-foreground overflow-x-hidden"

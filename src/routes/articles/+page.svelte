@@ -1,6 +1,7 @@
 <!-- src/routes/articles/+page.svelte -->
 <script lang="ts">
     import ContentCard from '$lib/components/content/ContentCard.svelte';
+    import SEO from "$lib/components/SEO.svelte";
     import { ArrowLeft, FileText, Search } from 'lucide-svelte';
 
     let { data } = $props();
@@ -20,10 +21,11 @@
     );
 </script>
 
-<svelte:head>
-    <title>Articles — Krishnanand Anil</title>
-    <meta name="description" content="Published articles, blog posts, and technical writing on data engineering, AWS, and modern data architecture." />
-</svelte:head>
+<SEO 
+    title="Articles"
+    description="Published articles, blog posts, and technical writing on data engineering, AWS, and modern data architecture."
+    url="https://krishnanandanil.com/articles"
+/>
 
 <div class="min-h-screen bg-background">
     <div class="fixed inset-0 pointer-events-none z-0">

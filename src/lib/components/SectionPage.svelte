@@ -11,6 +11,7 @@
     import { page } from "$app/stores";
     import gsap from "gsap";
     import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+    import SEO from "$lib/components/SEO.svelte";
 
     export let content: SectionContent;
     export let accentColor: string = "#3b82f6";
@@ -126,18 +127,12 @@
     };
 </script>
 
-<svelte:head>
-    <title>{content.seoTitle}</title>
-    <meta name="description" content={content.seoDescription} />
-    <meta name="keywords" content={content.seoKeywords.join(", ")} />
-    <meta property="og:title" content={content.seoTitle} />
-    <meta property="og:description" content={content.seoDescription} />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={content.seoTitle} />
-    <meta name="twitter:description" content={content.seoDescription} />
-    <link rel="canonical" href="https://krishnanandanil.com{content.slug}" />
-</svelte:head>
+<SEO 
+    title={content.seoTitle}
+    description={content.seoDescription}
+    keywords={content.seoKeywords.join(", ")}
+    url="https://krishnanandanil.com{content.slug}"
+/>
 
 <div
     class="relative min-h-screen bg-background text-foreground overflow-x-hidden"

@@ -3,12 +3,18 @@
     import { getPersonalInfo } from "$lib/data/portfolio-data";
     import { ArrowLeft } from "lucide-svelte";
     import BattleGame from "./BattleGame.svelte";
+    import SEO from "$lib/components/SEO.svelte";
 
     const personal = getPersonalInfo();
 </script>
 
+<SEO 
+    title="Encounter! — Sudo Krish"
+    description="A retro Pokémon-style encounter showcasing my data engineering skills, experience, and lore."
+    url="{personal.website}/about"
+/>
+
 <svelte:head>
-    <title>Encounter! — Sudo Krish</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
         rel="preconnect"

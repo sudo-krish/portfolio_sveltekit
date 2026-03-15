@@ -312,9 +312,7 @@
   });
 </script>
 
-<svelte:head>
-  <title>Krishnanand Anil | AWS Data Engineer</title>
-</svelte:head>
+
 
 <!-- BACKGROUND CANVAS -->
 <div class="fixed-canvas">

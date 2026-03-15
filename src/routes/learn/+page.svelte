@@ -1,6 +1,7 @@
 <!-- src/routes/learn/+page.svelte -->
 <script lang="ts">
     import ContentCard from '$lib/components/content/ContentCard.svelte';
+    import SEO from "$lib/components/SEO.svelte";
     import { ArrowLeft, BookOpen, Search } from 'lucide-svelte';
 
     let { data } = $props();
@@ -24,10 +25,11 @@
     );
 </script>
 
-<svelte:head>
-    <title>Learning Path — Second Brain</title>
-    <meta name="description" content="My learning journey — curated notes on data engineering, cloud architecture, and software development." />
-</svelte:head>
+<SEO 
+    title="Learning Path — Second Brain"
+    description="My learning journey — curated notes on data engineering, cloud architecture, and software development."
+    url="https://krishnanandanil.com/learn"
+/>
 
 <div class="min-h-screen bg-background">
     <div class="fixed inset-0 pointer-events-none z-0">

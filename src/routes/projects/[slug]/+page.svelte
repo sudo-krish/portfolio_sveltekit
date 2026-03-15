@@ -2,16 +2,22 @@
 <script lang="ts">
     import ContentLayout from '$lib/components/content/ContentLayout.svelte';
     import ContentRenderer from '$lib/components/content/ContentRenderer.svelte';
+    import SEO from "$lib/components/SEO.svelte";
     import { Github, ExternalLink } from 'lucide-svelte';
 
     let { data } = $props();
     const { item } = data;
 </script>
 
-<svelte:head>
-    <title>{item.meta.title} — Projects</title>
-    <meta name="description" content={item.meta.description || `Project: ${item.meta.title}`} />
-</svelte:head>
+<SEO 
+    title="{item.meta.title} — Projects"
+    description={item.meta.description || `Project: ${item.meta.title}`}
+    url="https://krishnanandanil.com/projects/{item.slug}"
+    type="article"
+    publishedTime={(item.meta.published as string | undefined) || (item.meta.created as string | undefined)}
+    modifiedTime={item.meta.lastUpdated as string | undefined}
+    keywords={(item.meta.tech as string[] | undefined)?.join(', ') || (item.meta.tags as string[] | undefined)?.join(', ')}
+/>
 
 <ContentLayout
     title={item.meta.title}

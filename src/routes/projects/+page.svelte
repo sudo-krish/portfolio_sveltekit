@@ -1,6 +1,7 @@
 <!-- src/routes/projects/+page.svelte -->
 <script lang="ts">
     import ContentCard from '$lib/components/content/ContentCard.svelte';
+    import SEO from "$lib/components/SEO.svelte";
     import { ArrowLeft, Code, Search } from 'lucide-svelte';
 
     let { data } = $props();
@@ -22,10 +23,11 @@
     );
 </script>
 
-<svelte:head>
-    <title>Projects — Krishnanand Anil</title>
-    <meta name="description" content="Open-source projects and production systems in data engineering, real-time streaming, and cloud architecture." />
-</svelte:head>
+<SEO 
+    title="Projects"
+    description="Open-source projects and production systems in data engineering, real-time streaming, and cloud architecture."
+    url="https://krishnanandanil.com/projects"
+/>
 
 <div class="min-h-screen bg-background">
     <div class="fixed inset-0 pointer-events-none z-0">

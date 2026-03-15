@@ -10,6 +10,7 @@
         ArrowUpRight,
         Award,
     } from "lucide-svelte";
+    import SEO from "$lib/components/SEO.svelte";
     import { getSectionContent } from "$lib/data/section-content";
     import { getLeetCodeStatsCached } from "$lib/services/leetcode";
     import gsap from "gsap";
@@ -127,11 +128,12 @@
     ];
 </script>
 
-<svelte:head>
-    <title>{content.seoTitle}</title>
-    <meta name="description" content={content.seoDescription} />
-    <meta name="keywords" content={content.seoKeywords.join(", ")} />
-</svelte:head>
+<SEO 
+    title={content.seoTitle}
+    description={content.seoDescription}
+    keywords={content.seoKeywords.join(", ")}
+    url="https://krishnanandanil.com/leetcode"
+/>
 
 <div
     class="relative min-h-screen bg-background text-foreground overflow-x-hidden"
