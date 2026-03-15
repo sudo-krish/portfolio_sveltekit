@@ -2,7 +2,6 @@
     import { onMount } from "svelte";
     import { dialogueScript } from "./dialogue";
 
-    // Components
     import StartSplash from "./components/StartSplash.svelte";
     import GameDisplay from "./components/GameDisplay.svelte";
     import CaptureSplash from "./components/CaptureSplash.svelte";
@@ -12,7 +11,6 @@
 
     export let personal: any;
 
-    // --- GAME STATE ---
     let battleState = "start_anim";
     let inventory = { skills: false, experience: false, lore: false };
 
@@ -22,6 +20,11 @@
     let displayedText = "";
     let isTyping = false;
     let typeInterval: ReturnType<typeof setInterval>;
+
+    // Animation flags
+    let isPlayerAttacking = false;
+    let isEnemyDefending = false;
+    let lastDamageAmount = 0; // NEW: Track how much damage the attack should do
 
     function startTyping(text: string) {
         clearInterval(typeInterval);
@@ -60,10 +63,30 @@
     function advanceNode(nextId: string, unlock?: keyof typeof inventory) {
         if (unlock) {
             inventory[unlock] = true;
-            inventory = { ...inventory }; // Trigger reactivity
+            inventory = { ...inventory };
         }
+
         currentNodeId = nextId;
-        startTyping(dialogueScript[nextId].text);
+        const nextNode = dialogueScript[nextId];
+
+        // LOGIC: Determine if the attack causes damage (unlocking items = 30 dmg, normal questions = 0 blocked)
+        if (unlock) {
+            lastDamageAmount = 30; // 3 items * 30 = 90 damage total. Leaves 10 HP. Perfect!
+        } else {
+            lastDamageAmount = 0; // The witty questions are blocked/evaded!
+        }
+
+        // Trigger Animations
+        if (nextNode.triggerAttack) {
+            isPlayerAttacking = true;
+            setTimeout(() => (isPlayerAttacking = false), 300);
+        }
+        if (nextNode.triggerDefend) {
+            isEnemyDefending = true;
+            setTimeout(() => (isEnemyDefending = false), 500);
+        }
+
+        startTyping(nextNode.text);
     }
 
     function initiateCaptureSequence() {
@@ -79,7 +102,6 @@
     }
 
     onMount(() => {
-        // Longer timeout allows the new StartSplash to fully shine before slide-ins
         setTimeout(() => {
             battleState = "dialogue";
             startTyping(currentNode.text);
@@ -92,16 +114,22 @@
 <div
     class="w-full max-w-4xl mx-auto flex flex-col items-center gap-4 px-4 pb-12 mt-4 sm:mt-8"
 >
-    <!-- 1. The Main "Console" Window (Fixed height, isolated) -->
     <div
         class="relative w-full h-[350px] sm:h-[450px] bg-gradient-to-b from-[#e0f8d0] to-[#88c070] border-[6px] border-[#346856] rounded-lg shadow-xl overflow-hidden flex flex-col p-0"
     >
         <StartSplash {battleState} />
-        <GameDisplay {battleState} />
+
+        <!-- NEW: Pass lastDamageAmount down -->
+        <GameDisplay
+            {battleState}
+            {isPlayerAttacking}
+            {isEnemyDefending}
+            {lastDamageAmount}
+        />
+
         <CaptureSplash {battleState} />
     </div>
 
-    <!-- 2. The Dialogue Box (Sits directly underneath, expands downward) -->
     <div class="w-full relative z-30">
         <DialogueBox
             {battleState}
@@ -113,7 +141,6 @@
         />
     </div>
 
-    <!-- 3. Below the Console Window (These will be naturally pushed down) -->
     <InventoryBag {battleState} {inventory} />
     <MultiplayerLinks {personal} />
 </div>
