@@ -18,7 +18,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Use a recommended Node.js version
+          node-version: '22' # camera-controls@3.1.2 requires Node >= 22
 
       - name: Install dependencies
         run: npm install
@@ -33,6 +33,6 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: krishnanandanil-portfolio # Replace with your Cloudflare Pages project name
-          directory: dist # Replace with your Svelte project's build output directory
+          directory: .svelte-kit/cloudflare # SvelteKit Cloudflare adapter output
           gitHubToken: ${{ secrets.GITHUB_TOKEN }} # Optional: Enables GitHub Deployments tracking
           branch: main
