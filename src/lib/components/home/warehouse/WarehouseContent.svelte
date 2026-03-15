@@ -6,12 +6,14 @@
   import MobileCarousel from "$lib/components/ui/MobileCarousel.svelte";
   import { warehouseData } from "$lib/data/warehouse";
 
-  import RightAnchor from "./desktop/RightAnchor.svelte";
-  import LeftCard from "./desktop/LeftCard.svelte";
+  import SectionCard from "$lib/components/ui/cards/SectionCard.svelte";
+  import SectionAnchor from "$lib/components/ui/anchors/SectionAnchor.svelte";
   import WarehouseGrid from "./desktop/WarehouseGrid.svelte";
+  import { BarChart3 } from "lucide-svelte";
 
-  import MobileCard from "./mobile/MobileCard.svelte";
-  import MobileWarehouseGrid from "./mobile/MobileWarehouseGrid.svelte";
+
+
+
 
   let leftPanel: HTMLElement;
   let rightPanel: HTMLElement;
@@ -88,23 +90,47 @@
     />
 
     <div
-      class="absolute inset-0 z-20 pointer-events-none flex pt-24 pb-12 relative"
+      class="absolute inset-0 z-20 pointer-events-none flex relative"
+      style="container-type: size; padding: 3cqi 0 1cqi 0;"
     >
       <!-- LEFT 55%: Dense Content & Grid -->
       <div
         bind:this={leftPanel}
-        class="w-[55%] h-full pl-12 lg:pl-24 flex flex-col justify-center gap-8 pointer-events-auto"
+        class="w-[55%] h-full flex flex-col justify-center pointer-events-auto"
+        style="padding-left: 3cqi;"
       >
-        <LeftCard />
-        <WarehouseGrid />
+        <div class="flex flex-col w-full" style="gap: 1cqi;">
+          <SectionCard
+            badge={warehouseData.header.badge}
+            subtitle="BI & Serving Layer"
+            Icon={BarChart3}
+            iconHoverColor="text-purple-400"
+            accentColor="border-purple-400/40"
+            gradientFrom="from-purple-400"
+            shortDescription={warehouseData.content.shortDescription}
+            detailedPhilosophy={warehouseData.content.detailedPhilosophy}
+            metrics={[
+              { label: "Latency", value: warehouseData.metrics.latency, unit: warehouseData.metrics.latencyUnit },
+              { label: "Concurrency", value: warehouseData.metrics.concurrency, unit: warehouseData.metrics.concurrencyUnit },
+            ]}
+          />
+          <WarehouseGrid />
+        </div>
       </div>
 
       <!-- RIGHT 45%: Typographic Anchor & 3D Space -->
       <div
         bind:this={rightPanel}
-        class="w-[45%] h-full pr-12 lg:pr-24 flex flex-col justify-end items-end text-right pb-24 pointer-events-auto"
+        class="w-[45%] h-full flex flex-col justify-end items-end text-right pointer-events-auto"
+        style="padding-right: 3cqi; padding-bottom: 3cqi;"
       >
-        <RightAnchor />
+        <SectionAnchor
+          label={warehouseData.rightAnchor.label}
+          title={warehouseData.rightAnchor.title}
+          description={warehouseData.rightAnchor.description}
+          labelColor="text-purple-400/80"
+          align="right"
+        />
       </div>
     </div>
   </svelte:fragment>
@@ -120,8 +146,29 @@
         bind:this={mobilePanel}
         class="flex flex-col items-center justify-center w-full min-h-[100dvh] max-w-lg mx-auto gap-5 px-4 pt-[12dvh] pb-[20dvh]"
       >
-        <MobileCard />
-        <MobileWarehouseGrid />
+        <SectionAnchor
+          label={warehouseData.rightAnchor.label}
+          title={warehouseData.rightAnchor.title}
+          description={warehouseData.rightAnchor.description}
+          labelColor="text-purple-400/80"
+          align="center"
+        />
+
+        <SectionCard
+          badge={warehouseData.header.badge}
+          subtitle="BI & Serving Layer"
+          Icon={BarChart3}
+          iconHoverColor="text-purple-400"
+          accentColor="border-purple-400/40"
+          gradientFrom="from-purple-400"
+          shortDescription={warehouseData.content.shortDescription}
+          detailedPhilosophy={warehouseData.content.detailedPhilosophy}
+          metrics={[
+            { label: "Latency", value: warehouseData.metrics.latency, unit: warehouseData.metrics.latencyUnit },
+            { label: "Concurrency", value: warehouseData.metrics.concurrency, unit: warehouseData.metrics.concurrencyUnit },
+          ]}
+        />
+        <WarehouseGrid />
       </div>
     </div>
   </svelte:fragment>

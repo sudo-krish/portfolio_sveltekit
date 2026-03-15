@@ -7,12 +7,14 @@
   import MobileCarousel from "$lib/components/ui/MobileCarousel.svelte";
   import { pipelineData } from "$lib/data/pipeline";
 
-  import LeftAnchor from "./desktop/LeftAnchor.svelte";
-  import RightCard from "./desktop/RightCard.svelte";
+  import SectionAnchor from "$lib/components/ui/anchors/SectionAnchor.svelte";
+  import SectionCard from "$lib/components/ui/cards/SectionCard.svelte";
   import MarqueeRail from "./desktop/MarqueeRail.svelte";
+  import { Database } from "lucide-svelte";
 
-  import MobileCard from "./mobile/MobileCard.svelte";
   import MobileMarquee from "./mobile/MobileMarquee.svelte";
+
+
 
   let leftPanel: HTMLElement;
   let rightPanel: HTMLElement;
@@ -74,23 +76,43 @@
     />
 
     <div
-      class="absolute inset-0 z-20 pointer-events-none flex pt-24 pb-12 relative"
+      class="absolute inset-0 z-20 pointer-events-none flex relative"
+      style="container-type: size; padding: 3cqi 0 1cqi 0;"
     >
       <!-- LEFT 45% -->
       <div
         bind:this={leftPanel}
-        class="w-[45%] h-full pl-12 lg:pl-24 flex flex-col items-start justify-end pb-24 pointer-events-auto"
+        class="w-[45%] h-full flex flex-col items-start justify-end pointer-events-auto"
+        style="padding-left: 3cqi; padding-bottom: 3cqi;"
       >
-        <LeftAnchor />
+        <SectionAnchor
+          label={pipelineData.leftAnchor.label}
+          title={pipelineData.leftAnchor.title}
+          description={pipelineData.leftAnchor.description}
+          labelColor="text-cyan-400/80"
+          align="left"
+        />
       </div>
 
       <!-- RIGHT 55% -->
       <div
         bind:this={rightPanel}
-        class="w-[55%] h-full pr-12 lg:pr-24 flex flex-col items-end justify-center gap-0 pointer-events-auto"
+        class="w-[55%] h-full flex flex-col items-end justify-center pointer-events-auto"
+        style="padding-right: 3cqi;"
       >
-        <RightCard />
-        <MarqueeRail />
+        <div class="flex flex-col items-end w-full" style="gap: 0.8cqi;">
+          <SectionCard
+            badge={pipelineData.header.badge}
+            subtitle="System Architecture"
+            Icon={Database}
+            iconHoverColor="text-cyan-400"
+            accentColor="border-cyan-400/40"
+            gradientFrom="from-cyan-400"
+            shortDescription={pipelineData.content.shortDescription}
+            detailedPhilosophy={pipelineData.content.detailedPhilosophy}
+          />
+          <MarqueeRail />
+        </div>
       </div>
     </div>
   </svelte:fragment>
@@ -106,7 +128,24 @@
         class="flex flex-col items-center justify-center w-full min-h-[100dvh] max-w-lg mx-auto gap-6 px-4 pt-[12dvh] pb-[20dvh] relative"
       >
         <div class="w-full flex flex-col items-center relative z-10">
-          <MobileCard />
+          <SectionAnchor
+            label={pipelineData.leftAnchor.label}
+            title={pipelineData.leftAnchor.title}
+            description={pipelineData.leftAnchor.description}
+            labelColor="text-cyan-400/80"
+            align="center"
+          />
+
+          <SectionCard
+            badge={pipelineData.header.badge}
+            subtitle="System Architecture"
+            Icon={Database}
+            iconHoverColor="text-cyan-400"
+            accentColor="border-cyan-400/40"
+            gradientFrom="from-cyan-400"
+            shortDescription={pipelineData.content.shortDescription}
+            detailedPhilosophy={pipelineData.content.detailedPhilosophy}
+          />
           <MobileMarquee />
         </div>
       </div>

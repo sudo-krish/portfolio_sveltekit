@@ -5,7 +5,7 @@
 </script>
 
 <div
-    class="w-full max-w-[1000px] relative overflow-hidden mask-edges-fade opacity-80 hover:opacity-100 transition-opacity duration-500"
+    class="w-full relative overflow-hidden mask-edges-fade opacity-80 hover:opacity-100 transition-opacity duration-500"
 >
     <InfiniteMarquee
         items={pipelineData.techStack}

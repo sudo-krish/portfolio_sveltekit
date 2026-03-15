@@ -20,7 +20,7 @@
 </script>
 
 <!-- Outer Container -->
-<div class="w-full max-w-[1000px] flex flex-col pt-12 pb-16 relative z-10">
+<div class="w-full flex flex-col relative z-10" style="padding-top: 2cqi; padding-bottom: 3cqi;">
     <!-- Floating Timeline Track Container -->
     <div class="relative w-full">
         <!-- The Track Line -->
@@ -39,18 +39,18 @@
                 <div class="flex flex-col items-center group relative w-1/4">
                     <!-- Floating Year Label (Top) -->
                     <span
-                        class="font-mono text-[11px] font-bold tracking-[0.2em] uppercase mb-4 transition-all duration-300 transform group-hover:-translate-y-1 opacity-60 group-hover:opacity-100"
-                        style="color: {m.color}"
+                        class="font-mono font-bold tracking-[0.2em] uppercase transition-all duration-300 transform group-hover:-translate-y-1 opacity-60 group-hover:opacity-100"
+                        style="color: {m.color}; font-size: clamp(8px, 0.8cqi, 11px); margin-bottom: 0.8cqi;"
                     >
                         {m.year}
                     </span>
 
                     <!-- Main Icon Node -->
                     <div
-                        class="relative flex items-center justify-center w-[3.5rem] h-[3.5rem] rounded-[1.25rem] bg-[#030303]/80 backdrop-blur-xl border border-foreground/5 shadow-[0_10px_30px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] transition-all duration-500
-                        {i === experienceData.milestones.length - 1
+                        class="relative flex items-center justify-center rounded-[1.25rem] bg-[#030303]/80 backdrop-blur-xl border border-foreground/5 shadow-[0_10px_30px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] transition-all duration-500 {i === experienceData.milestones.length - 1
                             ? 'border-amber-500/40 shadow-[0_0_20px_rgba(245,158,11,0.2)] scale-110 -translate-y-1'
                             : 'group-hover:border-blue-400/30 group-hover:-translate-y-1 group-hover:bg-[#0a0a0a]'}"
+                        style="width: 3.5cqi; height: 3.5cqi;"
                     >
                         <!-- Pulsing glow for the current/future node -->
                         {#if i === experienceData.milestones.length - 1}
@@ -76,10 +76,12 @@
                     <!-- Bottom Details (Title & Role) -->
                     <!-- Always visible but dims/brightens smoothly -->
                     <div
-                        class="mt-6 flex flex-col items-center text-center max-w-[150px]"
+                        class="flex flex-col items-center text-center"
+                        style="margin-top: 1.2cqi; max-width: 10cqi;"
                     >
                         <span
-                            class="text-[13px] font-bold text-foreground/70 group-hover:text-foreground transition-colors duration-300 leading-tight mb-1.5 tracking-wide"
+                            class="font-bold text-foreground/70 group-hover:text-foreground transition-colors duration-300 leading-tight tracking-wide"
+                            style="font-size: clamp(9px, 0.9cqi, 13px); margin-bottom: 0.3cqi;"
                         >
                             {m.label}
                         </span>
@@ -89,7 +91,8 @@
                         ></div>
 
                         <span
-                            class="text-[10px] text-foreground/30 group-hover:text-blue-200/80 font-mono leading-relaxed transition-colors duration-300"
+                            class="text-foreground/30 group-hover:text-blue-200/80 font-mono leading-relaxed transition-colors duration-300"
+                            style="font-size: clamp(7px, 0.7cqi, 10px);"
                         >
                             {m.role}
                         </span>

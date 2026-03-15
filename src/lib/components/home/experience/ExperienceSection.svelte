@@ -6,12 +6,15 @@
     import MobileCarousel from "$lib/components/ui/MobileCarousel.svelte";
     import { experienceData } from "$lib/data/experience";
 
-    import LeftAnchor from "./desktop/LeftAnchor.svelte";
-    import RightCard from "./desktop/RightCard.svelte";
+    import SectionAnchor from "$lib/components/ui/anchors/SectionAnchor.svelte";
+    import SectionCard from "$lib/components/ui/cards/SectionCard.svelte";
+    import PillButton from "$lib/components/ui/buttons/PillButton.svelte";
     import CareerTimeline from "./desktop/CareerTimeline.svelte";
+    import { Briefcase, ArrowRight } from "lucide-svelte";
 
-    import MobileCard from "./mobile/MobileCard.svelte";
     import MobileCareerTimeline from "./mobile/MobileCareerTimeline.svelte";
+
+
 
     let leftPanel: HTMLElement;
     let rightPanel: HTMLElement;
@@ -88,23 +91,59 @@
         />
 
         <div
-            class="absolute inset-0 z-20 pointer-events-none flex pt-24 pb-12 relative"
+            class="absolute inset-0 z-20 pointer-events-none flex relative"
+            style="container-type: size; padding: 3cqi 0 1cqi 0;"
         >
             <!-- LEFT 45%: Typographic Anchor & 3D Space -->
             <div
                 bind:this={leftPanel}
-                class="w-[45%] pl-12 lg:pl-24 flex flex-col items-start justify-end pb-8 pointer-events-auto"
+                class="w-[45%] h-full flex flex-col items-start justify-end pointer-events-auto"
+                style="padding-left: 3cqi; padding-bottom: 2cqi;"
             >
-                <LeftAnchor />
+                <SectionAnchor
+                    label={experienceData.leftAnchor.label}
+                    title={experienceData.leftAnchor.title}
+                    description={experienceData.leftAnchor.description}
+                    labelColor="text-blue-400/80"
+                    align="left"
+                />
             </div>
 
             <!-- RIGHT 55%: Dense Content & Timeline -->
             <div
                 bind:this={rightPanel}
-                class="w-[55%] h-full pr-12 lg:pr-24 flex flex-col items-end justify-center gap-6 pointer-events-auto"
+                class="w-[55%] h-full flex flex-col items-end justify-center pointer-events-auto"
+                style="padding-right: 3cqi;"
             >
-                <RightCard />
-                <CareerTimeline />
+                <div class="flex flex-col items-end w-full" style="gap: 0.8cqi;">
+                    <SectionCard
+                        badge={experienceData.header.badge}
+                        subtitle="Career Progression"
+                        Icon={Briefcase}
+                        iconHoverColor="text-blue-400"
+                        accentColor="border-blue-400/40"
+                        gradientFrom="from-blue-400"
+                        shortDescription={experienceData.content.shortDescription}
+                        detailedPhilosophy={experienceData.content.detailedPhilosophy}
+                    />
+                    <CareerTimeline />
+                </div>
+            </div>
+        </div>
+
+        <!-- CENTER BOTTOM: CTA Dock -->
+        <div
+            class="absolute left-1/2 -translate-x-1/2 z-40 pointer-events-auto flex justify-center"
+            style="bottom: 2cqi; max-width: 20cqi;"
+        >
+            <div class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]" style="padding: 0.4cqi;">
+                <PillButton
+                    href={experienceData.ui.cta.href}
+                    label={experienceData.ui.cta.label}
+                    sublabel="Full Resume"
+                    Icon={ArrowRight}
+                    accentColor="blue"
+                />
             </div>
         </div>
     </svelte:fragment>
@@ -120,8 +159,34 @@
                 bind:this={mobilePanel}
                 class="flex flex-col items-center justify-center w-full min-h-[100dvh] max-w-lg mx-auto gap-5 px-4 pt-[12dvh] pb-[20dvh]"
             >
-                <MobileCard />
+                <SectionAnchor
+                    label={experienceData.leftAnchor.label}
+                    title={experienceData.leftAnchor.title}
+                    description={experienceData.leftAnchor.description}
+                    labelColor="text-blue-400/80"
+                    align="center"
+                />
+
+                <SectionCard
+                    badge={experienceData.header.badge}
+                    subtitle="Career Progression"
+                    Icon={Briefcase}
+                    iconHoverColor="text-blue-400"
+                    accentColor="border-blue-400/40"
+                    gradientFrom="from-blue-400"
+                    shortDescription={experienceData.content.shortDescription}
+                    detailedPhilosophy={experienceData.content.detailedPhilosophy}
+                />
                 <MobileCareerTimeline />
+
+                <div class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] p-1.5 mt-2 w-max mx-auto">
+                    <PillButton
+                        href={experienceData.ui.cta.href}
+                        label={experienceData.ui.cta.label}
+                        Icon={ArrowRight}
+                        accentColor="blue"
+                    />
+                </div>
             </div>
         </div>
     </svelte:fragment>

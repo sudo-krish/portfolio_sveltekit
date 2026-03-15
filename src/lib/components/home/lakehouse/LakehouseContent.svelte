@@ -7,12 +7,10 @@
   import MobileCarousel from "$lib/components/ui/MobileCarousel.svelte";
   import { lakehouseData } from "$lib/data/lakehouse";
 
-  import LeftAnchor from "./desktop/LeftAnchor.svelte";
-  import RightCard from "./desktop/RightCard.svelte";
+  import SectionAnchor from "$lib/components/ui/anchors/SectionAnchor.svelte";
+  import SectionCard from "$lib/components/ui/cards/SectionCard.svelte";
   import LakehouseGrid from "./desktop/LakehouseGrid.svelte";
-
-  import MobileCard from "./mobile/MobileCard.svelte";
-  import MobileLakehouseGrid from "./mobile/MobileLakehouseGrid.svelte";
+  import { Database } from "lucide-svelte";
 
   let leftPanel: HTMLElement;
   let rightPanel: HTMLElement;
@@ -99,23 +97,43 @@
     />
 
     <div
-      class="absolute inset-0 z-20 pointer-events-none flex pt-24 pb-12 relative"
+      class="absolute inset-0 z-20 pointer-events-none flex relative"
+      style="container-type: size; padding: 3cqi 0 1cqi 0;"
     >
       <!-- LEFT 45%: Typographic Anchor & 3D Space -->
       <div
         bind:this={leftPanel}
-        class="w-[45%] h-full pl-12 lg:pl-24 flex flex-col items-start justify-end pb-24 pointer-events-auto"
+        class="w-[45%] h-full flex flex-col items-start justify-end pointer-events-auto"
+        style="padding-left: 3cqi; padding-bottom: 3cqi;"
       >
-        <LeftAnchor />
+        <SectionAnchor
+          label={lakehouseData.leftAnchor.label}
+          title={lakehouseData.leftAnchor.title}
+          description={lakehouseData.leftAnchor.description}
+          labelColor="text-blue-400/80"
+          align="left"
+        />
       </div>
 
       <!-- RIGHT 55%: Dense Content & Grid -->
       <div
         bind:this={rightPanel}
-        class="w-[55%] h-full pr-12 lg:pr-24 flex flex-col items-end justify-center gap-8 pointer-events-auto"
+        class="w-[55%] h-full flex flex-col items-end justify-center pointer-events-auto"
+        style="padding-right: 3cqi;"
       >
-        <RightCard />
-        <LakehouseGrid />
+        <div class="flex flex-col items-end w-full" style="gap: 1cqi;">
+          <SectionCard
+            badge={lakehouseData.header.badge}
+            subtitle="Compute & Governance"
+            Icon={Database}
+            iconHoverColor="text-blue-400"
+            accentColor="border-blue-400/40"
+            gradientFrom="from-blue-400"
+            shortDescription={lakehouseData.content.shortDescription}
+            detailedPhilosophy={lakehouseData.content.detailedPhilosophy}
+          />
+          <LakehouseGrid />
+        </div>
       </div>
 
       <!-- ABSOLUTE CENTER SCROLL HINT -->
@@ -137,8 +155,25 @@
         bind:this={mobilePanel}
         class="flex flex-col items-center justify-center w-full min-h-[100dvh] max-w-lg mx-auto gap-5 px-4 pt-[12dvh] pb-[20dvh]"
       >
-        <MobileCard />
-        <MobileLakehouseGrid />
+        <SectionAnchor
+          label={lakehouseData.leftAnchor.label}
+          title={lakehouseData.leftAnchor.title}
+          description={lakehouseData.leftAnchor.description}
+          labelColor="text-blue-400/80"
+          align="center"
+        />
+
+        <SectionCard
+          badge={lakehouseData.header.badge}
+          subtitle="Transactional Layer"
+          Icon={Database}
+          iconHoverColor="text-blue-400"
+          accentColor="border-blue-400/40"
+          gradientFrom="from-blue-400"
+          shortDescription={lakehouseData.content.shortDescription}
+          detailedPhilosophy={lakehouseData.content.detailedPhilosophy}
+        />
+        <LakehouseGrid />
       </div>
     </div>
   </svelte:fragment>

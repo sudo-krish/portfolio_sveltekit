@@ -7,12 +7,14 @@
   import MobileCarousel from "$lib/components/ui/MobileCarousel.svelte";
   import { datalakeData } from "$lib/data/datalake";
 
-  import RightAnchor from "./desktop/RightAnchor.svelte";
-  import LeftCard from "./desktop/LeftCard.svelte";
+  import SectionAnchor from "$lib/components/ui/anchors/SectionAnchor.svelte";
+  import SectionCard from "$lib/components/ui/cards/SectionCard.svelte";
   import StorageGrid from "./desktop/StorageGrid.svelte";
+  import { HardDrive } from "lucide-svelte";
 
-  import MobileCard from "./mobile/MobileCard.svelte";
-  import MobileStorageGrid from "./mobile/MobileStorageGrid.svelte";
+
+
+
 
   let rightPanel: HTMLElement;
   let leftPanel: HTMLElement;
@@ -99,23 +101,43 @@
     />
 
     <div
-      class="absolute inset-0 z-20 pointer-events-none flex pt-24 pb-12 relative"
+      class="absolute inset-0 z-20 pointer-events-none flex relative"
+      style="container-type: size; padding: 3cqi 0 1cqi 0;"
     >
       <!-- LEFT 55%: Dense Content & Grid -->
       <div
         bind:this={leftPanel}
-        class="w-[55%] h-full pl-12 lg:pl-24 flex flex-col items-start justify-center gap-8 pointer-events-auto"
+        class="w-[55%] h-full flex flex-col items-start justify-center pointer-events-auto"
+        style="padding-left: 3cqi;"
       >
-        <LeftCard />
-        <StorageGrid />
+        <div class="flex flex-col items-start w-full" style="gap: 1cqi;">
+          <SectionCard
+            badge={datalakeData.header.badge}
+            subtitle="Central Data Reservoir"
+            Icon={HardDrive}
+            iconHoverColor="text-emerald-400"
+            accentColor="border-emerald-400/40"
+            gradientFrom="from-emerald-400"
+            shortDescription={datalakeData.content.shortDescription}
+            detailedPhilosophy={datalakeData.content.detailedPhilosophy}
+          />
+          <StorageGrid />
+        </div>
       </div>
 
       <!-- RIGHT 45%: Typographic Anchor & 3D Space -->
       <div
         bind:this={rightPanel}
-        class="w-[45%] h-full pr-12 lg:pr-24 flex flex-col items-end justify-end text-right pb-24 pointer-events-auto"
+        class="w-[45%] h-full flex flex-col items-end justify-end text-right pointer-events-auto"
+        style="padding-right: 3cqi; padding-bottom: 3cqi;"
       >
-        <RightAnchor />
+        <SectionAnchor
+          label={datalakeData.rightAnchor.label}
+          title={datalakeData.rightAnchor.title}
+          description={datalakeData.rightAnchor.description}
+          labelColor="text-emerald-400/80"
+          align="right"
+        />
       </div>
 
       <!-- ABSOLUTE CENTER SCROLL HINT -->
@@ -137,8 +159,25 @@
         bind:this={mobilePanel}
         class="flex flex-col items-center justify-center w-full min-h-[100dvh] max-w-lg mx-auto gap-6 px-4 pt-[12dvh] pb-[20dvh]"
       >
-        <MobileCard />
-        <MobileStorageGrid />
+        <SectionAnchor
+          label={datalakeData.rightAnchor.label}
+          title={datalakeData.rightAnchor.title}
+          description={datalakeData.rightAnchor.description}
+          labelColor="text-emerald-400/80"
+          align="center"
+        />
+
+        <SectionCard
+          badge={datalakeData.header.badge}
+          subtitle="Storage Architecture"
+          Icon={HardDrive}
+          iconHoverColor="text-emerald-400"
+          accentColor="border-emerald-400/40"
+          gradientFrom="from-emerald-400"
+          shortDescription={datalakeData.content.shortDescription}
+          detailedPhilosophy={datalakeData.content.detailedPhilosophy}
+        />
+        <StorageGrid />
       </div>
     </div>
   </svelte:fragment>

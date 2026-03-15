@@ -26,12 +26,14 @@
 </script>
 
 <div
-    class="w-full max-w-[900px] flex flex-col gap-4 2xl:gap-5 relative z-10 pt-4"
+    class="w-full flex flex-col relative z-10"
+    style="gap: 1cqi; padding-top: 1cqi;"
 >
     <!-- MAIN ACHIEVEMENT CARD (Top Full Width) -->
     <!-- Clean, deep frosted glass: high blur, subtle gradient bg, white/10 border -->
     <div
-        class="group relative flex flex-col p-6 2xl:p-8 rounded-[2rem] bg-card/80 backdrop-blur-[60px] border border-border hover:border-border/80 transition-all duration-700 overflow-hidden shadow-xl"
+        class="group relative flex flex-col rounded-[2rem] bg-card/80 backdrop-blur-[60px] border border-border hover:border-border/80 transition-all duration-700 overflow-hidden shadow-xl"
+        style="padding: 1.5cqi;"
     >
         <!-- Crisp top highlight edge for physical glass realism -->
         <div
@@ -47,11 +49,12 @@
             class="absolute -right-32 -top-32 w-80 h-80 rounded-full blur-[90px] opacity-20 group-hover:opacity-40 transition-opacity duration-1000 pointer-events-none bg-purple-500"
         ></div>
 
-        <div class="relative z-10 flex flex-col gap-5">
+        <div class="relative z-10 flex flex-col" style="gap: 1cqi;">
             <!-- Header Section -->
-            <div class="flex items-center gap-4">
+            <div class="flex items-center" style="gap: 0.8cqi;">
                 <div
-                    class="flex items-center justify-center w-12 h-12 2xl:w-14 2xl:h-14 rounded-2xl bg-muted border border-border shadow-inner text-purple-500 group-hover:-translate-y-1 transition-all duration-500"
+                    class="flex items-center justify-center rounded-2xl bg-muted border border-border shadow-inner text-purple-500 group-hover:-translate-y-1 transition-all duration-500"
+                    style="width: 3cqi; height: 3cqi;"
                 >
                     <CheckCircle2
                         size={24}
@@ -65,7 +68,8 @@
                         {resultsData.achievement.title}
                     </span>
                     <span
-                        class="text-[11px] 2xl:text-xs font-mono text-purple-400 uppercase tracking-[0.2em] mt-0.5"
+                        class="font-mono text-purple-400 uppercase tracking-[0.2em]"
+                        style="font-size: clamp(8px, 0.7cqi, 12px); margin-top: 0.3cqi;"
                     >
                         {resultsData.achievement.subtitle}
                     </span>
@@ -82,10 +86,11 @@
     </div>
 
     <!-- 4 SMALL METRIC CARDS (Bottom Grid) -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 2xl:gap-4">
+    <div class="grid grid-cols-2 md:grid-cols-4" style="gap: 0.6cqi;">
         {#each resultsData.metrics as m}
             <div
-                class="group relative flex flex-col items-center justify-center text-center p-4 2xl:p-6 rounded-[1.5rem] bg-card/60 backdrop-blur-[40px] border border-border hover:bg-card/80 transition-all duration-500 overflow-hidden shadow-md"
+                class="group relative flex flex-col items-center justify-center text-center rounded-[1.5rem] bg-card/60 backdrop-blur-[40px] border border-border hover:bg-card/80 transition-all duration-500 overflow-hidden shadow-md"
+                style="padding: 0.8cqi;"
             >
                 <!-- Card top highlight -->
                 <div
@@ -101,7 +106,8 @@
                 <!-- Inner Content -->
                 <div class="relative z-10 flex flex-col items-center w-full">
                     <div
-                        class="flex items-center justify-center w-10 h-10 rounded-xl bg-muted border border-border shadow-inner group-hover:-translate-y-1 transition-transform duration-500 mb-3"
+                        class="flex items-center justify-center rounded-xl bg-muted border border-border shadow-inner group-hover:-translate-y-1 transition-transform duration-500"
+                        style="width: 2.2cqi; height: 2.2cqi; margin-bottom: 0.5cqi;"
                     >
                         <svelte:component
                             this={getIcon(m.iconName)}
@@ -113,21 +119,23 @@
 
                     <div class="flex flex-col items-center w-full">
                         <span
-                            class="text-3xl 2xl:text-4xl font-black font-mono leading-none drop-shadow-[0_0_15px_currentColor] mb-1.5"
-                            style="color: {m.color}"
+                            class="font-black font-mono leading-none drop-shadow-[0_0_15px_currentColor]"
+                            style="color: {m.color}; font-size: clamp(1.2rem, 2.2cqi, 2.5rem); margin-bottom: 0.5cqi;"
                         >
                             {m.value}
                         </span>
 
                         <span
-                            class="text-[10px] 2xl:text-[11px] font-bold text-foreground uppercase tracking-[0.1em] leading-tight mb-1.5"
+                            class="font-bold text-foreground uppercase tracking-[0.1em] leading-tight"
+                            style="font-size: clamp(7px, 0.7cqi, 11px); margin-bottom: 0.4cqi;"
                         >
                             {m.label}
                         </span>
 
                         <!-- Added Description Line -->
                         <p
-                            class="text-[8px] 2xl:text-[9px] font-mono text-muted-foreground leading-snug px-1 line-clamp-2"
+                            class="font-mono text-muted-foreground leading-snug line-clamp-2"
+                            style="font-size: clamp(6px, 0.55cqi, 9px); padding: 0 0.2cqi;"
                         >
                             {@html m.description}
                         </p>

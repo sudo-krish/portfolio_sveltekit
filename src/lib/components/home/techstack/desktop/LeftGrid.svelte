@@ -19,12 +19,13 @@
     };
 </script>
 
-<div class="w-full max-w-[1050px] flex flex-col gap-3 2xl:gap-5 relative z-10">
+<div class="w-full flex flex-col relative z-10" style="gap: 0.6cqi;">
     <!-- 3x2 Grid of Frosted Glass Skill Cards -->
-    <div class="grid grid-cols-2 xl:grid-cols-3 gap-3 2xl:gap-5">
+    <div class="grid grid-cols-2 xl:grid-cols-3" style="gap: 0.8cqi;">
         {#each techstackData.categories as cat}
             <div
-                class="group relative flex flex-col p-4 2xl:p-5 rounded-2xl 2xl:rounded-3xl bg-foreground/[0.03] backdrop-blur-2xl border border-foreground/10 hover:bg-foreground/[0.06] hover:border-foreground/20 transition-all duration-500 overflow-hidden shadow-[0_15px_35px_rgba(0,0,0,0.5)]"
+            class="group relative flex flex-col rounded-2xl bg-foreground/[0.03] backdrop-blur-2xl border border-foreground/10 hover:bg-foreground/[0.06] hover:border-foreground/20 transition-all duration-500 overflow-hidden shadow-[0_15px_35px_rgba(0,0,0,0.5)]"
+            style="padding: 1cqi;"
             >
                 <!-- Subtle internal shine/highlight -->
                 <div
@@ -39,10 +40,12 @@
 
                 <!-- Card Header -->
                 <div
-                    class="flex items-center gap-2.5 mb-3 2xl:mb-4 border-b border-border pb-2.5 2xl:pb-3 relative z-10"
+                    class="flex items-center relative z-10 border-b border-border"
+                    style="gap: 0.5cqi; margin-bottom: 0.5cqi; padding-bottom: 0.4cqi;"
                 >
                     <div
-                        class="w-8 h-8 2xl:w-10 2xl:h-10 rounded-lg 2xl:rounded-xl bg-muted border border-border flex items-center justify-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] group-hover:-translate-y-0.5 transition-transform duration-300"
+                        class="rounded-lg bg-muted border border-border flex items-center justify-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] group-hover:-translate-y-0.5 transition-transform duration-300"
+                        style="width: 1.5cqi; height: 1.5cqi;"
                     >
                         <svelte:component
                             this={getIcon(cat.iconName)}
@@ -52,21 +55,24 @@
                         />
                     </div>
                     <span
-                        class="text-[clamp(12px,1.2vw,15px)] font-bold text-foreground tracking-wide drop-shadow-md"
+                        class="font-bold text-foreground tracking-wide drop-shadow-md"
+                        style="font-size: clamp(10px, 1cqi, 15px);"
                     >
                         {cat.name}
                     </span>
                 </div>
 
                 <!-- Skill Tags with Icons -->
-                <div class="flex flex-wrap gap-1.5 2xl:gap-2 relative z-10">
+                <div class="flex flex-wrap relative z-10" style="gap: 0.3cqi;">
                     {#each cat.skills as skill}
                         <div
-                            class="flex items-center gap-1.5 px-2 py-1 2xl:px-2.5 2xl:py-1.5 rounded-md 2xl:rounded-lg border border-border bg-muted/50 hover:bg-muted hover:border-primary/20 transition-all duration-300 cursor-default group/skill shadow-inner"
+                            class="flex items-center rounded-md border border-border bg-muted/50 hover:bg-muted hover:border-primary/20 transition-all duration-300 cursor-default group/skill shadow-inner"
+                            style="gap: 0.3cqi; padding: 0.15cqi 0.4cqi;"
                         >
                             <!-- UPDATED: Icon Wrapper with white background -->
                             <div
-                                class="flex items-center justify-center w-[18px] h-[18px] 2xl:w-[20px] 2xl:h-[20px] rounded-md bg-background shadow-sm opacity-80 group-hover/skill:opacity-100 transition-opacity"
+                                class="flex items-center justify-center rounded-md bg-background shadow-sm opacity-80 group-hover/skill:opacity-100 transition-opacity"
+                                style="width: 1cqi; height: 1cqi;"
                             >
                                 <img
                                     src={skill.icon}
@@ -76,7 +82,8 @@
                             </div>
 
                             <span
-                                class="text-[clamp(9px,0.9vw,11px)] font-mono text-muted-foreground group-hover/skill:text-foreground transition-colors"
+                                class="font-mono text-muted-foreground group-hover/skill:text-foreground transition-colors"
+                                style="font-size: clamp(7px, 0.7cqi, 11px);"
                             >
                                 {skill.name}
                             </span>
@@ -89,11 +96,12 @@
 
     <!-- Short Philosophy snippet beneath the grid -->
     <div
-        class="mt-1 2xl:mt-3 p-4 2xl:p-5 rounded-xl 2xl:rounded-2xl bg-cyan-950/20 backdrop-blur-xl border border-cyan-500/20 border-l-4 border-l-cyan-400 shadow-[0_10px_30px_rgba(0,0,0,0.4)]"
+        class="rounded-xl bg-cyan-950/20 backdrop-blur-xl border border-cyan-500/20 border-l-4 border-l-cyan-400 shadow-[0_10px_30px_rgba(0,0,0,0.4)]"
+        style="margin-top: 0.2cqi; padding: 1cqi;"
     >
-        <!-- Fluid typography ensures paragraph never overflows -->
         <p
-            class="text-[clamp(0.75rem,0.9vw,0.95rem)] leading-[1.5] 2xl:leading-[1.6] text-foreground"
+            class="leading-[1.5] text-foreground"
+            style="font-size: clamp(0.65rem, 0.85cqi, 0.95rem);"
         >
             {@html techstackData.content.shortDescription}
             {@html techstackData.content.detailedPhilosophy}

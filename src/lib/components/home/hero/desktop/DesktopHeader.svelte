@@ -23,18 +23,21 @@
 <!-- Removed w-3/5, now fills the column provided by the parent layout -->
 <div class="relative z-10 w-full flex flex-col justify-center">
     <!-- Top Identity Bar -->
-    <div class="hero-type flex items-center gap-5 mb-8 pl-1">
+    <div class="hero-type flex items-center" style="gap: 1.2cqi; margin-bottom: 1.5cqi; padding-left: 0.2cqi;">
         <!-- Name Plate -->
         <div
-            class="flex items-center gap-3 bg-foreground/[0.03] border border-foreground/[0.08] rounded-full pl-1.5 pr-5 py-1.5 backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.2)]"
+            class="flex items-center bg-foreground/[0.03] border border-foreground/[0.08] rounded-full backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.2)]"
+            style="gap: 0.6cqi; padding: 0.5cqi 1cqi 0.5cqi 0.3cqi;"
         >
             <div
-                class="h-6 w-6 rounded-full bg-foreground/10 flex items-center justify-center"
+                class="rounded-full bg-foreground/10 flex items-center justify-center"
+                style="width: 1.2cqi; height: 1.2cqi;"
             >
                 <div class="h-1 w-2.5 bg-foreground/60 rounded-full"></div>
             </div>
             <span
-                class="font-mono text-[10px] font-bold tracking-[0.3em] text-foreground/70 uppercase pt-px"
+                class="font-mono font-bold tracking-[0.3em] text-foreground/70 uppercase"
+                style="font-size: clamp(8px, 0.7cqi, 10px);"
             >
                 {props.name}
             </span>
@@ -42,13 +45,15 @@
 
         <!-- Status Indicator -->
         <div
-            class="flex items-center gap-2.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-1.5 backdrop-blur-md shadow-[0_0_15px_hsl(var(--primary)/)]"
+            class="flex items-center bg-emerald-500/10 border border-emerald-500/20 rounded-full backdrop-blur-md shadow-[0_0_15px_hsl(var(--primary)/)]"
+            style="gap: 0.5cqi; padding: 0.5cqi 0.8cqi;"
         >
             <div
                 class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_currentColor]"
             ></div>
             <span
-                class="font-mono text-[9px] uppercase tracking-[0.25em] text-emerald-400 font-bold pt-px"
+                class="font-mono uppercase tracking-[0.25em] text-emerald-400 font-bold"
+                style="font-size: clamp(7px, 0.6cqi, 9px);"
             >
                 {metaLabel}
             </span>
@@ -73,18 +78,21 @@
     <!-- Bottom Payload & Marquee Row -->
     <!-- Expanded max-width constraint to take advantage of ultrawide monitors -->
     <div
-        class="hero-type mt-12 w-full max-w-[95%] pointer-events-auto flex items-center gap-5"
+        class="hero-type w-full max-w-[95%] pointer-events-auto flex items-center"
+        style="margin-top: 2.5cqi; gap: 1.2cqi;"
     >
         <!-- Payload Badge -->
         <div
-            class="flex items-center gap-2.5 border border-foreground/10 bg-foreground/[0.03] shadow-[0_8px_16px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.15)] backdrop-blur-md px-4 py-2 rounded-xl shrink-0"
+            class="flex items-center border border-foreground/10 bg-foreground/[0.03] shadow-[0_8px_16px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.15)] backdrop-blur-md rounded-xl shrink-0"
+            style="gap: 0.5cqi; padding: 0.4cqi 0.8cqi;"
         >
             <Cpu
                 size={16}
                 class="text-primary drop-shadow-[0_0_8px_hsl(var(--primary)/0.6)]"
             />
             <span
-                class="font-mono text-[10px] text-foreground/90 tracking-[0.2em] uppercase font-bold pt-px"
+                class="font-mono text-foreground/90 tracking-[0.2em] uppercase font-bold"
+                style="font-size: clamp(8px, 0.7cqi, 10px);"
             >
                 {payloadLabel}
             </span>

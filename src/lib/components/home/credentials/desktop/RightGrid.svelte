@@ -27,10 +27,11 @@
 </script>
 
 <!-- Increased max-width to 1000px as requested -->
-<div class="w-full max-w-[1000px] flex flex-col gap-2 relative z-10 pt-4">
+<div class="w-full flex flex-col relative z-10" style="gap: 0.5cqi; padding-top: 1cqi;">
     <!-- OVERVIEW SEO CARD -->
     <div
-        class="group relative flex flex-col p-6 2xl:p-8 rounded-[2rem] bg-gradient-to-br from-foreground/[0.06] to-foreground/[0.01] backdrop-blur-[60px] border border-foreground/10 shadow-[0_30px_60px_rgba(0,0,0,0.5)] overflow-hidden mb-2"
+        class="group relative flex flex-col rounded-[2rem] bg-gradient-to-br from-foreground/[0.06] to-foreground/[0.01] backdrop-blur-[60px] border border-foreground/10 shadow-[0_30px_60px_rgba(0,0,0,0.5)] overflow-hidden"
+        style="padding: 1.5cqi; margin-bottom: 0.4cqi;"
     >
         <div
             class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-foreground/40 to-transparent opacity-60"
@@ -39,8 +40,8 @@
             class="absolute -right-20 -top-20 w-96 h-96 rounded-full blur-[100px] opacity-10 pointer-events-none bg-orange-500"
         ></div>
 
-        <div class="relative z-10 flex flex-col gap-4">
-            <div class="flex items-center gap-4">
+        <div class="relative z-10 flex flex-col" style="gap: 0.8cqi;">
+            <div class="flex items-center" style="gap: 0.8cqi;">
                 <div
                     class="flex items-center justify-center w-12 h-12 rounded-2xl bg-card/60 border border-foreground/10 text-orange-400"
                 >
@@ -53,7 +54,8 @@
                         {certificatesData.overview.title}
                     </span>
                     <span
-                        class="text-[11px] 2xl:text-xs font-mono text-orange-400 uppercase tracking-[0.2em] mt-0.5"
+                        class="font-mono text-orange-400 uppercase tracking-[0.2em]"
+                        style="font-size: clamp(8px, 0.7cqi, 12px); margin-top: 0.3cqi;"
                     >
                         {certificatesData.overview.subtitle}
                     </span>
@@ -68,7 +70,7 @@
     </div>
 
     <!-- CERTIFICATES HORIZONTAL DRAG ROW -->
-    <div class="flex flex-col w-full mt-6">
+    <div class="flex flex-col w-full" style="margin-top: 1cqi;">
         <!-- PREMIUM MARQUEE: CERTIFICATES (Scrolls Left) -->
         <DraggableRow
             title="Verified Certifications"

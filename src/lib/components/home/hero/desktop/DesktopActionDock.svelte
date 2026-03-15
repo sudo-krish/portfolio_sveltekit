@@ -1,6 +1,7 @@
 <script lang="ts">
     import { Zap, Github, Linkedin } from "lucide-svelte";
     import { Button } from "$lib/components/ui/button";
+    import PillButton from "$lib/components/ui/buttons/PillButton.svelte";
 
     // Import the shared hero text
     import { heroContent } from "$lib/data/hero_content";
@@ -18,33 +19,24 @@
     // Default to heroContent, but allow parent to override
     const ctaDesktop = props.ctaDesktop ?? heroContent.actionDock.ctaDesktop;
     const links = props.links ?? heroContent.actionDock.links;
-
-    function scrollToPipeline() {
-        document
-            .getElementById("pipeline")
-            ?.scrollIntoView({ behavior: "smooth" });
-    }
 </script>
 
 <div
-    class="action-dock flex items-stretch gap-3 w-full p-2 bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]"
+    class="action-dock flex items-stretch w-full bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]"
+    style="gap: 0.6cqi; padding: 0.4cqi;"
 >
-    <Button
-        variant="default"
-        class="flex-1 h-14 text-base font-bold rounded-[1.2rem] shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_15px_hsl(var(--primary)/0.3)] group overflow-hidden relative"
-        onclick={scrollToPipeline}
-    >
-        <div
-            class="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-foreground/20 to-transparent group-hover:translate-x-[150%] transition-transform duration-1000 ease-out"
-        ></div>
-        {ctaDesktop}
-        <Zap class="ml-2 fill-white" size={18} />
-    </Button>
+    <PillButton
+        href="#pipeline"
+        label={ctaDesktop}
+        Icon={Zap}
+        accentColor="primary"
+    />
 
-    <div class="flex items-center gap-1.5 px-2 bg-foreground/5 rounded-[1.2rem]">
+    <div class="flex items-center bg-foreground/5 rounded-[1.2rem]" style="gap: 0.3cqi; padding: 0 0.4cqi;">
         <Button
             variant="ghost"
-            class="w-12 h-12 p-0 rounded-xl hover:bg-foreground/10 transition-colors"
+            class="p-0 rounded-xl hover:bg-foreground/10 transition-colors"
+            style="width: 2.5cqi; height: 2.5cqi;"
             href={links.github}
             target="_blank"
         >
@@ -55,7 +47,8 @@
 
         <Button
             variant="ghost"
-            class="w-12 h-12 p-0 rounded-xl hover:bg-foreground/10 transition-colors"
+            class="p-0 rounded-xl hover:bg-foreground/10 transition-colors"
+            style="width: 2.5cqi; height: 2.5cqi;"
             href={links.linkedin}
             target="_blank"
         >
@@ -66,7 +59,8 @@
 
         <Button
             variant="ghost"
-            class="h-12 px-4 rounded-xl hover:bg-foreground/10 font-mono text-[11px] uppercase tracking-widest text-primary transition-colors"
+            class="rounded-xl hover:bg-foreground/10 font-mono uppercase tracking-widest text-primary transition-colors"
+            style="height: 2.5cqi; padding: 0 0.8cqi; font-size: clamp(8px, 0.7cqi, 11px);"
             href={links.resume}
             target="_blank"
         >
@@ -74,3 +68,4 @@
         </Button>
     </div>
 </div>
+

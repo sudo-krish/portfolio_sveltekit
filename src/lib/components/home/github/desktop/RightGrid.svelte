@@ -5,34 +5,24 @@
     import { codingStatsData } from "$lib/data/coding_stats";
 </script>
 
-<div class="w-full max-w-[1000px] flex flex-col gap-4 2xl:gap-6 relative z-10">
+<div class="w-full flex flex-col relative z-10" style="gap: 1cqi;">
     <!-- Side by Side Grid for Stats Cards -->
-    <div class="grid grid-cols-2 gap-4 2xl:gap-6">
+    <div class="grid grid-cols-2" style="gap: 1cqi;">
         <GitHubStatsCard />
         <LeetCodeCard />
     </div>
 
     <!-- Full-Width Bottom Philosophy Card (Glassmorphism) -->
     <div
-        class="group relative w-full p-5 2xl:p-6 rounded-2xl 2xl:rounded-3xl bg-foreground/[0.03] backdrop-blur-2xl border border-foreground/10 hover:bg-foreground/[0.06] hover:border-foreground/20 transition-all duration-500 overflow-hidden shadow-[0_15px_35px_rgba(0,0,0,0.5)]"
+        class="rounded-xl bg-cyan-950/20 backdrop-blur-xl border border-cyan-500/20 border-l-4 border-l-cyan-400 shadow-[0_10px_30px_rgba(0,0,0,0.4)]"
+        style="margin-top: 0.2cqi; padding: 1cqi;"
     >
-        <!-- Top internal highlight -->
-        <div
-            class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-foreground/20 to-transparent opacity-50"
-        ></div>
-
-        <!-- Subtle Ambient Glow -->
-        <div
-            class="absolute -left-10 -bottom-10 w-40 h-40 rounded-full blur-[60px] opacity-10 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none bg-gradient-to-r from-[#22c55e] to-[#ffa116]"
-        ></div>
-
-        <div class="relative z-10">
-            <p
-                class="text-[clamp(0.85rem,1vw,1rem)] 2xl:text-[clamp(0.95rem,1.1vw,1.1rem)] leading-[1.7] text-foreground/80"
-            >
-                {@html codingStatsData.philosophy.shortDescription}
-                {@html codingStatsData.philosophy.detailedPhilosophy}
-            </p>
-        </div>
+        <p
+            class="leading-[1.5] text-foreground"
+            style="font-size: clamp(0.65rem, 0.85cqi, 0.95rem);"
+        >
+            {@html codingStatsData.philosophy.shortDescription}
+            {@html codingStatsData.philosophy.detailedPhilosophy}
+        </p>
     </div>
 </div>

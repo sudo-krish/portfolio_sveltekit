@@ -7,8 +7,9 @@
   import MobileCarousel from "$lib/components/ui/MobileCarousel.svelte";
 
   import DesktopHeader from "./desktop/DesktopHeader.svelte";
-  import DesktopBioCard from "./desktop/DesktopBioCard.svelte";
+  import SectionCard from "$lib/components/ui/cards/SectionCard.svelte";
   import DesktopActionDock from "./desktop/DesktopActionDock.svelte";
+  import { TerminalSquare } from "lucide-svelte";
 
   import MobileHeader from "./mobile/MobileHeader.svelte";
   import MobileBioCard from "./mobile/MobileBioCard.svelte";
@@ -42,14 +43,14 @@
 
     <!-- We use padding to define the outermost boundaries -->
     <div
-      class="absolute inset-0 z-20 w-full h-full pointer-events-none flex justify-center px-10 xl:px-20 2xl:px-32 overflow-hidden"
+      class="absolute inset-0 z-20 w-full h-full pointer-events-none flex justify-center overflow-hidden"
+      style="container-type: size; padding-left: 3cqi; padding-right: 3cqi;"
     >
-      <!-- max-w-none lets it use all available screen real estate up to the padding -->
       <div class="relative w-full h-full max-w-none">
         <!-- Main Content Grid -->
-        <!-- pb-32 pushes the grid up so the bottom action dock has room -->
         <div
-          class="w-full h-full grid grid-cols-12 gap-12 xl:gap-20 items-center pb-32"
+          class="w-full h-full grid grid-cols-12 items-center"
+          style="gap: 2cqi; padding-bottom: 4cqi;"
         >
           <!-- 1. Header: Completely Left (Spans cols 1 to 5) -->
           <div
@@ -66,23 +67,23 @@
           </div>
 
           <!-- 2. Bio Card: Mid to Right -->
-          <!-- col-start-7 starts the card exactly at the 50% line of the screen -->
           <div
             class="col-span-6 col-start-7 relative z-30 flex flex-col justify-center items-start pointer-events-auto"
           >
-            <DesktopBioCard
-              metaLabel={heroContent.bioCard.metaLabel}
-              metaTitle={heroContent.bioCard.metaTitle}
-              main={heroContent.bioCard.main}
-              details={heroContent.bioCard.details}
+            <SectionCard
+              badge={heroContent.bioCard.metaLabel}
+              subtitle={heroContent.bioCard.metaTitle}
+              Icon={TerminalSquare}
+              shortDescription={heroContent.bioCard.main}
+              detailedPhilosophy={heroContent.bioCard.details}
             />
           </div>
         </div>
 
         <!-- 3. Action Dock: Center Bottom -->
-        <!-- Anchored independently in the bottom center -->
         <div
-          class="absolute bottom-10 xl:bottom-12 left-1/2 -translate-x-1/2 z-40 w-full max-w-[480px] pointer-events-auto flex justify-center"
+          class="absolute left-1/2 -translate-x-1/2 z-40 w-full pointer-events-auto flex justify-center"
+          style="bottom: 3cqi; max-width: 30cqi;"
         >
           <DesktopActionDock
             cta={heroContent.actionDock.ctaDesktop}

@@ -88,25 +88,4 @@
             </div>
         {/each}
     </div>
-
-    <!-- Mobile CTA Button -->
-    <a
-        href={techstackData.ui.cta.href}
-        class="w-full mt-2 p-4 rounded-2xl bg-cyan-950/20 border border-cyan-500/30 flex items-center justify-between"
-    >
-        <div class="flex flex-col">
-            <span
-                class="font-mono text-[9px] text-cyan-400 uppercase tracking-widest mb-1"
-                >Explore Work</span
-            >
-            <span class="text-sm font-bold text-foreground leading-none"
-                >{techstackData.ui.cta.label}</span
-            >
-        </div>
-        <div
-            class="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400"
-        >
-            <ArrowRight size={14} />
-        </div>
-    </a>
 </div>

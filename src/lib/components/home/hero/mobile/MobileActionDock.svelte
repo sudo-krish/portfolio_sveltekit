@@ -1,6 +1,7 @@
 <script lang="ts">
     import { Zap, Github, Linkedin, FileText } from "lucide-svelte";
     import { Button } from "$lib/components/ui/button";
+    import PillButton from "$lib/components/ui/buttons/PillButton.svelte";
 
     // Import the shared hero text
     import { heroContent } from "$lib/data/hero_content";
@@ -18,29 +19,18 @@
     // Default to heroContent, but allow parent to override
     const cta = props.cta ?? heroContent.actionDock.cta;
     const links = props.links ?? heroContent.actionDock.links;
-
-    function scrollToPipeline() {
-        document
-            .getElementById("pipeline")
-            ?.scrollIntoView({ behavior: "smooth" });
-    }
 </script>
 
 <div class="action-dock w-full relative z-30 pointer-events-auto">
     <div
         class="w-full flex items-stretch justify-between gap-2 p-1.5 bg-card/90 backdrop-blur-2xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.15)]"
     >
-        <Button
-            variant="default"
-            class="flex-1 h-14 text-[13px] font-bold rounded-xl shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_15px_hsl(var(--primary)/0.4)] group overflow-hidden relative"
-            onclick={scrollToPipeline}
-        >
-            <div
-                class="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-foreground/20 to-transparent group-active:translate-x-[150%] transition-transform duration-700 ease-out"
-            ></div>
-            {cta}
-            <Zap class="ml-1.5 fill-white" size={14} />
-        </Button>
+        <PillButton
+            href="#pipeline"
+            label={cta}
+            Icon={Zap}
+            accentColor="primary"
+        />
 
         <div
             class="flex items-center gap-1 px-1.5 bg-foreground/5 rounded-xl border border-foreground/5"
@@ -77,3 +67,4 @@
         </div>
     </div>
 </div>
+

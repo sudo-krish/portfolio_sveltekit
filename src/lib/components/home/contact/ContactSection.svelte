@@ -70,7 +70,8 @@
         <!-- MAIN CONTENT CARD (LEFT SIDE PC) -->
         <!-- CHANGED: right-[8%] to left-[8%] -->
         <div
-            class="absolute top-[18%] left-[8%] w-full max-w-lg lg:max-w-xl z-20 pointer-events-auto flex flex-col gap-6"
+            class="absolute z-20 pointer-events-auto flex flex-col"
+            style="top: 10cqi; left: 3cqi; width: 40cqi; gap: 1.5cqi;"
         >
             <p
                 class="contact-panel text-sm lg:text-base text-foreground/50 px-2 shrink-0 font-light leading-relaxed"

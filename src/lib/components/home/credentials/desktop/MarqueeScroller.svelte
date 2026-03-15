@@ -128,16 +128,17 @@
     });
 </script>
 
-<div class="relative flex flex-col w-full max-w-[1000px] mb-6">
+<div class="relative flex flex-col w-full" style="margin-bottom: 1.2cqi;">
     <!-- Minimalist Header -->
-    <div class="flex items-center gap-2 px-2 mb-2">
+    <div class="flex items-center" style="gap: 0.4cqi; padding: 0 0.4cqi; margin-bottom: 0.4cqi;">
         <div
             class="w-1.5 h-1.5 rounded-full {variant === 'cert'
                 ? 'bg-orange-500'
                 : 'bg-emerald-500'} animate-pulse"
         ></div>
         <h4
-            class="text-[10px] font-mono uppercase tracking-[0.25em] text-foreground/40 font-bold"
+            class="font-mono uppercase tracking-[0.25em] text-foreground/40 font-bold"
+            style="font-size: clamp(7px, 0.6cqi, 10px);"
         >
             {title}
         </h4>
@@ -170,7 +171,7 @@
         <!-- Marquee Track (Hardware-accelerated via JS translate3d) -->
         <div
             bind:this={trackElement}
-            class="flex w-max shrink-0 gap-4 will-change-transform"
+            class="flex w-max shrink-0 will-change-transform" style="gap: 0.8cqi;"
         >
             {#each loopItems as item}
                 <button
@@ -183,8 +184,8 @@
                             e.preventDefault();
                         }
                     }}
-                    class="relative overflow-hidden flex items-center gap-5 px-6 py-5 min-h-[90px] rounded-2xl transition-all duration-300 w-max pr-12 text-left shrink-0 group bg-foreground/[0.03] hover:bg-foreground/[0.06] shadow-[0_4px_12px_rgba(0,0,0,0.5)] border border-foreground/5"
-                    style="--hover-color: {item.color};"
+                    class="relative overflow-hidden flex items-center rounded-2xl transition-all duration-300 w-max text-left shrink-0 group bg-foreground/[0.03] hover:bg-foreground/[0.06] shadow-[0_4px_12px_rgba(0,0,0,0.5)] border border-foreground/5"
+                    style="gap: 1cqi; padding: 1cqi 2.5cqi 1cqi 1.2cqi; min-height: 5cqi; --hover-color: {item.color};"
                 >
                     <!-- Hover Border Glow -->
                     <div
@@ -206,15 +207,17 @@
                     </div>
 
                     <!-- Clean Typography -->
-                    <div class="flex flex-col max-w-[400px]">
+                    <div class="flex flex-col" style="max-width: 26cqi;">
                         <span
-                            class="text-[14px] sm:text-[15px] font-bold tracking-wide text-foreground/90 group-hover:text-foreground transition-colors duration-300 truncate"
+                            class="font-bold tracking-wide text-foreground/90 group-hover:text-foreground transition-colors duration-300 truncate"
+                            style="font-size: clamp(10px, 0.9cqi, 15px);"
                         >
                             {item.name}
                         </span>
-                        <div class="flex items-center gap-2 mt-1.5">
+                        <div class="flex items-center" style="gap: 0.4cqi; margin-top: 0.3cqi;">
                             <span
-                                class="text-[11px] font-mono text-foreground/50 group-hover:text-foreground/70 transition-colors duration-300 uppercase tracking-widest truncate"
+                                class="font-mono text-foreground/50 group-hover:text-foreground/70 transition-colors duration-300 uppercase tracking-widest truncate"
+                                style="font-size: clamp(8px, 0.7cqi, 11px);"
                             >
                                 {item.issuer}
                             </span>
@@ -222,7 +225,8 @@
                                 class="w-1 h-1 rounded-full bg-foreground/20 shrink-0"
                             ></span>
                             <span
-                                class="text-[11px] font-mono text-foreground/40 group-hover:text-foreground/60 transition-colors duration-300 whitespace-nowrap"
+                                class="font-mono text-foreground/40 group-hover:text-foreground/60 transition-colors duration-300 whitespace-nowrap"
+                                style="font-size: clamp(8px, 0.7cqi, 11px);"
                             >
                                 {item.date}
                             </span>

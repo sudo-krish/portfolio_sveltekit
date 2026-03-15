@@ -127,19 +127,4 @@
             </div>
         {/each}
     </div>
-
-    <!-- Mobile Button CTA (to replace the anchor right side CTA) -->
-    <a
-        href={resultsData.ui.cta.href}
-        class="group relative flex justify-center items-center gap-3 w-full mt-3 p-3.5 rounded-[1.25rem] bg-muted/50 border border-border hover:bg-muted transition-all duration-300"
-    >
-        <span class="text-sm font-bold text-foreground tracking-wide">
-            {resultsData.ui.cta.label}
-        </span>
-        <div
-            class="flex items-center justify-center w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 group-hover:bg-purple-500 group-hover:text-foreground transition-all duration-300"
-        >
-            <ArrowRight size={12} />
-        </div>
-    </a>
 </div>

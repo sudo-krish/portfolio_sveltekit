@@ -6,8 +6,10 @@
     import MobileCarousel from "$lib/components/ui/MobileCarousel.svelte";
     import { techstackData } from "$lib/data/techstack";
 
-    import RightAnchor from "./desktop/RightAnchor.svelte";
+    import SectionAnchor from "$lib/components/ui/anchors/SectionAnchor.svelte";
+    import PillButton from "$lib/components/ui/buttons/PillButton.svelte";
     import LeftGrid from "./desktop/LeftGrid.svelte";
+    import { ArrowRight } from "lucide-svelte";
 
     import MobileGrid from "./mobile/MobileGrid.svelte";
 
@@ -83,12 +85,14 @@
         />
 
         <div
-            class="absolute inset-0 z-20 pointer-events-none flex pt-24 pb-12 relative"
+            class="absolute inset-0 z-20 pointer-events-none flex relative"
+            style="container-type: size; padding: 3cqi 0 1cqi 0;"
         >
             <!-- LEFT 55%: Skill Cards Grid -->
             <div
                 bind:this={leftPanel}
-                class="w-[55%] h-full pl-12 lg:pl-24 flex flex-col items-start justify-center gap-6 pointer-events-auto"
+                class="w-[55%] h-full flex flex-col items-start justify-center pointer-events-auto"
+                style="padding-left: 3cqi; gap: 1.5cqi;"
             >
                 <LeftGrid />
             </div>
@@ -96,9 +100,32 @@
             <!-- RIGHT 45%: Typographic Anchor -->
             <div
                 bind:this={rightPanel}
-                class="w-[45%] pr-12 lg:pr-24 flex flex-col items-end justify-end text-right pb-8 pointer-events-auto"
+                class="w-[45%] h-full flex flex-col items-end justify-end text-right pointer-events-auto"
+                style="padding-right: 3cqi; padding-bottom: 2cqi;"
             >
-                <RightAnchor />
+                <SectionAnchor
+                    label={techstackData.rightAnchor.label}
+                    title={techstackData.rightAnchor.title}
+                    description={techstackData.rightAnchor.description}
+                    labelColor="text-cyan-400/80"
+                    align="right"
+                />
+            </div>
+        </div>
+
+        <!-- CENTER BOTTOM: CTA Dock (Hero ActionDock style) -->
+        <div
+            class="absolute left-1/2 -translate-x-1/2 z-40 pointer-events-auto flex justify-center"
+            style="bottom: 2cqi; max-width: 20cqi;"
+        >
+            <div class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]" style="padding: 0.4cqi;">
+                <PillButton
+                    href={techstackData.ui.cta.href}
+                    label={techstackData.ui.cta.label}
+                    sublabel="Explore Work"
+                    Icon={ArrowRight}
+                    accentColor="cyan"
+                />
             </div>
         </div>
     </svelte:fragment>
@@ -111,6 +138,23 @@
                 bind:this={mobilePanel}
                 class="flex flex-col items-center justify-center w-full min-h-[100dvh] max-w-lg mx-auto gap-5 px-4 pt-[12dvh] pb-[20dvh]"
             >
+                <SectionAnchor
+                    label={techstackData.rightAnchor.label}
+                    title={techstackData.rightAnchor.title}
+                    description={techstackData.rightAnchor.description}
+                    labelColor="text-cyan-400/80"
+                    align="center"
+                />
+
+                <div class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] p-1.5 w-max mx-auto">
+                    <PillButton
+                        href={techstackData.ui.cta.href}
+                        label={techstackData.ui.cta.label}
+                        Icon={ArrowRight}
+                        accentColor="cyan"
+                    />
+                </div>
+
                 <MobileGrid />
             </div>
         </div>

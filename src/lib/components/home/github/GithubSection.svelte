@@ -7,11 +7,12 @@
     import { codingStatsData } from "$lib/data/coding_stats";
 
     // Desktop
-    import LeftAnchor from "./desktop/LeftAnchor.svelte";
+    import SectionAnchor from "$lib/components/ui/anchors/SectionAnchor.svelte";
+    import PillButton from "$lib/components/ui/buttons/PillButton.svelte";
     import RightGrid from "./desktop/RightGrid.svelte";
+    import { Github, Code2 } from "lucide-svelte";
 
     // Mobile
-    import MobileAnchor from "./mobile/MobileAnchor.svelte";
     import MobileGrid from "./mobile/MobileGrid.svelte";
 
     let leftPanel: HTMLElement;
@@ -67,22 +68,54 @@
         />
 
         <div
-            class="absolute inset-0 z-20 pointer-events-none flex pt-24 pb-12 relative"
+            class="absolute inset-0 z-20 pointer-events-none flex relative"
+            style="container-type: size; padding: 3cqi 0 1cqi 0;"
         >
             <!-- LEFT 35%: Typographic Anchor -->
             <div
                 bind:this={leftPanel}
-                class="w-[35%] pl-12 lg:pl-24 flex flex-col justify-center pointer-events-auto"
+                class="w-[35%] h-full flex flex-col items-start justify-end pointer-events-auto"
+                style="padding-left: 3cqi; padding-bottom: 2cqi;"
             >
-                <LeftAnchor />
+                <SectionAnchor
+                    label={codingStatsData.leftAnchor.label}
+                    title={codingStatsData.leftAnchor.title}
+                    description={codingStatsData.leftAnchor.description}
+                    labelColor="text-green-400/80"
+                    align="left"
+                />
             </div>
 
             <!-- RIGHT 65%: Glassmorphism Grid -->
             <div
                 bind:this={rightPanel}
-                class="w-[65%] h-full pr-12 lg:pr-24 flex flex-col justify-center items-end gap-6 pointer-events-auto"
+                class="w-[65%] h-full flex flex-col justify-center items-end pointer-events-auto"
+                style="padding-right: 3cqi; gap: 1.5cqi;"
             >
                 <RightGrid />
+            </div>
+        </div>
+
+        <!-- CENTER BOTTOM: CTA Dock -->
+        <div
+            class="absolute left-1/2 -translate-x-1/2 z-40 pointer-events-auto flex justify-center"
+            style="bottom: 2cqi;"
+        >
+            <div class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]" style="gap: 0.4cqi; padding: 0.4cqi;">
+                <PillButton
+                    href="/github"
+                    label="GitHub"
+                    sublabel="View Profile"
+                    Icon={Github}
+                    accentColor="green"
+                />
+                <PillButton
+                    href="/leetcode"
+                    label="LeetCode"
+                    sublabel="View Stats"
+                    Icon={Code2}
+                    accentColor="amber"
+                />
             </div>
         </div>
     </svelte:fragment>
@@ -95,10 +128,30 @@
             <div
                 class="flex flex-col items-center justify-center w-full min-h-[100dvh] max-w-lg mx-auto gap-6 px-4 pt-[12dvh] pb-[20dvh]"
             >
-                <!-- Mobile specific text intro -->
-                <MobileAnchor />
+                <SectionAnchor
+                    label={codingStatsData.leftAnchor.label}
+                    title={codingStatsData.leftAnchor.title}
+                    description={codingStatsData.leftAnchor.description}
+                    labelColor="text-green-400/80"
+                    align="center"
+                />
 
-                <!-- Mobile specific stats and cards -->
+                <div class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] p-1.5 w-max mx-auto gap-2">
+                    <PillButton
+                        href="/github"
+                        label="GitHub"
+                        Icon={Github}
+                        accentColor="green"
+                    />
+                    <div class="w-[1px] bg-foreground/10 self-stretch my-1"></div>
+                    <PillButton
+                        href="/leetcode"
+                        label="LeetCode"
+                        Icon={Code2}
+                        accentColor="amber"
+                    />
+                </div>
+
                 <MobileGrid />
             </div>
         </div>
