@@ -55,11 +55,11 @@ export const heroContent: HeroContent = {
     },
 
     bioCard: {
-        metaLabel: "About Me",
-        metaTitle: "Hello, I'm Krishnanand",
-        main: "I'm a Data Engineer who has always been fascinated by distributed systems, scalable architectures, and solving complex engineering problems.",
+        metaLabel: "Data Mastery",
+        metaTitle: "Krishnanand Anil",
+        main: "I'm a Senior Data Engineer specializing in building production-scale data systems. I've always been fascinated by distributed systems, high-reach architectures, and solving complex engineering problems.",
         details:
-            "I specialize in cloud architecture, real-time streaming, and building robust data products. I'm passionate about continuous learning, writing clean code, and making high-impact contributions to modern data ecosystems, with a keen interest in research and development, system design, and software architecture.",
+            "Expert in Redshift, Kafka, and PySpark. I bridge the gap between legacy Hadoop and modern Lakehouses (Iceberg, Delta Lake) using Z-Ordering and Medallion principles. I'm also architecting AI-ready foundations using vector embeddings (Cosine/Euclidian) and RAG patterns.",
     },
 
     marquee: {

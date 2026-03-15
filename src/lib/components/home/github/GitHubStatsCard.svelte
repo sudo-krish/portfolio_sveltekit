@@ -107,7 +107,7 @@
                     <img
                         src={stats?.avatarUrl ||
                             `https://github.com/${githubUsername}.png`}
-                        alt={stats?.name || "GitHub Avatar"}
+                        alt="{stats?.name || 'Krishnanand Anil'} - GitHub Data Engineering Portfolio Avatar"
                         class="w-full h-full object-cover rounded-full"
                         onerror={handleImageError}
                     />

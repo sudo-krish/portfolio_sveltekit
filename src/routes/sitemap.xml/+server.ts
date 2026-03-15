@@ -1,13 +1,12 @@
 // src/routes/sitemap.xml/+server.ts
 import type { RequestHandler } from './$types';
 import { getRepoIndex } from '$lib/services/content-service';
+import { portfolioData } from '$lib/data/portfolio-data';
 
 interface ContentItem {
     slug: string;
-    meta: {
-        lastUpdated?: string;
-        [key: string]: any;
-    };
+    lastUpdated?: string;
+    [key: string]: any;
 }
 
 export const prerender = true;
@@ -21,14 +20,23 @@ export const GET: RequestHandler = async ({ fetch }) => {
 
   // Fetch index data for all dynamic sections concurrently
   const [projectsRes, articlesRes, learnRes] = await Promise.all([
-    getRepoIndex('project-docs', token, fetch).catch(() => ({ items: [] as ContentItem[] })),
-    getRepoIndex('articles', token, fetch).catch(() => ({ items: [] as ContentItem[] })),
-    getRepoIndex('second-brain', token, fetch).catch(() => ({ items: [] as ContentItem[] }))
+    getRepoIndex('project-docs', token, fetch).catch(() => null),
+    getRepoIndex('articles', token, fetch).catch(() => null),
+    getRepoIndex('second-brain', token, fetch).catch(() => null)
   ]);
 
-  const projects: ContentItem[] = (projectsRes.items as ContentItem[]) || [];
-  const articles: ContentItem[] = (articlesRes.items as ContentItem[]) || [];
-  const learnNotes: ContentItem[] = (learnRes.items as ContentItem[]) || [];
+  // Use local data as fallback if API fetch fails
+  const projects: ContentItem[] = (projectsRes?.items as any[]) || portfolioData.projects.map(p => ({
+    slug: p.id,
+    lastUpdated: p.dateCreated
+  }));
+  
+  const articles: ContentItem[] = (articlesRes?.items as any[]) || portfolioData.blogPosts.map(b => ({
+    slug: b.slug,
+    lastUpdated: b.datePublished
+  }));
+  
+  const learnNotes: ContentItem[] = (learnRes?.items as any[]) || [];
 
   // Static core routes
   const staticRoutes = [
@@ -62,7 +70,7 @@ export const GET: RequestHandler = async ({ fetch }) => {
     .map(
       (p) => `  <url>
     <loc>${site}/projects/${p.slug}</loc>
-    <lastmod>${p.meta.lastUpdated ? new Date(p.meta.lastUpdated).toISOString().split('T')[0] : currentDate}</lastmod>
+    <lastmod>${p.lastUpdated ? new Date(p.lastUpdated).toISOString().split('T')[0] : currentDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>`
@@ -74,7 +82,7 @@ export const GET: RequestHandler = async ({ fetch }) => {
     .map(
       (a) => `  <url>
     <loc>${site}/articles/${a.slug}</loc>
-    <lastmod>${a.meta.lastUpdated ? new Date(a.meta.lastUpdated).toISOString().split('T')[0] : currentDate}</lastmod>
+    <lastmod>${a.lastUpdated ? new Date(a.lastUpdated).toISOString().split('T')[0] : currentDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>`
@@ -86,7 +94,7 @@ export const GET: RequestHandler = async ({ fetch }) => {
     .map(
       (n) => `  <url>
     <loc>${site}/learn/${n.slug}</loc>
-    <lastmod>${n.meta.lastUpdated ? new Date(n.meta.lastUpdated).toISOString().split('T')[0] : currentDate}</lastmod>
+    <lastmod>${n.lastUpdated ? new Date(n.lastUpdated).toISOString().split('T')[0] : currentDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>`

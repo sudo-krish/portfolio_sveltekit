@@ -12,12 +12,21 @@
   $: currentUrl = `${personal.website}${currentPath}`;
 
   $: pageMetadata = {
-    title: `${personal.name} - Senior Data Engineer | AWS Cloud Expert`,
+    title: `${personal.name} - Senior Data Engineer | AWS Cloud Architect | Data Platform Lead`,
     description: personal.bio,
     type: "website",
-    keywords: [...personal.topSkills, "data engineering", "AWS", "Kafka"].join(
-      ", ",
-    ),
+    keywords: [
+      ...personal.topSkills,
+      "Senior Data Engineer Portfolio",
+      "AWS Data Architect",
+      "Real-time CDC Pipelines",
+      "Modern Data Stack 2025",
+      "Data Mesh Implementation",
+      "MLOps Readiness",
+      "Data Platform Engineering",
+      "High-scale Data Systems",
+      "Bengaluru Data Engineer",
+    ].join(", "),
     image: `${personal.website}/og-image.jpg`,
   };
 

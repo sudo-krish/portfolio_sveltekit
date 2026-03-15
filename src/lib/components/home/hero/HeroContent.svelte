@@ -19,17 +19,7 @@
   const techTags = personal.topSkills;
 </script>
 
-<svelte:head>
-  <title>{personal.name} | Senior Data Engineer</title>
-  <meta name="description" content={personal.shortBio} />
-  <meta
-    name="keywords"
-    content="Senior Data Engineer, AWS Expert, Real-Time Data pipelines, Apache Kafka, Data Architect, {personal.name}, Data Engineering Portfolio"
-  />
-  <meta property="og:title" content="{personal.name} | Senior Data Engineer" />
-  <meta property="og:description" content={personal.shortBio} />
-  <meta property="og:type" content="website" />
-</svelte:head>
+
 
 <MobileCarousel
   layout="left"

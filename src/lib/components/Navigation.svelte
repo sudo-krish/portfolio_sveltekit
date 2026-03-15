@@ -97,11 +97,11 @@
         class="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-[hsl(var(--border))] group-hover:border-[hsl(var(--primary))] transition-colors duration-500 shadow-sm shrink-0"
       >
         <div
-          class="absolute inset-0 bg-[hsl(var(--primary)/0.2)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"
+          class="absolute inset-0 bg-[hsl(var(--primary)/0.2)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         ></div>
         <img
           src="https://github.com/sudo-krish.png"
-          alt="sudo_krish avatar"
+          alt="Krishnanand Anil - Senior Data Engineer, Software Developer, and Tech Enthusiast Profile Picture"
           class="relative z-10 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
         <div

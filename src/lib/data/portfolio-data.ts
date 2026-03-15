@@ -1,15 +1,15 @@
 // src/lib/data/portfolio-data.ts
 import type { PortfolioData } from '$lib/types/portfolio';
-import { getGitHubProjectsCached } from '$lib/services/github'; 
+import { getGitHubProjectsCached } from '$lib/services/github';
 
 export const portfolioData: PortfolioData = {
   personal: {
     name: "Krishnanand Anil",
-    jobTitle: "Senior Data Engineer | AWS Cloud Expert | Real-Time Data Specialist",
-    bio: "Senior Data Engineer with 5+ years of experience specializing in real-time data pipelines, AWS Cloud services, and enterprise-grade data solutions. Currently leading data engineering initiatives at DTDC Express Limited, architecting systems that process 50M+ events daily. Expert in building scalable CDC pipelines, data warehouses with sub-second query performance, and AI-ready analytics platforms. Proven track record of improving data accuracy from 60% to 98%, reducing latency by 99%, and cutting manual reporting efforts by 80%. Passionate about solving complex data challenges with Kafka, Python, Airflow, DBT, and modern cloud technologies.",
-    shortBio: "Real-Time Data Architect | AWS & Kafka Expert | Built Systems Processing 50M+ Events/Day | 5+ Years",
+    jobTitle: "Senior Data Engineer | AWS Redshift Kafka PySpark | Real-Time Data Architect",
+    bio: "Senior Data Engineer with 5+ years of experience specializing in building production-scale data systems on AWS. Currently at DTDC Express Limited, I architected real-time CDC pipelines processing 50M+ tracking events daily, achieving a 99% latency reduction (3hr batch to streaming). Expert in AWS services (Redshift, Glue, EMR, Lambda, Kinesis, DMS, Lake Formation), Kafka, Debezium, and PySpark. Proven track record of delivering high-impact solutions: 80% reduction in manual reporting for Finance/BI, 70% faster business insights via AI-ready platforms with vector search, and sub-5min dashboard SLAs via RDS->Redshift streaming. Open to product-first and unicorn roles where I can apply my expertise in event-driven architectures and MLOps foundations.",
+    shortBio: "Senior Data Engineer | AWS Redshift Kafka PySpark | 5+ Years Experience | M.Tech (Data Science) BITS Pilani",
     email: "krishnanandpanil@gmail.com",
-    phone: "+91-XXXXXXXXXX",
+    phone: "8281974055",
     website: "https://krishnanandanil.com",
     profileImage: "/profile.jpg",
     resumeUrl: "https://drive.google.com/file/d/1lkamX2hfp25wsLecHgEStbYD7-1ZEMwv/view?usp=drive_link",
@@ -25,71 +25,58 @@ export const portfolioData: PortfolioData = {
     },
     skills: [
       // Cloud & Infrastructure
-      "AWS Lambda", "AWS Glue", "AWS EMR", "AWS Kinesis", "AWS DMS",
-      "Amazon Redshift", "Amazon S3", "AWS RDS", "DynamoDB",
-      "AWS Step Functions", "AWS CloudWatch", "AWS SNS", "AWS IAM", "AWS KMS",
-      "AWS CodeCommit", "AWS CodeBuild", "CloudFormation",
-      
-      // Data Engineering
+      "AWS (Glue, EMR, Lambda, Redshift, Kinesis)", "AWS Lake Formation", "AWS DMS",
+      "Amazon S3", "AWS RDS", "DynamoDB", "AWS Step Functions",
+      "CloudWatch", "IAM", "KMS", "CodeCommit", "CodeBuild", "CloudFormation",
+
+      // Data Engineering & Streaming
       "Apache Kafka", "Debezium", "CDC (Change Data Capture)",
-      "Apache Airflow", "Apache Spark", "PySpark",
-      "dbt (Data Build Tool)", "Informatica PowerCenter",
-      "Real-Time Data Pipelines", "Batch ETL/ELT",
-      "Data Lake Architecture", "Medallion Architecture",
-      "Data Mesh Principles", "Data Warehousing",
-      "SCD Type 1 & Type 2",
-      
+      "Apache Spark", "PySpark Streaming", "TiDB", "dbt (Data Build Tool)",
+      "Apache Airflow", "Informatica PowerCenter", "Medallion Lakehouse",
+      "Data Vault 2.0", "Medallion Architecture", "Dimensional Modeling",
+
       // Programming & Scripting
-      "Python", "Go", "SQL", "PL/SQL",
-      "Pandas", "NumPy", "Boto3", "Python Logger",
-      "Shell Scripting", "Bash Scripting",
-      
-      // Databases
-      "PostgreSQL", "Aurora PostgreSQL", "MySQL", "MongoDB", "Redis",
-      "Hive", "Parquet", "JSON",
-      
-      // Data Tools & Platforms
-      "Vector Databases", "GraphQL APIs",
-      "Natural Language Querying (NLQ)", "Semantic Search",
-      "QlikView", "Tableau", "Power BI",
-      
+      "Python", "Go (distributed systems)", "SQL (Advanced)", "PL/SQL",
+      "Shell/Bash Scripting", "Boto3",
+
+      // Databases & Storage
+      "PostgreSQL", "Aurora PostgreSQL", "MySQL", "Hive", "Hadoop", "Sqoop",
+      "Parquet", "S3 Data Lake", "Delta Lake", "Apache Iceberg", "Snowflake", "Databricks",
+
+      // Specialized & AI Integration
+      "Vector Embeddings (Conceptual)", "Euclidian & Cosine Distance", 
+      "Natural Language Querying (NLQ)", "RAG Foundations", "LLM Data Pipelines",
+
       // DevOps & Orchestration
-      "Docker", "Kubernetes", "Terraform",
-      "CI/CD Pipelines", "Autosys",
-      
+      "Docker", "Kubernetes (K8s)", "Terraform (IaC)", "Autosys", "CI/CD Protocols",
+
       // Data Governance & Quality
-      "Data Quality Assurance", "Data Validation",
-      "Data Masking", "Data Encryption",
-      "Data Lineage", "Data Governance",
-      
-      // Big Data
-      "Big Data Processing", "Hadoop", "Sqoop",
-      "Real-Time Streaming", "Event-Driven Architecture",
-      
-      // Integration & APIs
-      "API Integration", "REST APIs", "Webhooks",
-      "Multi-Tenant Architecture", "Rate Limiting"
+      "Soda (Data Quality)", "Great Expectations", "Data Lineage", 
+      "Observability-First Monitoring", "Data Masking & Governance",
+
+      // Analytics & Visualization
+      "QlikView", "Tableau", "Power BI", "Data Profiling", "Dimensional Modeling"
     ],
     topSkills: [
-      "Real-Time CDC Pipelines (50M+ events/day)",
-      "Apache Kafka & Debezium",
-      "AWS Cloud Architecture",
-      "Amazon Redshift Optimization",
-      "Python & Go Development",
-      "Data Warehouse Design",
-      "Vector Databases & AI Analytics",
-      "Kubernetes & Docker"
+      "Real-Time CDC (Apache Kafka & TiDB)",
+      "AWS Data Stack (Redshift, Glue, EMR)",
+      "Lakehouse Tech (Iceberg, Delta Lake, Z-Ordering)",
+      "Dimensional Modeling & SCD (Type 1 & 2)",
+      "Data Quality (Soda, Great Expectations)",
+      "AI-Ready Data (Embeddings & RAG Arch)",
+      "Distributed Systems & Cost Optimization",
+      "CI/CD for Data Infrastructure"
     ],
     yearsOfExperience: 5,
     achievements: [
-      "Reduced data latency by 99% (3 hours → seconds) with real-time CDC pipelines",
-      "Improved report accuracy from 60% to 98% through advanced validation",
-      "Cut manual reporting effort by 80% with automated ETL workflows",
-      "Reduced time-to-insight by 70% with AI-ready analytics platform",
-      "Built systems processing 50M+ tracking events daily",
-      "Achieved 20% efficiency improvement through CI/CD automation",
-      "Improved query performance by 40% through optimization",
-      "Led cross-functional teams delivering enterprise-grade data solutions"
+      "Architected real-time CDC pipelines → 50M tracking events/DAY, 99% latency cut (3hr to real-time)",
+      "Unified enterprise data warehouse → 80% reduction in manual reporting for Finance/BI",
+      "Built AI analytics platform w/ vector search + NLQ → 70% faster business insights",
+      "Redshift streaming (4M events/day) via DMS/Lambda/Kinesis → sub-5min reporting SLAs",
+      "M.Tech Data Science (BITS Pilani) candidate with strong research background",
+      "Achieved 20% efficiency improvement through production CI/CD automation",
+      "Improved query performance by 40% through Redshift/TiDB optimization",
+      "Developed self-serve data marts enabling 200+ users without SQL"
     ]
   },
 
@@ -97,23 +84,21 @@ export const portfolioData: PortfolioData = {
     {
       name: "DTDC Express Limited",
       url: "https://www.dtdc.in/",
-      position: "Data Engineer",
+      position: "Senior Data Engineer",
       duration: "Dec 2024 - Present",
       startDate: "2024-12-01",
       current: true,
-      description: "Leading end-to-end data engineering initiatives for one of India's largest logistics companies, delivering real-time data access, centralized reporting, and AI-driven insights.",
+      description: "Leading end-to-end data engineering initiatives for one of India's largest logistics companies, architecting high-scale event-driven systems.",
       responsibilities: [
-        "Architected high-throughput event-driven streaming pipeline processing 50M+ tracking events daily",
-        "Reduced data latency by 99% (from 3 hours to seconds) replacing legacy batch system",
-        "Enabled real-time shipment visibility improving SLA compliance and customer experience",
-        "Designed unified data warehouse as single source of truth for Finance and Business analytics",
-        "Reduced manual reporting effort by 80% with automated ETL/ELT workflows",
-        "Improved data consistency, accuracy, and trust in enterprise metrics",
-        "Built AI-ready analytics platform with vector search and natural language querying (NLQ)",
-        "Reduced time-to-insight by 70% enabling self-service analytics without SQL",
-        "Implemented GraphQL data layer for contextual retrieval and semantic search",
-        "Accelerated GenAI, NLQ, and advanced analytics adoption across teams",
-        "Tech Stack: Kafka, Python, Airflow, DBT, Distributed SQL, Vector Databases, GraphQL, Containers, Observability"
+        "Architected real-time CDC pipelines (Kafka + Debezium + TiDB + Docker/K8s) → 50M tracking events/DAY",
+        "Achieved 99% latency reduction (3hr batch to streaming) enabling real-time shipment visibility",
+        "Unified enterprise data warehouse as single source of truth → 80% reporting automation for Finance/BI",
+        "Built AI-ready analytics platform (vector search + natural language query) → 70% faster insight generation",
+        "Delivered shipment visibility platform with sub-5min SLAs and 20% operational efficiency gain",
+        "Led code reviews, architecture design, and technical specifications for enterprise interfaces",
+        "Developed data profiling and quality frameworks across 100+ source entities",
+        "Orchestrated deployments using Docker/K8s and automated CI/CD protocols",
+        "Tech Stack: Kafka, Debezium, TiDB, Docker, K8s, Python, Airflow, DBT, GraphQL, Observability"
       ],
       technologies: [
         "Apache Kafka", "Python", "Apache Airflow", "DBT",
@@ -125,25 +110,21 @@ export const portfolioData: PortfolioData = {
     {
       name: "Quantiphi Analytics Solutions",
       url: "https://www.quantiphi.com/",
-      position: "Senior Data Engineer",
+      position: "Sr Data Engineer",
       duration: "Feb 2024 - Nov 2024",
       startDate: "2024-02-01",
       endDate: "2024-11-30",
       current: false,
-      description: "Designed and implemented high-performance real-time and batch data pipelines enabling low-latency insights and AI-ready data platforms.",
+      description: "Senior Data Engineer specializing in enterprise cloud migration and real-time analytics for large-scale platforms.",
       responsibilities: [
-        "Built real-time streaming pipelines from RDS to Redshift using DMS, Lambda, Kinesis, and SQS",
-        "Processed 50M+ daily events reducing latency from hours to seconds",
-        "Developed batch ETL/ELT pipelines with AWS Glue, Lambda, and EMR",
-        "Implemented SCD Type 2 for data lineage in S3 data lakes",
-        "Created base tables and implemented Medallion architecture for ticketing analytics",
-        "Optimized S3 data lakes following data mesh principles",
-        "Integrated multi-tenant ticketing APIs handling JSON partitioning and rate limits",
-        "Delivered 20+ KPI and financial reports in Redshift",
-        "Improved report accuracy from 60% to 98% through query optimization",
-        "Built automated validation pipelines using Python, Glue, Lambda, and SNS",
-        "Implemented CI/CD pipeline with CodeCommit, CodeBuild, and CloudFormation",
-        "Improved deployment efficiency by 20% through automation"
+        "Scaled near-real-time reporting platform → 4M events/day, sub-5min dashboards for 100s of users",
+        "Built RDS→Redshift streaming pipelines (DMS + Lambda + Kinesis + SQS) → hours to seconds latency",
+        "Developed large-scale batch ETL/ELT (AWS Glue + Lambda + EMR) with SCD Type 2 historical tracking",
+        "Integrated multi-tenant ticketing APIs (API + S3 + Postgres) → 30% faster processing",
+        "Architected Medallion lakehouse patterns optimized for analytics scale",
+        "Established comprehensive data lineage and observability frameworks",
+        "Improved deployment efficiency via automated CloudFormation and CI/CD pipelines",
+        "Tech Stack: AWS Glue, Lambda, EMR, Redshift, Kinesis, DMS, Step Functions, CloudFormation"
       ],
       technologies: [
         "AWS Glue", "AWS Lambda", "AWS EMR", "Amazon Redshift",
@@ -156,43 +137,37 @@ export const portfolioData: PortfolioData = {
     {
       name: "Cognizant Technology Solutions",
       url: "https://www.cognizant.com/",
-      position: "Associate (promoted from Program Analyst)",
+      position: "Associate (Data Engineer)",
       duration: "Aug 2020 - Feb 2024",
       startDate: "2020-08-01",
       endDate: "2024-02-28",
       current: false,
-      description: "Progressed through three roles delivering large-scale data solutions with Hadoop, Informatica, Python, and cloud technologies.",
+      description: "Associate Data Engineer delivering enterprise data platforms and big data warehousing solutions.",
       responsibilities: [
-        "Designed and built medallion architecture on Amazon Redshift",
-        "Created multi-tenant architecture integrating SAP, S3, Oracle, flat files, and Salesforce",
-        "Built and optimized materialized views as per business logic",
-        "Collaborated with QlikView specialists for report generation",
-        "Implemented data governance using masking and encryption",
-        "Developed monitoring shell scripts for Hadoop cluster, EMR, and Linux servers",
-        "Designed near real-time and real-time data pipelines",
-        "Automated data ingestion processes improving efficiency by 25%",
-        "Implemented SCD Type 1 and Type 2 in data warehousing",
-        "Enhanced big data load and refresh performance by 20%",
-        "Automated repetitive tasks increasing team efficiency by 40%",
-        "Managed deployments and provided hypercare support",
-        "Created ETL mappings in Informatica PowerCenter",
-        "Worked with Hive and Hadoop Sqoop export scripts"
+        "Built Medallion architecture on Amazon Redshift (PySpark) → enterprise-grade data warehousing",
+        "Created multi-tenant ETL pipelines (SAP/S3/Oracle/Salesforce/flat files) → automated enterprise sync",
+        "Designed real-time and near-real-time pipelines → 30% processing time reduction",
+        "Architected and optimized materialized views for complex business logic",
+        "Created multiple bash scripts for automation and production issue analysis",
+        "Developed ETL workflows in Informatica PowerCenter and orchestrated via Autosys",
+        "Maintained Hive and Hadoop Sqoop export scripts for legacy data movement",
+        "Automated repetitive tasks increasing team efficiency by 40%"
       ],
       roles: [
         {
           title: "Associate",
           duration: "Oct 2022 - Feb 2024",
-          description: "Led data solutions development and warehouse optimization"
+          description: "Led enterprise data platform delivery and warehouse optimization"
         },
         {
           title: "Program Analyst",
           duration: "Aug 2021 - Oct 2022",
-          description: "Created automation scripts and deployed ETL workflows"
+          description: "Created automation scripts and deployed ETL workflows in Informatica"
         },
         {
           title: "Programmer Analyst Trainee",
           duration: "Aug 2020 - Aug 2021",
-          description: "Developed ETL mappings and maintained SQL queries"
+          description: "Developed ETL mappings and maintained Hive/Hadoop Sqoop scripts"
         }
       ],
       technologies: [
@@ -206,30 +181,59 @@ export const portfolioData: PortfolioData = {
 
   education: [
     {
-      university: "Birla Institute of Technology",
-      url: "https://www.bitmesra.ac.in/",
-      degree: "Bachelor of Technology (B.Tech)",
-      field: "Computer Science and Engineering",
-      graduationYear: "2019",
-      location: "Mesra, Jharkhand, India",
+      university: "Birla Institute of Technology and Science, Pilani",
+      url: "https://www.bits-pilani.ac.in/",
+      degree: "Master of Technology (M.Tech)",
+      field: "Data Science & Engineering",
+      graduationYear: "2024",
+      location: "Bengaluru/Pilani, India",
+      gpa: ""
+    },
+    {
+      university: "Amrita Vishwa Vidyapeetham",
+      url: "https://www.amrita.edu/",
+      degree: "Bachelor of Engineering (B.E.)",
+      field: "Mechanical Engineering",
+      graduationYear: "2020",
+      location: "Kollam, Kerala, India",
       gpa: "7.5/10.0"
     }
   ],
 
   certifications: [
     {
-      name: "AWS Certified Solutions Architect - Associate",
-      category: "Cloud Architecture",
-      url: "https://aws.amazon.com/certification/certified-solutions-architect-associate/",
-      issuer: "Amazon Web Services (AWS)",
-      dateIssued: "2023",
-      credentialId: "AWS-XXXX-XXXX"
+      name: "Fundamentals of the Databricks Lakehouse Platform Accreditation (V2)",
+      category: "Big Data",
+      url: "https://www.databricks.com/learn/certification",
+      issuer: "Databricks",
+      dateIssued: "2024"
     },
     {
-      name: "AWS Cloud Practitioner",
-      category: "Cloud Fundamentals",
-      url: "https://aws.amazon.com/certification/certified-cloud-practitioner/",
-      issuer: "Amazon Web Services (AWS)",
+      name: "SQL for Beginners: Learn SQL using MySQL and Database Design",
+      category: "Database",
+      url: "https://www.udemy.com/",
+      issuer: "Udemy",
+      dateIssued: "2022"
+    },
+    {
+      name: "The Python Bible™ | Everything You Need to Program in Python",
+      category: "Programming",
+      url: "https://www.udemy.com/",
+      issuer: "Udemy",
+      dateIssued: "2021"
+    },
+    {
+      name: "The Project Management Course: Beginner to PROject Manager",
+      category: "Management",
+      url: "https://www.udemy.com/",
+      issuer: "Udemy",
+      dateIssued: "2021"
+    },
+    {
+      name: "Spark and Python for Big Data with PySpark",
+      category: "Big Data",
+      url: "https://www.udemy.com/",
+      issuer: "Udemy",
       dateIssued: "2022"
     }
   ],
@@ -261,58 +265,58 @@ export const portfolioData: PortfolioData = {
     {
       id: "realtime-tracking-platform",
       name: "Real-Time Tracking Data Platform",
-      description: "Event-driven streaming pipeline processing 50M+ tracking events daily",
-      longDescription: "Architected a high-throughput, mission-critical real-time data platform that replaced legacy batch systems. Handles 50M+ tracking events per day with sub-second latency, providing real-time shipment visibility to operations teams, improving SLA compliance and customer satisfaction.",
-      repository: "",
-      languages: ["Python", "SQL"],
-      platforms: ["Apache Kafka", "AWS Lambda", "Amazon Kinesis", "Amazon S3"],
-      technologies: ["Event-Driven Architecture", "Stream Processing", "Docker", "Kubernetes"],
+      description: "Event-driven CDC pipeline processing 50M+ tracking events daily",
+      longDescription: "Architected a high-throughput, mission-critical real-time data platform using Kafka, Debezium, and TiDB. Replaced legacy batch systems with a streaming architecture, achieving a 99% latency reduction (3 hours to real-time). Orchestrated using Docker and Kubernetes, ensuring sub-5min shipment visibility for enterprise logistics.",
+      repository: "https://github.com/sudo-krish",
+      languages: ["Python", "SQL", "Go"],
+      platforms: ["Apache Kafka", "Debezium", "TiDB", "Docker", "Kubernetes"],
+      technologies: ["CDC", "Event-Driven Architecture", "Stream Processing", "Observability"],
       dateCreated: "2024-12-01T00:00:00Z",
-      keywords: ["Real-Time", "Streaming", "Kafka", "50M+ Events", "Sub-second Latency", "Production"],
+      keywords: ["Real-Time", "CDC", "Kafka", "50M Events", "Logistics", "Production"],
       featured: true,
       image: "/projects/realtime-tracking.jpg",
       metrics: {
         eventsPerDay: "50M+",
         latencyReduction: "99%",
-        uptime: "99.9%"
+        visibility: "Sub-5min"
       }
     },
     {
       id: "enterprise-data-warehouse",
-      name: "Enterprise Data Warehouse",
-      description: "Unified Finance & Business analytics with automated ETL/ELT workflows",
-      longDescription: "Designed and delivered a single source of truth for enterprise analytics with governed dimensional models, automated workflows, and standardized KPIs. Reduced manual reporting effort by 80% while improving data consistency and accuracy across the organization.",
+      name: "Unified Enterprise Data Warehouse",
+      description: "Single source of truth for Finance & BI with 80% reporting automation",
+      longDescription: "Designed and delivered a unified enterprise data warehouse that centralizes Finance and Business analytics. Automated complex ETL/ELT workflows using dbt and Airflow, reducing manual reporting effort by 80% and establishing 100% SLA compliance for mission-critical metrics.",
       repository: "",
       languages: ["SQL", "Python", "PySpark"],
       platforms: ["Amazon Redshift", "AWS Glue", "DBT", "Apache Airflow"],
-      technologies: ["Data Modeling", "ETL/ELT", "Data Governance", "Distributed SQL"],
+      technologies: ["Dimensional Modeling", "ETL/ELT", "Data Quality", "Automation"],
       dateCreated: "2024-12-15T00:00:00Z",
-      keywords: ["Data Warehouse", "Redshift", "ETL", "Business Intelligence", "Production"],
+      keywords: ["Data Warehouse", "Redshift", "dbt", "Automation", "Finance Analytics"],
       featured: true,
       image: "/projects/enterprise-warehouse.jpg",
       metrics: {
-        reportingEfficiency: "80% improvement",
+        automation: "80%",
         accuracy: "98%",
-        users: "200+"
+        sla: "100%"
       }
     },
     {
       id: "ai-analytics-platform",
-      name: "AI-Ready Analytics & Vector Intelligence Platform",
-      description: "GenAI-powered analytics with vector search and natural language querying",
-      longDescription: "Built the data foundation for GenAI and advanced analytics, enabling contextual retrieval, vector search, and NLQ through a GraphQL layer. Reduced time-to-insight by 70% and enabled self-service analytics without SQL knowledge.",
+      name: "AI-Ready Analytics Platform",
+      description: "Vector search & NLQ platform driving 70% faster business insights",
+      longDescription: "Engineered an AI-ready data foundation for GenAI and advanced analytics. Built pipelines for vector search and Natural Language Querying (NLQ), reducing time-to-insight by 70% and enabling self-service discovery for non-technical business users.",
       repository: "",
       languages: ["Python", "GraphQL"],
-      platforms: ["Vector Database", "AWS Lambda", "Amazon S3"],
-      technologies: ["Semantic Search", "NLQ", "GenAI", "GraphQL APIs"],
+      platforms: ["Vector Database", "AWS Lambda", "Amazon S3", "GraphQL"],
+      technologies: ["Semantic Search", "NLQ", "GenAI Foundations", "API Design"],
       dateCreated: "2025-01-10T00:00:00Z",
-      keywords: ["AI", "Vector Search", "NLQ", "GenAI", "GraphQL", "Production"],
+      keywords: ["AI", "Vector Search", "NLQ", "GraphQL", "ProductAnalytics"],
       featured: true,
       image: "/projects/ai-analytics.jpg",
       metrics: {
-        insightReduction: "70%",
-        adoption: "Enterprise-wide",
-        queries: "No SQL required"
+        insightBoost: "70%",
+        accuracy: "98%",
+        selfService: "No SQL required"
       }
     },
     {
@@ -425,7 +429,7 @@ export const getBlogPostBySlug = (slug: string) => portfolioData.blogPosts.find(
 export async function getAllProjectsWithGitHub() {
   try {
     const githubProjects = await getGitHubProjectsCached();
-    
+
     // Combine manual projects with GitHub projects
     // Manual projects come first (higher priority)
     return [...githubProjects];

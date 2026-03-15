@@ -103,7 +103,7 @@
                     <img
                         src={stats?.avatar ||
                             "https://leetcode.com/static/images/LeetCode_logo_rvs.png"}
-                        alt={stats?.name || "LeetCode Avatar"}
+                        alt="{stats?.name || 'Krishnanand Anil'} - LeetCode Data Engineering Profile"
                         class="w-full h-full object-cover rounded-full"
                         onerror={handleImageError}
                     />

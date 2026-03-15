@@ -88,7 +88,7 @@
     {#if battleState === "dialogue" || battleState === "start_anim" || battleState === "capture_animation"}
         <img
             src="https://github.com/sudo-krish.png"
-            alt="Sudo Krish"
+            alt="Sudo Krish - Data Engineer Pixel Sprite Portrait"
             class="relative w-28 h-28 sm:w-36 sm:h-36 object-cover border-4 border-white shadow-[0_10px_20px_rgba(0,0,0,0.3)] z-10 rounded-sm {battleState ===
             'capture_animation'
                 ? 'animate-suck-in'
