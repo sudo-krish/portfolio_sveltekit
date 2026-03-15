@@ -3,7 +3,7 @@
     import { Float, useGltf, interactivity, Align } from "@threlte/extras";
     import { Color, DoubleSide, Mesh, ShaderMaterial } from "three";
     import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
-    import * as THREE from "three";
+
 
     interactivity();
 

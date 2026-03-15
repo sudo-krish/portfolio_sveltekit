@@ -1,6 +1,6 @@
 <script lang="ts">
   import { T, useTask } from "@threlte/core";
-  import * as THREE from "three";
+
   import { Color, DoubleSide } from "three";
 
   // --- 1. UNIFIED THEME COLORS ---
