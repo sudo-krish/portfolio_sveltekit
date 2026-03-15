@@ -445,7 +445,7 @@
   });
 </script>
 
-<Environment url="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/city_park_parking_lot_1k.hdr" />
+<Environment url="https://dl.polyhaven.org/file/ph-assets/HDRIs/exr/1k/abandoned_parking_1k.exr" />
 
 <T.PerspectiveCamera makeDefault position={[0, 0, cameraZ]} fov={cameraFov}>
   <T.DirectionalLight position={[5, 5, 5]} intensity={2} />
