@@ -95,14 +95,19 @@
     <!-- ENHANCED MODAL POPUP -->
     {#if selectedItem}
         <div
+            role="button"
+            tabindex="-1"
             transition:fade={{ duration: 200 }}
             class="fixed inset-0 z-50 flex items-center justify-center bg-background/70 backdrop-blur-md p-4"
-            on:click={closeModal}
+            on:click={(e) => e.target === e.currentTarget && closeModal()}
+            on:keydown={(e) => e.key === 'Escape' && closeModal()}
+            aria-label="Close modal"
         >
             <div
+                role="dialog"
+                aria-modal="true"
                 transition:scale={{ duration: 300, start: 0.95, opacity: 0 }}
-                on:click|stopPropagation
-                class="relative w-full max-w-[550px] flex flex-col p-8 rounded-[2rem] bg-[#0c0c0c] border border-foreground/15 shadow-[0_40px_100px_rgba(0,0,0,0.8)] overflow-hidden"
+                class="relative w-full max-w-[550px] flex flex-col p-8 rounded-[2rem] bg-[#0c0c0c] border border-foreground/15 shadow-[0_40px_100px_rgba(0,0,0,0.8)] overflow-hidden cursor-default"
             >
                 <div
                     class="absolute -top-32 -right-32 w-80 h-80 rounded-full blur-[100px] opacity-20 pointer-events-none"

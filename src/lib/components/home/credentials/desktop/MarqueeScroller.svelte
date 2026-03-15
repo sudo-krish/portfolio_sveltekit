@@ -144,12 +144,12 @@
         </h4>
     </div>
 
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
     <div
         bind:this={containerElement}
         role="region"
         aria-roledescription="marquee"
         aria-label="{title} Marquee"
-        tabindex="0"
         style="touch-action: pan-y; overscroll-behavior-x: none; user-select: none; -webkit-user-select: none;"
         class="relative flex w-full overflow-hidden mask-fade-edges py-2 cursor-grab active:cursor-grabbing focus:outline-none"
         onpointerdown={onPointerDown}
