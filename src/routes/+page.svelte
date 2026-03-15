@@ -138,10 +138,15 @@
 
           const target = e.target as HTMLElement;
           const el = target.closest(
-            ".overflow-y-auto, .overflow-y-scroll",
+            ".overflow-y-auto, .overflow-y-scroll, .hide-scroll",
           ) as HTMLElement | null;
-          touchScroller =
-            el && el.scrollHeight > el.clientHeight ? el : null;
+
+          // STRICT CHECK: Ensure it actually HAS scrollable content
+          if (el && el.scrollHeight > el.clientHeight) {
+            touchScroller = el;
+          } else {
+            touchScroller = null;
+          }
         }
 
         function onTouchMove(e: TouchEvent) {
@@ -167,26 +172,30 @@
 
           if (!touchScroller) {
             // Non-scrollable (3D model, etc.) → block scroll entirely
-            e.preventDefault();
+            if (e.cancelable) e.preventDefault();
             return;
           }
 
           // Scrollable content: check boundaries
           const atTop = touchScroller.scrollTop <= 0;
+          // Use Math.ceil to prevent sub-pixel rounding errors on mobile
           const atBottom =
-            touchScroller.scrollTop + touchScroller.clientHeight >=
-            touchScroller.scrollHeight - 1;
+            Math.ceil(touchScroller.scrollTop + touchScroller.clientHeight) >=
+            touchScroller.scrollHeight;
 
           // Block overscroll past boundary
-          if (
-            (atBottom && incDelta > 0) ||
-            (atTop && incDelta < 0)
-          ) {
+          if ((atBottom && incDelta > 0) || (atTop && incDelta < 0)) {
             if (!hitBoundary) {
               hitBoundary = true;
               boundaryY = cy;
             }
-            e.preventDefault();
+            // Stop the native scroll here so it doesn't rubber-band the whole page
+            if (e.cancelable) e.preventDefault();
+          } else {
+            // **LET IT SCROLL!** Reset hit boundary because they are scrolling freely inside the content
+            hitBoundary = false;
+            // IMPORTANT: e.stopPropagation() ensures GSAP doesn't try to steal the event
+            e.stopPropagation();
           }
         }
 
@@ -198,7 +207,7 @@
 
           const endY = e.changedTouches[0].clientY;
           const overallDelta = touchStartY - endY; // +ve = swiped up
-          const TOLERANCE = 20;
+          const TOLERANCE = 40; // Increased tolerance slightly so mobile doesn't snap accidentally prev 20
 
           if (!touchScroller) {
             // Non-scrollable: any vertical swipe beyond tolerance → snap
