@@ -22,6 +22,7 @@
   import ImpactSection from "$lib/components/home/impact/ImpactSection.svelte";
   import CredentialsSection from "$lib/components/home/credentials/CredentialsSection.svelte";
   import ContactSection from "$lib/components/home/contact/ContactSection.svelte";
+  import { scrollTriggerTarget } from "$lib/stores/scroll-store";
 
   let observer: any;
   let keydownHandler: any;
@@ -148,6 +149,24 @@
           gotoSection(currentIndex); // Snap back strictly to current section
         });
         ro.observe(container);
+        // Subscribe to global mobile CTA events
+        const unsubscribe = scrollTriggerTarget.subscribe((targetId) => {
+          if (targetId && !isAnimating) {
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+              const targetIndex = sections.indexOf(targetSection);
+              if (targetIndex !== -1 && targetIndex !== currentIndex) {
+                // Instantly sync the store's desired location with GSAP's controlled linked-list
+                gotoSection(targetIndex);
+              }
+            }
+            // Clear the store after consumption so subsequent identical clicks work
+            scrollTriggerTarget.set(null); 
+          }
+        });
+
+        // Add unsubscribe to the observer cleanup later
+        observer.unsubscribeStore = unsubscribe;
       }
     });
 
@@ -161,7 +180,10 @@
       document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
     }
-    if (observer) observer.kill();
+    if (observer) {
+        observer.kill();
+        if (observer.unsubscribeStore) observer.unsubscribeStore();
+    }
     if (typeof window !== "undefined" && keydownHandler) {
       window.removeEventListener("keydown", keydownHandler);
     }

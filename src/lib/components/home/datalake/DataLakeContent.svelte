@@ -11,8 +11,7 @@
   import SectionCard from "$lib/components/ui/cards/SectionCard.svelte";
   import StorageGrid from "./desktop/StorageGrid.svelte";
   import { HardDrive } from "lucide-svelte";
-
-
+  import NextSectionMobileCTA from "$lib/components/ui/buttons/NextSectionMobileCTA.svelte";
 
 
 
@@ -178,6 +177,7 @@
           detailedPhilosophy={datalakeData.content.detailedPhilosophy}
         />
         <StorageGrid />
+        <NextSectionMobileCTA targetId="lakehouse" label="Next: Lakehouse" accentColor="emerald" />
       </div>
     </div>
   </svelte:fragment>

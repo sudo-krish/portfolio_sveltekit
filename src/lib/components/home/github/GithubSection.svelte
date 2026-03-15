@@ -12,8 +12,8 @@
     import RightGrid from "./desktop/RightGrid.svelte";
     import { Github, Code2 } from "lucide-svelte";
 
-    // Mobile
     import MobileGrid from "./mobile/MobileGrid.svelte";
+    import NextSectionMobileCTA from "$lib/components/ui/buttons/NextSectionMobileCTA.svelte";
 
     let leftPanel: HTMLElement;
     let rightPanel: HTMLElement;
@@ -153,6 +153,7 @@
                 </div>
 
                 <MobileGrid />
+                <NextSectionMobileCTA targetId="impact" label="Next: Impact & Results" accentColor="purple" />
             </div>
         </div>
     </svelte:fragment>

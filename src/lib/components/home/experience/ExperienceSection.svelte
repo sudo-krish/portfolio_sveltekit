@@ -13,6 +13,7 @@
     import { Briefcase, ArrowRight } from "lucide-svelte";
 
     import MobileCareerTimeline from "./mobile/MobileCareerTimeline.svelte";
+    import NextSectionMobileCTA from "$lib/components/ui/buttons/NextSectionMobileCTA.svelte";
 
 
 
@@ -187,6 +188,7 @@
                         accentColor="blue"
                     />
                 </div>
+                <NextSectionMobileCTA targetId="techstack" label="Next: Tech Stack" accentColor="blue" />
             </div>
         </div>
     </svelte:fragment>

@@ -12,8 +12,8 @@
     import LeftGrid from "./desktop/LeftGrid.svelte";
     import { ArrowRight } from "lucide-svelte";
 
-    // Mobile
     import MobileGrid from "./mobile/MobileGrid.svelte";
+    import NextSectionMobileCTA from "$lib/components/ui/buttons/NextSectionMobileCTA.svelte";
 
     let leftPanel: HTMLElement;
     let rightPanel: HTMLElement;
@@ -138,6 +138,7 @@
 
                 <!-- Mobile specific grid (stacked logic) -->
                 <MobileGrid />
+                <NextSectionMobileCTA targetId="credentials" label="Next: Credentials" accentColor="orange" />
             </div>
         </div>
     </svelte:fragment>

@@ -72,6 +72,15 @@
             activeSlide = 0;
             carouselEl.style.scrollBehavior = "smooth";
         }
+        
+        // Reset nested vertical scrolls so returning to a section feels fresh
+        if (wrapperEl) {
+            const scrollContainers = wrapperEl.querySelectorAll('.overflow-y-auto, .overflow-y-scroll');
+            scrollContainers.forEach(container => {
+                // Instantly reset vertical scroll
+                container.scrollTop = 0;
+            });
+        }
 
         if (isCurrentlyVisible) {
             carouselSwipeFraction.set(0);
@@ -183,7 +192,7 @@
         <div
             bind:this={carouselEl}
             onscroll={onScroll}
-            class="hide-scroll flex w-full h-full overflow-x-auto snap-x snap-mandatory pointer-events-auto touch-pan-y"
+            class="hide-scroll flex w-full h-full overflow-x-auto snap-x snap-mandatory pointer-events-auto touch-pan-x"
             style="scroll-behavior: smooth;"
         >
             {#if layout === "left"}
@@ -393,12 +402,13 @@
 
 <style>
     .hide-scroll {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-        overscroll-behavior-x: none;
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+        overscroll-behavior-x: none; /* Prevent horizontal bounce/pull-to-refresh */
+        overscroll-behavior-y: contain; /* Prevent vertical bleeding into parent */
     }
     .hide-scroll::-webkit-scrollbar {
-        display: none;
+        display: none; /* Chrome, Safari, Opera */
     }
     .flip-card {
         will-change: transform;

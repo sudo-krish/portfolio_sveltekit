@@ -69,25 +69,4 @@
             {/each}
         </div>
     </div>
-
-    <!-- Action Button -->
-    <a
-        href={experienceData.ui.cta.href}
-        class="w-full p-4 rounded-[1.25rem] bg-card/60 backdrop-blur-md border border-border flex items-center justify-between group overflow-hidden"
-    >
-        <div class="flex flex-col">
-            <span
-                class="font-mono text-[9px] text-blue-400 uppercase tracking-widest mb-1 block"
-                >Deep Dive</span
-            >
-            <span class="text-sm font-bold text-foreground"
-                >Explore Full Resume</span
-            >
-        </div>
-        <div
-            class="w-8 h-8 rounded-full bg-foreground/5 flex items-center justify-center"
-        >
-            <ArrowRight size={14} class="text-foreground/60" />
-        </div>
-    </a>
 </div>
