@@ -2,179 +2,104 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { splashComplete } from "$lib/stores/splash";
-  import { getPersonalInfo } from "$lib/data/portfolio-data";
-  import { Loader, Workflow, Database, ChartBar } from "lucide-svelte";
-
-  const personal = getPersonalInfo();
+  import { TerminalSquare } from "lucide-svelte";
 
   let visible = true;
   let fadeOut = false;
-  let progress = 0;
-  let currentPhase = 0;
+  let currentPhraseIndex = 0;
 
-  const phases = [
-    { icon: Database, text: "Collect & Ingest Data", percent: 25 },
-    { icon: Workflow, text: "Cleanse, Transform & Model", percent: 50 },
-    { icon: Loader, text: "Store, Orchestrate & Optimize", percent: 75 },
-    { icon: ChartBar, text: "Generate Insights & Activate AI", percent: 100 },
+  // Witty, data-engineer focused loading phrases
+  const phrases = [
+    "Waking up the hamsters...",
+    "Untangling spaghetti pipelines...",
+    "Querying the void...",
+    "Bribing the AWS algorithms...",
+    "Normalizing the chaos...",
+    "Extracting, transforming, loading...",
+    "Compiling awesomeness...",
   ];
 
   onMount(() => {
-    const interval = setInterval(() => {
-      if (progress < 100) {
-        progress += 2;
-
-        // Update phase based on progress
-        if (progress >= 75) {
-          currentPhase = 3;
-        } else if (progress >= 50) {
-          currentPhase = 2;
-        } else if (progress >= 25) {
-          currentPhase = 1;
-        } else {
-          currentPhase = 0;
-        }
-      } else {
-        clearInterval(interval);
-
-        setTimeout(() => {
-          fadeOut = true;
-          setTimeout(() => {
-            visible = false;
-            // ✅ Signal that splash is complete
-            splashComplete.set(true);
-          }, 500);
-        }, 300);
+    // Quickly cycle through phrases to give a "terminal processing" feel
+    const phraseInterval = setInterval(() => {
+      if (currentPhraseIndex < phrases.length - 1) {
+        currentPhraseIndex++;
       }
-    }, 30);
+    }, 450);
 
-    return () => clearInterval(interval);
+    // Total splash duration is ~3.5 seconds
+    const totalDuration = setTimeout(() => {
+      clearInterval(phraseInterval);
+      completeSplash();
+    }, 3500);
+
+    return () => {
+      clearInterval(phraseInterval);
+      clearTimeout(totalDuration);
+    };
   });
 
-  // Reactive statement to get current icon
-  $: currentIcon = phases[currentPhase].icon;
-  $: currentText = phases[currentPhase].text;
-
-  // ✅ Skip function for better UX
-  function skipSplash() {
-    progress = 100;
-    currentPhase = 3;
+  function completeSplash() {
     fadeOut = true;
     setTimeout(() => {
       visible = false;
       splashComplete.set(true);
-    }, 500);
+    }, 600); // Matches the CSS transition duration
+  }
+
+  // Allow impatient users to skip immediately
+  function skipSplash() {
+    completeSplash();
   }
 </script>
 
 {#if visible}
-  <div class="splash-screen" class:fade-out={fadeOut}>
-    <div class="splash-content">
-      <!-- LIQUID WAVE K WITH DEPTH -->
-      <div class="logo-container">
-        <svg
-          class="logo-svg"
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <defs>
-            <!-- Gradient for wave -->
-            <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop
-                offset="0%"
-                style="stop-color:hsl(var(--accent));stop-opacity:1"
-              />
-              <stop
-                offset="50%"
-                style="stop-color:hsl(var(--primary));stop-opacity:1"
-              />
-              <stop
-                offset="100%"
-                style="stop-color:hsl(var(--primary));stop-opacity:0.8"
-              />
-            </linearGradient>
+  <!-- svelte-ignore a11y_click_events_have_key_events -->
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
+  <div class="splash-screen" class:fade-out={fadeOut} on:click={skipSplash}>
+    <div class="splash-container">
+      <!-- CENTERED LOGO GROUP -->
+      <div class="logo-group">
+        <!-- Base Image Container -->
+        <div class="image-container">
+          <img src="/logo.jpg" alt="Profile" class="base-img" />
 
-            <!-- Wave pattern -->
-            <pattern
-              id="wave"
-              x="0"
-              y="-5"
-              width="100%"
-              height="100%"
-              patternUnits="userSpaceOnUse"
-            >
-              <path
-                d="M-40 45 Q-30 38 -20 45 T0 45 T20 45 T40 45 T60 45 T80 45 T100 45 T120 45 T140 45 V100 H-40z"
-                fill="url(#gradient)"
-              >
-                <animateTransform
-                  attributeName="transform"
-                  begin="0s"
-                  dur="2s"
-                  type="translate"
-                  from="0,0"
-                  to="40,0"
-                  repeatCount="indefinite"
-                />
-              </path>
-            </pattern>
-          </defs>
+          <!-- Animated Clear Water Bubble overlapping the image -->
+          <div class="water-bubble">
+            <!-- Glare/Reflections on the bubble -->
+            <div class="bubble-glare-top"></div>
+            <div class="bubble-glare-bottom"></div>
+          </div>
+        </div>
 
-          <!-- K with strong border/outline (creates depth) -->
-          <text
-            text-anchor="middle"
-            x="50"
-            y="75"
-            font-size="80"
-            font-weight="bold"
-            stroke="hsl(var(--muted-foreground))"
-            stroke-width="2"
-            fill="none">K</text
-          >
-
-          <!-- K with liquid wave fill -->
-          <text
-            text-anchor="middle"
-            x="50"
-            y="75"
-            font-size="80"
-            font-weight="bold"
-            fill="url(#wave)">K</text
-          >
-        </svg>
+        <!-- Minimalist 'K' Logo -->
+        <div class="logo-wrapper">
+          <span class="logo-text">K.</span>
+          <div class="blinking-cursor"></div>
+        </div>
       </div>
 
-      <!-- Phase indicator with key to force re-render -->
-      <div class="phase-indicator">
-        <div class="phase-icon">
-          {#key currentPhase}
-            <svelte:component
-              this={currentIcon}
-              class="icon"
-              size={18}
-              strokeWidth={2}
-            />
+      <!-- Witty Loading Text Sequence -->
+      <div class="text-wrapper">
+        <div class="terminal-header">
+          <TerminalSquare size={14} class="opacity-70" />
+          <span
+            class="font-mono text-[10px] uppercase tracking-[0.3em] font-bold"
+            >System Boot</span
+          >
+        </div>
+
+        <div class="phrase-container">
+          {#key currentPhraseIndex}
+            <p class="phrase-text">
+              > {phrases[currentPhraseIndex]}
+            </p>
           {/key}
         </div>
-        <p class="phase-text">{currentText}</p>
       </div>
 
-      <!-- Progress bar -->
-      <div class="progress-container">
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: {progress}%"></div>
-        </div>
-        <span class="progress-percent">{Math.round(progress)}%</span>
-      </div>
-
-      <!-- ✅ Skip button -->
-      <button
-        class="skip-button"
-        on:click={skipSplash}
-        aria-label="Skip loading animation"
-      >
-        Skip
-      </button>
+      <!-- Subtle skip hint -->
+      <p class="skip-hint">Click anywhere to skip</p>
     </div>
   </div>
 {/if}
@@ -183,192 +108,280 @@
   .splash-screen {
     position: fixed;
     inset: 0;
-    background: hsl(var(--background));
+    background: #09090b;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    animation: fadeIn 0.5s ease-out;
+    cursor: pointer;
+    transition: opacity 0.6s cubic-bezier(0.65, 0, 0.35, 1);
   }
 
   .splash-screen.fade-out {
-    animation: fadeOut 0.5s ease-in forwards;
+    opacity: 0;
+    pointer-events: none;
   }
 
-  .splash-content {
+  .splash-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 3rem;
-    text-align: center;
-    animation: slideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-    position: relative;
-  }
-
-  .logo-container {
-    width: 140px;
-    height: 140px;
-  }
-
-  .logo-svg {
     width: 100%;
-    height: 100%;
-    font-weight: bold;
+    max-width: 400px;
+    padding: 0 2rem;
   }
 
-  .phase-indicator {
+  .logo-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  /* --- Water Bubble Image Container --- */
+  .image-container {
+    position: relative;
+    width: 110px;
+    height: 110px;
     display: flex;
     align-items: center;
-    gap: 0.875rem;
-    padding: 0.75rem 1.25rem;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: var(--radius-lg);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    justify-content: center;
+    animation: dropIn 1s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
-  .phase-icon {
-    display: flex;
-    align-items: center;
-    color: hsl(var(--accent));
+  /* The actual image, slightly smaller than the container so the bubble overlaps it */
+  .base-img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 50%;
+    /* Keep it crisp and clear */
+    filter: brightness(1) contrast(1.05);
+    z-index: 0;
+    /* Soft shadow to ground the image */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
   }
 
-  .phase-icon :global(.icon) {
-    animation: spin 2s linear infinite;
-  }
-
-  .phase-text {
-    font-family: var(--font-sans);
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: hsl(var(--foreground));
-    letter-spacing: -0.01em;
-    margin: 0;
-  }
-
-  .progress-container {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    width: 300px;
-  }
-
-  .progress-bar {
-    flex: 1;
-    height: 6px;
-    background: hsl(var(--muted));
-    border-radius: 999px;
-    overflow: hidden;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
-  }
-
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)));
-    border-radius: 999px;
-    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 0 8px hsl(var(--accent) / 0.3);
-  }
-
-  .progress-percent {
-    font-family: var(--font-sans);
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: hsl(var(--accent));
-    text-shadow: 0 0 10px hsl(var(--accent) / 0.4);
-    font-variant-numeric: tabular-nums;
-    min-width: 44px;
-    text-align: right;
-    letter-spacing: -0.01em;
-  }
-
-  /* ✅ Skip button */
-  .skip-button {
+  /* The animated water droplet that sits ON TOP and OVERLAPS the image */
+  .water-bubble {
     position: absolute;
-    bottom: -4rem;
-    padding: 0.5rem 1.25rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: var(--radius);
-    color: hsl(var(--muted-foreground));
-    font-size: 0.8125rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    /* Bubble is larger (110px) than the image (70px) */
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    z-index: 10;
+
+    /* Very clear glass: almost no blur, just light refraction */
+    backdrop-filter: blur(0.5px) contrast(1.1);
+    -webkit-backdrop-filter: blur(0.5px) contrast(1.1);
+
+    /* Crystal clear gradient that creates the edge of the bubble */
+    background: radial-gradient(
+      circle at 30% 30%,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 40%,
+      rgba(255, 255, 255, 0.05) 80%,
+      rgba(255, 255, 255, 0.2) 100%
+    );
+
+    /* Inner light reflections for the glass edges */
+    box-shadow:
+      inset 2px 2px 5px rgba(255, 255, 255, 0.4),
+      inset -4px -4px 6px rgba(255, 255, 255, 0.1),
+      0 4px 15px rgba(0, 0, 0, 0.3); /* Soft shadow casting off the bubble */
+
+    /* Floating liquid animation */
+    animation: floatBubble 4s ease-in-out infinite;
   }
 
-  .skip-button:hover {
-    background: rgba(255, 255, 255, 0.1);
+  /* Top curved white reflection */
+  .bubble-glare-top {
+    position: absolute;
+    top: 10%;
+    left: 20%;
+    width: 45%;
+    height: 20%;
+    border-radius: 50%;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0)
+    );
+    transform: rotate(-30deg);
+    filter: blur(1px);
+    pointer-events: none;
+  }
+
+  /* Bottom subtle reflection */
+  .bubble-glare-bottom {
+    position: absolute;
+    bottom: 12%;
+    right: 15%;
+    width: 20%;
+    height: 10%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    filter: blur(2px);
+    transform: rotate(45deg);
+    pointer-events: none;
+  }
+
+  /* --- Logo Styles --- */
+  .logo-wrapper {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 4px;
+    animation: slideDown 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s both;
+  }
+
+  .logo-text {
+    font-family: var(--font-sans);
+    font-size: 4rem;
+    font-weight: 900;
+    line-height: 1;
     color: hsl(var(--foreground));
-    border-color: hsl(var(--primary) / 0.5);
-    box-shadow: 0 0 15px hsl(var(--primary) / 0.1);
-    transform: translateY(-2px);
+    letter-spacing: -0.05em;
   }
 
-  .skip-button:active {
-    transform: translateY(0);
+  .blinking-cursor {
+    width: 20px;
+    height: 10px;
+    background-color: hsl(var(--accent));
+    animation: blink 1s step-end infinite;
+    box-shadow: 0 0 10px hsl(var(--accent) / 0.5);
   }
 
-  /* Animations */
-  @keyframes fadeIn {
+  /* --- Typography & Text Styles --- */
+  .text-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s both;
+  }
+
+  .terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .phrase-container {
+    height: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .phrase-text {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: hsl(var(--foreground) / 0.8);
+    margin: 0;
+    white-space: nowrap;
+    text-align: center;
+    animation: typeIn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .skip-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: hsl(var(--muted-foreground) / 0.4);
+    animation: pulseSlow 3s infinite ease-in-out;
+  }
+
+  /* --- Animations --- */
+  /* This gives the bubble its organic, floating/breathing feeling */
+  @keyframes floatBubble {
+    0%,
+    100% {
+      transform: translateY(0) scale(1);
+      border-radius: 50%;
+    }
+    33% {
+      transform: translateY(-4px) scale(1.02);
+      border-radius: 52% 48% 51% 49% / 51% 49% 52% 48%; /* Organic morphing */
+    }
+    66% {
+      transform: translateY(3px) scale(0.98);
+      border-radius: 49% 51% 48% 52% / 48% 52% 49% 51%; /* Organic morphing */
+    }
+  }
+
+  @keyframes dropIn {
     from {
       opacity: 0;
+      transform: scale(0.5) translateY(-40px);
     }
     to {
       opacity: 1;
+      transform: scale(1) translateY(0);
     }
   }
 
-  @keyframes fadeOut {
+  @keyframes slideDown {
     from {
-      opacity: 1;
+      opacity: 0;
+      transform: translateY(-20px);
     }
     to {
-      opacity: 0;
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 
   @keyframes slideUp {
     from {
-      transform: translateY(40px);
       opacity: 0;
+      transform: translateY(20px);
     }
     to {
+      opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  @keyframes typeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes blink {
+    0%,
+    100% {
       opacity: 1;
     }
-  }
-
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
+    50% {
+      opacity: 0;
     }
   }
 
-  @media (max-width: 640px) {
-    .splash-content {
-      gap: 2.5rem;
+  @keyframes pulseSlow {
+    0%,
+    100% {
+      opacity: 0.3;
     }
-
-    .logo-container {
-      width: 120px;
-      height: 120px;
-    }
-
-    .progress-container {
-      width: 260px;
-    }
-
-    .skip-button {
-      bottom: -3rem;
-      font-size: 0.75rem;
-      padding: 0.4rem 1rem;
+    50% {
+      opacity: 0.8;
     }
   }
 </style>
