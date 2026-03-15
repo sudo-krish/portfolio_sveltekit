@@ -11,7 +11,6 @@
   import SectionCard from "$lib/components/ui/cards/SectionCard.svelte";
   import LakehouseGrid from "./desktop/LakehouseGrid.svelte";
   import { Database } from "lucide-svelte";
-  import NextSectionMobileCTA from "$lib/components/ui/buttons/NextSectionMobileCTA.svelte";
 
   let leftPanel: HTMLElement;
   let rightPanel: HTMLElement;
@@ -175,7 +174,6 @@
           detailedPhilosophy={lakehouseData.content.detailedPhilosophy}
         />
         <LakehouseGrid />
-        <NextSectionMobileCTA targetId="warehouse" label="Next: Warehouse" accentColor="blue" />
       </div>
     </div>
   </svelte:fragment>

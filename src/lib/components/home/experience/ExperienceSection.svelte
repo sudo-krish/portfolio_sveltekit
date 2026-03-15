@@ -13,9 +13,6 @@
     import { Briefcase, ArrowRight } from "lucide-svelte";
 
     import MobileCareerTimeline from "./mobile/MobileCareerTimeline.svelte";
-    import NextSectionMobileCTA from "$lib/components/ui/buttons/NextSectionMobileCTA.svelte";
-
-
 
     let leftPanel: HTMLElement;
     let rightPanel: HTMLElement;
@@ -116,7 +113,10 @@
                 class="w-[55%] h-full flex flex-col items-end justify-center pointer-events-auto"
                 style="padding-right: 3cqi;"
             >
-                <div class="flex flex-col items-end w-full" style="gap: 0.8cqi;">
+                <div
+                    class="flex flex-col items-end w-full"
+                    style="gap: 0.8cqi;"
+                >
                     <SectionCard
                         badge={experienceData.header.badge}
                         subtitle="Career Progression"
@@ -124,8 +124,10 @@
                         iconHoverColor="text-blue-400"
                         accentColor="border-blue-400/40"
                         gradientFrom="from-blue-400"
-                        shortDescription={experienceData.content.shortDescription}
-                        detailedPhilosophy={experienceData.content.detailedPhilosophy}
+                        shortDescription={experienceData.content
+                            .shortDescription}
+                        detailedPhilosophy={experienceData.content
+                            .detailedPhilosophy}
                     />
                     <CareerTimeline />
                 </div>
@@ -137,7 +139,10 @@
             class="absolute left-1/2 -translate-x-1/2 z-40 pointer-events-auto flex justify-center"
             style="bottom: 2cqi; max-width: 20cqi;"
         >
-            <div class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]" style="padding: 0.4cqi;">
+            <div
+                class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]"
+                style="padding: 0.4cqi;"
+            >
                 <PillButton
                     href={experienceData.ui.cta.href}
                     label={experienceData.ui.cta.label}
@@ -176,11 +181,14 @@
                     accentColor="border-blue-400/40"
                     gradientFrom="from-blue-400"
                     shortDescription={experienceData.content.shortDescription}
-                    detailedPhilosophy={experienceData.content.detailedPhilosophy}
+                    detailedPhilosophy={experienceData.content
+                        .detailedPhilosophy}
                 />
                 <MobileCareerTimeline />
 
-                <div class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] p-1.5 mt-2 w-max mx-auto">
+                <div
+                    class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] p-1.5 mt-2 w-max mx-auto"
+                >
                     <PillButton
                         href={experienceData.ui.cta.href}
                         label={experienceData.ui.cta.label}
@@ -188,7 +196,6 @@
                         accentColor="blue"
                     />
                 </div>
-                <NextSectionMobileCTA targetId="techstack" label="Next: Tech Stack" accentColor="blue" />
             </div>
         </div>
     </svelte:fragment>

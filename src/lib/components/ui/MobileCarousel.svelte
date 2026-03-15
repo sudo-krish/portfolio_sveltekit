@@ -1,8 +1,9 @@
 <!-- src/lib/components/ui/MobileCarousel.svelte -->
 <script lang="ts">
     import { onMount, onDestroy } from "svelte";
-    import { ChevronLeft, ChevronRight, Eye, FileText } from "lucide-svelte";
+    import { ChevronLeft, ChevronRight, Eye, FileText, ChevronUp, ChevronDown } from "lucide-svelte";
     import { carouselSwipeFraction } from "$lib/stores/carousel-store";
+    import { scrollDirection } from "$lib/stores/scroll-store";
     import gsap from "gsap";
 
     let {
@@ -328,73 +329,65 @@
             {/if}
         </div>
 
-        <!-- Pagination Indicator -->
-        <div
-            class="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 pointer-events-auto"
-        >
-            <div
-                class="relative flex items-center p-1.5 rounded-2xl bg-card border border-border shadow-lg"
-            >
-                <div
-                    class="absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-muted rounded-xl transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-sm"
-                    style="transform: translateX({activeSlide === 0
-                        ? '0'
-                        : '100%'}) translateX({activeSlide === 0
-                        ? '0px'
-                        : '6px'});"
-                ></div>
-                <button
-                    type="button"
-                    onclick={() => goToSlide(0)}
-                    class="relative z-10 flex items-center justify-center gap-2 px-5 py-3 w-32 rounded-xl transition-colors duration-300 {activeSlide ===
-                    0
-                        ? 'text-foreground font-bold'
-                        : 'text-muted-foreground'}"
-                >
-                    {#if layout === "left"}<Eye
-                            size={16}
-                            class={activeSlide === 0
-                                ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
-                                : ""}
-                        /><span
-                            class="font-mono text-[11px] font-bold uppercase tracking-widest"
-                            >3D Model</span
-                        >{:else}<FileText
-                            size={16}
-                            class={activeSlide === 0
-                                ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
-                                : ""}
-                        /><span
-                            class="font-mono text-[11px] font-bold uppercase tracking-widest"
-                            >Specs</span
-                        >{/if}
-                </button>
-                <button
-                    type="button"
-                    onclick={() => goToSlide(1)}
-                    class="relative z-10 flex items-center justify-center gap-2 px-5 py-3 w-32 rounded-xl transition-colors duration-300 {activeSlide ===
-                    1
-                        ? 'text-foreground font-bold'
-                        : 'text-muted-foreground'}"
-                >
-                    {#if layout === "left"}<FileText
-                            size={16}
-                            class={activeSlide === 1
-                                ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
-                                : ""}
-                        /><span
-                            class="font-mono text-[11px] font-bold uppercase tracking-widest"
-                            >Specs</span
-                        >{:else}<Eye
-                            size={16}
-                            class={activeSlide === 1
-                                ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
-                                : ""}
-                        /><span
-                            class="font-mono text-[11px] font-bold uppercase tracking-widest"
-                            >3D Model</span
-                        >{/if}
-                </button>
+        <!-- Pagination Indicator & Section Navigation -->
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 pointer-events-auto w-[90vw] max-w-[380px]">
+            <div class="relative flex items-center p-1.5 rounded-2xl bg-card border border-border shadow-lg gap-1">
+                <!-- 3D / Specs Toggle -->
+                <div class="relative flex items-center flex-1 min-w-0">
+                    <div
+                        class="absolute top-0 bottom-0 w-1/2 bg-muted rounded-xl transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-sm"
+                        style="transform: translateX({activeSlide === 0 ? '0' : '100%'});"
+                    ></div>
+                    <button
+                        type="button"
+                        onclick={() => goToSlide(0)}
+                        class="relative z-10 flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl transition-colors duration-300 {activeSlide === 0 ? 'text-foreground font-bold' : 'text-muted-foreground'}"
+                    >
+                        {#if layout === "left"}
+                            <Eye size={16} class={activeSlide === 0 ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" : ""} />
+                            <span class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate">3D Model</span>
+                        {:else}
+                            <FileText size={16} class={activeSlide === 0 ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" : ""} />
+                            <span class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate">Specs</span>
+                        {/if}
+                    </button>
+                    <button
+                        type="button"
+                        onclick={() => goToSlide(1)}
+                        class="relative z-10 flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl transition-colors duration-300 {activeSlide === 1 ? 'text-foreground font-bold' : 'text-muted-foreground'}"
+                    >
+                        {#if layout === "left"}
+                            <FileText size={16} class={activeSlide === 1 ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" : ""} />
+                            <span class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate">Specs</span>
+                        {:else}
+                            <Eye size={16} class={activeSlide === 1 ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" : ""} />
+                            <span class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate">3D Model</span>
+                        {/if}
+                    </button>
+                </div>
+                
+                <!-- Divider -->
+                <div class="w-px h-8 bg-border/50 mx-1 shrink-0"></div>
+
+                <!-- Up/Down Section Nav -->
+                <div class="flex items-center gap-1 shrink-0">
+                    <button
+                        type="button"
+                        onclick={() => scrollDirection.set(-1)}
+                        aria-label="Previous Section"
+                        class="w-10 h-10 rounded-xl flex items-center justify-center bg-transparent hover:bg-muted text-foreground transition-colors active:scale-95"
+                    >
+                        <ChevronUp size={20} />
+                    </button>
+                    <button
+                        type="button"
+                        onclick={() => scrollDirection.set(1)}
+                        aria-label="Next Section"
+                        class="w-10 h-10 rounded-xl flex items-center justify-center bg-transparent hover:bg-muted text-foreground transition-colors active:scale-95"
+                    >
+                        <ChevronDown size={20} />
+                    </button>
+                </div>
             </div>
         </div>
     </div>

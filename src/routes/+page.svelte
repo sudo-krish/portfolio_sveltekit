@@ -22,7 +22,10 @@
   import ImpactSection from "$lib/components/home/impact/ImpactSection.svelte";
   import CredentialsSection from "$lib/components/home/credentials/CredentialsSection.svelte";
   import ContactSection from "$lib/components/home/contact/ContactSection.svelte";
-  import { scrollTriggerTarget } from "$lib/stores/scroll-store";
+  import {
+    scrollTriggerTarget,
+    scrollDirection,
+  } from "$lib/stores/scroll-store";
 
   let observer: any;
   let keydownHandler: any;
@@ -150,23 +153,37 @@
         });
         ro.observe(container);
         // Subscribe to global mobile CTA events
-        const unsubscribe = scrollTriggerTarget.subscribe((targetId) => {
+        const unsubscribeTarget = scrollTriggerTarget.subscribe((targetId) => {
           if (targetId && !isAnimating) {
             const targetSection = document.getElementById(targetId);
             if (targetSection) {
               const targetIndex = sections.indexOf(targetSection);
               if (targetIndex !== -1 && targetIndex !== currentIndex) {
-                // Instantly sync the store's desired location with GSAP's controlled linked-list
                 gotoSection(targetIndex);
               }
             }
-            // Clear the store after consumption so subsequent identical clicks work
-            scrollTriggerTarget.set(null); 
+            scrollTriggerTarget.set(null);
           }
         });
 
-        // Add unsubscribe to the observer cleanup later
-        observer.unsubscribeStore = unsubscribe;
+        // Subscribe to relative up/down navigation (e.g., from mobilecarousel arrows)
+        const unsubscribeDir = scrollDirection.subscribe((dir) => {
+          if (dir !== 0 && !isAnimating) {
+            // Determine new index and clamp to boundaries
+            const newIndex = Math.max(
+              0,
+              Math.min(currentIndex + dir, sections.length - 1),
+            );
+            if (newIndex !== currentIndex) {
+              gotoSection(newIndex);
+            }
+            scrollDirection.set(0); // Consumption
+          }
+        });
+
+        // Add unsubscribes to the observer cleanup later
+        observer.unsubscribeTarget = unsubscribeTarget;
+        observer.unsubscribeDir = unsubscribeDir;
       }
     });
 
@@ -181,8 +198,9 @@
       document.body.style.overflow = "";
     }
     if (observer) {
-        observer.kill();
-        if (observer.unsubscribeStore) observer.unsubscribeStore();
+      observer.kill();
+      if (observer.unsubscribeTarget) observer.unsubscribeTarget();
+      if (observer.unsubscribeDir) observer.unsubscribeDir();
     }
     if (typeof window !== "undefined" && keydownHandler) {
       window.removeEventListener("keydown", keydownHandler);

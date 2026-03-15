@@ -11,7 +11,6 @@
     import RightGrid from "./desktop/RightGrid.svelte";
     import { ArrowRight } from "lucide-svelte";
     import MobileGrid from "./mobile/MobileGrid.svelte";
-    import NextSectionMobileCTA from "$lib/components/ui/buttons/NextSectionMobileCTA.svelte";
     let leftPanel: HTMLElement;
     let rightPanel: HTMLElement;
 
@@ -98,7 +97,10 @@
             class="absolute left-1/2 -translate-x-1/2 z-40 pointer-events-auto flex justify-center"
             style="bottom: 2cqi; max-width: 20cqi;"
         >
-            <div class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]" style="padding: 0.4cqi;">
+            <div
+                class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]"
+                style="padding: 0.4cqi;"
+            >
                 <PillButton
                     href={certificatesData.ui.cta.href}
                     label={certificatesData.ui.cta.label}
@@ -126,7 +128,9 @@
                     align="center"
                 />
 
-                <div class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] p-1.5 w-max mx-auto">
+                <div
+                    class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] p-1.5 w-max mx-auto"
+                >
                     <PillButton
                         href={certificatesData.ui.cta.href}
                         label={certificatesData.ui.cta.label}
@@ -136,7 +140,6 @@
                 </div>
 
                 <MobileGrid />
-                <NextSectionMobileCTA targetId="contact" label="Next: Contact" accentColor="white" />
             </div>
         </div>
     </svelte:fragment>

@@ -12,7 +12,7 @@
     import { ArrowRight } from "lucide-svelte";
 
     import MobileGrid from "./mobile/MobileGrid.svelte";
-    import NextSectionMobileCTA from "$lib/components/ui/buttons/NextSectionMobileCTA.svelte";    let leftPanel: HTMLElement;
+    let leftPanel: HTMLElement;
     let rightPanel: HTMLElement;
     let mobilePanel: HTMLElement;
 
@@ -155,7 +155,6 @@
                 </div>
 
                 <MobileGrid />
-                <NextSectionMobileCTA targetId="github" label="Next: GitHub Stats" accentColor="green" />
             </div>
         </div>
     </svelte:fragment>

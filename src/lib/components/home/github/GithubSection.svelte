@@ -13,7 +13,6 @@
     import { Github, Code2 } from "lucide-svelte";
 
     import MobileGrid from "./mobile/MobileGrid.svelte";
-    import NextSectionMobileCTA from "$lib/components/ui/buttons/NextSectionMobileCTA.svelte";
 
     let leftPanel: HTMLElement;
     let rightPanel: HTMLElement;
@@ -101,7 +100,10 @@
             class="absolute left-1/2 -translate-x-1/2 z-40 pointer-events-auto flex justify-center"
             style="bottom: 2cqi;"
         >
-            <div class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]" style="gap: 0.4cqi; padding: 0.4cqi;">
+            <div
+                class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]"
+                style="gap: 0.4cqi; padding: 0.4cqi;"
+            >
                 <PillButton
                     href="/github"
                     label="GitHub"
@@ -136,14 +138,18 @@
                     align="center"
                 />
 
-                <div class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] p-1.5 w-max mx-auto gap-2">
+                <div
+                    class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] p-1.5 w-max mx-auto gap-2"
+                >
                     <PillButton
                         href="/github"
                         label="GitHub"
                         Icon={Github}
                         accentColor="green"
                     />
-                    <div class="w-[1px] bg-foreground/10 self-stretch my-1"></div>
+                    <div
+                        class="w-[1px] bg-foreground/10 self-stretch my-1"
+                    ></div>
                     <PillButton
                         href="/leetcode"
                         label="LeetCode"
@@ -153,7 +159,6 @@
                 </div>
 
                 <MobileGrid />
-                <NextSectionMobileCTA targetId="impact" label="Next: Impact & Results" accentColor="purple" />
             </div>
         </div>
     </svelte:fragment>

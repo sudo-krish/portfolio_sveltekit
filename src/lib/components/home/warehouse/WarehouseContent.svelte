@@ -10,7 +10,6 @@
   import SectionAnchor from "$lib/components/ui/anchors/SectionAnchor.svelte";
   import WarehouseGrid from "./desktop/WarehouseGrid.svelte";
   import { BarChart3 } from "lucide-svelte";
-  import NextSectionMobileCTA from "$lib/components/ui/buttons/NextSectionMobileCTA.svelte";
 
 
   let leftPanel: HTMLElement;
@@ -167,7 +166,6 @@
           ]}
         />
         <WarehouseGrid />
-        <NextSectionMobileCTA targetId="experience" label="Next: Experience" accentColor="purple" />
       </div>
     </div>
   </svelte:fragment>
