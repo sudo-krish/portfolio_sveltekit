@@ -25,23 +25,9 @@
     let observer: IntersectionObserver;
     let isCurrentlyVisible = $state(false);
 
-    // Lock GSAP from seeing ANY wheel or touch events inside scrollable content containers.
+    // Prevent desktop wheel events from bubbling to GSAP observer
+    // when inside scrollable content containers.
     function handleWheel(e: WheelEvent) {
-        const target = e.target as HTMLElement;
-        const container = target.closest(
-            ".overflow-y-auto, .overflow-y-scroll",
-        ) as HTMLElement;
-
-        if (container && container.scrollHeight > container.clientHeight) {
-            e.stopPropagation();
-        }
-    }
-
-    function handleTouchStart(e: TouchEvent) {
-        // No state tracking needed for unconditional blocking
-    }
-
-    function handleTouchMove(e: TouchEvent) {
         const target = e.target as HTMLElement;
         const container = target.closest(
             ".overflow-y-auto, .overflow-y-scroll",
@@ -186,14 +172,12 @@
     <div
         class="lg:hidden w-full h-[100dvh] relative"
         onwheel={handleWheel}
-        ontouchstart={handleTouchStart}
-        ontouchmove={handleTouchMove}
     >
         <!-- FIXED: Pure CSS Snap scrolling. No GSAP interference. -->
         <div
             bind:this={carouselEl}
             onscroll={onScroll}
-            class="hide-scroll flex w-full h-full overflow-x-auto snap-x snap-mandatory pointer-events-auto touch-pan-x"
+            class="hide-scroll flex w-full h-full overflow-x-auto snap-x snap-mandatory pointer-events-auto touch-auto"
             style="scroll-behavior: smooth;"
         >
             {#if layout === "left"}

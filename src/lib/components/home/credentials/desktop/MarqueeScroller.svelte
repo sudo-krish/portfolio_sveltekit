@@ -93,29 +93,70 @@
     }
 
     // --- Drag Handlers ---
+    // We delay pointer capture until we've confirmed the gesture is horizontal.
+    // If the initial movement is primarily vertical, we bail out entirely so the
+    // browser's native page scroll (or carousel swipe) isn't blocked.
+    // We also delay capture past a 5px threshold so simple clicks pass through
+    // to child <button> elements.
+    let pointerDown = false;
+    let startY = 0;
+    let axisLocked: "none" | "horizontal" | "vertical" = "none";
+
     function onPointerDown(e: PointerEvent) {
-        isDragging = true;
+        pointerDown = true;
         startX = e.clientX;
-        dragDistance = 0; // Reset on down
-        trackElement.style.cursor = "grabbing";
-        containerElement.setPointerCapture(e.pointerId);
+        startY = e.clientY;
+        dragDistance = 0;
+        axisLocked = "none";
     }
 
     function onPointerMove(e: PointerEvent) {
-        if (!isDragging) return;
-
-        // Vigorously prevent default and stop propagation during an active drag
-        if (e.cancelable) e.preventDefault();
-        e.stopPropagation();
+        if (!pointerDown) return;
 
         const deltaX = e.clientX - startX;
-        dragDistance += Math.abs(deltaX); // Accumulate movement
-        position += deltaX;
+
+        // First significant movement decides the axis lock
+        if (axisLocked === "none") {
+            const absX = Math.abs(e.clientX - startX);
+            const absY = Math.abs(e.clientY - startY);
+            const totalMove = absX + absY;
+
+            if (totalMove >= 5) {
+                axisLocked = absX >= absY ? "horizontal" : "vertical";
+            }
+        }
+
+        // Vertical gesture — bail out, let the page scroll
+        if (axisLocked === "vertical") {
+            pointerDown = false;
+            return;
+        }
+
+        dragDistance += Math.abs(deltaX);
+
+        // Horizontal gesture — capture and drag the marquee
+        if (axisLocked === "horizontal" && dragDistance >= 5) {
+            if (!isDragging) {
+                isDragging = true;
+                trackElement.style.cursor = "grabbing";
+                try {
+                    containerElement.setPointerCapture(e.pointerId);
+                } catch {}
+            }
+
+            if (e.cancelable) e.preventDefault();
+            e.stopPropagation();
+            position += deltaX;
+        }
+
         startX = e.clientX;
+        startY = e.clientY;
     }
 
     function onPointerUp(e: PointerEvent) {
+        pointerDown = false;
         isDragging = false;
+        axisLocked = "none";
         trackElement.style.cursor = "grab";
         try {
             if (containerElement.hasPointerCapture(e.pointerId)) {

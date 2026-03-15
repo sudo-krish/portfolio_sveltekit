@@ -83,56 +83,149 @@
           });
         }
 
-        // Guard: if a touch/pointer started inside a scrollable child, don't snap.
-        // Also exempt touches inside any content-mobile slide or horizontal carousel
-        // to prevent section-snapping from stealing touch events on content pages.
+        // Guard: desktop wheel/pointer inside scrollable content should not snap
         function isInsideScrollableChild(self: any): boolean {
           const evt = self.event as TouchEvent | PointerEvent;
           const target = evt?.target as HTMLElement;
           if (!target) return false;
-
-          // If inside a vertical scrollable container that actually overflows, exempt
           const scroller = target.closest(
             ".overflow-y-auto, .overflow-y-scroll",
           ) as HTMLElement;
-          if (scroller && scroller.scrollHeight > scroller.clientHeight)
-            return true;
-
-          // If inside a horizontal snap carousel (MobileCarousel content area), exempt
-          // This prevents GSAP from eating touch events on content slides even when
-          // the content fits without scrolling
-          const snapCarousel = target.closest(".snap-x") as HTMLElement;
-          if (snapCarousel) return true;
-
-          // If inside an overscroll-contain element (content-mobile wrapper), exempt
-          const overscrollContained = target.closest(
-            ".overscroll-contain",
-          ) as HTMLElement;
-          if (overscrollContained) return true;
-
-          return false;
+          return !!(scroller && scroller.scrollHeight > scroller.clientHeight);
         }
 
-        // 4. Intercept the user's mouse wheel / trackpad
+        // 4. DESKTOP: GSAP observer for wheel & pointer (no touch)
         observer = ScrollTrigger.observe({
           target: container,
-          type: "wheel,touch,pointer",
+          type: "wheel,pointer",
           wheelSpeed: -1,
           tolerance: 10,
-          preventDefault: true, // Blocks the fast native browser scrolling
+          preventDefault: true,
           onUp: (self) => {
-            // Must be distinctly scrolling UP, not swiping left/right
             if (Math.abs(self.deltaX) > Math.abs(self.deltaY)) return;
             if (isInsideScrollableChild(self)) return;
             if (!isAnimating) gotoSection(currentIndex + 1);
           },
           onDown: (self) => {
-            // Must be distinctly scrolling DOWN, not swiping left/right
             if (Math.abs(self.deltaX) > Math.abs(self.deltaY)) return;
             if (isInsideScrollableChild(self)) return;
             if (!isAnimating) gotoSection(currentIndex - 1);
           },
         });
+
+        // 5. MOBILE: Custom touch handling with boundary-aware snapping
+        //
+        // Rules:
+        //  - Horizontal gestures → pass through (carousel CSS snap)
+        //  - Vertical in non-scrollable area → block native scroll, snap section
+        //  - Vertical in scrollable area → native scroll until boundary,
+        //    then block overscroll and snap on touchend
+        let touchStartY = 0;
+        let touchStartX = 0;
+        let lastTouchY = 0;
+        let touchAxis: "none" | "h" | "v" = "none";
+        let touchScroller: HTMLElement | null = null;
+        let hitBoundary = false;
+        let boundaryY = 0;
+
+        function onTouchStart(e: TouchEvent) {
+          touchStartY = e.touches[0].clientY;
+          touchStartX = e.touches[0].clientX;
+          lastTouchY = touchStartY;
+          touchAxis = "none";
+          hitBoundary = false;
+          boundaryY = 0;
+
+          const target = e.target as HTMLElement;
+          const el = target.closest(
+            ".overflow-y-auto, .overflow-y-scroll",
+          ) as HTMLElement | null;
+          touchScroller =
+            el && el.scrollHeight > el.clientHeight ? el : null;
+        }
+
+        function onTouchMove(e: TouchEvent) {
+          const cy = e.touches[0].clientY;
+          const cx = e.touches[0].clientX;
+
+          // Lock axis on first significant movement
+          if (touchAxis === "none") {
+            const ax = Math.abs(cx - touchStartX);
+            const ay = Math.abs(cy - touchStartY);
+            if (ax + ay >= 10) {
+              touchAxis = ax > ay ? "h" : "v";
+            }
+          }
+
+          if (touchAxis !== "v") {
+            lastTouchY = cy;
+            return; // horizontal → carousel handles it
+          }
+
+          const incDelta = lastTouchY - cy; // +ve = finger moving up
+          lastTouchY = cy;
+
+          if (!touchScroller) {
+            // Non-scrollable (3D model, etc.) → block scroll entirely
+            e.preventDefault();
+            return;
+          }
+
+          // Scrollable content: check boundaries
+          const atTop = touchScroller.scrollTop <= 0;
+          const atBottom =
+            touchScroller.scrollTop + touchScroller.clientHeight >=
+            touchScroller.scrollHeight - 1;
+
+          // Block overscroll past boundary
+          if (
+            (atBottom && incDelta > 0) ||
+            (atTop && incDelta < 0)
+          ) {
+            if (!hitBoundary) {
+              hitBoundary = true;
+              boundaryY = cy;
+            }
+            e.preventDefault();
+          }
+        }
+
+        function onTouchEnd(e: TouchEvent) {
+          if (touchAxis !== "v" || isAnimating) {
+            touchAxis = "none";
+            return;
+          }
+
+          const endY = e.changedTouches[0].clientY;
+          const overallDelta = touchStartY - endY; // +ve = swiped up
+          const TOLERANCE = 20;
+
+          if (!touchScroller) {
+            // Non-scrollable: any vertical swipe beyond tolerance → snap
+            if (Math.abs(overallDelta) >= TOLERANCE) {
+              if (overallDelta > 0) gotoSection(currentIndex + 1);
+              else gotoSection(currentIndex - 1);
+            }
+          } else if (hitBoundary) {
+            // Scrollable content at boundary: check past-boundary movement
+            const pastDelta = boundaryY - endY;
+            if (Math.abs(pastDelta) >= TOLERANCE) {
+              if (pastDelta > 0) gotoSection(currentIndex + 1);
+              else gotoSection(currentIndex - 1);
+            }
+          }
+
+          touchAxis = "none";
+          hitBoundary = false;
+        }
+
+        container.addEventListener("touchstart", onTouchStart, {
+          passive: true,
+        });
+        container.addEventListener("touchmove", onTouchMove, {
+          passive: false,
+        });
+        container.addEventListener("touchend", onTouchEnd);
 
         // 5. Intercept the keyboard keys
         keydownHandler = (e: KeyboardEvent) => {

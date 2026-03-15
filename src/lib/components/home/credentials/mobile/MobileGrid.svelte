@@ -81,7 +81,7 @@
                     <button
                         type="button"
                         class="flex items-center gap-3 w-full p-3 sm:p-4 hover:bg-foreground/[0.02] rounded-xl transition-colors duration-300 text-left cursor-pointer"
-                        on:click={() => toggleAccordion(item.id)}
+                        onclick={() => toggleAccordion(item.id)}
                     >
                         <!-- Icon Circle -->
                         <div

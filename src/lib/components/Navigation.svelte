@@ -1,37 +1,47 @@
 <!-- src/lib/components/Navigation.svelte -->
 <script lang="ts">
-  import { Briefcase, Mail, Home } from "lucide-svelte";
-  import { onMount, onDestroy } from "svelte";
+  import { Home, User, BookOpen, Code, FileText } from "lucide-svelte";
+  import { onMount } from "svelte";
+  import { page } from "$app/stores";
   import ThemeToggle from "$lib/components/ThemeToggle.svelte";
 
-  let activeSection = $state("hero");
-  let hoveredSection = $state<string | null>(null);
+  let hoveredItem = $state<string | null>(null);
 
   // Dock interaction states
   let isHoveredDock = $state(false);
   let isIdle = $state(false);
   let idleTimer: ReturnType<typeof setTimeout>;
 
-  const IDLE_TIMEOUT = 2000; // 2 seconds of no scrolling shrinks the dock
+  const IDLE_TIMEOUT = 2000;
 
   const navItems = [
-    { label: "Home", id: "hero", icon: Home },
-    { label: "Metrics", id: "metrics", icon: Briefcase },
-    { label: "Contact", id: "contact", icon: Mail },
+    { label: "Home", href: "/", icon: Home },
+    { label: "About", href: "/about", icon: User },
+    { label: "Learn", href: "/learn", icon: BookOpen },
+    { label: "Projects", href: "/projects", icon: Code },
+    { label: "Articles", href: "/articles", icon: FileText },
   ];
 
-  let targetSection = $derived(hoveredSection || activeSection);
-  let activeIndex = $derived(navItems.findIndex((n) => n.id === targetSection));
-  let safeIndex = $derived(activeIndex !== -1 ? activeIndex : 0);
+  // Determine which item is active based on current path
+  let activePath = $derived($page.url.pathname);
+  let activeIndex = $derived(() => {
+    // Exact match for home, prefix match for others
+    const idx = navItems.findIndex((n) =>
+      n.href === "/" ? activePath === "/" : activePath.startsWith(n.href),
+    );
+    return idx !== -1 ? idx : 0;
+  });
 
-  // The dock shrinks if the user is idle (not scrolling) AND not hovering over the dock.
+  let hoveredIndex = $derived(
+    hoveredItem ? navItems.findIndex((n) => n.href === hoveredItem) : -1,
+  );
+  let displayIndex = $derived(hoveredIndex !== -1 ? hoveredIndex : activeIndex());
+
   let isShrunk = $derived(isIdle && !isHoveredDock);
 
   const resetIdleTimer = () => {
-    isIdle = false; // Wake up immediately on scroll
+    isIdle = false;
     clearTimeout(idleTimer);
-
-    // Start countdown to sleep, UNLESS we are currently hovering over the dock
     if (!isHoveredDock) {
       idleTimer = setTimeout(() => {
         isIdle = true;
@@ -39,53 +49,16 @@
     }
   };
 
-  const scrollToSection = (sectionId: string) => {
-    activeSection = sectionId;
-    if (sectionId === "hero") {
-      document
-        .querySelector(".snap-container")
-        ?.scrollTo({ top: 0, behavior: "smooth" });
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      const section = document.getElementById(sectionId);
-      if (section) {
-        const y = section.getBoundingClientRect().top + window.scrollY - 100;
-        window.scrollTo({ top: y, behavior: "smooth" });
-      }
-    }
-    resetIdleTimer();
-  };
-
   onMount(() => {
-    // ONLY listen to scroll events to wake up the dock globally.
-    // Removed mousemove/touchstart so it ignores random screen interactions.
     window.addEventListener("scroll", resetIdleTimer, { passive: true });
-
-    // Start initial timer so it hides after page load if no action happens
     resetIdleTimer();
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.find((e) => e.isIntersecting);
-        if (visible) activeSection = visible.target.id;
-      },
-      { threshold: 0.5, rootMargin: "-100px 0px -40% 0px" },
-    );
-
-    navItems.forEach(({ id }) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
 
     return () => {
-      observer.disconnect();
       window.removeEventListener("scroll", resetIdleTimer);
       clearTimeout(idleTimer);
     };
   });
 
-  // Keep dock awake indefinitely while hovering over it.
-  // When hover ends, start the sleep timer.
   $effect(() => {
     if (isHoveredDock) {
       isIdle = false;
@@ -97,12 +70,11 @@
 </script>
 
 <!-- FLOATING PREMIUM DOCK -->
-<!-- Hover area is expanded slightly using padding to make it easier to "catch" with the mouse -->
 <div
   class="fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] origin-top pb-4 pt-2
          {isShrunk
     ? 'top-2 sm:top-3 scale-75 sm:scale-90 opacity-40 hover:opacity-100'
-    : 'top-4 sm:top-6 scale-100 opacity-100 w-[94%] sm:w-max max-w-[480px] sm:max-w-none'}"
+    : 'top-4 sm:top-6 scale-100 opacity-100 w-[94%] sm:w-max max-w-[560px] sm:max-w-none'}"
   onmouseenter={() => (isHoveredDock = true)}
   onmouseleave={() => (isHoveredDock = false)}
   role="navigation"
@@ -113,13 +85,13 @@
            {isShrunk ? 'p-1 px-3' : 'p-1.5 sm:p-2'}"
   >
     <!-- LEFT: Personal Brand / Avatar -->
-    <button
-      class="relative z-10 flex items-center gap-3 py-1 group shrink-0 active:scale-95 overflow-hidden transition-all duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)]
+    <a
+      href="/"
+      class="relative z-10 flex items-center gap-3 py-1 group shrink-0 active:scale-95 overflow-hidden transition-all duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] no-underline
              {isShrunk
         ? 'max-w-0 opacity-0 pl-0 pr-0 ml-0 mr-0 border-0'
         : 'max-w-[150px] opacity-100 pl-1 sm:pl-1.5 pr-2 sm:pr-4 ml-0 mr-2 sm:mr-0'}"
-      onclick={() => scrollToSection("hero")}
-      aria-label="Go to top"
+      aria-label="Go to home"
     >
       <div
         class="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-[hsl(var(--border))] group-hover:border-[hsl(var(--primary))] transition-colors duration-500 shadow-sm shrink-0"
@@ -144,56 +116,56 @@
           sudo_krish
         </span>
       </div>
-    </button>
+    </a>
 
-    <!-- CENTER: The Recessed Navigation Track -->
+    <!-- CENTER: Navigation Track -->
     <nav
       class="relative z-10 flex items-center p-1 rounded-full transition-all duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)]
              {isShrunk
         ? 'mx-0 bg-transparent shadow-none border-transparent'
         : 'bg-[hsl(var(--muted))] shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)] border border-[hsl(var(--border)/0.5)] mx-auto sm:mx-0'}"
-      onmouseleave={() => (hoveredSection = null)}
+      onmouseleave={() => (hoveredItem = null)}
     >
-      <!-- The Magic Sliding Pill -->
+      <!-- Sliding Pill -->
       <div
         class="absolute top-1 bottom-1 rounded-full bg-[hsl(var(--card))] border border-[hsl(var(--border))] shadow-[var(--shadow-sm)] transition-all duration-500 ease-[cubic-bezier(0.175,0.885,0.32,1.1)] pointer-events-none
                {isShrunk
           ? 'opacity-0 scale-75 w-10'
-          : 'opacity-100 scale-100 w-11 sm:w-[92px]'}"
-        style="transform: translateX(calc({safeIndex} * 100%));"
+          : 'opacity-100 scale-100 w-11 sm:w-[80px]'}"
+        style="transform: translateX(calc({displayIndex} * 100%));"
       >
         <div
           class="absolute inset-x-2 top-0 h-px bg-[hsl(var(--glass-highlight))] opacity-50"
         ></div>
       </div>
 
-      {#each navItems as { label, id, icon: Icon }}
-        <button
-          class="relative z-10 h-8 sm:h-9 flex items-center justify-center transition-all duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group rounded-full active:scale-95
-                 {isShrunk ? 'w-9 gap-0' : 'w-11 sm:w-[92px] gap-2'}"
-          onclick={() => scrollToSection(id)}
-          onmouseenter={() => (hoveredSection = id)}
+      {#each navItems as { label, href, icon: Icon }}
+        <a
+          {href}
+          class="relative z-10 h-8 sm:h-9 flex items-center justify-center transition-all duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group rounded-full active:scale-95 no-underline
+                 {isShrunk ? 'w-9 gap-0' : 'w-11 sm:w-[80px] gap-1.5'}"
+          onmouseenter={() => (hoveredItem = href)}
           aria-label="Go to {label}"
         >
           <Icon
             size={isShrunk ? 18 : 16}
-            strokeWidth={targetSection === id && !isShrunk ? 2.5 : 2}
-            class="transition-all duration-500 shrink-0 {targetSection === id
+            strokeWidth={(href === "/" ? activePath === "/" : activePath.startsWith(href)) && !isShrunk ? 2.5 : 2}
+            class="transition-all duration-500 shrink-0 {(href === '/' ? activePath === '/' : activePath.startsWith(href))
               ? 'text-[hsl(var(--primary))] drop-shadow-[0_0_8px_hsl(var(--primary)/0.6)] scale-105'
               : 'text-[hsl(var(--muted-foreground))] group-hover:text-[hsl(var(--foreground))]/80'}"
           />
           <span
-            class="font-sans text-[12px] tracking-wide transition-all duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden whitespace-nowrap block
+            class="font-sans text-[11px] tracking-wide transition-all duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden whitespace-nowrap block
                    {isShrunk
               ? 'max-w-0 opacity-0'
               : 'max-w-[100px] opacity-100 hidden sm:block'}
-                   {targetSection === id
+                   {(href === '/' ? activePath === '/' : activePath.startsWith(href))
               ? 'text-[hsl(var(--foreground))] font-bold'
               : 'text-[hsl(var(--muted-foreground))] font-semibold group-hover:text-[hsl(var(--foreground))]/80'}"
           >
             {label}
           </span>
-        </button>
+        </a>
       {/each}
     </nav>
 

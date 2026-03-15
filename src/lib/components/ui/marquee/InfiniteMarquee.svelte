@@ -58,24 +58,72 @@
     }
 
     // --- Drag Handlers ---
+    // We delay pointer capture until we've confirmed the gesture is horizontal.
+    // If the initial movement is primarily vertical, we bail out entirely so the
+    // browser's native page scroll (or carousel swipe) isn't blocked.
+    let pointerDown = false;
+    let startY = 0;
+    let axisLocked: "none" | "horizontal" | "vertical" = "none";
+
     function onPointerDown(e: PointerEvent) {
-        isDragging = true;
+        pointerDown = true;
         startX = e.clientX;
-        trackElement.style.cursor = "grabbing";
-        containerElement.setPointerCapture(e.pointerId);
+        startY = e.clientY;
+        axisLocked = "none";
     }
 
     function onPointerMove(e: PointerEvent) {
-        if (!isDragging) return;
+        if (!pointerDown) return;
+
         const deltaX = e.clientX - startX;
-        position += deltaX;
-        startX = e.clientX; // Update startX for the next frame
+        const deltaY = e.clientY - startY;
+
+        // First significant movement decides the axis lock
+        if (axisLocked === "none") {
+            const absX = Math.abs(e.clientX - startX);  // total from origin, not delta
+            const absY = Math.abs(e.clientY - startY);
+            const totalMove = absX + absY;
+
+            if (totalMove >= 5) {
+                axisLocked = absX >= absY ? "horizontal" : "vertical";
+            }
+        }
+
+        // Vertical gesture — bail out, let the page scroll
+        if (axisLocked === "vertical") {
+            pointerDown = false;
+            return;
+        }
+
+        // Horizontal gesture — capture and drag the marquee
+        if (axisLocked === "horizontal") {
+            if (!isDragging) {
+                isDragging = true;
+                trackElement.style.cursor = "grabbing";
+                try {
+                    containerElement.setPointerCapture(e.pointerId);
+                } catch {}
+            }
+
+            if (e.cancelable) e.preventDefault();
+            e.stopPropagation();
+            position += deltaX;
+        }
+
+        startX = e.clientX;
+        startY = e.clientY;
     }
 
     function onPointerUp(e: PointerEvent) {
+        pointerDown = false;
         isDragging = false;
+        axisLocked = "none";
         trackElement.style.cursor = "grab";
-        containerElement.releasePointerCapture(e.pointerId);
+        try {
+            if (containerElement.hasPointerCapture(e.pointerId)) {
+                containerElement.releasePointerCapture(e.pointerId);
+            }
+        } catch (err) {}
     }
 
     onMount(() => {
@@ -94,7 +142,8 @@
     aria-roledescription="marquee"
     aria-label="Technology Marquee"
     tabindex="0"
-    class="relative flex w-full overflow-hidden mask-fade-edges py-20 cursor-grab active:cursor-grabbing touch-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+    style="touch-action: pan-y;"
+    class="relative flex w-full overflow-hidden mask-fade-edges py-20 cursor-grab active:cursor-grabbing focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
     onpointerdown={onPointerDown}
     onpointermove={onPointerMove}
     onpointerup={onPointerUp}
