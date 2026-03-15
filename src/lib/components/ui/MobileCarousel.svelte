@@ -1,7 +1,14 @@
 <!-- src/lib/components/ui/MobileCarousel.svelte -->
 <script lang="ts">
     import { onMount, onDestroy } from "svelte";
-    import { ChevronLeft, ChevronRight, Eye, FileText, ChevronUp, ChevronDown } from "lucide-svelte";
+    import {
+        ChevronLeft,
+        ChevronRight,
+        Eye,
+        FileText,
+        ChevronUp,
+        ChevronDown,
+    } from "lucide-svelte";
     import { carouselSwipeFraction } from "$lib/stores/carousel-store";
     import { scrollDirection } from "$lib/stores/scroll-store";
     import gsap from "gsap";
@@ -26,7 +33,6 @@
     let isCurrentlyVisible = $state(false);
 
     // Prevent desktop wheel events from bubbling to GSAP observer
-    // when inside scrollable content containers.
     function handleWheel(e: WheelEvent) {
         const target = e.target as HTMLElement;
         const container = target.closest(
@@ -38,6 +44,51 @@
         }
     }
 
+    // NEW: Action to completely isolate mobile touch scrolling
+    // This stops the touch events from reaching Pages.svelte
+    function isolateTouch(node: HTMLElement) {
+        let touchStartY = 0;
+
+        function handleTouch(e: TouchEvent) {
+            // Track where the swipe started
+            if (e.type === "touchstart") {
+                touchStartY = e.touches[0].clientY;
+            }
+
+            // Get current Y position to determine scroll direction
+            const touchY = e.touches[0]
+                ? e.touches[0].clientY
+                : e.changedTouches[0].clientY;
+            const deltaY = touchStartY - touchY; // positive = scrolling down
+
+            const atTop = node.scrollTop <= 0;
+            const atBottom =
+                Math.ceil(node.scrollTop + node.clientHeight) >=
+                node.scrollHeight;
+
+            // If they are trying to push past the boundary, DO NOT stop propagation.
+            // This allows the event to bubble up to Pages.svelte to trigger the snap.
+            if ((atTop && deltaY < 0) || (atBottom && deltaY > 0)) {
+                return;
+            }
+
+            // Otherwise, they are scrolling normally. Stop propagation to isolate the text.
+            e.stopPropagation();
+        }
+
+        node.addEventListener("touchstart", handleTouch, { passive: true });
+        node.addEventListener("touchmove", handleTouch, { passive: true });
+        node.addEventListener("touchend", handleTouch, { passive: true });
+
+        return {
+            destroy() {
+                node.removeEventListener("touchstart", handleTouch);
+                node.removeEventListener("touchmove", handleTouch);
+                node.removeEventListener("touchend", handleTouch);
+            },
+        };
+    }
+
     function goToSlide(index: number) {
         if (!carouselEl) return;
         const slideWidth = carouselEl.clientWidth;
@@ -47,7 +98,6 @@
     function resetTo3D() {
         if (!carouselEl) return;
 
-        // Use instant scroll behavior for initialization to prevent GSAP/CSS conflicts
         if (layout === "right") {
             carouselEl.style.scrollBehavior = "auto";
             carouselEl.scrollLeft = carouselEl.clientWidth;
@@ -59,12 +109,12 @@
             activeSlide = 0;
             carouselEl.style.scrollBehavior = "smooth";
         }
-        
-        // Reset nested vertical scrolls so returning to a section feels fresh
+
         if (wrapperEl) {
-            const scrollContainers = wrapperEl.querySelectorAll('.overflow-y-auto, .overflow-y-scroll');
-            scrollContainers.forEach(container => {
-                // Instantly reset vertical scroll
+            const scrollContainers = wrapperEl.querySelectorAll(
+                ".overflow-y-auto, .overflow-y-scroll",
+            );
+            scrollContainers.forEach((container) => {
                 container.scrollTop = 0;
             });
         }
@@ -104,7 +154,6 @@
     let hintTimer: ReturnType<typeof setTimeout>;
 
     onMount(() => {
-        // Delay initialization by 1 frame to let Svelte mount the DOM properly
         requestAnimationFrame(() => {
             resetTo3D();
         });
@@ -125,7 +174,6 @@
 
         if (wrapperEl) observer.observe(wrapperEl);
 
-        // GSAP is ONLY used for 3D card flipping now. No more scrollLeft animation conflicts!
         if (wrapperEl) {
             const flipAngle = layout === "left" ? -12 : 12;
             gsap.to(wrapperEl.querySelector(".flip-card") || ".flip-card", {
@@ -160,20 +208,18 @@
     });
 </script>
 
+<!-- CHANGED: wrapperEl pointer-events removed. We manage pointer events strictly on the children now -->
 <div
     bind:this={wrapperEl}
-    class="relative w-full h-[100dvh] overflow-hidden z-20 pointer-events-none"
+    class="relative w-full h-[100dvh] overflow-hidden z-20"
 >
     <div class="hidden lg:block w-full h-[100dvh]">
         <!-- svelte-ignore slot_element_deprecated -->
         <slot name="content-pc" />
     </div>
 
-    <div
-        class="lg:hidden w-full h-[100dvh] relative"
-        onwheel={handleWheel}
-    >
-        <!-- FIXED: Pure CSS Snap scrolling. No GSAP interference. -->
+    <!-- CHANGED: onwheel={handleWheel} removed from here to prevent Svelte passive listener conflicts -->
+    <div class="lg:hidden w-full h-[100dvh] relative">
         <div
             bind:this={carouselEl}
             onscroll={onScroll}
@@ -238,19 +284,31 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- CHANGED: Applied use:isolateTouch here, and added touch-pan-y to restore native scroll -->
                 <div
-                    class="w-full h-full shrink-0 snap-center relative z-20 pointer-events-auto"
+                    use:isolateTouch
+                    onwheel={handleWheel}
+                    class="w-full h-full shrink-0 snap-center relative z-20 pointer-events-auto overflow-y-auto overscroll-y-contain touch-pan-y hide-scroll"
                 >
-                    <!-- svelte-ignore slot_element_deprecated -->
-                    <slot name="content-mobile" />
+                    <div class="min-h-[101%] pb-32">
+                        <!-- svelte-ignore slot_element_deprecated -->
+                        <slot name="content-mobile" />
+                    </div>
                 </div>
             {:else}
+                <!-- CHANGED: Applied use:isolateTouch here, and added touch-pan-y to restore native scroll -->
                 <div
-                    class="w-full h-full shrink-0 snap-center relative z-20 pointer-events-auto"
+                    use:isolateTouch
+                    onwheel={handleWheel}
+                    class="w-full h-full shrink-0 snap-center relative z-20 pointer-events-auto overflow-y-auto overscroll-y-contain touch-pan-y hide-scroll"
                 >
-                    <!-- svelte-ignore slot_element_deprecated -->
-                    <slot name="content-mobile" />
+                    <div class="min-h-[101%] pb-32">
+                        <!-- svelte-ignore slot_element_deprecated -->
+                        <slot name="content-mobile" />
+                    </div>
                 </div>
+
                 <div
                     class="w-full h-full shrink-0 snap-center relative pointer-events-none flex flex-col justify-end pb-28"
                 >
@@ -313,47 +371,86 @@
             {/if}
         </div>
 
-        <!-- Pagination Indicator & Section Navigation -->
-        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 pointer-events-auto w-[90vw] max-w-[380px]">
-            <div class="relative flex items-center p-1.5 rounded-2xl bg-card border border-border shadow-lg gap-1">
-                <!-- 3D / Specs Toggle -->
+        <!-- Pagination Indicator & Section Navigation (UNCHANGED) -->
+        <div
+            class="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 pointer-events-auto w-[90vw] max-w-[380px]"
+        >
+            <div
+                class="relative flex items-center p-1.5 rounded-2xl bg-card border border-border shadow-lg gap-1"
+            >
                 <div class="relative flex items-center flex-1 min-w-0">
                     <div
                         class="absolute top-0 bottom-0 w-1/2 bg-muted rounded-xl transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-sm"
-                        style="transform: translateX({activeSlide === 0 ? '0' : '100%'});"
+                        style="transform: translateX({activeSlide === 0
+                            ? '0'
+                            : '100%'});"
                     ></div>
                     <button
                         type="button"
                         onclick={() => goToSlide(0)}
-                        class="relative z-10 flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl transition-colors duration-300 {activeSlide === 0 ? 'text-foreground font-bold' : 'text-muted-foreground'}"
+                        class="relative z-10 flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl transition-colors duration-300 {activeSlide ===
+                        0
+                            ? 'text-foreground font-bold'
+                            : 'text-muted-foreground'}"
                     >
                         {#if layout === "left"}
-                            <Eye size={16} class={activeSlide === 0 ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" : ""} />
-                            <span class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate">3D Model</span>
+                            <Eye
+                                size={16}
+                                class={activeSlide === 0
+                                    ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
+                                    : ""}
+                            />
+                            <span
+                                class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate"
+                                >3D Model</span
+                            >
                         {:else}
-                            <FileText size={16} class={activeSlide === 0 ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" : ""} />
-                            <span class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate">Specs</span>
+                            <FileText
+                                size={16}
+                                class={activeSlide === 0
+                                    ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
+                                    : ""}
+                            />
+                            <span
+                                class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate"
+                                >Specs</span
+                            >
                         {/if}
                     </button>
                     <button
                         type="button"
                         onclick={() => goToSlide(1)}
-                        class="relative z-10 flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl transition-colors duration-300 {activeSlide === 1 ? 'text-foreground font-bold' : 'text-muted-foreground'}"
+                        class="relative z-10 flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl transition-colors duration-300 {activeSlide ===
+                        1
+                            ? 'text-foreground font-bold'
+                            : 'text-muted-foreground'}"
                     >
                         {#if layout === "left"}
-                            <FileText size={16} class={activeSlide === 1 ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" : ""} />
-                            <span class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate">Specs</span>
+                            <FileText
+                                size={16}
+                                class={activeSlide === 1
+                                    ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
+                                    : ""}
+                            />
+                            <span
+                                class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate"
+                                >Specs</span
+                            >
                         {:else}
-                            <Eye size={16} class={activeSlide === 1 ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" : ""} />
-                            <span class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate">3D Model</span>
+                            <Eye
+                                size={16}
+                                class={activeSlide === 1
+                                    ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
+                                    : ""}
+                            />
+                            <span
+                                class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate"
+                                >3D Model</span
+                            >
                         {/if}
                     </button>
                 </div>
-                
-                <!-- Divider -->
                 <div class="w-px h-8 bg-border/50 mx-1 shrink-0"></div>
-
-                <!-- Up/Down Section Nav -->
                 <div class="flex items-center gap-1 shrink-0">
                     <button
                         type="button"

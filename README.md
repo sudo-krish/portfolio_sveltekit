@@ -43,3 +43,7 @@ npm i -D wrangler@latest
 npx wrangler login --no-browser
 
 npx wrangler pages deploy .svelte-kit/cloudflare --project-name=krishnanandanil-portfolio --branch=main
+
+## To test in local network 
+
+npm run dev -- --host
