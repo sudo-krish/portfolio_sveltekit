@@ -1,7 +1,7 @@
 <script lang="ts">
   import { T, useTask } from "@threlte/core";
 
-  import { Color } from "three";
+  import { Color, DoubleSide } from "three";
 
   // Configuration
   const deepColor = new Color("#1e3a8a"); // Deep Ocean Blue
@@ -120,6 +120,6 @@
     {fragmentShader}
     {uniforms}
     transparent={true}
-    side={THREE.DoubleSide}
+    side={DoubleSide}
   />
 </T.Mesh>

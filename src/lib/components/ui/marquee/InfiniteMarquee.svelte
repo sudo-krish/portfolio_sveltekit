@@ -30,7 +30,10 @@
     let animationFrameId: number;
 
     function loop() {
-        if (!trackElement) return;
+        if (!trackElement) {
+            animationFrameId = requestAnimationFrame(loop);
+            return;
+        }
 
         // If not dragging and not hovered, auto-scroll
         if (!isDragging && !isHovered) {
@@ -42,10 +45,12 @@
         const totalScrollWidth = trackElement.scrollWidth / 4;
 
         // Infinite Loop Logic
-        if (position <= -totalScrollWidth) {
-            position += totalScrollWidth; // Reset seamlessly without jumping
-        } else if (position > 0) {
-            position -= totalScrollWidth;
+        if (totalScrollWidth > 0) {
+            if (position <= -totalScrollWidth) {
+                position += totalScrollWidth; // Reset seamlessly without jumping
+            } else if (position > 0) {
+                position -= totalScrollWidth;
+            }
         }
 
         trackElement.style.transform = `translate3d(${position}px, 0, 0)`;
