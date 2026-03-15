@@ -22,7 +22,7 @@
 </script>
 
 <div
-    class="action-dock flex items-stretch w-full bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]"
+    class="action-dock flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]"
     style="gap: 0.6cqi; padding: 0.4cqi;"
 >
     <PillButton
@@ -32,7 +32,10 @@
         accentColor="primary"
     />
 
-    <div class="flex items-center bg-foreground/5 rounded-[1.2rem]" style="gap: 0.3cqi; padding: 0 0.4cqi;">
+    <div
+        class="flex items-center bg-foreground/5 rounded-[1.2rem]"
+        style="gap: 0.3cqi; padding: 0 0.4cqi;"
+    >
         <Button
             variant="ghost"
             class="p-0 rounded-xl hover:bg-foreground/10 transition-colors"
@@ -68,4 +71,3 @@
         </Button>
     </div>
 </div>
-
