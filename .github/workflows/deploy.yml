@@ -24,15 +24,14 @@ jobs:
         run: npm install
 
       - name: Build Svelte project
-        # Adjust the build command if necessary (e.g., pnpm build, yarn build)
         run: npm run build
 
+      # NEW: Using wrangler-action instead of deprecated pages-action
       - name: Publish to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: krishnanandanil-portfolio # Replace with your Cloudflare Pages project name
-          directory: .svelte-kit/cloudflare # SvelteKit Cloudflare adapter output
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }} # Optional: Enables GitHub Deployments tracking
-          branch: main
+          # The command syntax has changed for wrangler v3/v4
+          command: pages deploy .svelte-kit/cloudflare --project-name=krishnanandanil-portfolio --branch=main
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
