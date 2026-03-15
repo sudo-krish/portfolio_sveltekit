@@ -1,6 +1,6 @@
 {
-  "name": "Krishnanand",
-  "short_name": "Krish",
+  "name": "Krishnanand Anil",
+  "short_name": "Krishnanand",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -13,16 +13,6 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
-    },
-    {
-      "src": "/android-chrome-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "favicon-48.png",
-      "sizes": "48x48",
-      "type": "image/png"
     }
   ],
   "theme_color": "#ffffff",
