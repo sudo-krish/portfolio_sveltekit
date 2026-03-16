@@ -25,17 +25,19 @@
 </script>
 
 <div
-    class="w-full relative z-30 min-h-[140px] sm:min-h-[160px] flex {battleState ===
+    class="w-full relative z-30 min-h-[160px] sm:min-h-[160px] flex flex-col sm:flex-row {battleState ===
     'start_anim'
         ? 'translate-y-full opacity-0'
         : 'translate-y-0 opacity-100 transition-all duration-500 delay-300'}"
 >
     <!-- LEFT SIDE: The Dialogue Text Box -->
+    <!-- On mobile, this takes full width always. On desktop, it shrinks to 60% when the 4-button menu is active -->
     <div
-        class="relative w-full h-full bg-white border-[6px] border-[#333] rounded-lg shadow-[0_8px_0_rgba(0,0,0,0.2)] p-4 sm:p-6 cursor-pointer flex flex-col transition-all duration-300 {currentNode.options &&
+        class="relative w-full h-full bg-white border-[6px] border-[#333] rounded-lg shadow-[0_8px_0_rgba(0,0,0,0.2)] p-4 sm:p-6 cursor-pointer flex flex-col transition-all duration-300 min-h-[120px]
+        {currentNode.options &&
         currentNode.options.length > 0 &&
         !showInterviewOptions
-            ? 'w-full sm:w-[60%]'
+            ? 'sm:w-[60%] mb-2 sm:mb-0 sm:mr-2'
             : 'w-full'}"
         on:click={localHandleBoxClick}
         role="button"
@@ -48,16 +50,17 @@
 
         {#if currentNode.speaker !== "System"}
             <div
-                class="absolute -top-5 left-6 bg-white border-[3px] border-[#333] px-3 py-1 rounded shadow-[2px_2px_0_rgba(0,0,0,0.5)] z-10"
+                class="absolute -top-5 left-4 sm:left-6 bg-white border-[3px] border-[#333] px-2 sm:px-3 py-0.5 sm:py-1 rounded shadow-[2px_2px_0_rgba(0,0,0,0.5)] z-10"
             >
-                <span class="retro-font !text-black text-sm uppercase"
+                <span
+                    class="retro-font !text-black text-xs sm:text-sm uppercase"
                     >{currentNode.speaker}</span
                 >
             </div>
         {/if}
 
         <p
-            class="retro-font text-[1.3rem] sm:text-[1.6rem] leading-snug pt-2 px-1 pb-4 relative z-10 {currentNode.speaker ===
+            class="retro-font text-[1.1rem] sm:text-[1.6rem] leading-snug pt-1 sm:pt-2 px-1 pb-4 relative z-10 {currentNode.speaker ===
             'System'
                 ? '!text-blue-700'
                 : '!text-black'}"
@@ -68,58 +71,59 @@
         <!-- Blinking Arrow for Auto-advance Dialogue -->
         {#if !isTyping && (!currentNode.options || currentNode.options.length === 0)}
             <div
-                class="absolute bottom-4 right-5 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[14px] border-t-red-600 animate-bounce z-10"
+                class="absolute bottom-3 sm:bottom-4 right-4 sm:right-5 w-0 h-0 border-l-[8px] sm:border-l-[10px] border-l-transparent border-r-[8px] sm:border-r-[10px] border-r-transparent border-t-[12px] sm:border-t-[14px] border-t-red-600 animate-bounce z-10"
             ></div>
         {/if}
     </div>
 
-    <!-- RIGHT SIDE: The 4-Button Command Menu (Appears only when it's the player's turn to act) -->
+    <!-- RIGHT SIDE: The 4-Button Command Menu -->
+    <!-- On mobile, it stacks under the text box. On desktop, it sits to the right -->
     {#if !isTyping && currentNode.options && currentNode.options.length > 0 && !showInterviewOptions}
         <div
-            class="absolute bottom-0 right-0 w-[45%] sm:w-[40%] h-full bg-white border-[6px] border-[#333] rounded-lg shadow-[0_8px_0_rgba(0,0,0,0.2)] z-20"
+            class="relative sm:absolute sm:bottom-0 sm:right-0 w-full sm:w-[38%] h-[120px] sm:h-full bg-white border-[6px] border-[#333] rounded-lg shadow-[0_8px_0_rgba(0,0,0,0.2)] z-20"
         >
             <div
                 class="absolute inset-1 border-[2px] border-[#333] rounded-sm pointer-events-none z-10"
             ></div>
 
-            <div class="w-full h-full grid grid-cols-2 grid-rows-2 p-2">
+            <div class="w-full h-full grid grid-cols-2 grid-rows-2 p-1 sm:p-2">
                 <button
-                    class="group relative flex items-center justify-center retro-font !text-black text-xl hover:bg-gray-200 transition-colors"
+                    class="group relative flex items-center justify-center retro-font !text-black text-lg sm:text-xl hover:bg-gray-200 transition-colors"
                     on:click={() => (showInterviewOptions = true)}
                 >
                     <div
-                        class="absolute left-2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[10px] border-l-red-600 opacity-0 group-hover:opacity-100"
+                        class="absolute left-1 sm:left-2 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-red-600 opacity-0 group-hover:opacity-100"
                     ></div>
                     RESPOND
                 </button>
 
                 <button
-                    class="group relative flex items-center justify-center retro-font !text-black text-xl hover:bg-gray-200 transition-colors"
+                    class="group relative flex items-center justify-center retro-font !text-black text-lg sm:text-xl hover:bg-gray-200 transition-colors"
                     on:click={() =>
                         alert("Scroll down to view your KEY ITEMS in the BAG!")}
                 >
                     <div
-                        class="absolute left-2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[10px] border-l-red-600 opacity-0 group-hover:opacity-100"
+                        class="absolute left-1 sm:left-2 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-red-600 opacity-0 group-hover:opacity-100"
                     ></div>
                     BAG
                 </button>
 
                 <button
-                    class="group relative flex items-center justify-center retro-font text-blue-700 font-bold text-xl hover:bg-blue-100 transition-colors"
+                    class="group relative flex items-center justify-center retro-font text-blue-700 font-bold text-lg sm:text-xl hover:bg-blue-100 transition-colors"
                     on:click={() => advanceNode("catch_attempt")}
                 >
                     <div
-                        class="absolute left-2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[10px] border-l-blue-600 opacity-0 group-hover:opacity-100"
+                        class="absolute left-1 sm:left-2 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-blue-600 opacity-0 group-hover:opacity-100"
                     ></div>
                     HIRE
                 </button>
 
                 <button
-                    class="group relative flex items-center justify-center retro-font !text-black text-xl hover:bg-gray-200 transition-colors"
+                    class="group relative flex items-center justify-center retro-font !text-black text-lg sm:text-xl hover:bg-gray-200 transition-colors"
                     on:click={() => (window.location.href = "/")}
                 >
                     <div
-                        class="absolute left-2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[10px] border-l-red-600 opacity-0 group-hover:opacity-100"
+                        class="absolute left-1 sm:left-2 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-red-600 opacity-0 group-hover:opacity-100"
                     ></div>
                     RUN
                 </button>
@@ -127,17 +131,18 @@
         </div>
     {/if}
 
-    <!-- THE DYNAMIC CHOICES OVERLAY (Shows the specific options tied to this dialogue node) -->
+    <!-- THE DYNAMIC CHOICES OVERLAY -->
+    <!-- Takes up the FULL width so long questions don't get squished on mobile -->
     {#if showInterviewOptions}
         <div
-            class="absolute bottom-0 left-0 right-0 h-full bg-white border-[6px] border-[#333] rounded-lg shadow-[0_8px_0_rgba(0,0,0,0.2)] z-40 p-2 sm:p-4 flex flex-col"
+            class="absolute top-0 left-0 w-full h-full bg-white border-[6px] border-[#333] rounded-lg shadow-[0_8px_0_rgba(0,0,0,0.2)] z-40 p-2 sm:p-4 flex flex-col"
         >
             <div
                 class="absolute inset-1 border-[2px] border-[#333] rounded-sm pointer-events-none z-10"
             ></div>
 
             <div
-                class="w-full flex-1 flex flex-col gap-2 overflow-y-auto custom-scrollbar relative z-20 pl-2"
+                class="w-full flex-1 flex flex-col gap-1 sm:gap-2 overflow-y-auto custom-scrollbar relative z-20 pl-1 sm:pl-2 mt-1 sm:mt-0 mb-8 sm:mb-6"
             >
                 {#each currentNode.options as option}
                     <button
@@ -145,10 +150,10 @@
                             showInterviewOptions = false;
                             advanceNode(option.nextId, option.unlock);
                         }}
-                        class="text-left retro-font !text-black text-[1.1rem] sm:text-[1.3rem] hover:bg-gray-200 outline-none flex items-center gap-2 group rounded relative py-1"
+                        class="text-left retro-font !text-black text-[1rem] leading-tight sm:leading-normal sm:text-[1.3rem] hover:bg-gray-200 outline-none flex items-start sm:items-center gap-2 group rounded relative py-1.5 sm:py-1 pr-2"
                     >
                         <div
-                            class="w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[10px] border-l-black opacity-0 group-hover:opacity-100 shrink-0"
+                            class="mt-1.5 sm:mt-0 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-black opacity-0 group-hover:opacity-100 shrink-0 transition-opacity"
                         ></div>
                         <span>"{option.text}"</span>
                     </button>
@@ -157,7 +162,7 @@
 
             <!-- Back/Cancel Button -->
             <button
-                class="absolute bottom-3 right-4 retro-font text-red-600 text-lg hover:underline z-30 font-bold"
+                class="absolute bottom-2 sm:bottom-3 right-3 sm:right-4 retro-font text-red-600 text-sm sm:text-lg hover:underline z-30 font-bold bg-white px-2 py-1 rounded"
                 on:click={() => (showInterviewOptions = false)}
             >
                 CANCEL
@@ -172,13 +177,21 @@
         letter-spacing: 0.05em;
     }
     .custom-scrollbar::-webkit-scrollbar {
-        width: 8px;
+        width: 6px;
     }
     .custom-scrollbar::-webkit-scrollbar-track {
         background: #e0e0e0;
+        border-radius: 4px;
     }
     .custom-scrollbar::-webkit-scrollbar-thumb {
         background: #888;
         border-radius: 4px;
+    }
+
+    /* Ensure the scrollbar doesn't overlap text on mobile */
+    @media (max-width: 640px) {
+        .custom-scrollbar {
+            padding-right: 8px;
+        }
     }
 </style>
