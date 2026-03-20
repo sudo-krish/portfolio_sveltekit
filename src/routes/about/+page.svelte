@@ -1,20 +1,17 @@
 <!-- src/routes/about/+page.svelte -->
 <script lang="ts">
-    import { siteConfig } from "$lib/data/site";
-    import { heroProfile } from "$lib/data/hero_content";
-    import { personalContactInfo } from "$lib/data/contact-content";
+    import { personal } from "$lib/data/site";
     import { aboutPageContent } from "$lib/data/about-page";
     import { ArrowLeft } from "lucide-svelte";
     import BattleGame from "./BattleGame.svelte";
     import SEO from "$lib/components/SEO.svelte";
+    import Breadcrumbs from "$lib/components/seo/Breadcrumbs.svelte";
+    import StructuredData from "$lib/components/StructuredData.svelte";
     import { fade, fly } from "svelte/transition"; // Import transitions
 
-    const personal = {
-        ...siteConfig,
-        ...heroProfile,
-        ...personalContactInfo,
-        website: siteConfig.baseUrl
-    };
+    const crumbs = [
+        { label: aboutPageContent.h1, url: '/about' }
+    ];
 
     // STATE: Track if the user has read the instructions and started the game
     let gameStarted = false;
@@ -28,8 +25,9 @@
     title={aboutPageContent.seo.title}
     description={aboutPageContent.seo.description}
     keywords={aboutPageContent.seo.keywords}
-    url="{siteConfig.baseUrl}/about"
+    url="{personal.website}/about"
 />
+<StructuredData type="ProfilePage" />
 
 <svelte:head>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -54,16 +52,7 @@
         class="relative z-40 w-full max-w-4xl mx-auto px-4 pt-16 sm:pt-24 pb-2 flex flex-col gap-4"
     >
         <div class="flex justify-between items-center">
-            <a
-                href="/"
-                class="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors group retro-font uppercase tracking-widest"
-            >
-                <ArrowLeft
-                    size={16}
-                    class="group-hover:-translate-x-1 transition-transform"
-                />
-                {aboutPageContent.backLabel}
-            </a>
+            <Breadcrumbs {crumbs} />
         </div>
 
         <!-- Crawlable H1 and intro for SEO -->

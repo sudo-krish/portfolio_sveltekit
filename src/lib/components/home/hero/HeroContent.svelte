@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { siteConfig } from "$lib/data/site";
-  import { heroContent, heroProfile } from "$lib/data/hero_content";
+  import { personal } from "$lib/data/site";
+  import { heroContent } from "$lib/data/hero_content";
   import { onMount } from "svelte";
   import gsap from "gsap";
 
@@ -15,12 +15,7 @@
   import MobileBioCard from "./mobile/MobileBioCard.svelte";
   import MobileActionDock from "./mobile/MobileActionDock.svelte";
 
-  const personal = {
-      ...siteConfig,
-      ...heroProfile,
-      website: siteConfig.baseUrl
-  };
-  const techTags = personal.topSkills;
+  const techTags = personal.skills;
 </script>
 
 
@@ -74,10 +69,10 @@
           </div>
         </div>
 
-        <!-- 3. Action Dock: Center Bottom -->
+        <!-- 3. Action Dock & Intent Routing: Center Bottom -->
         <div
-          class="absolute left-1/2 -translate-x-1/2 z-40 w-full pointer-events-auto flex justify-center"
-          style="bottom: 3cqi; max-width: 30cqi;"
+          class="absolute left-1/2 -translate-x-1/2 z-40 w-full pointer-events-auto flex flex-col items-center justify-center gap-4"
+          style="bottom: 3cqi; max-width: 45cqi;"
         >
           <DesktopActionDock
             cta={heroContent.actionDock.ctaDesktop}

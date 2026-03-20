@@ -35,6 +35,14 @@ export interface ContentMeta {
   platform?: string;
   url?: string;
   published?: string;
+  content_type?: string;
+  primary_keyword?: string;
+  intent?: string;
+  related_projects?: string[];
+  related_learn?: string[];
+  related_articles?: string[];
+  canonical_path?: string;
+  summary?: string;
   [key: string]: unknown;
 }
 
@@ -154,6 +162,14 @@ export function parseMarkdown(raw: string, filePath: string): ContentItem {
     platform: data.platform,
     url: data.url,
     published: data.published?.toString(),
+    content_type: data.content_type,
+    primary_keyword: data.primary_keyword,
+    intent: data.intent,
+    related_projects: data.related_projects || [],
+    related_learn: data.related_learn || [],
+    related_articles: data.related_articles || [],
+    canonical_path: data.canonical_path,
+    summary: data.summary,
   };
 
   const html = marked.parse(content, { async: false }) as string;

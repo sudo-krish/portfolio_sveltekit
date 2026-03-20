@@ -1,19 +1,12 @@
 <script lang="ts">
-  import { siteConfig } from '$lib/data/site';
-  import { heroProfile } from '$lib/data/hero_content';
-  import { personalContactInfo } from '$lib/data/contact-content';
+  import { personal, siteDefaults } from '$lib/data/site';
   
   // Get default data from centralized store
   const defaults = {
-    personal: {
-      ...siteConfig,
-      ...heroProfile,
-      ...personalContactInfo,
-      website: siteConfig.baseUrl
-    },
-    siteTitle: `${siteConfig.name} - AWS Data Engineer & Cloud Expert`,
-    defaultKeywords: heroProfile.topSkills.join(', '),
-    website: siteConfig.baseUrl
+    personal: personal,
+    siteTitle: siteDefaults.siteTitle,
+    defaultKeywords: siteDefaults.defaultKeywords,
+    website: siteDefaults.website
   };
   
   // Props with defaults from centralized data

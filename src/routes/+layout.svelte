@@ -4,14 +4,7 @@
   import StructuredData from "$lib/components/StructuredData.svelte";
   import PageWrapper from "$lib/components/PageWrapper.svelte";
   import { page } from "$app/stores";
-  import { siteConfig } from "$lib/data/site";
-  import { heroProfile } from "$lib/data/hero_content";
-
-  const personal = {
-      ...siteConfig,
-      ...heroProfile,
-      website: siteConfig.baseUrl
-  };
+  import { personal } from "$lib/data/site";
 
   $: currentPath = $page.url.pathname;
   $: currentUrl = `${personal.website}${currentPath}`;

@@ -1,28 +1,15 @@
 <!-- src/lib/components/StructuredData.svelte -->
 <script lang="ts">
-  import { siteConfig } from '$lib/data/site';
-  import { heroProfile } from '$lib/data/hero_content';
-  import { personalContactInfo } from '$lib/data/contact-content';
-  import { getAllCompanies } from '$lib/data/experience';
-  import { education, certifications } from '$lib/data/credentials-content';
-  import { researchPapers } from '$lib/data/articles-page';
-  export let type: 'Person' | 'BlogPosting' | 'Project' | 'WebSite' | 'BreadcrumbList' | 'Organization' | 'ProfessionalService' = 'Person';
+  import { personal, schemaData } from '$lib/data/site';
+  export let type: 'Person' | 'BlogPosting' | 'Project' | 'WebSite' | 'BreadcrumbList' | 'Organization' | 'ProfessionalService' | 'Article' | 'TechArticle' | 'ProfilePage' = 'Person';
   export let data: any = {};
   
   const defaults = {
-    personal: {
-        ...siteConfig,
-        ...heroProfile,
-        ...personalContactInfo,
-        website: siteConfig.baseUrl,
-        profileImage: siteConfig.avatar,
-        phone: "",
-        skills: heroProfile.topSkills
-    },
-    company: getAllCompanies().find((c: any) => c.current),
-    education: education?.[0],
-    certifications: certifications || [],
-    researchPapers: researchPapers || []
+    personal: personal,
+    company: schemaData.companies.find((c: any) => c.current),
+    education: schemaData.education?.[0],
+    certifications: schemaData.certifications || [],
+    researchPapers: schemaData.researchPapers || []
   };
   
   function cleanObject(obj: any): any {
@@ -159,6 +146,46 @@
     "isAccessibleForFree": true
   };
   
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": data.title,
+    "description": data.description,
+    "image": data.image || `${defaults.personal?.website}/og-image.jpg`,
+    "author": {
+      "@type": "Person",
+      "name": defaults.personal?.name,
+      "url": defaults.personal?.website
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": defaults.personal?.name,
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${defaults.personal?.website}${defaults.personal?.profileImage}`
+      }
+    },
+    "datePublished": data.publishedTime || data.datePublished,
+    "dateModified": data.modifiedTime || data.dateModified || data.publishedTime || data.datePublished,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": data.url
+    }
+  };
+
+  const techArticleSchema = {
+    ...articleSchema,
+    "@type": "TechArticle",
+    "dependencies": data.tech?.join(', ') || data.keywords?.join(', ') || '',
+    "proficiencyLevel": "Expert"
+  };
+
+  const profilePageSchema = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "mainEntity": personSchema
+  };
+
   const projectSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareSourceCode",
@@ -280,6 +307,9 @@
   const schemas: Record<string, any> = {
     Person: personSchema,
     BlogPosting: blogSchema,
+    Article: articleSchema,
+    TechArticle: techArticleSchema,
+    ProfilePage: profilePageSchema,
     Project: projectSchema,
     WebSite: websiteSchema,
     BreadcrumbList: breadcrumbSchema,

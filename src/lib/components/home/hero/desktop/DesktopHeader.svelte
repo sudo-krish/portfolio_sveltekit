@@ -75,6 +75,22 @@
         </h1>
     </div>
 
+    <!-- Semantic Intent Routers -->
+    <div class="hero-type w-full max-w-[95%] flex flex-wrap items-center gap-3 mt-6 mb-2 pointer-events-auto">
+        <a href="/projects" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground/[0.03] border border-foreground/10 hover:bg-foreground/10 hover:border-primary/30 transition-all font-mono text-[9px] uppercase tracking-widest text-foreground/80 cursor-pointer">
+            <span class="text-primary font-bold">01</span> Proof
+        </a>
+        <a href="/learn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground/[0.03] border border-foreground/10 hover:bg-foreground/10 hover:border-primary/30 transition-all font-mono text-[9px] uppercase tracking-widest text-foreground/80 cursor-pointer">
+            <span class="text-primary font-bold">02</span> Concepts
+        </a>
+        <a href="/articles" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground/[0.03] border border-foreground/10 hover:bg-foreground/10 hover:border-primary/30 transition-all font-mono text-[9px] uppercase tracking-widest text-foreground/80 cursor-pointer">
+            <span class="text-primary font-bold">03</span> Articles
+        </a>
+        <a href="/experience" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground/[0.03] border border-foreground/10 hover:bg-foreground/10 hover:border-primary/30 transition-all font-mono text-[9px] uppercase tracking-widest text-foreground/80 cursor-pointer">
+            <span class="text-primary font-bold">04</span> Journey
+        </a>
+    </div>
+
     <!-- Bottom Payload & Marquee Row -->
     <!-- Expanded max-width constraint to take advantage of ultrawide monitors -->
     <div

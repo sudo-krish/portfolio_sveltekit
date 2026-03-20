@@ -7,6 +7,11 @@
 
     let { data } = $props<{ data: PageData }>();
     const { item } = data;
+
+    const crumbs = [
+        { label: 'Learn', url: '/learn' },
+        { label: item.meta.title, url: '/learn/' + item.slug }
+    ];
 </script>
 
 <SEO
@@ -27,7 +32,10 @@
         backHref="/learn"
         backLabel="Back to Overview"
         tags={item.meta.tags}
-        related={item.meta.related}
+        crumbs={crumbs}
+        relatedProjects={item.meta.related_projects}
+        relatedLearn={item.meta.related_learn}
+        relatedArticles={item.meta.related_articles}
         created={item.meta.created}
     >
         <ContentRenderer html={item.html} />

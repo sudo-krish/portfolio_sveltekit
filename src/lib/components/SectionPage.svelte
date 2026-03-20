@@ -12,6 +12,7 @@
     import gsap from "gsap";
     import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
     import SEO from "$lib/components/SEO.svelte";
+    import Breadcrumbs from "$lib/components/seo/Breadcrumbs.svelte";
 
     export let content: SectionContent;
     export let accentColor: string = "#3b82f6";
@@ -155,34 +156,12 @@
         ></div>
     </div>
 
-    <!-- Navigation (Floating Pill) -->
     <div
         class="fixed top-6 left-0 right-0 z-40 flex justify-center pointer-events-none"
     >
-        <nav
-            class="pointer-events-auto flex items-center justify-between gap-12 px-6 py-3 rounded-full border border-border bg-card/80 backdrop-blur-2xl shadow-xl transition-all duration-300 hover:border-primary/30 hover:bg-card"
-        >
-            <a
-                href="/"
-                class="group flex items-center gap-2 text-xs font-bold text-muted-foreground hover:text-foreground transition-colors"
-            >
-                <ArrowLeft
-                    size={14}
-                    class="group-hover:-translate-x-1 transition-transform"
-                />
-                <span>Return to Overview</span>
-            </a>
-            <div class="flex items-center gap-2">
-                <div
-                    class="w-1.5 h-1.5 rounded-full animate-pulse"
-                    style="background: {accentColor}"
-                ></div>
-                <span
-                    class="font-mono text-[9px] text-muted-foreground tracking-[0.2em] uppercase"
-                    >{content.id}</span
-                >
-            </div>
-        </nav>
+        <div class="pointer-events-auto flex items-center bg-card/80 backdrop-blur-2xl px-6 py-3 rounded-full border border-border shadow-xl hover:border-primary/30 hover:bg-card transition-all duration-300">
+            <Breadcrumbs crumbs={[{ label: content.id, url: content.slug }]} className="m-0" />
+        </div>
     </div>
 
     <div class="relative z-10 max-w-6xl mx-auto px-6 pt-40 pb-24">
@@ -229,7 +208,7 @@
                     <p
                         class="text-xl md:text-2xl text-muted-foreground leading-relaxed font-light"
                     >
-                        {content.introParagraph}
+                        {@html content.introParagraph}
                     </p>
                 </div>
             </div>
@@ -320,7 +299,7 @@
                     <p
                         class="fade-up text-lg md:text-xl text-muted-foreground leading-relaxed font-light"
                     >
-                        {para}
+                        {@html para}
                     </p>
                 {/each}
             </div>

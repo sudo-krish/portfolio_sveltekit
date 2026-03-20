@@ -7,6 +7,11 @@
 
     let { data } = $props();
     const { item } = data;
+
+    const crumbs = [
+        { label: 'Projects', url: '/projects' },
+        { label: item.meta.title, url: '/projects/' + item.slug }
+    ];
 </script>
 
 <SEO 
@@ -24,7 +29,10 @@
     backHref="/projects"
     backLabel="Projects"
     tags={item.meta.tags}
-    related={item.meta.related}
+    crumbs={crumbs}
+    relatedProjects={item.meta.related_projects}
+    relatedLearn={item.meta.related_learn}
+    relatedArticles={item.meta.related_articles}
     created={item.meta.created}
 >
     <!-- GitHub link -->

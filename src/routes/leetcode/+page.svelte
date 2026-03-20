@@ -11,6 +11,7 @@
         Award,
     } from "lucide-svelte";
     import SEO from "$lib/components/SEO.svelte";
+    import Breadcrumbs from "$lib/components/seo/Breadcrumbs.svelte";
     import { leetcodeSectionContent } from "$lib/data/leetcode-content";
     import { getLeetCodeStatsCached } from "$lib/services/leetcode";
     import gsap from "gsap";
@@ -156,34 +157,12 @@
         ></div>
     </div>
 
-    <!-- Navigation (Floating Pill) -->
     <div
         class="fixed top-6 left-0 right-0 z-40 flex justify-center pointer-events-none"
     >
-        <nav
-            class="pointer-events-auto flex items-center justify-between gap-12 px-6 py-3 rounded-full border border-border bg-card/80 backdrop-blur-2xl shadow-xl transition-all duration-300 hover:border-primary/30 hover:bg-card"
-        >
-            <a
-                href="/"
-                class="group flex items-center gap-2 text-xs font-bold text-foreground/60 hover:text-foreground transition-colors"
-            >
-                <ArrowLeft
-                    size={14}
-                    class="group-hover:-translate-x-1 transition-transform"
-                />
-                <span>Return to Overview</span>
-            </a>
-            <div class="flex items-center gap-2">
-                <div
-                    class="w-1.5 h-1.5 rounded-full animate-pulse"
-                    style="background: {accentColor}"
-                ></div>
-                <span
-                    class="font-mono text-[9px] text-muted-foreground tracking-[0.2em] uppercase"
-                    >Statistics</span
-                >
-            </div>
-        </nav>
+        <div class="pointer-events-auto flex items-center bg-card/80 backdrop-blur-2xl px-6 py-3 rounded-full border border-border shadow-xl hover:border-primary/30 hover:bg-card transition-all duration-300">
+            <Breadcrumbs crumbs={[{ label: 'LeetCode', url: '/leetcode' }]} className="m-0" />
+        </div>
     </div>
 
     <div class="relative z-10 max-w-6xl mx-auto px-6 pt-40 pb-24">

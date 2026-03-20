@@ -63,4 +63,20 @@
             {suffix}
         </h1>
     </div>
+
+    <!-- Semantic Intent Routers -->
+    <div class="hero-type flex flex-wrap justify-center items-center gap-2 mt-4 pointer-events-auto relative z-50">
+        <a href="/projects" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground/[0.03] border border-foreground/10 font-mono text-[9px] uppercase tracking-widest text-foreground/80 active:bg-foreground/10">
+            <span class="text-primary font-bold">01</span> Proof
+        </a>
+        <a href="/learn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground/[0.03] border border-foreground/10 font-mono text-[9px] uppercase tracking-widest text-foreground/80 active:bg-foreground/10">
+            <span class="text-primary font-bold">02</span> Concepts
+        </a>
+        <a href="/articles" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground/[0.03] border border-foreground/10 font-mono text-[9px] uppercase tracking-widest text-foreground/80 active:bg-foreground/10">
+            <span class="text-primary font-bold">03</span> Articles
+        </a>
+        <a href="/experience" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground/[0.03] border border-foreground/10 font-mono text-[9px] uppercase tracking-widest text-foreground/80 active:bg-foreground/10">
+            <span class="text-primary font-bold">04</span> Journey
+        </a>
+    </div>
 </div>

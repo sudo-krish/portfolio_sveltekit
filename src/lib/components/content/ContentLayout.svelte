@@ -3,12 +3,18 @@
 <script lang="ts">
     import { ArrowLeft, Tag, Link, Calendar } from 'lucide-svelte';
 
+    import Breadcrumbs from '$lib/components/seo/Breadcrumbs.svelte';
+    import RelatedContent from '$lib/components/content/RelatedContent.svelte';
+
     let {
         title,
         backHref,
         backLabel = 'Back',
         tags = [],
-        related = [],
+        relatedProjects = [],
+        relatedLearn = [],
+        relatedArticles = [],
+        crumbs = [],
         created,
         children,
     } = $props<{
@@ -16,7 +22,10 @@
         backHref: string;
         backLabel?: string;
         tags?: string[];
-        related?: string[];
+        relatedProjects?: string[];
+        relatedLearn?: string[];
+        relatedArticles?: string[];
+        crumbs?: { label: string, url: string }[];
         created?: string;
         children?: any;
     }>();
@@ -30,13 +39,16 @@
     </div>
 
     <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-        <!-- Back link -->
-        <a href={backHref}
-           class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground
-                  transition-colors duration-200 mb-6 group">
-            <ArrowLeft size={16} class="group-hover:-translate-x-1 transition-transform duration-200" />
-            <span class="font-mono text-xs uppercase tracking-wider">{backLabel}</span>
-        </a>
+        <!-- Back link & Breadcrumbs -->
+        <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <a href={backHref}
+               class="inline-flex flex-shrink-0 items-center gap-2 text-sm text-muted-foreground hover:text-foreground
+                      transition-colors duration-200 group">
+                <ArrowLeft size={16} class="group-hover:-translate-x-1 transition-transform duration-200" />
+                <span class="font-mono text-xs uppercase tracking-wider">{backLabel}</span>
+            </a>
+            <Breadcrumbs {crumbs} />
+        </div>
 
         <!-- Page title -->
         <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tighter leading-tight mb-6">
@@ -70,22 +82,7 @@
             {@render children?.()}
         </div>
 
-        <!-- Related items -->
-        {#if related.length > 0}
-            <div class="mt-12 pt-8 border-t border-border/20">
-                <h3 class="text-sm font-mono uppercase tracking-[0.2em] text-muted-foreground mb-4 flex items-center gap-2">
-                    <Link size={14} />
-                    Related
-                </h3>
-                <div class="flex flex-wrap gap-2">
-                    {#each related as item}
-                        <span class="text-sm text-foreground/60 bg-muted/40 px-3 py-1.5 rounded-lg border border-border/30
-                                     hover:border-primary/30 hover:text-primary transition-colors duration-200 cursor-pointer">
-                            {item.replace('.md', '')}
-                        </span>
-                    {/each}
-                </div>
-            </div>
-        {/if}
+        <!-- Semantic Related Content Widget -->
+        <RelatedContent {relatedProjects} {relatedLearn} {relatedArticles} />
     </div>
 </div>
