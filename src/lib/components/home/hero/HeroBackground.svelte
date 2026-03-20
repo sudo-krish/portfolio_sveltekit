@@ -104,9 +104,12 @@
                 <div class="frosted-icon-wrapper scale-90">
                   <img
                     src={item.content.iconUrl}
-                    alt={item.content.name}
+                    alt=""
+                    aria-hidden="true"
                     class="frosted-img-white"
-                    loading="lazy"
+                    fetchpriority="high"
+                    width="100"
+                    height="100"
                   />
                 </div>
               {/if}
@@ -131,9 +134,12 @@
                 <div class="frosted-icon-wrapper">
                   <img
                     src={item.content.iconUrl}
-                    alt={item.content.name}
+                    alt=""
+                    aria-hidden="true"
                     class="frosted-img-white"
-                    loading="lazy"
+                    fetchpriority="high"
+                    width="100"
+                    height="100"
                   />
                 </div>
               {/if}
@@ -158,9 +164,12 @@
                 <div class="frosted-icon-wrapper scale-125">
                   <img
                     src={item.content.iconUrl}
-                    alt={item.content.name}
+                    alt=""
+                    aria-hidden="true"
                     class="frosted-img-white highlight-img-white"
-                    loading="lazy"
+                    fetchpriority="high"
+                    width="100"
+                    height="100"
                   />
                 </div>
               {/if}
@@ -185,9 +194,12 @@
                 <div class="frosted-icon-wrapper">
                   <img
                     src={item.content.iconUrl}
-                    alt={item.content.name}
+                    alt=""
+                    aria-hidden="true"
                     class="frosted-img-white"
-                    loading="lazy"
+                    fetchpriority="high"
+                    width="100"
+                    height="100"
                   />
                 </div>
               {/if}
@@ -212,9 +224,12 @@
                 <div class="frosted-icon-wrapper scale-90">
                   <img
                     src={item.content.iconUrl}
-                    alt={item.content.name}
+                    alt=""
+                    aria-hidden="true"
                     class="frosted-img-white"
-                    loading="lazy"
+                    fetchpriority="high"
+                    width="100"
+                    height="100"
                   />
                 </div>
               {/if}

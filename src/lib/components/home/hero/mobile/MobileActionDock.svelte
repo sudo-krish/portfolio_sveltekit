@@ -40,6 +40,7 @@
                 class="w-11 h-11 p-0 rounded-lg hover:bg-foreground/10 transition-colors"
                 href={links.github}
                 target="_blank"
+                aria-label="GitHub Profile"
             >
                 <Github size={18} class="text-foreground/80" />
             </Button>
@@ -49,6 +50,7 @@
                 class="w-11 h-11 p-0 rounded-lg hover:bg-foreground/10 transition-colors"
                 href={links.linkedin}
                 target="_blank"
+                aria-label="LinkedIn Profile"
             >
                 <Linkedin size={18} class="text-foreground/80" />
             </Button>
@@ -58,6 +60,7 @@
                 class="w-11 h-11 p-0 rounded-lg hover:bg-foreground/10 transition-colors"
                 href={links.resume}
                 target="_blank"
+                aria-label="View Resume Document"
             >
                 <FileText
                     size={18}

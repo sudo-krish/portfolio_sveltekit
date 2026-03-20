@@ -62,7 +62,7 @@
       <div class="logo-group">
         <!-- Base Image Container -->
         <div class="image-container">
-          <img src="/logo.jpg" alt="Profile" class="base-img" />
+          <img src="/logo.jpg" alt="Krishnanand Anil Profile" class="base-img" fetchpriority="high" width="90" height="90" />
 
           <!-- Animated Clear Water Bubble overlapping the image -->
           <div class="water-bubble">

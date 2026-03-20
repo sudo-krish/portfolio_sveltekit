@@ -78,6 +78,9 @@
                                     src={skill.icon}
                                     alt={skill.name}
                                     class="w-3 h-3 2xl:w-3.5 2xl:h-3.5 object-contain"
+                                    loading="lazy"
+                                    width="14"
+                                    height="14"
                                 />
                             </div>
 

@@ -42,6 +42,7 @@
             style="width: 2.5cqi; height: 2.5cqi;"
             href={links.github}
             target="_blank"
+            aria-label="GitHub Profile"
         >
             <Github size={20} class="text-foreground/80" />
         </Button>
@@ -54,6 +55,7 @@
             style="width: 2.5cqi; height: 2.5cqi;"
             href={links.linkedin}
             target="_blank"
+            aria-label="LinkedIn Profile"
         >
             <Linkedin size={20} class="text-foreground/80" />
         </Button>

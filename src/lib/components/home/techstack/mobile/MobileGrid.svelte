@@ -80,6 +80,9 @@
                                 src={skill.icon}
                                 alt={skill.name}
                                 class="w-3 h-3 object-contain opacity-70 group-hover/skill:opacity-100 transition-opacity"
+                                loading="lazy"
+                                width="12"
+                                height="12"
                             />
                             <span>{skill.name}</span>
                         </div>

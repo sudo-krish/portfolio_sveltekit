@@ -106,6 +106,9 @@
                         alt="{stats?.name || 'Krishnanand Anil'} - LeetCode Data Engineering Profile"
                         class="w-full h-full object-cover rounded-full"
                         onerror={handleImageError}
+                        loading="lazy"
+                        width="56"
+                        height="56"
                     />
                 </div>
             </div>

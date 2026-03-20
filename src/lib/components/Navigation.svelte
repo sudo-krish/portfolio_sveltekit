@@ -101,8 +101,11 @@
         ></div>
         <img
           src="https://github.com/sudo-krish.png"
-          alt="Krishnanand Anil - Senior Data Engineer, Software Developer, and Tech Enthusiast Profile Picture"
+          alt="Krishnanand Anil - Senior Data Engineer Profile Avatar"
           class="relative z-10 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          fetchpriority="high"
+          width="36"
+          height="36"
         />
         <div
           class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[hsl(var(--success))] rounded-full border-2 border-[hsl(var(--background))] z-20 shadow-[0_0_8px_hsl(var(--success)/0.8)]"

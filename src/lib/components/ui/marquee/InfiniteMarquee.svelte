@@ -184,10 +184,13 @@
 
                     <img
                         src={tag.iconUrl}
-                        alt={tag.name}
+                        alt=""
+                        aria-hidden="true"
                         class="relative w-8 h-8 object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-110 pointer-events-none"
                         loading="lazy"
                         draggable="false"
+                        width="32"
+                        height="32"
                     />
                 </div>
 
