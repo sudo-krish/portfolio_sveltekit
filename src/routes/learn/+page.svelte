@@ -1,110 +1,111 @@
 <!-- src/routes/learn/+page.svelte -->
 <script lang="ts">
-    import ContentCard from '$lib/components/content/ContentCard.svelte';
+    import ContentCard from "$lib/components/content/ContentCard.svelte";
     import SEO from "$lib/components/SEO.svelte";
-    import { ArrowLeft, BookOpen, Search } from 'lucide-svelte';
+    import { Search, Command, Sparkles, BookOpen } from "lucide-svelte";
+    import { fade } from "svelte/transition";
+    import type { PageData } from "./$types";
 
-    let { data } = $props();
-    let searchQuery = $state('');
-    let selectedCategory = $state<string | null>(null);
+    let { data } = $props<{ data: PageData }>();
+    const { item } = data;
+    let searchQuery = $state("");
 
-    // Extract unique categories
-    let categories = $derived(
-        [...new Set(data.items.map((i: any) => i.category).filter(Boolean))]
-    );
-
-    // Filter items
+    // Filter items based on search
     let filteredItems = $derived(
         data.items.filter((item: any) => {
-            const matchesSearch = !searchQuery ||
+            if (!searchQuery) return true;
+            return (
                 item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                item.tags?.some((t: string) => t.toLowerCase().includes(searchQuery.toLowerCase()));
-            const matchesCategory = !selectedCategory || item.category === selectedCategory;
-            return matchesSearch && matchesCategory;
-        })
+                item.tags?.some((t: string) =>
+                    t.toLowerCase().includes(searchQuery.toLowerCase()),
+                )
+            );
+        }),
     );
 </script>
 
-<SEO 
-    title="Learning Path — Second Brain"
-    description="My learning journey — curated notes on data engineering, cloud architecture, and software development."
+<SEO
+    title="Second Brain — Sudo Krish"
+    description="My learning directory: curated notes on data engineering, cloud architecture, and software development."
     url="https://krishnanandanil.com/learn"
 />
 
-<div class="min-h-screen bg-background">
-    <div class="fixed inset-0 pointer-events-none z-0">
-        <div class="absolute top-20 left-1/4 w-96 h-96 rounded-full blur-[150px] opacity-10 bg-primary"></div>
-    </div>
-
-    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-        <a href="/" class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8 group">
-            <ArrowLeft size={16} class="group-hover:-translate-x-1 transition-transform" />
-            <span class="font-mono text-xs uppercase tracking-wider">Home</span>
-        </a>
-
-        <div class="flex items-center gap-3 mb-2">
-            <BookOpen size={28} class="text-primary" />
-            <h1 class="text-3xl sm:text-4xl font-black text-foreground tracking-tighter">Learning Path</h1>
-        </div>
-        <p class="text-muted-foreground mb-8 max-w-2xl">
-            My second brain — curated notes on everything I've learned about data engineering, cloud architecture, and software development.
+<div class="px-4 py-8 sm:px-10 sm:py-12 lg:px-16 lg:py-16 max-w-6xl mx-auto">
+    <!-- Main Header & Search Bar -->
+    <div class="mb-12 sm:mb-16">
+        <h1
+            class="text-3xl sm:text-5xl font-black tracking-tight mb-4 flex items-center gap-3"
+        >
+            <Sparkles class="text-primary" size={32} />
+            Knowledge Base
+        </h1>
+        <p class="text-muted-foreground text-lg mb-8 max-w-2xl">
+            Search across all my notes, architectural patterns, and code
+            snippets.
         </p>
 
-        <!-- Search + Filters -->
-        <div class="flex flex-col sm:flex-row gap-3 mb-8">
-            <div class="relative flex-1">
-                <Search size={16} class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+        <!-- Command Palette style Search -->
+        <div class="relative group max-w-3xl">
+            <div
+                class="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent rounded-2xl blur opacity-0 group-focus-within:opacity-100 transition-opacity duration-500"
+            ></div>
+            <div
+                class="relative flex items-center bg-[#151518] border border-border/20 rounded-2xl overflow-hidden shadow-2xl transition-all group-focus-within:border-primary/50 group-focus-within:bg-[#1a1a1f]"
+            >
+                <Search
+                    size={20}
+                    class="absolute left-5 text-muted-foreground group-focus-within:text-primary transition-colors"
+                />
                 <input
                     type="text"
                     bind:value={searchQuery}
-                    placeholder="Search topics..."
-                    class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-card/60 border border-border/30
-                           text-foreground placeholder:text-muted-foreground/50
-                           focus:border-primary/50 focus:outline-none transition-colors text-sm"
+                    placeholder="Search by keyword, concept, or tag..."
+                    class="w-full bg-transparent pl-14 pr-16 py-4 sm:py-5 text-foreground placeholder:text-muted-foreground/40 focus:outline-none text-lg"
                 />
-            </div>
-            <div class="flex gap-2 flex-wrap">
-                <button
-                    type="button"
-                    onclick={() => selectedCategory = null}
-                    class="text-xs font-mono uppercase tracking-wider px-3 py-2 rounded-lg border transition-colors
-                           {!selectedCategory ? 'bg-primary/20 border-primary/40 text-primary' : 'bg-muted/30 border-border/30 text-muted-foreground hover:text-foreground'}"
-                >All</button>
-                {#each categories as cat}
-                    <button
-                        type="button"
-                        onclick={() => selectedCategory = cat}
-                        class="text-xs font-mono uppercase tracking-wider px-3 py-2 rounded-lg border transition-colors
-                               {selectedCategory === cat ? 'bg-primary/20 border-primary/40 text-primary' : 'bg-muted/30 border-border/30 text-muted-foreground hover:text-foreground'}"
-                    >{cat}</button>
-                {/each}
+                <div
+                    class="absolute right-5 hidden sm:flex items-center gap-1 text-muted-foreground/30 bg-white/5 px-2 py-1 rounded-md border border-white/5 font-mono text-xs"
+                >
+                    <Command size={12} />
+                    <span>K</span>
+                </div>
             </div>
         </div>
-
-        <!-- Content grid -->
-        {#if filteredItems.length > 0}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {#each filteredItems as item}
-                    <ContentCard
-                        title={item.title}
-                        description={item.description}
-                        tags={item.tags}
-                        category={item.category}
-                        difficulty={item.difficulty}
-                        href="/learn/{item.slug}"
-                    />
-                {/each}
-            </div>
-        {:else if data.items.length === 0}
-            <div class="text-center py-20 text-muted-foreground">
-                <BookOpen size={48} class="mx-auto mb-4 opacity-30" />
-                <p class="text-lg font-medium">No learning notes yet</p>
-                <p class="text-sm mt-1">Push markdown files to the <code class="text-primary">second-brain</code> repo to see them here.</p>
-            </div>
-        {:else}
-            <div class="text-center py-20 text-muted-foreground">
-                <p class="text-lg">No results for "{searchQuery}"</p>
-            </div>
-        {/if}
     </div>
+
+    <!-- Cards Grid -->
+    {#if filteredItems.length > 0}
+        <div
+            class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 lg:gap-6"
+            in:fade={{ duration: 200 }}
+        >
+            {#each filteredItems as item}
+                <ContentCard
+                    title={item.title}
+                    description={item.description}
+                    tags={item.tags}
+                    category={item.category}
+                    difficulty={item.difficulty}
+                    href="/learn/{item.slug}"
+                />
+            {/each}
+        </div>
+    {:else}
+        <div
+            class="flex flex-col items-center justify-center py-24 text-center border border-dashed border-border/20 rounded-3xl bg-[#151518]/50"
+        >
+            <Search size={40} class="text-muted-foreground/30 mb-6" />
+            <h3 class="text-xl font-bold text-foreground mb-2">
+                No results found
+            </h3>
+            <p class="text-muted-foreground mb-6">
+                We couldn't find anything matching "{searchQuery}"
+            </p>
+            <button
+                class="px-5 py-2.5 bg-white/5 hover:bg-white/10 rounded-xl transition-colors text-sm font-medium"
+                onclick={() => (searchQuery = "")}
+            >
+                Clear search
+            </button>
+        </div>
+    {/if}
 </div>
