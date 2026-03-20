@@ -157,7 +157,7 @@
     </div>
 
     <div
-        class="fixed top-6 left-0 right-0 z-40 flex justify-center pointer-events-none"
+        class="absolute top-28 left-0 right-0 z-40 flex justify-center pointer-events-none"
     >
         <div class="pointer-events-auto flex items-center bg-card/80 backdrop-blur-2xl px-6 py-3 rounded-full border border-border shadow-xl hover:border-primary/30 hover:bg-card transition-all duration-300">
             <Breadcrumbs crumbs={[{ label: content.id, url: content.slug }]} className="m-0" />
