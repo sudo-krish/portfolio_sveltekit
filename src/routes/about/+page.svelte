@@ -55,20 +55,38 @@
             <Breadcrumbs {crumbs} />
         </div>
 
-        <!-- Crawlable H1 and intro for SEO -->
-        <h1 class="text-2xl sm:text-3xl font-bold text-white/90 tracking-tight">
-            {aboutPageContent.h1}
-        </h1>
-        <p class="text-sm sm:text-base text-white/60 max-w-xl leading-relaxed">
-            {aboutPageContent.introParagraph}
-        </p>
+        {#if !gameStarted}
+        <!-- Crawlable H1 and intro for SEO - RETRO STYLED MENU -->
+        <div 
+            class="w-full bg-[#ffffff] border-[4px] sm:border-[6px] border-[#333] p-4 sm:p-5 rounded-lg shadow-[6px_6px_0_rgba(0,0,0,0.5)] relative flex flex-col gap-3 transition-all duration-300" 
+            out:fade={{ duration: 300 }}
+        >
+            <!-- Decorative Inner Border -->
+            <div class="absolute inset-1 border-[2px] border-[#333] rounded-sm pointer-events-none opacity-20"></div>
+            
+            <h1 class="retro-font text-2xl sm:text-3xl md:text-4xl font-bold tracking-widest uppercase flex items-center gap-3 border-b-[2px] border-dashed border-[#888] pb-2" style="color: #000000 !important;">
+                <span class="animate-pulse text-xl sm:text-2xl" style="color: #ef4444 !important;">▶</span>
+                {aboutPageContent.h1}
+            </h1>
+            
+            <p class="retro-font text-base sm:text-xl md:text-2xl max-w-3xl leading-snug" style="color: #222222 !important;">
+                {aboutPageContent.introParagraph}
+            </p>
 
-        <!-- Crawlable semantic navigation links -->
-        <nav class="flex flex-wrap gap-3 text-xs sm:text-sm">
-            {#each aboutPageContent.navLinks as link}
-                <a href={link.href} class="text-white/50 hover:text-white transition-colors">{link.label}</a>
-            {/each}
-        </nav>
+            <!-- Crawlable semantic navigation links - Styled as Retro Gameboy Buttons -->
+            <nav class="flex flex-wrap gap-2 sm:gap-4 mt-2">
+                {#each aboutPageContent.navLinks as link}
+                    <a 
+                        href={link.href} 
+                        class="retro-font text-sm sm:text-lg bg-[#e5e7eb] border-[3px] border-[#333] px-3 py-1 sm:px-4 sm:py-1.5 rounded shadow-[3px_3px_0_rgba(0,0,0,0.8)] hover:bg-[#d1d5db] active:shadow-none active:translate-y-[3px] active:translate-x-[3px] transition-all uppercase tracking-widest font-bold"
+                        style="color: #000000 !important;"
+                    >
+                        {link.label}
+                    </a>
+                {/each}
+            </nav>
+        </div>
+        {/if}
     </div>
 
     <!-- RENDERING LOGIC: Show Instructions OR the Game -->
