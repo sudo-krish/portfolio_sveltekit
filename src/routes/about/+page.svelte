@@ -1,12 +1,20 @@
 <!-- src/routes/about/+page.svelte -->
 <script lang="ts">
-    import { getPersonalInfo } from "$lib/data/portfolio-data";
+    import { siteConfig } from "$lib/data/site";
+    import { heroProfile } from "$lib/data/hero_content";
+    import { personalContactInfo } from "$lib/data/contact-content";
+    import { aboutPageContent } from "$lib/data/about-page";
     import { ArrowLeft } from "lucide-svelte";
     import BattleGame from "./BattleGame.svelte";
     import SEO from "$lib/components/SEO.svelte";
     import { fade, fly } from "svelte/transition"; // Import transitions
 
-    const personal = getPersonalInfo();
+    const personal = {
+        ...siteConfig,
+        ...heroProfile,
+        ...personalContactInfo,
+        website: siteConfig.baseUrl
+    };
 
     // STATE: Track if the user has read the instructions and started the game
     let gameStarted = false;
@@ -17,9 +25,10 @@
 </script>
 
 <SEO
-    title="Encounter! — Sudo Krish"
-    description="A retro Pokémon-style encounter showcasing my data engineering skills, experience, and lore."
-    url="{personal.website}/about"
+    title={aboutPageContent.seo.title}
+    description={aboutPageContent.seo.description}
+    keywords={aboutPageContent.seo.keywords}
+    url="{siteConfig.baseUrl}/about"
 />
 
 <svelte:head>
@@ -42,18 +51,35 @@
 >
     <!-- Top Navigation -->
     <div
-        class="relative z-40 w-full max-w-4xl mx-auto px-4 pt-16 sm:pt-24 pb-2 flex justify-between items-center"
+        class="relative z-40 w-full max-w-4xl mx-auto px-4 pt-16 sm:pt-24 pb-2 flex flex-col gap-4"
     >
-        <a
-            href="/"
-            class="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors group retro-font uppercase tracking-widest"
-        >
-            <ArrowLeft
-                size={16}
-                class="group-hover:-translate-x-1 transition-transform"
-            />
-            Run Away
-        </a>
+        <div class="flex justify-between items-center">
+            <a
+                href="/"
+                class="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors group retro-font uppercase tracking-widest"
+            >
+                <ArrowLeft
+                    size={16}
+                    class="group-hover:-translate-x-1 transition-transform"
+                />
+                {aboutPageContent.backLabel}
+            </a>
+        </div>
+
+        <!-- Crawlable H1 and intro for SEO -->
+        <h1 class="text-2xl sm:text-3xl font-bold text-white/90 tracking-tight">
+            {aboutPageContent.h1}
+        </h1>
+        <p class="text-sm sm:text-base text-white/60 max-w-xl leading-relaxed">
+            {aboutPageContent.introParagraph}
+        </p>
+
+        <!-- Crawlable semantic navigation links -->
+        <nav class="flex flex-wrap gap-3 text-xs sm:text-sm">
+            {#each aboutPageContent.navLinks as link}
+                <a href={link.href} class="text-white/50 hover:text-white transition-colors">{link.label}</a>
+            {/each}
+        </nav>
     </div>
 
     <!-- RENDERING LOGIC: Show Instructions OR the Game -->

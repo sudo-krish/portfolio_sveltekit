@@ -1,8 +1,8 @@
 <script lang="ts">
     import SectionPage from "$lib/components/SectionPage.svelte";
-    import { getSectionContent } from "$lib/data/section-content";
+    import { impactSectionContent } from "$lib/data/impact-content";
 
-    const content = getSectionContent("impact")!;
+    const content = impactSectionContent;
 </script>
 
 <SectionPage {content} accentColor="#a855f7" />

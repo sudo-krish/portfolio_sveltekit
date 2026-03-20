@@ -2,48 +2,56 @@
 
 export const resultsData = {
     rightAnchor: {
-        label: "MEASURABLE IMPACT",
-        title: "Proven\nResults.",
-        description: "Engineering isn't just about writing code—it's about moving the needle."
+        label: "PRODUCTION OUTCOMES",
+        title: "Delivery\nMetrics.",
+        description: "These metrics reflect engineering problems solved — from large-scale event processing to low-latency analytics refresh."
     },
     // The main achievement showcase
     achievement: {
-        title: "Enterprise Data Scale",
-        subtitle: "Architecting for Petabytes",
-        description: "Led the migration of a legacy monolithic data warehouse to a <strong class=\"text-foreground\">scalable, decoupled lakehouse architecture</strong>. By shifting heavy storage to <span class=\"text-[#06b6d4] font-medium\">data lakes</span> and reserving data warehouses strictly for high-compute analytical workloads, we achieved a <b><strong class=\"text-[#eab308]\">60% reduction in costs</strong></b>. Furthermore, we transformed 3-hour batch processing jobs into <span class=\"text-[#ef4444] font-medium\">real-time streaming pipelines</span>, driving an <strong class=\"text-foreground\">85% reduction in latency</strong>. I ensured <strong class=\"text-[#06b6d4]\">99.9% data accuracy</strong> by implementing rigorous <span class=\"text-foreground font-medium\">automated schema validation</span> and data quality checks via dead-letter queues. Lastly, by aggressively deploying centralized monitoring tools and automated incident alerts, the platform maintains a consistent <strong class=\"text-[#a855f7]\">99.99% uptime</strong>."
+        title: "Production Outcomes",
+        subtitle: "Delivery Metrics at Scale",
+        description: "These metrics reflect the kinds of engineering problems I have worked on, from <strong class=\"text-foreground\">large-scale event processing</strong> to <span class=\"text-[#06b6d4] font-medium\">low-latency analytics refresh</span>, pipeline uptime, and <b><strong class=\"text-[#eab308]\">automation-driven efficiency improvements</strong></b>. Each metric represents <span class=\"text-[#ef4444] font-medium\">real production outcomes</span>, not theoretical benchmarks — measured across systems serving hundreds of users and processing millions of events daily."
     },
     metrics: [
         {
-            id: "latency",
-            label: "Latency Reduction",
-            value: "85%",
-            description: "via <span class=\"text-[#ef4444]\">streaming CDC</span> pipelines",
+            id: "throughput",
+            label: "Events Processed Daily",
+            value: "50M+",
+            description: "Built and supported <span class=\"text-[#06b6d4]\">high-throughput data systems</span> designed for large-scale event ingestion and downstream analytics.",
             iconName: "TrendingUp",
+            color: "#06b6d4" // Cyan
+        },
+        {
+            id: "refresh",
+            label: "Warehouse Refresh",
+            value: "<5min",
+            description: "Designed <span class=\"text-[#10b981]\">near real-time warehouse refresh</span> patterns for faster reporting and operational visibility.",
+            iconName: "Zap",
+            color: "#10b981" // Emerald
+        },
+        {
+            id: "uptime",
+            label: "Pipeline Uptime",
+            value: "99.9%",
+            description: "Focused on <span class=\"text-[#a855f7]\">resilient pipeline design</span>, monitoring, retries, and production reliability.",
+            iconName: "Award",
+            color: "#a855f7" // Purple
+        },
+        {
+            id: "latency",
+            label: "Latency Improvement",
+            value: "hrs→sec",
+            description: "Reduced <span class=\"text-[#ef4444]\">reporting and data movement delays</span> through better pipeline architecture and automation.",
+            iconName: "Target",
             color: "#ef4444" // Red
         },
         {
             id: "accuracy",
             label: "Data Accuracy",
-            value: "99.9%",
-            description: "via <span class=\"text-[#06b6d4]\">schema validation</span> & DLQ",
+            value: "60→98%",
+            description: "Improved <span class=\"text-[#eab308]\">data quality and consistency</span> through stronger transformation logic and validation patterns.",
             iconName: "Target",
-            color: "#06b6d4" // Cyan
-        },
-        {
-            id: "efficiency",
-            label: "Cost Efficiency",
-            value: "60%",
-            description: "via <span class=\"text-[#eab308]\">optimized compute</span> & tiers",
-            iconName: "Zap",
             color: "#eab308" // Yellow
-        },
-        {
-            id: "insights",
-            label: "Pipeline Uptime",
-            value: "99.99%",
-            description: "via <span class=\"text-[#a855f7]\">robust orchestration</span>",
-            iconName: "Award",
-            color: "#a855f7" // Purple
         }
     ],
     ui: {
@@ -53,7 +61,7 @@ export const resultsData = {
             accentColor: "#a855f7" // Purple
         },
         cta: {
-            label: "Read Case Studies",
+            label: "See Project Case Studies",
             href: "#experience"
         }
     }

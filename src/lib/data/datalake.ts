@@ -3,19 +3,19 @@
 export const datalakeData = {
     // This sits in the empty space behind/beside your 3D element on the right
     rightAnchor: {
-        label: "STORAGE ARCHITECTURE",
+        label: "DATA LAKE ARCHITECTURE",
         title: "The Data\nLake.",
-        description: "Limitless, cost-optimized object storage serving as the single source of truth for the enterprise."
+        description: "Layered storage and processing patterns that improve governance, scalability, and downstream analytics performance across cloud data platforms."
     },
     header: {
-        badge: "Storage Foundation",
-        titleLine1: "Central Data",
-        titleLine2: "Reservoir.",
+        badge: "Scalable Storage & Governance",
+        titleLine1: "Medallion",
+        titleLine2: "Architecture.",
     },
     content: {
-        shortDescription: `I engineer data architectures that thrive across all generations of tech—from robust <strong class="text-foreground font-medium">legacy Hadoop (HDFS)</strong> clusters to <span class="text-emerald-400 font-medium tracking-wide">modern governed lakehouses</span>.`,
+        shortDescription: `I design <strong class="text-foreground font-medium">layered storage and processing patterns</strong> that improve governance, scalability, and downstream analytics performance across <span class="text-emerald-400 font-medium tracking-wide">cloud data platforms</span>.`,
 
-        detailedPhilosophy: `Enterprise data is not monolithic; it demands engineering that bridges the past and the future. I have deep expertise in migrating and managing legacy on-premise Big Data ecosystems (Hadoop, HDFS, Hive), while simultaneously architecting next-generation cloud solutions on Amazon S3. By implementing strict security controls via AWS Lake Formation, Databricks Unity Catalog, and Snowflake Data Lake schemas, I modernize traditional data swamps into lightning-fast, highly governed transactional lakehouses.`
+        detailedPhilosophy: `Data lake and medallion architecture form the foundation for scalable analytics. I implement production-grade data lakes with bronze, silver, and gold zones on Amazon S3, using Apache Iceberg and Delta Lake for ACID transactions and schema evolution. By enforcing strict governance through AWS Lake Formation and Unity Catalog, I modernize traditional data swamps into well-governed, analytics-ready foundations that serve BI, reporting, and AI workloads.`
     },
     // The grid items that will sit below the main card
     storageNodes: [
@@ -28,8 +28,8 @@ export const datalakeData = {
     ],
     ui: {
         carousel: {
-            sectionTitle: "Data Reservoir",
-            sectionDescription: "Discover the infinite storage lake",
+            sectionTitle: "Data Lake",
+            sectionDescription: "Explore the storage architecture",
             accentColor: "#10b981" // Emerald
         },
         cta: {

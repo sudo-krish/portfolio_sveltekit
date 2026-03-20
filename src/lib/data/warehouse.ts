@@ -3,19 +3,19 @@
 export const warehouseData = {
     // This sits on the right side, serving as the typographic anchor
     rightAnchor: {
-        label: "ANALYTICS SERVING ENGINE",
+        label: "NEAR REAL-TIME WAREHOUSING",
         title: "The Data\nWarehouse.",
-        description: "The refined analytics engine delivering sub-second BI performance, high concurrency, and automated materialized views."
+        description: "Warehouse refresh and modeling workflows that reduce reporting delay, improve query responsiveness, and support business-facing analytics."
     },
     header: {
-        badge: "BI & Serving Layer",
-        titleLine1: "The Refined",
-        titleLine2: "Engine.",
+        badge: "Analytics & Serving Layer",
+        titleLine1: "Near Real-Time",
+        titleLine2: "Analytics.",
     },
     content: {
-        shortDescription: `While Lakehouses solve massive scale, the Data Warehouse remains the undisputed king of <strong class="text-foreground font-medium">sub-second latency</strong>, strict semantic governance, and <span class="text-purple-300 font-medium tracking-wide">high concurrency</span> for Business Intelligence and operational AI.`,
+        shortDescription: `I design <strong class="text-foreground font-medium">warehouse refresh and modeling workflows</strong> that reduce reporting delay, improve query responsiveness, and support <span class="text-purple-300 font-medium tracking-wide">business-facing analytics use cases</span>.`,
 
-        detailedPhilosophy: `Data Lakes and Lakehouses excel at raw compute, but they cannot match the absolute data consistency, complex join performance, and thousands-scale concurrency of a true Data Warehouse. I architect high-performance serving layers using Snowflake, Google BigQuery, and Amazon Redshift. By leveraging Airflow for orchestration and dbt for rigorous, metadata-driven modeling, I ensure every metric is version-controlled and tested. Furthermore, I integrate in-warehouse AI capabilities using Databricks Mosaic AI and Snowflake Cortex directly into the SQL workflows, empowering business operations with LLMs. All of this is strictly governed, mapped, and audited using enterprise lineage tools like OpenMetadata and Atlan.`
+        detailedPhilosophy: `Data warehouses remain essential for sub-second latency, strict semantic governance, and high concurrency for Business Intelligence. I architect high-performance serving layers using Amazon Redshift and Snowflake, designing near real-time warehouse refresh patterns for faster reporting and operational visibility. By leveraging Airflow for orchestration and dbt for rigorous, metadata-driven modeling, I ensure every metric is version-controlled and tested. This enables sub-5-minute dashboard refresh SLAs, supports hundreds of concurrent users, and provides the analytics foundation that drives business decisions.`
     },
     // The grid items that sit below the main card
     warehouseNodes: [
@@ -27,7 +27,7 @@ export const warehouseData = {
         { name: "Great expectations", desc: "Data Quality", iconUrl: "/icons/greatexpectation.jpeg" },
         { name: "Snowflake Cortex", desc: "In-Warehouse AI", iconUrl: "/icons/snowflake.png" },
         { name: "Databricks Mosaic", desc: "AI & ML Platform", iconUrl: "/icons/databricks.png" },
-        { name: "OpenMetadata", desc: "Data Lineage", iconUrl: "/icons/openmetadata.png" }, // Added OpenMetadata
+        { name: "OpenMetadata", desc: "Data Lineage", iconUrl: "/icons/openmetadata.png" },
     ],
     metrics: {
         latency: "0.24",

@@ -1,7 +1,8 @@
 // src/routes/sitemap.xml/+server.ts
 import type { RequestHandler } from './$types';
 import { getRepoIndex } from '$lib/services/content-service';
-import { portfolioData } from '$lib/data/portfolio-data';
+import { getAllProjects } from '$lib/data/projects-page';
+import { getAllBlogPosts } from '$lib/data/articles-page';
 
 interface ContentItem {
     slug: string;
@@ -26,12 +27,12 @@ export const GET: RequestHandler = async ({ fetch }) => {
   ]);
 
   // Use local data as fallback if API fetch fails
-  const projects: ContentItem[] = (projectsRes?.items as any[]) || portfolioData.projects.map(p => ({
+  const projects: ContentItem[] = (projectsRes?.items as any[]) || getAllProjects().map(p => ({
     slug: p.id,
     lastUpdated: p.dateCreated
   }));
   
-  const articles: ContentItem[] = (articlesRes?.items as any[]) || portfolioData.blogPosts.map(b => ({
+  const articles: ContentItem[] = (articlesRes?.items as any[]) || getAllBlogPosts().map(b => ({
     slug: b.slug,
     lastUpdated: b.datePublished
   }));

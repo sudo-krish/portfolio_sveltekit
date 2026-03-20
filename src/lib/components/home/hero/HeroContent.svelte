@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { getPersonalInfo } from "$lib/data/portfolio-data";
-  import { heroContent } from "$lib/data/hero_content";
+  import { siteConfig } from "$lib/data/site";
+  import { heroContent, heroProfile } from "$lib/data/hero_content";
   import { onMount } from "svelte";
   import gsap from "gsap";
 
@@ -15,7 +15,11 @@
   import MobileBioCard from "./mobile/MobileBioCard.svelte";
   import MobileActionDock from "./mobile/MobileActionDock.svelte";
 
-  const personal = getPersonalInfo();
+  const personal = {
+      ...siteConfig,
+      ...heroProfile,
+      website: siteConfig.baseUrl
+  };
   const techTags = personal.topSkills;
 </script>
 

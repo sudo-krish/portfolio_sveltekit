@@ -11,12 +11,12 @@
         Award,
     } from "lucide-svelte";
     import SEO from "$lib/components/SEO.svelte";
-    import { getSectionContent } from "$lib/data/section-content";
+    import { leetcodeSectionContent } from "$lib/data/leetcode-content";
     import { getLeetCodeStatsCached } from "$lib/services/leetcode";
     import gsap from "gsap";
     import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
-    const content = getSectionContent("leetcode")!;
+    const content = leetcodeSectionContent;
     const accentColor = "#ffa116"; // LeetCode Amber
 
     let stats: any = null;

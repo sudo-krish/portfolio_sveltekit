@@ -13,7 +13,7 @@
         Calendar,
     } from "lucide-svelte";
     import SEO from "$lib/components/SEO.svelte";
-    import { getSectionContent } from "$lib/data/section-content";
+    import { githubSectionContent } from "$lib/data/github-content";
     import {
         getGitHubStatsCached,
         getGitHubProjectsCached,
@@ -22,7 +22,7 @@
     import gsap from "gsap";
     import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
-    const content = getSectionContent("github")!;
+    const content = githubSectionContent;
     const accentColor = "#22c55e"; // Github Green
 
     let stats: any = null;
@@ -143,9 +143,9 @@
 </script>
 
 <SEO 
-    title="{content.seoTitle} - Live Stats"
-    description="Live GitHub activity, repositories, and open source contributions."
-    keywords="github, open source, repos, commits, developer, code"
+    title="GitHub Projects and Repositories | Krishnanand Anil"
+    description="Browse Krishnanand Anil's GitHub repositories, data engineering projects, technical experiments, and open source work."
+    keywords="data engineering github, github repositories data engineer, kafka cdc project github, python data pipeline project, aws automation scripts"
     url="https://krishnanandanil.com/github"
 />
 
@@ -232,12 +232,12 @@
                 <h1
                     class="hero-elem text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8"
                 >
-                    <span class="block text-foreground/90">Building in</span>
+                    <span class="block text-foreground/90">Open Source</span>
                     <span
                         class="block text-transparent bg-clip-text pb-2 lg:pb-4"
                         style="background-image: linear-gradient(135deg, {accentColor}, hsl(var(--foreground)))"
                     >
-                        The Open
+                        Engineering
                     </span>
                 </h1>
 

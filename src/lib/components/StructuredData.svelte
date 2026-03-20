@@ -1,16 +1,28 @@
 <!-- src/lib/components/StructuredData.svelte -->
 <script lang="ts">
-  import { portfolioData } from '$lib/data/portfolio-data';
-  
+  import { siteConfig } from '$lib/data/site';
+  import { heroProfile } from '$lib/data/hero_content';
+  import { personalContactInfo } from '$lib/data/contact-content';
+  import { getAllCompanies } from '$lib/data/experience';
+  import { education, certifications } from '$lib/data/credentials-content';
+  import { researchPapers } from '$lib/data/articles-page';
   export let type: 'Person' | 'BlogPosting' | 'Project' | 'WebSite' | 'BreadcrumbList' | 'Organization' | 'ProfessionalService' = 'Person';
   export let data: any = {};
   
   const defaults = {
-    personal: portfolioData.personal,
-    company: portfolioData.companies?.find(c => c.current),
-    education: portfolioData.education?.[0],
-    certifications: portfolioData.certifications || [],
-    researchPapers: portfolioData.researchPapers || []
+    personal: {
+        ...siteConfig,
+        ...heroProfile,
+        ...personalContactInfo,
+        website: siteConfig.baseUrl,
+        profileImage: siteConfig.avatar,
+        phone: "",
+        skills: heroProfile.topSkills
+    },
+    company: getAllCompanies().find((c: any) => c.current),
+    education: education?.[0],
+    certifications: certifications || [],
+    researchPapers: researchPapers || []
   };
   
   function cleanObject(obj: any): any {

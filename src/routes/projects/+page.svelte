@@ -2,6 +2,7 @@
 <script lang="ts">
     import ContentCard from '$lib/components/content/ContentCard.svelte';
     import SEO from "$lib/components/SEO.svelte";
+    import { projectsPageContent } from "$lib/data/projects-page";
     import { ArrowLeft, Code, Search } from 'lucide-svelte';
 
     let { data } = $props();
@@ -24,9 +25,10 @@
 </script>
 
 <SEO 
-    title="Projects"
-    description="Open-source projects and production systems in data engineering, real-time streaming, and cloud architecture."
-    url="https://krishnanandanil.com/projects"
+    title={projectsPageContent.seo.title}
+    description={projectsPageContent.seo.description}
+    keywords={projectsPageContent.seo.keywords}
+    url={projectsPageContent.seo.url}
 />
 
 <div class="min-h-screen bg-background">
@@ -42,10 +44,10 @@
 
         <div class="flex items-center gap-3 mb-2">
             <Code size={28} class="text-primary" />
-            <h1 class="text-3xl sm:text-4xl font-black text-foreground tracking-tighter">Projects</h1>
+            <h1 class="text-3xl sm:text-4xl font-black text-foreground tracking-tighter">{projectsPageContent.h1}</h1>
         </div>
         <p class="text-muted-foreground mb-8 max-w-2xl">
-            Production systems and open-source projects in data engineering, real-time streaming, and cloud architecture.
+            {projectsPageContent.introParagraph}
         </p>
 
         <!-- Search -->

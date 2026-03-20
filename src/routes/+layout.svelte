@@ -4,28 +4,42 @@
   import StructuredData from "$lib/components/StructuredData.svelte";
   import PageWrapper from "$lib/components/PageWrapper.svelte";
   import { page } from "$app/stores";
-  import { getPersonalInfo } from "$lib/data/portfolio-data";
+  import { siteConfig } from "$lib/data/site";
+  import { heroProfile } from "$lib/data/hero_content";
 
-  const personal = getPersonalInfo();
+  const personal = {
+      ...siteConfig,
+      ...heroProfile,
+      website: siteConfig.baseUrl
+  };
 
   $: currentPath = $page.url.pathname;
   $: currentUrl = `${personal.website}${currentPath}`;
 
   $: pageMetadata = {
-    title: `${personal.name} - Senior Data Engineer | AWS Cloud Architect | Data Platform Lead`,
+    title: `Krishnanand Anil | Senior Data Engineer, AWS & Real-Time Data`,
     description: personal.bio,
     type: "website",
     keywords: [
-      ...personal.topSkills,
-      "Senior Data Engineer Portfolio",
-      "AWS Data Architect",
-      "Real-time CDC Pipelines",
-      "Modern Data Stack 2025",
-      "Data Mesh Implementation",
-      "MLOps Readiness",
-      "Data Platform Engineering",
-      "High-scale Data Systems",
-      "Bengaluru Data Engineer",
+      "krishnanand anil",
+      "krishnanand anil data engineer",
+      "krishnanand anil aws",
+      "krishnanand anil portfolio",
+      "senior data engineer portfolio",
+      "aws data engineer portfolio",
+      "real-time data engineer",
+      "data architect portfolio",
+      "big data engineer india",
+      "senior data engineer bengaluru",
+      "kafka data engineer",
+      "spark data engineer",
+      "airflow data engineer",
+      "redshift engineer",
+      "data platform engineer",
+      "data engineering projects",
+      "aws data engineering projects",
+      "kafka cdc pipeline",
+      "data lakehouse architecture portfolio",
     ].join(", "),
     image: `${personal.website}/og-image.jpg`,
   };

@@ -1,5 +1,22 @@
 // src/lib/data/hero_content.ts
 
+export const heroProfile = {
+    jobTitle: "Senior Data Engineer | AWS | Kafka | Spark | Real-Time Data Platforms",
+    shortBio: "Senior Data Engineer with 5+ years building AWS, Kafka, Spark, and warehouse pipelines. Explore projects, articles, learning resources, and production-scale data systems.",
+    bio: "Senior Data Engineer with 5+ years building AWS, Kafka, Spark, and warehouse pipelines. I design and build production-grade data platforms using AWS, Kafka, Spark, Airflow, and modern warehousing patterns. My work spans real-time pipelines, CDC architectures, warehouse refresh systems, cloud migrations, and scalable analytics foundations that support faster reporting, better reliability, and stronger engineering operations.",
+    resumeUrl: "https://drive.google.com/file/d/1lkamX2hfp25wsLecHgEStbYD7-1ZEMwv/view?usp=drive_link",
+    topSkills: [
+        "Real-time data pipelines using Kafka, CDC patterns, and event-driven ingestion",
+        "Batch and near real-time ETL/ELT using Spark, Airflow, and AWS cloud services",
+        "Data warehousing and query performance using Redshift and analytics-ready models",
+        "Data lake and medallion architectures for scalable storage and processing",
+        "Cloud migrations, reliability improvements, and platform standardization",
+        "AWS Certified Solutions Architect – Associate",
+        "AWS Certified Cloud Practitioner",
+        "AI-ready data foundations with vector search and semantic retrieval"
+    ]
+};
+
 export type TechItem = {
     name: string;
     iconUrl: string;
@@ -43,8 +60,8 @@ export type HeroContent = {
 
 export const heroContent: HeroContent = {
     identity: {
-        sectionTitle: "Senior Data Engineer",
-        sectionDescription: "Krishnanand Anil - Real-Time Data Architect",
+        sectionTitle: "Senior Data Engineer | AWS | Streaming | Warehousing | Data Platforms",
+        sectionDescription: "Krishnanand Anil — Senior Data Engineer for AWS, Kafka, and Real-Time Data Systems",
     },
 
     headline: {
@@ -55,18 +72,16 @@ export const heroContent: HeroContent = {
     },
 
     bioCard: {
-        metaLabel: "Data Mastery",
+        metaLabel: "Data Engineering",
         metaTitle: "Krishnanand Anil",
-        main: "I'm a Senior Data Engineer specializing in building production-scale data systems. I've always been fascinated by distributed systems, high-reach architectures, and solving complex engineering problems.",
+        main: "I design and build production-grade data platforms using AWS, Kafka, Spark, Airflow, and modern warehousing patterns. Over 5+ years, I have worked across real-time pipelines, CDC architectures, warehouse refresh systems, cloud migrations, and scalable analytics foundations.",
         details:
-            "Expert in Redshift, Kafka, and PySpark. I bridge the gap between legacy Hadoop and modern Lakehouses (Iceberg, Delta Lake) using Z-Ordering and Medallion principles. I'm also architecting AI-ready foundations using vector embeddings (Cosine/Euclidian) and RAG patterns.",
+            "My work supports faster reporting, better reliability, and stronger engineering operations. I specialize in end-to-end data engineering: ingestion, CDC, transformation, orchestration, warehousing, observability, and platform design — all on AWS-native and cloud-scale systems.",
     },
 
     marquee: {
         payloadLabel: "Tech Stack",
         techStack: [
-            // Replace these placeholder paths with the actual paths to your PNG files 
-            // inside your static/ folder (e.g., static/icons/aws.png)
             { name: "AWS", iconUrl: "/icons/aws.png" },
             { name: "Kafka", iconUrl: "/icons/kafka.png" },
             { name: "Python", iconUrl: "/icons/python.png" },
@@ -82,17 +97,12 @@ export const heroContent: HeroContent = {
             { name: "dbt", iconUrl: "/icons/dbt.png" },
             { name: "Bigquery", iconUrl: "/icons/bigquery.png" },
             { name: "Lakeformation", iconUrl: "/icons/lakeformation.png" },
-
-
-
-
-
         ],
     },
 
     actionDock: {
-        cta: "Hire Me",
-        ctaDesktop: "Connect & Deploy",
+        cta: "View Projects",
+        ctaDesktop: "View Data Engineering Projects",
         links: {
             linkedin: "https://www.linkedin.com/in/krishnanand-anil/",
             github: "https://github.com/sudo-krish",

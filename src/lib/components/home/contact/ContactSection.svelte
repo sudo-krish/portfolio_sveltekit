@@ -13,15 +13,20 @@
         Copy,
         Check,
     } from "lucide-svelte";
-    import { getPersonalInfo } from "$lib/data/portfolio-data";
-    import { getSectionContent } from "$lib/data/section-content";
+    import { siteConfig } from "$lib/data/site";
+    import { heroProfile } from "$lib/data/hero_content";
+    import { contactSectionContent, personalContactInfo } from "$lib/data/contact-content";
     import GlassPanel from "$lib/components/ui/GlassPanel.svelte";
     import CtaLink from "$lib/components/ui/CtaLink.svelte";
     import GlowAccent from "$lib/components/ui/GlowAccent.svelte";
     import MobileCarousel from "$lib/components/ui/MobileCarousel.svelte";
 
-    const personal = getPersonalInfo();
-    const content = getSectionContent("contact")!;
+    const personal = {
+        ...siteConfig,
+        ...heroProfile,
+        ...personalContactInfo
+    };
+    const content = contactSectionContent;
 
     const CALENDAR_URL = "https://calendly.com/krishnanandanil/30min";
     const COFFEE_URL = "https://buymeacoffee.com/krishnanandanil";

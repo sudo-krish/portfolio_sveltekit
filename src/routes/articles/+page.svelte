@@ -2,6 +2,7 @@
 <script lang="ts">
     import ContentCard from '$lib/components/content/ContentCard.svelte';
     import SEO from "$lib/components/SEO.svelte";
+    import { articlesPageContent } from "$lib/data/articles-page";
     import { ArrowLeft, FileText, Search } from 'lucide-svelte';
 
     let { data } = $props();
@@ -22,9 +23,10 @@
 </script>
 
 <SEO 
-    title="Articles"
-    description="Published articles, blog posts, and technical writing on data engineering, AWS, and modern data architecture."
-    url="https://krishnanandanil.com/articles"
+    title={articlesPageContent.seo.title}
+    description={articlesPageContent.seo.description}
+    keywords={articlesPageContent.seo.keywords}
+    url={articlesPageContent.seo.url}
 />
 
 <div class="min-h-screen bg-background">
@@ -40,10 +42,10 @@
 
         <div class="flex items-center gap-3 mb-2">
             <FileText size={28} class="text-primary" />
-            <h1 class="text-3xl sm:text-4xl font-black text-foreground tracking-tighter">Articles</h1>
+            <h1 class="text-3xl sm:text-4xl font-black text-foreground tracking-tighter">{articlesPageContent.h1}</h1>
         </div>
         <p class="text-muted-foreground mb-8 max-w-2xl">
-            Published articles, blog posts, and technical writing on data engineering, AWS, and modern data architecture.
+            {articlesPageContent.introParagraph}
         </p>
 
         <!-- Search -->

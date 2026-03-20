@@ -2,7 +2,8 @@
 <script lang="ts">
     import ContentCard from "$lib/components/content/ContentCard.svelte";
     import SEO from "$lib/components/SEO.svelte";
-    import { Search, Command, Sparkles, BookOpen } from "lucide-svelte";
+    import { learnPageContent } from "$lib/data/learn-page";
+    import { Search, Command, Sparkles, BookOpen, ExternalLink, ArrowUpRight, FileText, Boxes, Tag } from "lucide-svelte";
     import { fade } from "svelte/transition";
     import type { PageData } from "./$types";
 
@@ -25,9 +26,10 @@
 </script>
 
 <SEO
-    title="Second Brain — Sudo Krish"
-    description="My learning directory: curated notes on data engineering, cloud architecture, and software development."
-    url="https://krishnanandanil.com/learn"
+    title={learnPageContent.seo.title}
+    description={learnPageContent.seo.description}
+    keywords={learnPageContent.seo.keywords}
+    url={learnPageContent.seo.url}
 />
 
 <div class="px-4 py-8 sm:px-10 sm:py-12 lg:px-16 lg:py-16 max-w-6xl mx-auto">
@@ -37,11 +39,10 @@
             class="text-3xl sm:text-5xl font-black tracking-tight mb-4 flex items-center gap-3"
         >
             <Sparkles class="text-primary" size={32} />
-            Knowledge Base
+            {learnPageContent.h1}
         </h1>
         <p class="text-muted-foreground text-lg mb-8 max-w-2xl">
-            Search across all my notes, architectural patterns, and code
-            snippets.
+            {learnPageContent.introParagraph}
         </p>
 
         <!-- Command Palette style Search -->

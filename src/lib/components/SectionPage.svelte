@@ -6,7 +6,7 @@
         MoveRight,
         ArrowUpRight,
     } from "lucide-svelte";
-    import type { SectionContent } from "$lib/data/section-content";
+    import type { SectionContent } from "$lib/types/section";
     import { onMount, onDestroy, tick } from "svelte";
     import { page } from "$app/stores";
     import gsap from "gsap";

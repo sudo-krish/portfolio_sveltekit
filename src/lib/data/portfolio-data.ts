@@ -5,9 +5,9 @@ import { getGitHubProjectsCached } from '$lib/services/github';
 export const portfolioData: PortfolioData = {
   personal: {
     name: "Krishnanand Anil",
-    jobTitle: "Senior Data Engineer | AWS Redshift Kafka PySpark | Real-Time Data Architect",
-    bio: "Senior Data Engineer with 5+ years of experience specializing in building production-scale data systems on AWS. Currently at DTDC Express Limited, I architected real-time CDC pipelines processing 50M+ tracking events daily, achieving a 99% latency reduction (3hr batch to streaming). Expert in AWS services (Redshift, Glue, EMR, Lambda, Kinesis, DMS, Lake Formation), Kafka, Debezium, and PySpark. Proven track record of delivering high-impact solutions: 80% reduction in manual reporting for Finance/BI, 70% faster business insights via AI-ready platforms with vector search, and sub-5min dashboard SLAs via RDS->Redshift streaming. Open to product-first and unicorn roles where I can apply my expertise in event-driven architectures and MLOps foundations.",
-    shortBio: "Senior Data Engineer | AWS Redshift Kafka PySpark | 5+ Years Experience | M.Tech (Data Science) BITS Pilani",
+    jobTitle: "Senior Data Engineer | AWS | Kafka | Spark | Real-Time Data Platforms",
+    bio: "Senior Data Engineer with 5+ years building AWS, Kafka, Spark, and warehouse pipelines. I design and build production-grade data platforms using AWS, Kafka, Spark, Airflow, and modern warehousing patterns. My work spans real-time pipelines, CDC architectures, warehouse refresh systems, cloud migrations, and scalable analytics foundations that support faster reporting, better reliability, and stronger engineering operations.",
+    shortBio: "Senior Data Engineer with 5+ years building AWS, Kafka, Spark, and warehouse pipelines. Explore projects, articles, learning resources, and production-scale data systems.",
     email: "krishnanandpanil@gmail.com",
     phone: "8281974055",
     website: "https://krishnanandanil.com",
@@ -58,14 +58,14 @@ export const portfolioData: PortfolioData = {
       "QlikView", "Tableau", "Power BI", "Data Profiling", "Dimensional Modeling"
     ],
     topSkills: [
-      "Real-Time CDC (Apache Kafka & TiDB)",
-      "AWS Data Stack (Redshift, Glue, EMR)",
-      "Lakehouse Tech (Iceberg, Delta Lake, Z-Ordering)",
-      "Dimensional Modeling & SCD (Type 1 & 2)",
-      "Data Quality (Soda, Great Expectations)",
-      "AI-Ready Data (Embeddings & RAG Arch)",
-      "Distributed Systems & Cost Optimization",
-      "CI/CD for Data Infrastructure"
+      "Real-time data pipelines using Kafka, CDC patterns, and event-driven ingestion",
+      "Batch and near real-time ETL/ELT using Spark, Airflow, and AWS cloud services",
+      "Data warehousing and query performance using Redshift and analytics-ready models",
+      "Data lake and medallion architectures for scalable storage and processing",
+      "Cloud migrations, reliability improvements, and platform standardization",
+      "AWS Certified Solutions Architect – Associate",
+      "AWS Certified Cloud Practitioner",
+      "AI-ready data foundations with vector search and semantic retrieval"
     ],
     yearsOfExperience: 5,
     achievements: [
@@ -202,32 +202,25 @@ export const portfolioData: PortfolioData = {
 
   certifications: [
     {
+      name: "AWS Certified Solutions Architect – Associate",
+      category: "Cloud",
+      url: "https://aws.amazon.com/certification/certified-solutions-architect-associate/",
+      issuer: "Amazon Web Services",
+      dateIssued: "2023"
+    },
+    {
+      name: "AWS Certified Cloud Practitioner",
+      category: "Cloud",
+      url: "https://aws.amazon.com/certification/certified-cloud-practitioner/",
+      issuer: "Amazon Web Services",
+      dateIssued: "2022"
+    },
+    {
       name: "Fundamentals of the Databricks Lakehouse Platform Accreditation (V2)",
       category: "Big Data",
       url: "https://www.databricks.com/learn/certification",
       issuer: "Databricks",
       dateIssued: "2024"
-    },
-    {
-      name: "SQL for Beginners: Learn SQL using MySQL and Database Design",
-      category: "Database",
-      url: "https://www.udemy.com/",
-      issuer: "Udemy",
-      dateIssued: "2022"
-    },
-    {
-      name: "The Python Bible™ | Everything You Need to Program in Python",
-      category: "Programming",
-      url: "https://www.udemy.com/",
-      issuer: "Udemy",
-      dateIssued: "2021"
-    },
-    {
-      name: "The Project Management Course: Beginner to PROject Manager",
-      category: "Management",
-      url: "https://www.udemy.com/",
-      issuer: "Udemy",
-      dateIssued: "2021"
     },
     {
       name: "Spark and Python for Big Data with PySpark",

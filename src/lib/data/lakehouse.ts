@@ -3,19 +3,19 @@
 export const lakehouseData = {
     // This sits on the left side, serving as the typographic anchor
     leftAnchor: {
-        label: "TRANSACTIONAL LAYER",
+        label: "AI-READY DATA FOUNDATIONS",
         title: "The Data\nLakehouse.",
-        description: "Bringing warehouse-level ACID transactions, time-travel, and schema evolution directly to cloud object storage."
+        description: "Bringing warehouse-level transactions, semantic retrieval, and AI-ready data layers directly to cloud object storage."
     },
     header: {
-        badge: "Compute & Governance",
-        titleLine1: "Order To",
-        titleLine2: "The Ocean.",
+        badge: "AI & Analytics Foundations",
+        titleLine1: "AI-Ready",
+        titleLine2: "Data Layer.",
     },
     content: {
-        shortDescription: `I architect <strong class="text-foreground font-medium">metadata-driven Lakehouses</strong> that eliminate fragile ETL silos, bringing warehouse performance directly to the data lake for seamless <span class="text-blue-400 font-medium tracking-wide">Analytics and AI integration</span>.`,
+        shortDescription: `I architect <strong class="text-foreground font-medium">metadata-driven lakehouses</strong> and explore vector search, semantic retrieval, and analytics-ready data layers that support modern <span class="text-blue-400 font-medium tracking-wide">AI and knowledge-driven applications</span>.`,
 
-        detailedPhilosophy: `By leveraging open-source Apache Spark alongside open table formats like Apache Iceberg and Delta Lake, I engineer architectures that support concurrent reads/writes and schema evolution on massive datasets. I implement centralized, metadata-driven governance using Databricks Unity Catalog and Snowflake Data Lake schemas, paired with AWS Lake Formation. This unifies disparate storage into a highly governed foundation that guarantees sub-second query execution—perfectly optimized for modern BI, advanced analytics, and Enterprise AI workloads.`
+        detailedPhilosophy: `By leveraging Apache Spark alongside open table formats like Apache Iceberg and Delta Lake, I engineer architectures that support concurrent reads/writes and schema evolution on massive datasets. I implement centralized, metadata-driven governance using Databricks Unity Catalog and AWS Lake Formation. Beyond traditional analytics, I explore vector search, semantic retrieval, and analytics-ready data layers that support modern AI and knowledge-driven applications — unifying disparate storage into a highly governed foundation for BI, analytics, and Enterprise AI workloads.`
     },
     // The grid items that sit below the main card
     lakehouseNodes: [
