@@ -23,8 +23,8 @@
   export let exactTitle: boolean = false; // NEW: Bypass interpolation
   
   // Computed values
-  const fullTitle = exactTitle ? title : (title ? `${title} | ${defaults.siteTitle}` : defaults.siteTitle);
-  const imageUrl = image.startsWith('http') ? image : `${defaults.website}${image}`;
+  $: fullTitle = exactTitle ? title : (title ? `${title} | ${defaults.siteTitle}` : defaults.siteTitle);
+  $: imageUrl = image.startsWith('http') ? image : `${defaults.website}${image}`;
   
   // Twitter handle extraction (if exists)
   const twitterHandle = defaults.personal.socialLinks.twitter 
@@ -32,7 +32,7 @@
     : 'krishnanandanil'; // Fallback handle
   
   // Ensure description doesn't exceed recommended length
-  const truncatedDescription = description.length > 160 
+  $: truncatedDescription = description.length > 160 
     ? description.substring(0, 157) + '...' 
     : description;
 </script>
