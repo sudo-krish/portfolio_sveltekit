@@ -59,14 +59,16 @@
             {prefix}
         </span>
         <span
-            class="hero-type text-center font-black text-[clamp(3.5rem,17vw,6rem)] leading-[0.78] tracking-[-0.04em] text-transparent bg-clip-text bg-gradient-to-br from-foreground via-primary to-accent drop-shadow-[0_4px_24px_hsl(var(--primary)/0.4)] w-full block"
+            class="hero-type text-center font-black text-[clamp(3.5rem,17vw,6rem)] leading-[0.78] tracking-[-0.04em] w-full block"
         >
             {suffix}
         </span>
     </div>
 
     <!-- Semantic Intent Routers -->
-    <div class="hero-type flex flex-wrap justify-center items-center gap-2 mt-4 pointer-events-auto relative z-50">
+    <div
+        class="hero-type flex flex-wrap justify-center items-center gap-2 mt-4 pointer-events-auto relative z-50"
+    >
         <a href="/projects" class="btn-hero-nav">
             <span class="text-primary font-bold">01</span> Explore Projects
         </a>

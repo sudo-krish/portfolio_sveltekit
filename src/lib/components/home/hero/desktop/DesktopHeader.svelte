@@ -23,7 +23,10 @@
 <!-- Removed w-3/5, now fills the column provided by the parent layout -->
 <div class="relative z-10 w-full flex flex-col justify-center">
     <!-- Top Identity Bar -->
-    <div class="hero-type flex items-center" style="gap: 1.2cqi; margin-bottom: 1.5cqi; padding-left: 0.2cqi;">
+    <div
+        class="hero-type flex items-center"
+        style="gap: 1.2cqi; margin-bottom: 1.5cqi; padding-left: 0.2cqi;"
+    >
         <!-- Name Plate -->
         <div
             class="flex items-center bg-foreground/[0.03] border border-foreground/[0.08] rounded-full backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.2)]"
@@ -64,30 +67,42 @@
     <!-- Increased clamp sizes slightly since we have more horizontal room now -->
     <div class="flex flex-col" role="presentation">
         <span
-            class="hero-type font-black text-[clamp(6rem,9vw,11rem)] leading-[0.82] tracking-[-0.03em] text-foreground/95 mix-blend-plus-lighter block"
+            class="hero-type block font-black leading-[0.82] tracking-[-0.04em]
+		text-[clamp(6rem,9vw,11rem)] text-foreground/72"
         >
             {prefix}
         </span>
+
         <span
-            class="hero-type font-black text-[clamp(6rem,9vw,11rem)] leading-[0.82] tracking-[-0.03em] text-transparent bg-clip-text bg-gradient-to-br from-foreground via-primary to-accent drop-shadow-[0_4px_32px_hsl(var(--primary)/0.3)] block"
+            class="hero-type block font-black leading-[0.82] tracking-[-0.04em]
+	text-[clamp(6rem,9vw,11rem)] text-foreground"
         >
             {suffix}
         </span>
     </div>
 
     <!-- Semantic Intent Routers -->
-    <div class="hero-type w-full max-w-[95%] flex flex-wrap items-center gap-3 mt-6 mb-2 pointer-events-auto">
+    <div
+        class="hero-type w-full max-w-[95%] flex flex-wrap items-center gap-3 mt-6 mb-2 pointer-events-auto"
+    >
         <a href="/projects" class="btn-hero-nav">
-            <span class="text-primary font-bold">01</span> Explore Projects
+            <span class="hero-index">01</span>
+            <span>Explore Projects</span>
         </a>
+
         <a href="/learn" class="btn-hero-nav">
-            <span class="text-primary font-bold">02</span> Learn Concepts
+            <span class="hero-index">02</span>
+            <span>Learn Concepts</span>
         </a>
+
         <a href="/articles" class="btn-hero-nav">
-            <span class="text-primary font-bold">03</span> Read Articles
+            <span class="hero-index">03</span>
+            <span>Read Articles</span>
         </a>
+
         <a href="/experience" class="btn-hero-nav">
-            <span class="text-primary font-bold">04</span> View Experience
+            <span class="hero-index">04</span>
+            <span>View Experience</span>
         </a>
     </div>
 
@@ -120,3 +135,76 @@
         </div>
     </div>
 </div>
+
+<style>
+    .btn-hero-nav {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.7rem;
+        padding: 0.78rem 1rem;
+        border-radius: 9999px;
+        border: 1px solid hsl(var(--foreground) / 0.08);
+        background: linear-gradient(
+            180deg,
+            hsl(var(--foreground) / 0.045),
+            hsl(var(--foreground) / 0.025)
+        );
+        color: hsl(var(--foreground) / 0.78);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        box-shadow:
+            0 8px 24px rgba(0, 0, 0, 0.18),
+            inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        font-size: 0.92rem;
+        font-weight: 520;
+        letter-spacing: -0.01em;
+        transition:
+            transform 180ms ease,
+            border-color 180ms ease,
+            background 180ms ease,
+            color 180ms ease,
+            box-shadow 180ms ease;
+    }
+
+    .btn-hero-nav:hover {
+        transform: translateY(-1px);
+        color: hsl(var(--foreground) / 0.96);
+        border-color: hsl(var(--primary) / 0.28);
+        background: linear-gradient(
+            180deg,
+            hsl(var(--foreground) / 0.07),
+            hsl(var(--foreground) / 0.035)
+        );
+        box-shadow:
+            0 12px 30px rgba(0, 0, 0, 0.22),
+            0 0 0 1px hsl(var(--primary) / 0.08) inset;
+    }
+
+    .btn-hero-nav:active {
+        transform: translateY(0);
+    }
+
+    .hero-index {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 1.9rem;
+        height: 1.9rem;
+        padding: 0 0.45rem;
+        border-radius: 9999px;
+        background: hsl(var(--foreground) / 0.06);
+        border: 1px solid hsl(var(--foreground) / 0.08);
+        color: hsl(var(--primary) / 0.9);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+            monospace;
+    }
+
+    .btn-hero-nav:hover .hero-index {
+        background: hsl(var(--primary) / 0.12);
+        border-color: hsl(var(--primary) / 0.2);
+        color: hsl(var(--primary));
+    }
+</style>
