@@ -15,6 +15,7 @@
         getGitHubStatsCached,
         getGitHubEventsCached,
     } from "$lib/services/github";
+    import { page } from "$app/stores";
 
     let stats: any = null;
     let fallbackCommits = [
@@ -40,8 +41,8 @@
     let commits: any[] = [];
     let loading = true;
 
-    const githubUsername = "sudo-krish";
-    const githubProfileUrl = `https://github.com/${githubUsername}`;
+    $: githubUsername = $page.data.githubUsername;
+    $: githubProfileUrl = `https://github.com/${githubUsername}`;
 
     onMount(async () => {
         try {

@@ -127,6 +127,7 @@
                     description={resultsData.rightAnchor.description}
                     labelColor="text-purple-400/80"
                     align="center"
+                    headingTag="div"
                 />
 
                 <div

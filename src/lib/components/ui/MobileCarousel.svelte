@@ -249,11 +249,13 @@
                                         >Interactive</span
                                     >
                                 </div>
-                                <h4
-                                    class="text-3xl font-black text-foreground tracking-tighter leading-tight drop-shadow-sm"
+                                <div
+                                    class="text-3xl font-black text-foreground tracking-tighter leading-tight drop-shadow-sm font-heading"
+                                    role="heading"
+                                    aria-level="2"
                                 >
                                     {sectionTitle}
-                                </h4>
+                                </div>
                                 <p
                                     class="text-[13px] font-light text-muted-foreground mt-1 mb-5"
                                 >
@@ -333,11 +335,13 @@
                                         style="background-color: {accentColor}; color: {accentColor};"
                                     ></div>
                                 </div>
-                                <h4
-                                    class="text-3xl font-black text-foreground tracking-tighter leading-tight drop-shadow-sm"
+                                <div
+                                    class="text-3xl font-black text-foreground tracking-tighter leading-tight drop-shadow-sm font-heading"
+                                    role="heading"
+                                    aria-level="2"
                                 >
                                     {sectionTitle}
-                                </h4>
+                                </div>
                                 <p
                                     class="text-[13px] font-light text-muted-foreground mt-1 mb-5"
                                 >

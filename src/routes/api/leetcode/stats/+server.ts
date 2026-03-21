@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+import { env } from '$env/dynamic/public';
 
-const LEETCODE_USERNAME = 'user8673j';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 hours
 
 let cachedStats: any = null;
@@ -35,7 +35,7 @@ interface LeetCodeStats {
   recentSubmissions: Array<any>;
 }
 
-export const GET: RequestHandler = async ({ fetch, setHeaders }) => {
+export const GET: RequestHandler = async ({ platform, fetch, setHeaders }) => {
   const now = Date.now();
 
   // Set browser/CDN cache to 24 hours to aggressively prevent API calls
@@ -48,6 +48,8 @@ export const GET: RequestHandler = async ({ fetch, setHeaders }) => {
   }
 
   try {
+    const LEETCODE_USERNAME = platform?.env?.PUBLIC_LEETCODE_USERNAME || env.PUBLIC_LEETCODE_USERNAME || 'user8673j';
+    
     const ALFA_API = 'https://alfa-leetcode-api.onrender.com';
 
     // Fetch multiple endpoints using Promise.all

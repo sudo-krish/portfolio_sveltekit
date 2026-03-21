@@ -3,6 +3,7 @@
   import SEO from "$lib/components/SEO.svelte";
   import StructuredData from "$lib/components/StructuredData.svelte";
   import PageWrapper from "$lib/components/PageWrapper.svelte";
+  import CookieBanner from "$lib/components/seo/CookieBanner.svelte";
   import { page } from "$app/stores";
   import { personal } from "$lib/data/site";
 
@@ -10,7 +11,7 @@
   $: currentUrl = `${personal.website}${currentPath}`;
 
   $: pageMetadata = {
-    title: `Krishnanand Anil | Senior Data Engineer, AWS & Real-Time Data`,
+    title: currentPath === '/' ? "Krishnanand Anil | Senior Data Engineer, AWS & Kafka" : `Krishnanand Anil | Senior Data Engineer, AWS & Real-Time Data`,
     description: personal.bio,
     type: "website",
     keywords: [
@@ -72,6 +73,7 @@
 
 <SEO
   title={pageMetadata.title}
+  exactTitle={currentPath === '/'}
   description={pageMetadata.description}
   url={currentUrl}
   type={pageMetadata.type}
@@ -81,6 +83,8 @@
 
 <StructuredData type="Person" />
 <StructuredData type="WebSite" />
+
+<CookieBanner />
 
 <PageWrapper>
   <slot />

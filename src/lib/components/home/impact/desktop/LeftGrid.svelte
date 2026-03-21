@@ -132,10 +132,9 @@
                             {m.label}
                         </span>
 
-                        <!-- Added Description Line -->
                         <p
-                            class="font-mono text-muted-foreground leading-snug line-clamp-2"
-                            style="font-size: clamp(6px, 0.55cqi, 9px); padding: 0 0.2cqi;"
+                            class="font-mono text-muted-foreground leading-snug"
+                            style="font-size: clamp(6.5px, 0.6cqi, 9.5px); padding: 0 0.2cqi;"
                         >
                             {@html m.description}
                         </p>

@@ -10,9 +10,10 @@
 
 import matter from 'gray-matter';
 import { marked } from 'marked';
+import { env } from '$env/dynamic/public';
 
 const GITHUB_API = 'https://api.github.com';
-const GITHUB_USERNAME = 'sudo-krish';
+const GITHUB_USERNAME = env.PUBLIC_GITHUB_USERNAME;
 const CACHE_TTL = 60 * 60 * 24; // 24 hours in seconds
 
 // ── Types ──────────────────────────────────────────────────────────

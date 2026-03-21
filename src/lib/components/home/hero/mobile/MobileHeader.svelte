@@ -49,34 +49,34 @@
 
     <!-- Massive Typography Block (Centered) -->
     <!-- Changed to items-center to horizontally center the stack -->
-    <div
+    <h1
         class="flex flex-col items-center w-full max-w-full relative mt-4 mb-2"
     >
-        <h1
-            class="hero-type text-center font-black text-[clamp(3.5rem,17vw,6rem)] leading-[0.78] tracking-[-0.04em] text-foreground/95 mix-blend-plus-lighter w-full"
+        <span
+            class="hero-type text-center font-black text-[clamp(3.5rem,17vw,6rem)] leading-[0.78] tracking-[-0.04em] text-foreground/95 mix-blend-plus-lighter w-full block"
         >
             {prefix}
-        </h1>
-        <h1
-            class="hero-type text-center font-black text-[clamp(3.5rem,17vw,6rem)] leading-[0.78] tracking-[-0.04em] text-transparent bg-clip-text bg-gradient-to-br from-foreground via-primary to-accent drop-shadow-[0_4px_24px_hsl(var(--primary)/0.4)] w-full"
+        </span>
+        <span
+            class="hero-type text-center font-black text-[clamp(3.5rem,17vw,6rem)] leading-[0.78] tracking-[-0.04em] text-transparent bg-clip-text bg-gradient-to-br from-foreground via-primary to-accent drop-shadow-[0_4px_24px_hsl(var(--primary)/0.4)] w-full block"
         >
             {suffix}
-        </h1>
-    </div>
+        </span>
+    </h1>
 
     <!-- Semantic Intent Routers -->
     <div class="hero-type flex flex-wrap justify-center items-center gap-2 mt-4 pointer-events-auto relative z-50">
         <a href="/projects" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground/[0.03] border border-foreground/10 font-mono text-[9px] uppercase tracking-widest text-foreground/80 active:bg-foreground/10">
-            <span class="text-primary font-bold">01</span> Proof
+            <span class="text-primary font-bold">01</span> Explore Projects
         </a>
         <a href="/learn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground/[0.03] border border-foreground/10 font-mono text-[9px] uppercase tracking-widest text-foreground/80 active:bg-foreground/10">
-            <span class="text-primary font-bold">02</span> Concepts
+            <span class="text-primary font-bold">02</span> Learn Concepts
         </a>
         <a href="/articles" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground/[0.03] border border-foreground/10 font-mono text-[9px] uppercase tracking-widest text-foreground/80 active:bg-foreground/10">
-            <span class="text-primary font-bold">03</span> Articles
+            <span class="text-primary font-bold">03</span> Read Articles
         </a>
         <a href="/experience" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground/[0.03] border border-foreground/10 font-mono text-[9px] uppercase tracking-widest text-foreground/80 active:bg-foreground/10">
-            <span class="text-primary font-bold">04</span> Journey
+            <span class="text-primary font-bold">04</span> View Experience
         </a>
     </div>
 </div>

@@ -1,9 +1,9 @@
 // src/routes/api/github/projects/+server.ts
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+import { env } from '$env/dynamic/public';
 
 const GITHUB_API = 'https://api.github.com';
-const GITHUB_USERNAME = 'sudo-krish';
 const CACHE_DURATION = 1000 * 60 * 60; // 1 hour
 
 let cachedProjects: any = null;
@@ -76,7 +76,8 @@ export const GET: RequestHandler = async ({ platform, fetch, setHeaders }) => {
 
   try {
     // ✅ Get token from Cloudflare (platform.env) or local development (import.meta.env)
-    const GITHUB_TOKEN = platform?.env?.GITHUB_TOKEN || import.meta.env.GITHUB_TOKEN;
+    const GITHUB_TOKEN = platform?.env?.GITHUB_TOKEN || import.meta.env.VITE_GITHUB_TOKEN || '';
+    const GITHUB_USERNAME = platform?.env?.PUBLIC_GITHUB_USERNAME || env.PUBLIC_GITHUB_USERNAME || 'sudo-krish';
 
     // ✅ Single console log - shows if token is loaded
     console.log(`✅ GITHUB_TOKEN loaded: ${GITHUB_TOKEN ? `${GITHUB_TOKEN.substring(0, 10)}...` : 'NOT FOUND'}`);

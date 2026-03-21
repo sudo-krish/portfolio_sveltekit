@@ -171,6 +171,7 @@
                     description={experienceData.leftAnchor.description}
                     labelColor="text-blue-400/80"
                     align="center"
+                    headingTag="div"
                 />
 
                 <SectionCard

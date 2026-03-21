@@ -1,8 +1,8 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+import { env } from '$env/dynamic/public';
 
 const GITHUB_API = 'https://api.github.com';
-const GITHUB_USERNAME = 'sudo-krish';
 const CACHE_DURATION = 1000 * 60 * 60; // 1 hour
 
 let cachedEvents: any = null;
@@ -21,6 +21,7 @@ export const GET: RequestHandler = async ({ platform, fetch, setHeaders }) => {
 
     try {
         const GITHUB_TOKEN = platform?.env?.GITHUB_TOKEN || import.meta.env.VITE_GITHUB_TOKEN || '';
+        const GITHUB_USERNAME = platform?.env?.PUBLIC_GITHUB_USERNAME || env.PUBLIC_GITHUB_USERNAME || 'sudo-krish';
 
         const headers: Record<string, string> = {
             'Accept': 'application/vnd.github.v3+json',

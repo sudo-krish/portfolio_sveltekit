@@ -12,9 +12,9 @@ declare global {
     interface Platform {
       env?: {
         GITHUB_TOKEN?: string;
-        // Add other Cloudflare bindings here
-        // KV?: KVNamespace;
-        // DB?: D1Database;
+        PUBLIC_GITHUB_USERNAME?: string;
+        PUBLIC_LEETCODE_USERNAME?: string;
+        PUBLIC_GA_MEASUREMENT_ID?: string;
       };
       context?: ExecutionContext;
       caches?: CacheStorage & { default: Cache };

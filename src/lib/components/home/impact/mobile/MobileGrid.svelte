@@ -118,7 +118,7 @@
                         </span>
 
                         <p
-                            class="text-[7px] sm:text-[8px] font-mono text-muted-foreground leading-snug px-1 line-clamp-2"
+                            class="text-[8px] sm:text-[9.5px] font-mono text-muted-foreground leading-snug px-1"
                         >
                             {@html m.description}
                         </p>

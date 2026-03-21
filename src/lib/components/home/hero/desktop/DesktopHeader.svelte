@@ -62,32 +62,32 @@
 
     <!-- Massive Typography Block -->
     <!-- Increased clamp sizes slightly since we have more horizontal room now -->
-    <div class="flex flex-col">
-        <h1
-            class="hero-type font-black text-[clamp(6rem,9vw,11rem)] leading-[0.82] tracking-[-0.03em] text-foreground/95 mix-blend-plus-lighter"
+    <h1 class="flex flex-col">
+        <span
+            class="hero-type font-black text-[clamp(6rem,9vw,11rem)] leading-[0.82] tracking-[-0.03em] text-foreground/95 mix-blend-plus-lighter block"
         >
             {prefix}
-        </h1>
-        <h1
-            class="hero-type font-black text-[clamp(6rem,9vw,11rem)] leading-[0.82] tracking-[-0.03em] text-transparent bg-clip-text bg-gradient-to-br from-foreground via-primary to-accent drop-shadow-[0_4px_32px_hsl(var(--primary)/0.3)]"
+        </span>
+        <span
+            class="hero-type font-black text-[clamp(6rem,9vw,11rem)] leading-[0.82] tracking-[-0.03em] text-transparent bg-clip-text bg-gradient-to-br from-foreground via-primary to-accent drop-shadow-[0_4px_32px_hsl(var(--primary)/0.3)] block"
         >
             {suffix}
-        </h1>
-    </div>
+        </span>
+    </h1>
 
     <!-- Semantic Intent Routers -->
     <div class="hero-type w-full max-w-[95%] flex flex-wrap items-center gap-3 mt-6 mb-2 pointer-events-auto">
         <a href="/projects" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground/[0.03] border border-foreground/10 hover:bg-foreground/10 hover:border-primary/30 transition-all font-mono text-[9px] uppercase tracking-widest text-foreground/80 cursor-pointer">
-            <span class="text-primary font-bold">01</span> Proof
+            <span class="text-primary font-bold">01</span> Explore Projects
         </a>
         <a href="/learn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground/[0.03] border border-foreground/10 hover:bg-foreground/10 hover:border-primary/30 transition-all font-mono text-[9px] uppercase tracking-widest text-foreground/80 cursor-pointer">
-            <span class="text-primary font-bold">02</span> Concepts
+            <span class="text-primary font-bold">02</span> Learn Concepts
         </a>
         <a href="/articles" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground/[0.03] border border-foreground/10 hover:bg-foreground/10 hover:border-primary/30 transition-all font-mono text-[9px] uppercase tracking-widest text-foreground/80 cursor-pointer">
-            <span class="text-primary font-bold">03</span> Articles
+            <span class="text-primary font-bold">03</span> Read Articles
         </a>
         <a href="/experience" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground/[0.03] border border-foreground/10 hover:bg-foreground/10 hover:border-primary/30 transition-all font-mono text-[9px] uppercase tracking-widest text-foreground/80 cursor-pointer">
-            <span class="text-primary font-bold">04</span> Journey
+            <span class="text-primary font-bold">04</span> View Experience
         </a>
     </div>
 

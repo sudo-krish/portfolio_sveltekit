@@ -58,11 +58,11 @@
                 >
                     {badge}
                 </span>
-                <span
+                <h3
                     class="text-[clamp(12px,1.2vw,14px)] font-medium text-foreground/50 tracking-wide"
                 >
                     {subtitle}
-                </span>
+                </h3>
             </div>
 
             <!-- Right side: Metrics OR Icon Badge -->

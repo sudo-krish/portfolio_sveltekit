@@ -20,9 +20,10 @@
   export let canonical: string = url;
   export let publishedTime: string = ''; // NEW: For articles
   export let modifiedTime: string = ''; // NEW: For updated content
+  export let exactTitle: boolean = false; // NEW: Bypass interpolation
   
   // Computed values
-  const fullTitle = title ? `${title} | ${defaults.siteTitle}` : defaults.siteTitle;
+  const fullTitle = exactTitle ? title : (title ? `${title} | ${defaults.siteTitle}` : defaults.siteTitle);
   const imageUrl = image.startsWith('http') ? image : `${defaults.website}${image}`;
   
   // Twitter handle extraction (if exists)

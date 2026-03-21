@@ -26,6 +26,20 @@ jobs:
       - name: Build Svelte project
         run: npm run build
 
+      - name: Inject Dynamic Environment Variables
+        run: |
+          echo "[vars]" >> wrangler.toml
+          echo "PUBLIC_GITHUB_USERNAME=\"${{ vars.PUBLIC_GITHUB_USERNAME }}\"" >> wrangler.toml
+          echo "PUBLIC_LEETCODE_USERNAME=\"${{ vars.PUBLIC_LEETCODE_USERNAME }}\"" >> wrangler.toml
+          echo "PUBLIC_GA_MEASUREMENT_ID=\"${{ vars.PUBLIC_GA_MEASUREMENT_ID }}\"" >> wrangler.toml
+
+      - name: Inject Encrypted GITHUB_TOKEN Secret
+        run: |
+          echo "${{ secrets.PERSONAL_GITHUB_TOKEN }}" | npx wrangler pages secret put GITHUB_TOKEN --project-name krishnanandanil-portfolio
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
       # NEW: Using wrangler-action instead of deprecated pages-action
       - name: Publish to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3

@@ -7,6 +7,7 @@
         labelColor = "text-primary/80",
         align = "left",
         maxDescWidth = "20cqi",
+        headingTag = "h2",
     } = $props<{
         label: string;
         title: string;
@@ -14,6 +15,7 @@
         labelColor?: string;
         align?: "left" | "right" | "center";
         maxDescWidth?: string;
+        headingTag?: "h2" | "h3" | "div";
     }>();
 
     const alignClasses: Record<string, string> = {
@@ -33,12 +35,12 @@
         {label}
     </span>
 
-    <div
+    <svelte:element this={headingTag || "h2"}
         class="font-black text-muted-foreground/30 leading-[0.9] tracking-tighter whitespace-pre-line"
         style="font-size: clamp(2.5rem, 5.5cqi, 4.5rem); margin-bottom: max(0.75rem, 1.2cqi);"
     >
         {title}
-    </div>
+    </svelte:element>
 
     <p
         class="text-muted-foreground font-light leading-relaxed"
