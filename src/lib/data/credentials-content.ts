@@ -56,53 +56,53 @@ export const credentialsSectionContent: SectionContent = {
 
 export const education = [
     {
-      university: "Birla Institute of Technology and Science, Pilani",
-      url: "https://www.bits-pilani.ac.in/",
-      degree: "Master of Technology (M.Tech)",
-      field: "Data Science & Engineering",
-      graduationYear: "2024",
-      location: "Bengaluru/Pilani, India",
-      gpa: ""
+        university: "Birla Institute of Technology and Science, Pilani",
+        url: "https://www.bits-pilani.ac.in/",
+        degree: "Master of Technology (M.Tech)",
+        field: "Data Science & Engineering",
+        graduationYear: "2024",
+        location: "Bengaluru/Pilani, India",
+        gpa: ""
     },
     {
-      university: "Amrita Vishwa Vidyapeetham",
-      url: "https://www.amrita.edu/",
-      degree: "Bachelor of Engineering (B.E.)",
-      field: "Mechanical Engineering",
-      graduationYear: "2020",
-      location: "Kollam, Kerala, India",
-      gpa: "7.5/10.0"
+        university: "Amrita Vishwa Vidyapeetham",
+        url: "https://www.amrita.edu/",
+        degree: "Bachelor of Engineering (B.E.)",
+        field: "Mechanical Engineering",
+        graduationYear: "2020",
+        location: "Kollam, Kerala, India",
+        gpa: "7.5/10.0"
     }
 ];
 
 export const certifications = [
     {
-      name: "AWS Certified Solutions Architect – Associate",
-      category: "Cloud",
-      url: "https://aws.amazon.com/certification/certified-solutions-architect-associate/",
-      issuer: "Amazon Web Services",
-      dateIssued: "2023"
+        name: "AWS Certified Solutions Architect – Associate",
+        category: "Cloud",
+        url: "https://aws.amazon.com/certification/certified-solutions-architect-associate/",
+        issuer: "Amazon Web Services",
+        dateIssued: "2023"
     },
     {
-      name: "AWS Certified Cloud Practitioner",
-      category: "Cloud",
-      url: "https://aws.amazon.com/certification/certified-cloud-practitioner/",
-      issuer: "Amazon Web Services",
-      dateIssued: "2022"
+        name: "AWS Certified Cloud Practitioner",
+        category: "Cloud",
+        url: "https://aws.amazon.com/certification/certified-cloud-practitioner/",
+        issuer: "Amazon Web Services",
+        dateIssued: "2022"
     },
     {
-      name: "Fundamentals of the Databricks Lakehouse Platform Accreditation (V2)",
-      category: "Big Data",
-      url: "https://www.databricks.com/learn/certification",
-      issuer: "Databricks",
-      dateIssued: "2024"
+        name: "Fundamentals of the Databricks Lakehouse Platform Accreditation (V2)",
+        category: "Big Data",
+        url: "https://www.databricks.com/learn/certification",
+        issuer: "Databricks",
+        dateIssued: "2024"
     },
     {
-      name: "Spark and Python for Big Data with PySpark",
-      category: "Big Data",
-      url: "https://www.udemy.com/",
-      issuer: "Udemy",
-      dateIssued: "2022"
+        name: "Spark and Python for Big Data with PySpark",
+        category: "Big Data",
+        url: "https://www.udemy.com/",
+        issuer: "Udemy",
+        dateIssued: "2022"
     }
 ];
 

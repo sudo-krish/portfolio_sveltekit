@@ -184,8 +184,7 @@
 
                     <img
                         src={tag.iconUrl}
-                        alt=""
-                        aria-hidden="true"
+                        alt="{tag.name} Data Engineering Architecture Tool"
                         class="relative w-8 h-8 object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-110 pointer-events-none"
                         loading="lazy"
                         draggable="false"

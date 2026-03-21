@@ -104,8 +104,7 @@
                 <div class="frosted-icon-wrapper scale-90">
                   <img
                     src={item.content.iconUrl}
-                    alt=""
-                    aria-hidden="true"
+                    alt="{item.content.name || 'Data Engineering Tool'} Technology Badge"
                     class="frosted-img-white"
                     fetchpriority="high"
                     width="100"
@@ -134,10 +133,10 @@
                 <div class="frosted-icon-wrapper">
                   <img
                     src={item.content.iconUrl}
-                    alt=""
-                    aria-hidden="true"
+                    alt="{item.content.name || 'Cloud Analytics Tool'} Technology Badge"
                     class="frosted-img-white"
-                    fetchpriority="high"
+                    loading="lazy"
+                    decoding="async"
                     width="100"
                     height="100"
                   />
@@ -164,10 +163,10 @@
                 <div class="frosted-icon-wrapper scale-125">
                   <img
                     src={item.content.iconUrl}
-                    alt=""
-                    aria-hidden="true"
+                    alt="{item.content.name || 'Data Engineering Tool'} Technology Badge"
                     class="frosted-img-white highlight-img-white"
-                    fetchpriority="high"
+                    loading="lazy"
+                    decoding="async"
                     width="100"
                     height="100"
                   />
@@ -194,10 +193,10 @@
                 <div class="frosted-icon-wrapper">
                   <img
                     src={item.content.iconUrl}
-                    alt=""
-                    aria-hidden="true"
+                    alt="{item.content.name || 'Cloud Data Analytics Tool'} Technology Badge"
                     class="frosted-img-white"
-                    fetchpriority="high"
+                    loading="lazy"
+                    decoding="async"
                     width="100"
                     height="100"
                   />
@@ -224,10 +223,10 @@
                 <div class="frosted-icon-wrapper scale-90">
                   <img
                     src={item.content.iconUrl}
-                    alt=""
-                    aria-hidden="true"
+                    alt="{item.content.name || 'AWS Database Architecture Tool'} Technology Badge"
                     class="frosted-img-white"
-                    fetchpriority="high"
+                    loading="lazy"
+                    decoding="async"
                     width="100"
                     height="100"
                   />

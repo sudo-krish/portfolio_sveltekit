@@ -44,14 +44,14 @@ export const portfolioData: PortfolioData = {
       "Parquet", "S3 Data Lake", "Delta Lake", "Apache Iceberg", "Snowflake", "Databricks",
 
       // Specialized & AI Integration
-      "Vector Embeddings (Conceptual)", "Euclidian & Cosine Distance", 
+      "Vector Embeddings (Conceptual)", "Euclidian & Cosine Distance",
       "Natural Language Querying (NLQ)", "RAG Foundations", "LLM Data Pipelines",
 
       // DevOps & Orchestration
       "Docker", "Kubernetes (K8s)", "Terraform (IaC)", "Autosys", "CI/CD Protocols",
 
       // Data Governance & Quality
-      "Soda (Data Quality)", "Great Expectations", "Data Lineage", 
+      "Soda (Data Quality)", "Great Expectations", "Data Lineage",
       "Observability-First Monitoring", "Data Masking & Governance",
 
       // Analytics & Visualization
