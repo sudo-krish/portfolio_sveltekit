@@ -118,9 +118,11 @@
   });
 
   // Load the GLTF File (Ensure this path is exactly correct relative to your static folder)
+  const dracoLoader = new DRACOLoader();
+  dracoLoader.setDecoderPath("https://www.gstatic.com/draco/v1/decoders/");
+
   const gltf = useGltf("/3d/house/house.glb", {
-    useDraco: true,
-    dracoDecoderPath: "https://www.gstatic.com/draco/v1/decoders/"
+    dracoLoader
   });
 
   // We use Svelte's reactive statement. When the GLTF loads, we manually traverse and overwrite the materials.

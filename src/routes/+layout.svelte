@@ -12,7 +12,7 @@
 
   $: pageMetadata = {
     title: currentPath === '/' ? "Krishnanand Anil | Senior Data Engineer, AWS & Kafka" : `Krishnanand Anil | Senior Data Engineer, AWS & Real-Time Data`,
-    description: personal.bio,
+    description: "Senior Data Engineer specializing in AWS cloud architecture, Apache Kafka streaming, Spark analytics, and real-time CDC pipelines. Explore projects, certifications, and technical articles.",
     type: "website",
     keywords: [
       "krishnanand anil",
@@ -62,14 +62,7 @@
   </div>
 {/if} -->
 
-<svelte:head>
-  <meta property="og:image" content={pageMetadata.image} />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta name="twitter:image" content={pageMetadata.image} />
-  <meta name="geo.region" content="IN-KA" />
-  <meta name="geo.placename" content="Bengaluru" />
-</svelte:head>
+<!-- OG/Twitter/Geo meta tags are handled exclusively by SEO.svelte to prevent duplicates -->
 
 <SEO
   title={pageMetadata.title}

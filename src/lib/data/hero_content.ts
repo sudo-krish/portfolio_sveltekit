@@ -60,8 +60,8 @@ export type HeroContent = {
 
 export const heroContent: HeroContent = {
     identity: {
-        sectionTitle: "Senior Data Engineer | AWS | Streaming | Warehousing | Data Platforms",
-        sectionDescription: "Krishnanand Anil — Senior Data Engineer for AWS, Kafka, and Real-Time Data Systems",
+        sectionTitle: "The Data",
+        sectionDescription: "Explore details about me and a intro about my self",
     },
 
     headline: {

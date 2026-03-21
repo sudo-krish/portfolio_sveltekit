@@ -63,7 +63,9 @@
         // Fire asynchronous deferred scene load after GSAP is ready
         setTimeout(async () => {
           try {
-            const module = await import("$lib/components/home/3d/LazySceneWrapper.svelte");
+            const module = await import(
+              "$lib/components/home/3d/LazySceneWrapper.svelte"
+            );
             DeferredScene = module.default;
           } catch (e) {
             console.error("Failed to lazy load the 3D canvas context:", e);
@@ -324,8 +326,6 @@
   });
 </script>
 
-
-
 <!-- BACKGROUND CANVAS (Lazy Hydrated) -->
 <div class="fixed-canvas">
   {#if browser && DeferredScene}
@@ -335,13 +335,6 @@
 
 <!-- MAIN SCROLL CONTAINER -->
 <main class="snap-container">
-  
-  <!-- 🤖 UNIFIED CRAWLER H1 (Screen-Reader / Bot Only) -->
-  <!-- Resolves duplicate semantic splits and literal '_' renders by providing one absolutely pristine string -->
-  <h1 class="sr-only">
-    {siteDefaults.srOnlyHomePageH1}
-  </h1>
-
   <section id="hero" class="snap-section">
     <div class="hero-bg-layer"><HeroBackground /></div>
     <div class="absolute inset-0 w-full h-full z-20 pointer-events-none">
@@ -408,6 +401,50 @@
       <ContactSection />
     </div>
   </section>
+
+  <!-- 🔗 CRAWLABLE INTERNAL LINKS — Visible to search engines and LLM crawlers -->
+  <nav
+    aria-label="Site Navigation"
+    class="w-full py-8 px-6 text-center text-xs text-muted-foreground/50 border-t border-border/20"
+  >
+    <p class="mb-3 font-medium text-muted-foreground/60">
+      Explore Krishnanand Anil's Data Engineering Portfolio
+    </p>
+    <div class="flex flex-wrap justify-center gap-x-4 gap-y-2">
+      <a href="/experience" class="hover:text-foreground transition-colors"
+        >Data Engineering Experience</a
+      >
+      <a href="/about" class="hover:text-foreground transition-colors"
+        >About Krishnanand Anil</a
+      >
+      <a href="/credentials" class="hover:text-foreground transition-colors"
+        >AWS Certifications & Credentials</a
+      >
+      <a href="/projects" class="hover:text-foreground transition-colors"
+        >Data Engineering Projects</a
+      >
+      <a href="/articles" class="hover:text-foreground transition-colors"
+        >Technical Articles & Research</a
+      >
+      <a href="/learning-path" class="hover:text-foreground transition-colors"
+        >Learning Path</a
+      >
+    </div>
+    <div class="flex flex-wrap justify-center gap-x-4 gap-y-2 mt-2">
+      <a
+        href="https://www.linkedin.com/in/krishnanand-anil/"
+        rel="noopener noreferrer"
+        target="_blank"
+        class="hover:text-foreground transition-colors">LinkedIn Profile</a
+      >
+      <a
+        href="https://github.com/sudo-krish"
+        rel="noopener noreferrer"
+        target="_blank"
+        class="hover:text-foreground transition-colors">GitHub Projects</a
+      >
+    </div>
+  </nav>
 </main>
 
 <style>

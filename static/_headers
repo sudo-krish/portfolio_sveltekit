@@ -1,0 +1,41 @@
+# Cloudflare Pages custom headers
+# https://developers.cloudflare.com/pages/configuration/headers/
+
+# Cache all image assets aggressively
+/*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.jpeg
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.svg
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.gif
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.ico
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache fonts
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.woff
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache CSS and JS (hashed filenames)
+/_app/immutable/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML pages should revalidate
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
