@@ -1,11 +1,12 @@
 <script lang="ts">
   import { browser } from "$app/environment";
-  import { Canvas } from "@threlte/core";
   import { onMount, onDestroy, tick } from "svelte";
   import gsap from "gsap";
   import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-  import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin"; // MUST IMPORT THIS
-  import HomeScene from "$lib/components/home/3d/HomeScene.svelte";
+  import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin";
+
+  // 3D Canvas dynamically imported to prevent main thread blocking
+  let DeferredScene: any = null;
 
   // Existing Content Components
   import HeroContent from "$lib/components/home/hero/HeroContent.svelte";
@@ -58,6 +59,16 @@
 
       if (container && sections.length > 0) {
         let currentIndex = 0;
+
+        // Fire asynchronous deferred scene load after GSAP is ready
+        setTimeout(async () => {
+          try {
+            const module = await import("$lib/components/home/3d/LazySceneWrapper.svelte");
+            DeferredScene = module.default;
+          } catch (e) {
+            console.error("Failed to lazy load the 3D canvas context:", e);
+          }
+        }, 300);
         let isAnimating = false;
 
         // Reset scroll position on load
@@ -315,12 +326,10 @@
 
 
 
-<!-- BACKGROUND CANVAS -->
+<!-- BACKGROUND CANVAS (Lazy Hydrated) -->
 <div class="fixed-canvas">
-  {#if browser}
-    <Canvas>
-      <HomeScene />
-    </Canvas>
+  {#if browser && DeferredScene}
+    <svelte:component this={DeferredScene} />
   {/if}
 </div>
 

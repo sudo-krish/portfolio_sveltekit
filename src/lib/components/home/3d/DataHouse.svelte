@@ -7,11 +7,7 @@
 
   interactivity();
 
-  // --- Draco Decompression ---
-  const dracoLoader = new DRACOLoader();
-  dracoLoader.setDecoderPath("/draco/");
-
-  // --- 1. THEME: OCEANIC MACHINERY ---
+  // Load the GLTF safely via Threlte's internal WASM worker abstraction
   const deepColor = new Color("#1e3a8a"); // Deep Blue
   const surfColor = new Color("#38bdf8"); // Cyan
   const foamColor = new Color("#3b82f6"); // White Foam
@@ -122,7 +118,10 @@
   });
 
   // Load the GLTF File (Ensure this path is exactly correct relative to your static folder)
-  const gltf = useGltf("/3d/house/house.glb", { dracoLoader });
+  const gltf = useGltf("/3d/house/house.glb", {
+    useDraco: true,
+    dracoDecoderPath: "https://www.gstatic.com/draco/v1/decoders/"
+  });
 
   // We use Svelte's reactive statement. When the GLTF loads, we manually traverse and overwrite the materials.
   $: if ($gltf) {

@@ -464,3 +464,10 @@ pre code {
     -webkit-backdrop-filter: blur(12px);
   }
 }
+
+/* ==================== HERO COMPONENTS ==================== */
+@layer components {
+  .btn-hero-nav {
+    @apply flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground/[0.03] border border-foreground/10 hover:bg-foreground/10 hover:border-primary/30 transition-all font-mono text-[9px] uppercase tracking-widest text-foreground/80 cursor-pointer;
+  }
+}
