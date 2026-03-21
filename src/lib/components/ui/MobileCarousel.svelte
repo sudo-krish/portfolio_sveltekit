@@ -219,7 +219,8 @@
     </div>
 
     <!-- CHANGED: onwheel={handleWheel} removed from here to prevent Svelte passive listener conflicts -->
-    <div class="lg:hidden w-full h-[100dvh] relative">
+    <!-- HIDDEN FROM CRAWLERS: aria-hidden="true" completely stops SEO from reading this block twice! -->
+    <div class="lg:hidden w-full h-[100dvh] relative" aria-hidden="true">
         <div
             bind:this={carouselEl}
             onscroll={onScroll}
@@ -251,8 +252,6 @@
                                 </div>
                                 <div
                                     class="text-3xl font-black text-foreground tracking-tighter leading-tight drop-shadow-sm font-heading"
-                                    role="heading"
-                                    aria-level="2"
                                 >
                                     {sectionTitle}
                                 </div>
@@ -337,8 +336,6 @@
                                 </div>
                                 <div
                                     class="text-3xl font-black text-foreground tracking-tighter leading-tight drop-shadow-sm font-heading"
-                                    role="heading"
-                                    aria-level="2"
                                 >
                                     {sectionTitle}
                                 </div>

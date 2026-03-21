@@ -49,8 +49,9 @@
 
     <!-- Massive Typography Block (Centered) -->
     <!-- Changed to items-center to horizontally center the stack -->
-    <h1
+    <div
         class="flex flex-col items-center w-full max-w-full relative mt-4 mb-2"
+        role="presentation"
     >
         <span
             class="hero-type text-center font-black text-[clamp(3.5rem,17vw,6rem)] leading-[0.78] tracking-[-0.04em] text-foreground/95 mix-blend-plus-lighter w-full block"
@@ -62,7 +63,7 @@
         >
             {suffix}
         </span>
-    </h1>
+    </div>
 
     <!-- Semantic Intent Routers -->
     <div class="hero-type flex flex-wrap justify-center items-center gap-2 mt-4 pointer-events-auto relative z-50">

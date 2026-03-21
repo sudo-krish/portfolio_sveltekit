@@ -62,7 +62,7 @@
 
     <!-- Massive Typography Block -->
     <!-- Increased clamp sizes slightly since we have more horizontal room now -->
-    <h1 class="flex flex-col">
+    <div class="flex flex-col" role="presentation">
         <span
             class="hero-type font-black text-[clamp(6rem,9vw,11rem)] leading-[0.82] tracking-[-0.03em] text-foreground/95 mix-blend-plus-lighter block"
         >
@@ -73,7 +73,7 @@
         >
             {suffix}
         </span>
-    </h1>
+    </div>
 
     <!-- Semantic Intent Routers -->
     <div class="hero-type w-full max-w-[95%] flex flex-wrap items-center gap-3 mt-6 mb-2 pointer-events-auto">

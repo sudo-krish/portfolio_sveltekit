@@ -44,17 +44,33 @@
     $: githubUsername = $page.data.githubUsername;
     $: githubProfileUrl = `https://github.com/${githubUsername}`;
 
+    // PRE-FILL FROM SSR (Crucial for Crawlers avoiding 'Fetching...')
+    $: {
+        if ($page.data.githubStats && stats === null) {
+            stats = $page.data.githubStats;
+            loading = false;
+        }
+        if ($page.data.githubEvents && commits.length === 0) {
+            commits = $page.data.githubEvents.length > 0 ? $page.data.githubEvents : fallbackCommits;
+        }
+    }
+
     onMount(async () => {
+        // Only run isolated fetchers if SSR wasn't provided or failed
+        if (stats && commits.length > 0) return;
+        
         try {
             const [statsData, eventsData] = await Promise.all([
                 getGitHubStatsCached(),
                 getGitHubEventsCached(),
             ]);
-            if (statsData && !statsData.error) stats = statsData;
-            if (eventsData && eventsData.length > 0) commits = eventsData;
-            else commits = fallbackCommits;
+            if (!stats && statsData && !statsData.error) stats = statsData;
+            if (commits.length === 0 || commits === fallbackCommits) {
+                if (eventsData && eventsData.length > 0) commits = eventsData;
+                else commits = fallbackCommits;
+            }
         } catch (e) {
-            commits = fallbackCommits;
+            if (commits.length === 0) commits = fallbackCommits;
         } finally {
             loading = false;
         }

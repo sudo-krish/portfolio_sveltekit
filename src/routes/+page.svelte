@@ -26,6 +26,7 @@
     scrollTriggerTarget,
     scrollDirection,
   } from "$lib/stores/scroll-store";
+  import { siteDefaults } from "$lib/data/site";
 
   let observer: any;
   let keydownHandler: any;
@@ -325,6 +326,13 @@
 
 <!-- MAIN SCROLL CONTAINER -->
 <main class="snap-container">
+  
+  <!-- 🤖 UNIFIED CRAWLER H1 (Screen-Reader / Bot Only) -->
+  <!-- Resolves duplicate semantic splits and literal '_' renders by providing one absolutely pristine string -->
+  <h1 class="sr-only">
+    {siteDefaults.srOnlyHomePageH1}
+  </h1>
+
   <section id="hero" class="snap-section">
     <div class="hero-bg-layer"><HeroBackground /></div>
     <div class="absolute inset-0 w-full h-full z-20 pointer-events-none">

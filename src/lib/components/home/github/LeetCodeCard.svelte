@@ -19,7 +19,19 @@
     const leetcodeUsername = "user8673j";
     const leetcodeUrl = `https://leetcode.com/u/${leetcodeUsername}/`;
 
+    import { page } from "$app/stores";
+
+    // PRE-FILL FROM SSR (Crucial for crawlers bypassing the Loading state)
+    $: {
+        if ($page.data.leetcodeStats && stats === null) {
+            stats = $page.data.leetcodeStats;
+            loading = false;
+            error = false;
+        }
+    }
+
     onMount(async () => {
+        if (stats) return; // SSR hydrated perfectly
         try {
             const data = await getLeetCodeStatsCached();
             if (data && !data.error) {

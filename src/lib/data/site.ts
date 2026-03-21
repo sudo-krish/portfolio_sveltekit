@@ -30,7 +30,8 @@ export const personal = {
 export const siteDefaults = {
     siteTitle: `${siteConfig.name} - AWS Data Engineer & Cloud Expert`,
     defaultKeywords: heroProfile.topSkills.join(', '),
-    website: siteConfig.baseUrl
+    website: siteConfig.baseUrl,
+    srOnlyHomePageH1: `${siteConfig.name} | Senior Data Engineer, AWS & Real-Time Data Pipelines`
 };
 
 export const schemaData = {
