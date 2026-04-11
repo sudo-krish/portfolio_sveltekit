@@ -99,9 +99,15 @@
 
         // Guard: desktop wheel/pointer inside scrollable content should not snap
         function isInsideScrollableChild(self: any): boolean {
-          const evt = self.event as TouchEvent | PointerEvent;
+          const evt = self.event as TouchEvent | PointerEvent | WheelEvent;
           const target = evt?.target as HTMLElement;
           if (!target) return false;
+
+          // Ignore GSAP observer for TOUCH/PEN events inside a carousel (carousel manages its own touch section nav).
+          // We allow physical mouse wheels to pass through so the user can still wheel-scroll to the next section.
+          const isTouch = evt.type?.startsWith("touch") || (evt as PointerEvent).pointerType === "touch" || (evt as PointerEvent).pointerType === "pen";
+          if (isTouch && target.closest("[data-carousel-touch-zone]")) return true;
+
           const scroller = target.closest(
             ".overflow-y-auto, .overflow-y-scroll",
           ) as HTMLElement;
@@ -127,47 +133,30 @@
           },
         });
 
-        // 5. MOBILE: Custom touch handling with boundary-aware snapping
-        //
-        // Rules:
-        //  - Horizontal gestures → pass through (carousel CSS snap)
-        //  - Vertical in non-scrollable area → block native scroll, snap section
-        //  - Vertical in scrollable area → native scroll until boundary,
-        //    then block overscroll and snap on touchend
+        // 5. MOBILE: Touch handling for section snapping.
+        // MobileCarousel areas handle their own touch logic and signal
+        // section changes via scrollDirection store. We skip them here.
         let touchStartY = 0;
         let touchStartX = 0;
-        let lastTouchY = 0;
         let touchAxis: "none" | "h" | "v" = "none";
-        let touchScroller: HTMLElement | null = null;
-        let hitBoundary = false;
-        let boundaryY = 0;
+        let insideCarousel = false;
 
         function onTouchStart(e: TouchEvent) {
+          const target = e.target as HTMLElement;
+          insideCarousel = !!target.closest("[data-carousel-touch-zone]");
+          if (insideCarousel) return;
+
           touchStartY = e.touches[0].clientY;
           touchStartX = e.touches[0].clientX;
-          lastTouchY = touchStartY;
           touchAxis = "none";
-          hitBoundary = false;
-          boundaryY = 0;
-
-          const target = e.target as HTMLElement;
-          const el = target.closest(
-            ".overflow-y-auto, .overflow-y-scroll, .hide-scroll",
-          ) as HTMLElement | null;
-
-          // STRICT CHECK: Ensure it actually HAS scrollable content
-          if (el && el.scrollHeight > el.clientHeight) {
-            touchScroller = el;
-          } else {
-            touchScroller = null;
-          }
         }
 
         function onTouchMove(e: TouchEvent) {
+          if (insideCarousel) return;
+
           const cy = e.touches[0].clientY;
           const cx = e.touches[0].clientX;
 
-          // Lock axis on first significant movement
           if (touchAxis === "none") {
             const ax = Math.abs(cx - touchStartX);
             const ay = Math.abs(cy - touchStartY);
@@ -176,70 +165,26 @@
             }
           }
 
-          if (touchAxis !== "v") {
-            lastTouchY = cy;
-            return; // horizontal → carousel handles it
-          }
-
-          const incDelta = lastTouchY - cy; // +ve = finger moving up
-          lastTouchY = cy;
-
-          if (!touchScroller) {
-            // Non-scrollable (3D model, etc.) → block scroll entirely
+          // Only handle vertical swipes for section snapping
+          if (touchAxis === "v") {
             if (e.cancelable) e.preventDefault();
-            return;
-          }
-
-          // Scrollable content: check boundaries
-          const atTop = touchScroller.scrollTop <= 0;
-          // Use Math.ceil to prevent sub-pixel rounding errors on mobile
-          const atBottom =
-            Math.ceil(touchScroller.scrollTop + touchScroller.clientHeight) >=
-            touchScroller.scrollHeight;
-
-          // Block overscroll past boundary
-          if ((atBottom && incDelta > 0) || (atTop && incDelta < 0)) {
-            if (!hitBoundary) {
-              hitBoundary = true;
-              boundaryY = cy;
-            }
-            // Stop the native scroll here so it doesn't rubber-band the whole page
-            if (e.cancelable) e.preventDefault();
-          } else {
-            // **LET IT SCROLL!** Reset hit boundary because they are scrolling freely inside the content
-            hitBoundary = false;
-            // IMPORTANT: e.stopPropagation() ensures GSAP doesn't try to steal the event
-            e.stopPropagation();
           }
         }
 
         function onTouchEnd(e: TouchEvent) {
-          if (touchAxis !== "v" || isAnimating) {
-            touchAxis = "none";
-            return;
-          }
+          if (insideCarousel) { insideCarousel = false; return; }
+          if (touchAxis !== "v" || isAnimating) { touchAxis = "none"; return; }
 
           const endY = e.changedTouches[0].clientY;
-          const overallDelta = touchStartY - endY; // +ve = swiped up
-          const TOLERANCE = 40; // Increased tolerance slightly so mobile doesn't snap accidentally prev 20
+          const delta = touchStartY - endY; // +ve = swiped up
+          const TOLERANCE = 40;
 
-          if (!touchScroller) {
-            // Non-scrollable: any vertical swipe beyond tolerance → snap
-            if (Math.abs(overallDelta) >= TOLERANCE) {
-              if (overallDelta > 0) gotoSection(currentIndex + 1);
-              else gotoSection(currentIndex - 1);
-            }
-          } else if (hitBoundary) {
-            // Scrollable content at boundary: check past-boundary movement
-            const pastDelta = boundaryY - endY;
-            if (Math.abs(pastDelta) >= TOLERANCE) {
-              if (pastDelta > 0) gotoSection(currentIndex + 1);
-              else gotoSection(currentIndex - 1);
-            }
+          if (Math.abs(delta) >= TOLERANCE) {
+            if (delta > 0) gotoSection(currentIndex + 1);
+            else gotoSection(currentIndex - 1);
           }
 
           touchAxis = "none";
-          hitBoundary = false;
         }
 
         container.addEventListener("touchstart", onTouchStart, {

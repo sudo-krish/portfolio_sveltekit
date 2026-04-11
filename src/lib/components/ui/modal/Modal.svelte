@@ -16,19 +16,23 @@
 
 {#if item}
     <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
     <div
         role="dialog"
         aria-modal="true"
         aria-label="Credential detail"
+        tabindex="-1"
         transition:fade={{ duration: 200 }}
         class="fixed inset-0 z-50 flex items-center justify-center bg-background/70 backdrop-blur-md p-4"
         onclick={(e) => {
             if (e.target === e.currentTarget) onclose();
         }}
         onkeydown={(e) => {
-            if (e.key === 'Escape') onclose();
+            if (e.key === "Escape") onclose();
         }}
     >
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
         <div
             transition:scale={{ duration: 300, start: 0.95, opacity: 0 }}
             class="relative w-full max-w-[550px] flex flex-col p-8 rounded-[2rem] bg-[#0c0c0c] border border-foreground/15 shadow-[0_40px_100px_rgba(0,0,0,0.8)] overflow-hidden cursor-default"

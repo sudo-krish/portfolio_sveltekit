@@ -44,47 +44,131 @@
         }
     }
 
-    // NEW: Action to completely isolate mobile touch scrolling
-    // This stops the touch events from reaching Pages.svelte
-    function isolateTouch(node: HTMLElement) {
-        let touchStartY = 0;
+    // Content slide boundary detector: signals scrollDirection when
+    // vertical scroll reaches top/bottom. Horizontal swipes propagate
+    // to the carousel handler for slide navigation.
+    function contentTouchBoundary(node: HTMLElement) {
+        let startY = 0;
+        let startX = 0;
+        let axis: "none" | "h" | "v" = "none";
+        let hitBoundary = false;
+        let boundaryY = 0;
 
-        function handleTouch(e: TouchEvent) {
-            // Track where the swipe started
-            if (e.type === "touchstart") {
-                touchStartY = e.touches[0].clientY;
+        function onStart(e: TouchEvent) {
+            startY = e.touches[0].clientY;
+            startX = e.touches[0].clientX;
+            axis = "none";
+            hitBoundary = false;
+        }
+
+        function onMove(e: TouchEvent) {
+            const cy = e.touches[0].clientY;
+            if (axis === "none") {
+                const dx = Math.abs(e.touches[0].clientX - startX);
+                const dy = Math.abs(cy - startY);
+                if (dx + dy >= 8) axis = dx > dy ? "h" : "v";
             }
+            if (axis !== "v") return;
 
-            // Get current Y position to determine scroll direction
-            const touchY = e.touches[0]
-                ? e.touches[0].clientY
-                : e.changedTouches[0].clientY;
-            const deltaY = touchStartY - touchY; // positive = scrolling down
-
+            const delta = startY - cy; // positive = scrolling down
             const atTop = node.scrollTop <= 0;
             const atBottom =
                 Math.ceil(node.scrollTop + node.clientHeight) >=
                 node.scrollHeight;
 
-            // If they are trying to push past the boundary, DO NOT stop propagation.
-            // This allows the event to bubble up to Pages.svelte to trigger the snap.
-            if ((atTop && deltaY < 0) || (atBottom && deltaY > 0)) {
-                return;
+            if ((atBottom && delta > 0) || (atTop && delta < 0)) {
+                if (!hitBoundary) {
+                    hitBoundary = true;
+                    boundaryY = cy;
+                }
+            } else {
+                hitBoundary = false;
             }
-
-            // Otherwise, they are scrolling normally. Stop propagation to isolate the text.
-            e.stopPropagation();
         }
 
-        node.addEventListener("touchstart", handleTouch, { passive: true });
-        node.addEventListener("touchmove", handleTouch, { passive: true });
-        node.addEventListener("touchend", handleTouch, { passive: true });
+        function onEnd(e: TouchEvent) {
+            if (axis === "v" && hitBoundary) {
+                const pastDelta = boundaryY - e.changedTouches[0].clientY;
+                if (Math.abs(pastDelta) >= 40) {
+                    scrollDirection.set(pastDelta > 0 ? 1 : -1);
+                }
+            }
+            axis = "none";
+            hitBoundary = false;
+        }
 
+        node.addEventListener("touchstart", onStart, { passive: true });
+        node.addEventListener("touchmove", onMove, { passive: true });
+        node.addEventListener("touchend", onEnd, { passive: true });
         return {
             destroy() {
-                node.removeEventListener("touchstart", handleTouch);
-                node.removeEventListener("touchmove", handleTouch);
-                node.removeEventListener("touchend", handleTouch);
+                node.removeEventListener("touchstart", onStart);
+                node.removeEventListener("touchmove", onMove);
+                node.removeEventListener("touchend", onEnd);
+            },
+        };
+    }
+
+    // Carousel container touch handler. Owns all touch logic:
+    // - Horizontal → programmatic goToSlide()
+    // - Vertical on 3D slide (non-scrollable) → signal scrollDirection
+    // - Vertical on content slide → handled by contentTouchBoundary
+    function carouselTouch(node: HTMLElement) {
+        let startX = 0;
+        let startY = 0;
+        let axis: "none" | "h" | "v" = "none";
+        let hasScroller = false;
+
+        function onStart(e: TouchEvent) {
+            e.stopPropagation(); // Block GSAP Observer from catching this and calling preventDefault()
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            axis = "none";
+            const target = e.target as HTMLElement;
+            const el = target.closest('[data-carousel-scroller="true"]');
+            hasScroller = !!el;
+        }
+
+        function onMove(e: TouchEvent) {
+            e.stopPropagation(); // Block GSAP Observer from catching this and calling preventDefault()
+            if (axis === "none") {
+                const dx = Math.abs(e.touches[0].clientX - startX);
+                const dy = Math.abs(e.touches[0].clientY - startY);
+                if (dx + dy >= 8) axis = dx > dy ? "h" : "v";
+            }
+            if (axis === "h") {
+                if (e.cancelable) e.preventDefault();
+            } else if (axis === "v" && !hasScroller) {
+                if (e.cancelable) e.preventDefault();
+            }
+        }
+
+        function onEnd(e: TouchEvent) {
+            e.stopPropagation(); // Block GSAP Observer from catching this and calling preventDefault()
+            const THRESHOLD = 40;
+            if (axis === "h") {
+                const dx = startX - e.changedTouches[0].clientX;
+                if (Math.abs(dx) >= THRESHOLD) {
+                    if (dx > 0 && activeSlide === 0) goToSlide(1);
+                    else if (dx < 0 && activeSlide === 1) goToSlide(0);
+                }
+            } else if (axis === "v" && !hasScroller) {
+                const dy = startY - e.changedTouches[0].clientY;
+                if (Math.abs(dy) >= THRESHOLD) {
+                    scrollDirection.set(dy > 0 ? 1 : -1);
+                }
+            }
+            axis = "none";
+        }
+
+        node.addEventListener("touchstart", onStart, { passive: true });
+        node.addEventListener("touchmove", onMove, { passive: false });
+        node.addEventListener("touchend", onEnd, { passive: true });
+        return {
+            destroy() {
+                node.removeEventListener("touchstart", onStart);
+                node.removeEventListener("touchmove", onMove);
+                node.removeEventListener("touchend", onEnd);
             },
         };
     }
@@ -223,8 +307,10 @@
     <div class="lg:hidden w-full h-[100dvh] relative" aria-hidden="true">
         <div
             bind:this={carouselEl}
+            use:carouselTouch
+            data-carousel-touch-zone="true"
             onscroll={onScroll}
-            class="hide-scroll flex w-full h-full overflow-x-auto snap-x snap-mandatory pointer-events-auto touch-auto"
+            class="hide-scroll flex w-full h-full overflow-x-auto snap-x snap-mandatory pointer-events-auto"
             style="scroll-behavior: smooth;"
         >
             {#if layout === "left"}
@@ -288,7 +374,8 @@
 
                 <!-- CHANGED: Applied use:isolateTouch here, and added touch-pan-y to restore native scroll -->
                 <div
-                    use:isolateTouch
+                    use:contentTouchBoundary
+                    data-carousel-scroller="true"
                     onwheel={handleWheel}
                     class="w-full h-full shrink-0 snap-center relative z-20 pointer-events-auto overflow-y-auto overscroll-y-contain touch-pan-y hide-scroll"
                 >
@@ -300,7 +387,8 @@
             {:else}
                 <!-- CHANGED: Applied use:isolateTouch here, and added touch-pan-y to restore native scroll -->
                 <div
-                    use:isolateTouch
+                    use:contentTouchBoundary
+                    data-carousel-scroller="true"
                     onwheel={handleWheel}
                     class="w-full h-full shrink-0 snap-center relative z-20 pointer-events-auto overflow-y-auto overscroll-y-contain touch-pan-y hide-scroll"
                 >
