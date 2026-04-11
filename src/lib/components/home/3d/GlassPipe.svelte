@@ -1,14 +1,27 @@
 <script lang="ts">
+  import { theme, themeColors } from "$lib/stores/theme";
   import { T, useTask } from "@threlte/core";
 
   import { Color, DoubleSide } from "three";
 
-  // --- 1. UNIFIED THEME COLORS ---
-  const deepColor = new Color("#1e3a8a"); // Deep Blue
-  const surfColor = new Color("#38bdf8"); // Cyan
-  const foamColor = new Color("#38bdf8"); // White Edge Glow
+  // --- SEA WATER PIPE COLORS ---
+  const deepColor = new Color(themeColors.dark.deep);
+  const surfColor = new Color(themeColors.dark.surf);
+  const foamColor = new Color(themeColors.dark.foam);
 
-  // --- 2. LIQUID SHADER (Tube Version) ---
+  // In light mode: opaque, high-contrast, saturated sea colors
+  // In dark mode: semi-transparent, glowing bioluminescent pipe
+  $: if ($theme === "light") {
+    deepColor.set(themeColors.light.deep);
+    surfColor.set(themeColors.light.surf);
+    foamColor.set(themeColors.light.foam);
+  } else {
+    deepColor.set(themeColors.dark.deep);
+    surfColor.set(themeColors.dark.surf);
+    foamColor.set(themeColors.dark.foam);
+  }
+
+  // --- LIQUID SHADER (Tube Version) ---
   const vertexShader = `
     uniform float uTime;
     varying vec2 vUv;
@@ -22,7 +35,6 @@
       vec3 pos = position;
 
       // "Peristaltic" Pulse (Pumping effect along the length)
-      // pos.y is the length of the cylinder (-5 to +5)
       float flow = sin(pos.y * 2.0 + uTime * 4.0) * 0.05;
       
       // Expand/Contract radius based on flow
@@ -41,6 +53,7 @@
     uniform vec3 uDeepColor;
     uniform vec3 uSurfColor;
     uniform vec3 uFoamColor;
+    uniform float uOpacity;
     
     varying float vElevation;
     varying vec3 vNormal;
@@ -48,31 +61,33 @@
 
     void main() {
       // 1. COLOR GRADIENT (Pulse based)
-      // Map flow (-0.05 to 0.05) to color mix
       float mixStrength = smoothstep(-0.05, 0.05, vElevation);
       vec3 color = mix(uDeepColor, uSurfColor, mixStrength);
 
-      // 2. FRESNEL GLOW (The Pipe Walls)
+      // 2. FRESNEL RIM (Edge highlight)
       vec3 viewDir = normalize(vViewPosition);
       float fresnel = pow(1.0 - dot(vNormal, viewDir), 3.0);
       
-      // Highlight edges
-      color = mix(color, uFoamColor, fresnel * 0.9);
+      // Highlight edges with foam color
+      color = mix(color, uFoamColor, fresnel * 0.7);
 
-      // 3. TRANSPARENCY
-      // Make the center more transparent so we can see the mascot inside
-      float alpha = 0.3 + fresnel * 0.6; 
+      // 3. ALPHA: Controlled by uOpacity uniform
+      float alpha = uOpacity + fresnel * 0.3;
 
       gl_FragColor = vec4(color, alpha);
     }
   `;
 
+  // Dark mode: semi-transparent glowing tube. Light mode: fully opaque solid tube.
   const uniforms = {
     uTime: { value: 0 },
     uDeepColor: { value: deepColor },
     uSurfColor: { value: surfColor },
     uFoamColor: { value: foamColor },
+    uOpacity: { value: 0.6 },
   };
+
+  $: uniforms.uOpacity.value = $theme === "light" ? 1.0 : 0.6;
 
   useTask((dt) => {
     uniforms.uTime.value += dt;
@@ -82,28 +97,26 @@
 <T.Group>
   <!-- THE LIQUID CONDUIT -->
   <T.Mesh>
-    <!-- 
-       Radius: 2.0, Height: 10.0
-       OpenEnded: true
-    -->
     <T.CylinderGeometry args={[2.0, 2.0, 10, 64, 32, true]} />
-    <!-- 32 height segments for smooth waves -->
 
     <T.ShaderMaterial
       {vertexShader}
       {fragmentShader}
       {uniforms}
-      transparent={false}
+      transparent={true}
       side={DoubleSide}
     />
   </T.Mesh>
 
   <!-- INTERNAL GLOW RINGS (Visual Speed) -->
-  <!-- Moving rings inside to emphasize flow direction -->
   {#each Array(5) as _, i}
     <T.Mesh position={[0, (i - 2) * 2, 0]} scale={[1.8, 0.05, 1.8]}>
       <T.TorusGeometry args={[1, 0.05, 16, 64]} />
-      <T.MeshBasicMaterial color={surfColor} transparent opacity={0.5} />
+      <T.MeshBasicMaterial
+        color={surfColor}
+        transparent
+        opacity={$theme === "light" ? 0.9 : 0.5}
+      />
     </T.Mesh>
   {/each}
 </T.Group>

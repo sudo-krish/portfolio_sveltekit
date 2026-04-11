@@ -106,7 +106,7 @@
                     label={techstackData.rightAnchor.label}
                     title={techstackData.rightAnchor.title}
                     description={techstackData.rightAnchor.description}
-                    labelColor="text-cyan-400/80"
+                    labelColor="text-primary/80"
                     align="right"
                 />
             </div>
@@ -141,7 +141,7 @@
                     label={techstackData.rightAnchor.label}
                     title={techstackData.rightAnchor.title}
                     description={techstackData.rightAnchor.description}
-                    labelColor="text-cyan-400/80"
+                    labelColor="text-primary/80"
                     align="center"
                 />
 

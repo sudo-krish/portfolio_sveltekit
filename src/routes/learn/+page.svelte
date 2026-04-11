@@ -64,7 +64,7 @@
                     class="w-full bg-transparent pl-14 pr-16 py-4 sm:py-5 text-foreground placeholder:text-muted-foreground/40 focus:outline-none text-lg"
                 />
                 <div
-                    class="absolute right-5 hidden sm:flex items-center gap-1 text-muted-foreground/30 bg-white/5 px-2 py-1 rounded-md border border-white/5 font-mono text-xs"
+                    class="absolute right-5 hidden sm:flex items-center gap-1 text-muted-foreground/30 bg-foreground/5 px-2 py-1 rounded-md border border-border font-mono text-xs"
                 >
                     <Command size={12} />
                     <span>K</span>
@@ -102,7 +102,7 @@
                 We couldn't find anything matching "{searchQuery}"
             </p>
             <button
-                class="px-5 py-2.5 bg-white/5 hover:bg-white/10 rounded-xl transition-colors text-sm font-medium"
+                class="px-5 py-2.5 bg-foreground/5 hover:bg-foreground/10 rounded-xl transition-colors text-sm font-medium"
                 onclick={() => (searchQuery = "")}
             >
                 Clear search

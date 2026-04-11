@@ -115,7 +115,7 @@
                     class="bg-white border-[4px] border-[#333] p-4 w-full text-left mb-8 shadow-inner"
                 >
                     <h3
-                        class="retro-font text-2xl text-blue-700 font-bold mb-3 border-b-2 border-gray-300 pb-1"
+                        class="retro-font text-2xl text-primary font-bold mb-3 border-b-2 border-border pb-1"
                     >
                         HOW TO PLAY:
                     </h3>
@@ -155,7 +155,7 @@
                 </div>
 
                 <button
-                    class="retro-font text-2xl sm:text-3xl text-white bg-red-600 border-[4px] border-[#333] px-8 py-3 rounded hover:bg-red-500 hover:-translate-y-1 transition-transform shadow-[4px_4px_0_rgba(0,0,0,0.8)] active:shadow-none active:translate-y-1 active:translate-x-1 font-bold tracking-widest"
+                    class="retro-font text-2xl sm:text-3xl text-foreground bg-red-600 border-[4px] border-[#333] px-8 py-3 rounded hover:bg-red-500 hover:-translate-y-1 transition-transform shadow-[4px_4px_0_rgba(0,0,0,0.8)] active:shadow-none active:translate-y-1 active:translate-x-1 font-bold tracking-widest"
                     on:click={startGame}
                 >
                     START ENCOUNTER

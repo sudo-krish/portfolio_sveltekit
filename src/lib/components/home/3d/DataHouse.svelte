@@ -1,16 +1,22 @@
 <script lang="ts">
+  import { theme, themeColors, modelMaterials } from "$lib/stores/theme";
   import { T, useTask } from "@threlte/core";
   import { Float, useGltf, interactivity, Align } from "@threlte/extras";
-  import { Color, DoubleSide, Mesh, ShaderMaterial } from "three";
+  import {
+    Color,
+    DoubleSide,
+    Mesh,
+    ShaderMaterial,
+    MeshStandardMaterial,
+  } from "three";
   import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
-
 
   interactivity();
 
   // Load the GLTF safely via Threlte's internal WASM worker abstraction
-  const deepColor = new Color("#1e3a8a"); // Deep Blue
-  const surfColor = new Color("#38bdf8"); // Cyan
-  const foamColor = new Color("#3b82f6"); // White Foam
+  const deepColor = new Color(modelMaterials.dataHouse.dark.deep);
+  const surfColor = new Color(modelMaterials.dataHouse.dark.surf);
+  const foamColor = new Color(modelMaterials.dataHouse.dark.foam);
 
   // --- 2. SHADER (TIGHTER DISPLACEMENT) ---
   const vertexShader = `
@@ -86,6 +92,7 @@
     uniform vec3 uDeepColor;
     uniform vec3 uSurfColor;
     uniform vec3 uFoamColor;
+    uniform float uOpacity;
     varying float vElevation;
     varying vec3 vNormal;
     varying vec3 vViewPosition;
@@ -98,7 +105,7 @@
       float fresnel = pow(1.0 - dot(vNormal, viewDir), 3.0);
       
       color = mix(color, uFoamColor, fresnel * 0.8);
-      gl_FragColor = vec4(color, 0.9); 
+      gl_FragColor = vec4(color, uOpacity); 
     }
   `;
 
@@ -107,6 +114,7 @@
     uDeepColor: { value: deepColor },
     uSurfColor: { value: surfColor },
     uFoamColor: { value: foamColor },
+    uOpacity: { value: 0.9 },
   };
 
   const customMaterial = new ShaderMaterial({
@@ -117,22 +125,43 @@
     side: DoubleSide,
   });
 
+  $: if ($theme === "light") {
+    deepColor.set(modelMaterials.dataHouse.light.deep);
+    surfColor.set(modelMaterials.dataHouse.light.surf);
+    foamColor.set(modelMaterials.dataHouse.light.foam);
+    uniforms.uOpacity.value = 1.0;
+    customMaterial.needsUpdate = true;
+  } else {
+    deepColor.set(modelMaterials.dataHouse.dark.deep);
+    surfColor.set(modelMaterials.dataHouse.dark.surf);
+    foamColor.set(modelMaterials.dataHouse.dark.foam);
+    uniforms.uOpacity.value = 0.9;
+    customMaterial.needsUpdate = true;
+  }
+
   // Load the GLTF File (Ensure this path is exactly correct relative to your static folder)
   const dracoLoader = new DRACOLoader();
   dracoLoader.setDecoderPath("https://www.gstatic.com/draco/v1/decoders/");
 
   const gltf = useGltf("/3d/house/house.glb", {
-    dracoLoader
+    dracoLoader,
   });
+
+  // Tint the engine's native materials based on theme
+  const engineTint = new Color($theme === "light" ? "#111111" : "#111111");
 
   // We use Svelte's reactive statement. When the GLTF loads, we manually traverse and overwrite the materials.
   $: if ($gltf) {
+    const tint = $theme === "light" ? "#FFFFFF" : "#111111";
+    engineTint.set(tint);
     $gltf.scene.traverse((child) => {
       if ((child as Mesh).isMesh) {
         const mesh = child as Mesh;
-        // Overwrite the original materials from the GLB
-        mesh.material = customMaterial;
-        // Optional: Ensure shadows work
+        const mat = mesh.material as MeshStandardMaterial;
+        if (mat && mat.color) {
+          mat.color.set(engineTint);
+          mat.needsUpdate = true;
+        }
         mesh.castShadow = true;
         mesh.receiveShadow = true;
       }

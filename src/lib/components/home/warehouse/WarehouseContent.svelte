@@ -101,7 +101,7 @@
             badge={warehouseData.header.badge}
             subtitle="BI & Serving Layer"
             Icon={BarChart3}
-            iconHoverColor="text-purple-400"
+            iconHoverColor="text-muted-foreground"
             accentColor="border-purple-400/40"
             gradientFrom="from-purple-400"
             shortDescription={warehouseData.content.shortDescription}
@@ -125,7 +125,7 @@
           label={warehouseData.rightAnchor.label}
           title={warehouseData.rightAnchor.title}
           description={warehouseData.rightAnchor.description}
-          labelColor="text-purple-400/80"
+          labelColor="text-muted-foreground/80"
           align="right"
         />
       </div>
@@ -147,7 +147,7 @@
           label={warehouseData.rightAnchor.label}
           title={warehouseData.rightAnchor.title}
           description={warehouseData.rightAnchor.description}
-          labelColor="text-purple-400/80"
+          labelColor="text-muted-foreground/80"
           align="center"
         />
 
@@ -155,7 +155,7 @@
           badge={warehouseData.header.badge}
           subtitle="BI & Serving Layer"
           Icon={BarChart3}
-          iconHoverColor="text-purple-400"
+          iconHoverColor="text-muted-foreground"
           accentColor="border-purple-400/40"
           gradientFrom="from-purple-400"
           shortDescription={warehouseData.content.shortDescription}

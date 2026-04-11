@@ -77,7 +77,7 @@
                     label={certificatesData.leftAnchor.label}
                     title={certificatesData.leftAnchor.title}
                     description={certificatesData.leftAnchor.description}
-                    labelColor="text-orange-400/80"
+                    labelColor="text-muted-foreground/80"
                     align="left"
                 />
             </div>
@@ -124,7 +124,7 @@
                     label={certificatesData.leftAnchor.label}
                     title={certificatesData.leftAnchor.title}
                     description={certificatesData.leftAnchor.description}
-                    labelColor="text-orange-400/80"
+                    labelColor="text-muted-foreground/80"
                     align="center"
                 />
 

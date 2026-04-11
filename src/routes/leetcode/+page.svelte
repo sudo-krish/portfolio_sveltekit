@@ -185,7 +185,7 @@
                 class="min-h-[60vh] flex flex-col items-center justify-center gap-6 max-w-md mx-auto text-center"
             >
                 <div
-                    class="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center text-red-500/80 mb-2 border border-red-500/20"
+                    class="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center text-muted-foreground/80 mb-2 border border-red-500/20"
                 >
                     <ExternalLink size={24} />
                 </div>
@@ -381,7 +381,7 @@
                                 <div
                                     class="w-12 h-12 rounded-xl bg-foreground/5 border border-foreground/10 flex items-center justify-center"
                                 >
-                                    <Flame size={24} class="text-orange-500" />
+                                    <Flame size={24} class="text-muted-foreground" />
                                 </div>
                                 <div>
                                     <span
@@ -435,7 +435,7 @@
                             <h2
                                 class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-foreground/30 mb-6 flex items-center gap-2"
                             >
-                                <Brain size={14} class="text-[#ffa116]" /> Topic
+                                <Brain size={14} class="text-foreground" /> Topic
                                 Proficiency
                             </h2>
 
@@ -446,7 +446,7 @@
                                     <span class="text-foreground/60"
                                         >Advanced</span
                                     >
-                                    <span class="text-[#ef4743] font-bold"
+                                    <span class="text-foreground font-bold"
                                         >{stats.skillStats?.advanced || 0}</span
                                     >
                                 </div>
@@ -456,7 +456,7 @@
                                     <span class="text-foreground/60"
                                         >Intermediate</span
                                     >
-                                    <span class="text-[#ffc01e] font-bold"
+                                    <span class="text-foreground font-bold"
                                         >{stats.skillStats?.intermediate ||
                                             0}</span
                                     >
@@ -467,7 +467,7 @@
                                     <span class="text-foreground/60"
                                         >Fundamental</span
                                     >
-                                    <span class="text-[#2cbb5d] font-bold"
+                                    <span class="text-foreground font-bold"
                                         >{stats.skillStats?.fundamental ||
                                             0}</span
                                     >

@@ -6,7 +6,7 @@
 {#if battleState === "start_anim"}
     <!-- Full Screen Overlay -->
     <div
-        class="absolute inset-0 z-50 overflow-hidden bg-[#111]"
+        class="absolute inset-0 z-50 overflow-hidden bg-card"
         out:fade={{ duration: 300, delay: 100 }}
     >
         <!-- 1. Intense White Flashing Overlay (Mimics the classic gameboy battle flash) -->
@@ -22,7 +22,7 @@
         <!-- 3. Cinematic Focus Band that slams shut -->
         <div class="absolute inset-0 z-30 flex items-center justify-center">
             <div
-                class="w-full h-32 sm:h-48 bg-black border-y-[6px] border-white flex items-center justify-center shadow-[0_0_50px_rgba(0,0,0,0.9)] relative overflow-hidden animate-slam-band"
+                class="w-full h-32 sm:h-48 bg-background border-y-[6px] border-white flex items-center justify-center shadow-[0_0_50px_rgba(0,0,0,0.9)] relative overflow-hidden animate-slam-band"
             >
                 <!-- Danger / Warning Scrolling Stripes -->
                 <div
@@ -43,7 +43,7 @@
 
                     <!-- Main Glitching Text -->
                     <span
-                        class="retro-font text-white text-4xl sm:text-6xl md:text-7xl uppercase italic tracking-widest font-bold text-glitch"
+                        class="retro-font text-foreground text-4xl sm:text-6xl md:text-7xl uppercase italic tracking-widest font-bold text-glitch"
                     >
                         WILD ENCOUNTER!
                     </span>

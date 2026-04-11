@@ -38,8 +38,8 @@
   <div
     class="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 {currentTheme ===
     'light'
-      ? 'bg-amber-400/20'
-      : 'bg-cyan-400/20'}"
+      ? 'bg-primary/20'
+      : 'bg-accent/20'}"
   ></div>
 
   <div class="relative flex items-center justify-center w-full h-full">
@@ -47,7 +47,7 @@
       <!-- Moon icon: Entering Dark Mode -->
       <!-- We use custom transition classes to make the icons spin and fade elegantly -->
       <svg
-        class="w-5 h-5 text-indigo-900 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] rotate-0 scale-100"
+        class="w-5 h-5 text-foreground transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] rotate-0 scale-100"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -62,11 +62,11 @@
     {:else}
       <!-- Sun icon: Entering Light Mode -->
       <svg
-        class="w-5 h-5 text-cyan-300 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] rotate-0 scale-100"
+        class="w-5 h-5 text-accent transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] rotate-0 scale-100"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
-        style="filter: drop-shadow(0 0 6px hsl(var(--primary) / 0.8));"
+        style="filter: drop-shadow(0 0 6px hsl(var(--accent) / 0.8));"
       >
         <path
           stroke-linecap="round"

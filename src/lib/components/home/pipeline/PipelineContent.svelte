@@ -89,7 +89,7 @@
           label={pipelineData.leftAnchor.label}
           title={pipelineData.leftAnchor.title}
           description={pipelineData.leftAnchor.description}
-          labelColor="text-cyan-400/80"
+          labelColor="text-primary/80"
           align="left"
         />
       </div>
@@ -105,9 +105,9 @@
             badge={pipelineData.header.badge}
             subtitle="System Architecture"
             Icon={Database}
-            iconHoverColor="text-cyan-400"
+            iconHoverColor="text-primary"
             accentColor="border-cyan-400/40"
-            gradientFrom="from-cyan-400"
+            gradientFrom="from-primary"
             shortDescription={pipelineData.content.shortDescription}
             detailedPhilosophy={pipelineData.content.detailedPhilosophy}
           />
@@ -132,7 +132,7 @@
             label={pipelineData.leftAnchor.label}
             title={pipelineData.leftAnchor.title}
             description={pipelineData.leftAnchor.description}
-            labelColor="text-cyan-400/80"
+            labelColor="text-primary/80"
             align="center"
           />
 
@@ -140,9 +140,9 @@
             badge={pipelineData.header.badge}
             subtitle="System Architecture"
             Icon={Database}
-            iconHoverColor="text-cyan-400"
+            iconHoverColor="text-primary"
             accentColor="border-cyan-400/40"
-            gradientFrom="from-cyan-400"
+            gradientFrom="from-primary"
             shortDescription={pipelineData.content.shortDescription}
             detailedPhilosophy={pipelineData.content.detailedPhilosophy}
           />

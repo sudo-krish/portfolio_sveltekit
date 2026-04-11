@@ -50,7 +50,7 @@
                 class="absolute inset-1 bg-[#e8e8e8] rounded-tl-lg rounded-br-lg -z-10"
             ></div>
             <div
-                class="flex justify-between items-end mb-2 border-b-2 border-gray-400 pb-1 px-1"
+                class="flex justify-between items-end mb-2 border-b-2 border-border pb-1 px-1"
             >
                 <span
                     class="retro-font !text-black text-sm sm:text-lg uppercase tracking-widest font-bold"
@@ -63,15 +63,15 @@
             </div>
             <div class="flex items-center justify-end px-1">
                 <div
-                    class="bg-[#333] rounded px-1 py-px mr-2 shadow-[2px_2px_0_rgba(0,0,0,0.2)]"
+                    class="bg-secondary rounded px-1 py-px mr-2 shadow-[2px_2px_0_rgba(0,0,0,0.2)]"
                 >
                     <span
-                        class="retro-font text-yellow-500 text-[10px] sm:text-xs font-bold leading-none block pt-[2px]"
+                        class="retro-font text-muted-foreground text-[10px] sm:text-xs font-bold leading-none block pt-[2px]"
                         >HP</span
                     >
                 </div>
                 <div
-                    class="w-[75%] bg-[#333] h-3 sm:h-4 rounded-full border-2 border-white p-[1px] shadow-[inset_0_2px_4px_rgba(0,0,0,0.8)] relative overflow-hidden"
+                    class="w-[75%] bg-secondary h-3 sm:h-4 rounded-full border-2 border-white p-[1px] shadow-[inset_0_2px_4px_rgba(0,0,0,0.8)] relative overflow-hidden"
                 >
                     <div
                         class="h-full {enemyHp > 50
@@ -102,7 +102,7 @@
         class="absolute bottom-2 w-40 sm:w-48 h-12 sm:h-16 bg-[#72a05e] border-[3px] border-[#5a804a] rounded-[100%] shadow-[inset_0_-4px_0_rgba(0,0,0,0.2)] z-0 transform scale-y-75"
     ></div>
     <div
-        class="absolute bottom-4 w-20 h-4 bg-black/30 rounded-[100%] z-0 blur-[2px]"
+        class="absolute bottom-4 w-20 h-4 bg-background/50 rounded-[100%] z-0 blur-[2px]"
     ></div>
 
     {#if battleState === "dialogue" || battleState === "start_anim" || battleState === "capture_animation"}
@@ -127,7 +127,7 @@
                         class="absolute w-[115%] h-[115%] border-4 border-blue-400 rounded-full bg-blue-300/30 animate-pulse shadow-[0_0_15px_rgba(79,195,247,0.8)]"
                     ></div>
                     <span
-                        class="retro-font text-white bg-blue-600 border-[2px] border-white px-2 py-1 rounded shadow-lg font-bold text-lg sm:text-xl relative z-30 drop-shadow-md transform -translate-y-8 tracking-widest"
+                        class="retro-font text-foreground bg-blue-600 border-[2px] border-white px-2 py-1 rounded shadow-lg font-bold text-lg sm:text-xl relative z-30 drop-shadow-md transform -translate-y-8 tracking-widest"
                         >{lastDamageAmount === 0 ? "BLOCKED!" : "GUARD!"}</span
                     >
                 </div>
@@ -139,7 +139,7 @@
                     class="absolute -right-4 -top-6 z-30 animate-bounce pointer-events-none delay-100"
                 >
                     <span
-                        class="retro-font text-white bg-red-600 border-[2px] border-white px-2 py-1 rounded shadow-lg font-bold text-lg sm:text-xl drop-shadow-md"
+                        class="retro-font text-foreground bg-red-600 border-[2px] border-white px-2 py-1 rounded shadow-lg font-bold text-lg sm:text-xl drop-shadow-md"
                         >-{lastDamageAmount} HP</span
                     >
                 </div>
@@ -200,7 +200,7 @@
         class="absolute -bottom-2 w-48 sm:w-64 h-16 sm:h-20 bg-[#72a05e] border-[3px] border-[#5a804a] rounded-[100%] shadow-[inset_0_-4px_0_rgba(0,0,0,0.2)] z-0 transform scale-y-75"
     ></div>
     <div
-        class="absolute bottom-2 w-24 h-6 bg-black/30 rounded-[100%] z-0 blur-[2px]"
+        class="absolute bottom-2 w-24 h-6 bg-background/50 rounded-[100%] z-0 blur-[2px]"
     ></div>
     <div
         class="relative w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-tr from-[#2a5242] to-[#346856] border-[4px] border-[#e0f8d0] shadow-[0_10px_20px_rgba(0,0,0,0.3)] flex items-center justify-center z-10 rounded-lg overflow-hidden {isPlayerAttacking
@@ -213,7 +213,7 @@
             class="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.05)_50%,transparent_75%)] bg-[length:10px_10px]"
         ></div>
         <span
-            class="retro-font text-white/90 text-2xl font-bold tracking-widest relative z-10 drop-shadow-[2px_2px_0_rgba(0,0,0,0.5)]"
+            class="retro-font text-foreground/80 text-2xl font-bold tracking-widest relative z-10 drop-shadow-[2px_2px_0_rgba(0,0,0,0.5)]"
             >YOU</span
         >
 
@@ -223,7 +223,7 @@
                 class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none delay-300"
             >
                 <span
-                    class="retro-font text-white bg-purple-600 border-[2px] border-white px-1 py-0.5 rounded shadow-lg font-bold text-sm drop-shadow-md animate-bounce transform translate-y-8"
+                    class="retro-font text-foreground bg-purple-600 border-[2px] border-white px-1 py-0.5 rounded shadow-lg font-bold text-sm drop-shadow-md animate-bounce transform translate-y-8"
                     >CONFUSED!</span
                 >
             </div>
@@ -244,7 +244,7 @@
             class="absolute inset-1 bg-[#e8e8e8] rounded-tl-lg rounded-br-lg -z-10"
         ></div>
         <div
-            class="flex justify-between items-end mb-2 border-b-2 border-gray-400 pb-1 px-1"
+            class="flex justify-between items-end mb-2 border-b-2 border-border pb-1 px-1"
         >
             <span
                 class="retro-font !text-black text-sm sm:text-lg uppercase tracking-widest font-bold"
@@ -257,15 +257,15 @@
         </div>
         <div class="flex items-center justify-end px-1 mb-1">
             <div
-                class="bg-[#333] rounded px-1 py-px mr-2 shadow-[2px_2px_0_rgba(0,0,0,0.2)]"
+                class="bg-secondary rounded px-1 py-px mr-2 shadow-[2px_2px_0_rgba(0,0,0,0.2)]"
             >
                 <span
-                    class="retro-font text-yellow-500 text-[10px] sm:text-xs font-bold leading-none block pt-[2px]"
+                    class="retro-font text-muted-foreground text-[10px] sm:text-xs font-bold leading-none block pt-[2px]"
                     >HP</span
                 >
             </div>
             <div
-                class="w-[75%] bg-[#333] h-3 sm:h-4 rounded-full border-2 border-white p-[1px] shadow-[inset_0_2px_4px_rgba(0,0,0,0.8)] relative overflow-hidden"
+                class="w-[75%] bg-secondary h-3 sm:h-4 rounded-full border-2 border-white p-[1px] shadow-[inset_0_2px_4px_rgba(0,0,0,0.8)] relative overflow-hidden"
             >
                 <div
                     class="w-full h-full bg-gradient-to-b from-[#48d0b0] to-[#2ca080] rounded-full"

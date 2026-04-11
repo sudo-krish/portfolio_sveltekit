@@ -32,7 +32,7 @@
         class="w-full p-6 rounded-[1.5rem] bg-card/80 backdrop-blur-xl border border-border shadow-xl"
     >
         <div
-            class="text-[10px] font-mono text-cyan-400 uppercase tracking-[0.2em] mb-3 block"
+            class="text-[10px] font-mono text-primary uppercase tracking-[0.2em] mb-3 block"
         >
             {techstackData.rightAnchor.label}
         </div>

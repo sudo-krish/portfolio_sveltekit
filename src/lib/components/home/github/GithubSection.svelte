@@ -80,7 +80,7 @@
                     label={codingStatsData.leftAnchor.label}
                     title={codingStatsData.leftAnchor.title}
                     description={codingStatsData.leftAnchor.description}
-                    labelColor="text-green-400/80"
+                    labelColor="text-muted-foreground/80"
                     align="left"
                 />
             </div>
@@ -134,7 +134,7 @@
                     label={codingStatsData.leftAnchor.label}
                     title={codingStatsData.leftAnchor.title}
                     description={codingStatsData.leftAnchor.description}
-                    labelColor="text-green-400/80"
+                    labelColor="text-muted-foreground/80"
                     align="center"
                 />
 

@@ -62,7 +62,7 @@
         <p
             class="retro-font text-[1.1rem] sm:text-[1.6rem] leading-snug pt-1 sm:pt-2 px-1 pb-4 relative z-10 {currentNode.speaker ===
             'System'
-                ? '!text-blue-700'
+                ? '!text-primary'
                 : '!text-black'}"
         >
             {displayedText}
@@ -109,7 +109,7 @@
                 </button>
 
                 <button
-                    class="group relative flex items-center justify-center retro-font text-blue-700 font-bold text-lg sm:text-xl hover:bg-blue-100 transition-colors"
+                    class="group relative flex items-center justify-center retro-font text-primary font-bold text-lg sm:text-xl hover:bg-blue-100 transition-colors"
                     on:click={() => advanceNode("catch_attempt")}
                 >
                     <div

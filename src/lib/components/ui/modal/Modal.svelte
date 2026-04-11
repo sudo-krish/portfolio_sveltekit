@@ -35,7 +35,7 @@
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <div
             transition:scale={{ duration: 300, start: 0.95, opacity: 0 }}
-            class="relative w-full max-w-[550px] flex flex-col p-8 rounded-[2rem] bg-[#0c0c0c] border border-foreground/15 shadow-[0_40px_100px_rgba(0,0,0,0.8)] overflow-hidden cursor-default"
+            class="relative w-full max-w-[550px] flex flex-col p-8 rounded-[2rem] bg-card border border-foreground/15 shadow-[0_40px_100px_rgba(0,0,0,0.8)] overflow-hidden cursor-default"
             onclick={(e) => e.stopPropagation()}
         >
             <div
@@ -102,9 +102,9 @@
                     <div
                         class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 w-max"
                     >
-                        <CheckCircle size={12} class="text-green-400" />
+                        <CheckCircle size={12} class="text-muted-foreground" />
                         <span
-                            class="text-[10px] font-bold text-green-400 tracking-widest uppercase"
+                            class="text-[10px] font-bold text-muted-foreground tracking-widest uppercase"
                         >
                             {type === "cert"
                                 ? "Verified Credential"

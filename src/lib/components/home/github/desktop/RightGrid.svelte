@@ -14,7 +14,7 @@
 
     <!-- Full-Width Bottom Philosophy Card (Glassmorphism) -->
     <div
-        class="rounded-xl bg-cyan-950/20 backdrop-blur-xl border border-cyan-500/20 border-l-4 border-l-cyan-400 shadow-[0_10px_30px_rgba(0,0,0,0.4)]"
+        class="rounded-xl bg-card backdrop-blur-xl border border-cyan-500/20 border-l-4 border-l-cyan-400 shadow-[0_10px_30px_rgba(0,0,0,0.4)]"
         style="margin-top: 0.2cqi; padding: 1cqi;"
     >
         <p

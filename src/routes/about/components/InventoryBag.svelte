@@ -93,10 +93,10 @@
         <div
             class="w-8 h-8 bg-orange-500 rounded flex items-center justify-center border-2 border-[#333] shadow-[2px_2px_0_#333]"
         >
-            <Backpack size={20} class="text-white" />
+            <Backpack size={20} class="text-foreground" />
         </div>
         <h2
-            class="retro-font text-white text-2xl drop-shadow-[2px_2px_0_#000] tracking-wider"
+            class="retro-font text-foreground text-2xl drop-shadow-[2px_2px_0_#000] tracking-wider"
         >
             KEY ITEMS
         </h2>
@@ -127,7 +127,7 @@
                         />
                     </div>
                 {:else}
-                    <span class="retro-font text-[#4a8a70] text-4xl opacity-30"
+                    <span class="retro-font text-foreground text-4xl opacity-30"
                         >?</span
                     >
                 {/if}
@@ -145,7 +145,7 @@
                         {itemData[displayItem].brief}
                     </p>
                 {:else}
-                    <p class="retro-font text-gray-400 text-lg leading-snug">
+                    <p class="retro-font text-muted-foreground text-lg leading-snug">
                         Select an item from the bag to view its details.
                     </p>
                 {/if}
@@ -160,7 +160,7 @@
                 <!-- svelte-ignore a11y_click_events_have_key_events -->
                 <!-- svelte-ignore a11y_no_static_element_interactions -->
                 <div
-                    class="w-full p-2 flex items-center justify-between border-b-2 border-dashed border-gray-300 transition-colors {inventory[
+                    class="w-full p-2 flex items-center justify-between border-b-2 border-dashed border-border transition-colors {inventory[
                         item
                     ]
                         ? 'cursor-pointer'
@@ -186,7 +186,7 @@
                         <span
                             class="retro-font text-xl {inventory[item]
                                 ? '!text-black'
-                                : 'text-gray-400'}">{itemData[item].title}</span
+                                : 'text-muted-foreground'}">{itemData[item].title}</span
                         >
                     </div>
                     {#if inventory[item]}
@@ -194,7 +194,7 @@
                             >x01</span
                         >
                     {:else}
-                        <span class="retro-font text-gray-400 text-lg">???</span
+                        <span class="retro-font text-muted-foreground text-lg">???</span
                         >
                     {/if}
                 </div>
@@ -202,9 +202,9 @@
 
             <!-- Empty Slot Filler -->
             <div
-                class="w-full p-2 flex items-center justify-between border-b-2 border-dashed border-gray-300 opacity-50"
+                class="w-full p-2 flex items-center justify-between border-b-2 border-dashed border-border opacity-50"
             >
-                <span class="retro-font text-gray-400 text-xl pl-11"
+                <span class="retro-font text-muted-foreground text-xl pl-11"
                     >CANCEL</span
                 >
             </div>
@@ -215,7 +215,7 @@
             <!-- svelte-ignore a11y_click_events_have_key_events -->
             <!-- svelte-ignore a11y_no_static_element_interactions -->
             <div
-                class="absolute inset-0 bg-black/60 z-40 backdrop-blur-sm flex items-center justify-center p-4"
+                class="absolute inset-0 bg-background/50 z-40 backdrop-blur-sm flex items-center justify-center p-4"
                 transition:fade={{ duration: 150 }}
                 on:click={closeModal}
             >
@@ -226,7 +226,7 @@
                 >
                     <!-- Modal Header -->
                     <div
-                        class="bg-[#333] px-3 py-2 flex justify-between items-center text-white"
+                        class="bg-secondary px-3 py-2 flex justify-between items-center text-foreground"
                     >
                         <div class="flex items-center gap-2">
                             <svelte:component
@@ -239,7 +239,7 @@
                             >
                         </div>
                         <button
-                            class="hover:text-red-400 transition-colors"
+                            class="hover:text-muted-foreground transition-colors"
                             on:click={closeModal}
                         >
                             <X size={20} />

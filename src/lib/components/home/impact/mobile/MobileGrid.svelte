@@ -44,7 +44,7 @@
             <!-- Mobile Header Section -->
             <div class="flex items-center gap-3">
                 <div
-                    class="flex items-center justify-center w-10 h-10 rounded-xl bg-muted border border-border shadow-inner text-purple-500"
+                    class="flex items-center justify-center w-10 h-10 rounded-xl bg-muted border border-border shadow-inner text-muted-foreground"
                 >
                     <CheckCircle2
                         size={20}

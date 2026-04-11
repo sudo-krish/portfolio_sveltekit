@@ -3,6 +3,7 @@
   import { T } from "@threlte/core";
   import { Float } from "@threlte/extras";
   import { Spring } from "svelte/motion";
+  import { theme, themeColors } from "$lib/stores/theme";
 
   // PROP: Controls how "full" the liquid is (0 to 1)
   export let fillLevel = 0;
@@ -33,7 +34,7 @@
       ior={1.5}
       thickness={1.5}
       transparent={true}
-      color="#38bdf8"
+      color={$theme === 'light' ? themeColors.light.surf : themeColors.dark.foam}
     />
   </T.Mesh>
 
@@ -52,8 +53,8 @@
     <T.IcosahedronGeometry args={[1.5, 0]} />
 
     <T.MeshStandardMaterial
-      color="#0ea5e9"
-      emissive="#0284c7"
+      color={$theme === 'light' ? themeColors.light.deep : themeColors.dark.surf}
+      emissive={$theme === 'light' ? themeColors.light.surf : themeColors.dark.deep}
       emissiveIntensity={0.8}
       roughness={0.2}
       metalness={0.3}

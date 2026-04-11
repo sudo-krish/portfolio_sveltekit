@@ -110,7 +110,7 @@
           label={lakehouseData.leftAnchor.label}
           title={lakehouseData.leftAnchor.title}
           description={lakehouseData.leftAnchor.description}
-          labelColor="text-blue-400/80"
+          labelColor="text-primary/80"
           align="left"
         />
       </div>
@@ -126,9 +126,9 @@
             badge={lakehouseData.header.badge}
             subtitle="Compute & Governance"
             Icon={Database}
-            iconHoverColor="text-blue-400"
-            accentColor="border-blue-400/40"
-            gradientFrom="from-blue-400"
+            iconHoverColor="text-primary"
+            accentColor="border-primary/40"
+            gradientFrom="from-primary"
             shortDescription={lakehouseData.content.shortDescription}
             detailedPhilosophy={lakehouseData.content.detailedPhilosophy}
           />
@@ -159,7 +159,7 @@
           label={lakehouseData.leftAnchor.label}
           title={lakehouseData.leftAnchor.title}
           description={lakehouseData.leftAnchor.description}
-          labelColor="text-blue-400/80"
+          labelColor="text-primary/80"
           align="center"
         />
 
@@ -167,9 +167,9 @@
           badge={lakehouseData.header.badge}
           subtitle="Transactional Layer"
           Icon={Database}
-          iconHoverColor="text-blue-400"
-          accentColor="border-blue-400/40"
-          gradientFrom="from-blue-400"
+          iconHoverColor="text-primary"
+          accentColor="border-primary/40"
+          gradientFrom="from-primary"
           shortDescription={lakehouseData.content.shortDescription}
           detailedPhilosophy={lakehouseData.content.detailedPhilosophy}
         />

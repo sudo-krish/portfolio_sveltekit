@@ -1,12 +1,23 @@
 <script lang="ts">
+  import { theme, themeColors } from "$lib/stores/theme";
   import { T, useTask } from "@threlte/core";
 
   import { Color, DoubleSide } from "three";
 
-  // Configuration
-  const deepColor = new Color("#1e3a8a"); // Deep Ocean Blue
-  const surfColor = new Color("#38bdf8"); // Cyan Surface
-  const foamColor = new Color("#38bdf8"); // White foam tips
+  // --- SEA WATER LAKE COLORS ---
+  const deepColor = new Color(themeColors.dark.deep);
+  const surfColor = new Color(themeColors.dark.surf);
+  const foamColor = new Color(themeColors.dark.foam);
+
+  $: if ($theme === "light") {
+    deepColor.set(themeColors.light.deep);
+    surfColor.set(themeColors.light.surf);
+    foamColor.set(themeColors.light.foam);
+  } else {
+    deepColor.set(themeColors.dark.deep);
+    surfColor.set(themeColors.dark.surf);
+    foamColor.set(themeColors.dark.foam);
+  }
 
   // Custom Shader Material Logic
   const vertexShader = `
@@ -68,39 +79,35 @@
     uniform vec3 uDeepColor;
     uniform vec3 uSurfColor;
     uniform vec3 uFoamColor;
+    uniform float uOpacity;
     
     varying vec2 vUv;
     varying float vElevation;
 
     void main() {
-      // 1. Color Mixing based on height
-      // Map elevation (-0.6 to 0.6) to (0.0 to 1.0)
       float mixStrength = (vElevation + 0.5) * 0.8;
-      
-      // Base Gradient (Deep -> Surf)
       vec3 color = mix(uDeepColor, uSurfColor, mixStrength);
       
-      // Foam Tips (High elevation only)
       float foamMix = smoothstep(0.4, 0.6, vElevation);
       color = mix(color, uFoamColor, foamMix);
 
-      // 2. Circular Alpha Mask (Fade edges)
-      // Distance from center (0.5, 0.5)
+      // Circular edge fade
       float dist = distance(vUv, vec2(0.5));
-      // Fade out starting at radius 0.3, fully transparent at 0.5
       float alpha = 1.0 - smoothstep(0.3, 0.5, dist);
 
-      gl_FragColor = vec4(color, alpha * 0.8); // 0.8 base opacity
+      gl_FragColor = vec4(color, alpha * uOpacity);
     }
   `;
 
-  // Shader Uniforms
   const uniforms = {
     uTime: { value: 0 },
     uDeepColor: { value: deepColor },
     uSurfColor: { value: surfColor },
-    uFoamColor: { value: foamColor }
+    uFoamColor: { value: foamColor },
+    uOpacity: { value: 0.8 },
   };
+
+  $: uniforms.uOpacity.value = $theme === "light" ? 1.0 : 0.8;
 
   useTask((dt) => {
     uniforms.uTime.value += dt;

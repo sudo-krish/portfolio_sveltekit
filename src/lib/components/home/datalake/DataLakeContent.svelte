@@ -113,9 +113,9 @@
             badge={datalakeData.header.badge}
             subtitle="Central Data Reservoir"
             Icon={HardDrive}
-            iconHoverColor="text-emerald-400"
+            iconHoverColor="text-accent"
             accentColor="border-emerald-400/40"
-            gradientFrom="from-emerald-400"
+            gradientFrom="from-accent"
             shortDescription={datalakeData.content.shortDescription}
             detailedPhilosophy={datalakeData.content.detailedPhilosophy}
           />
@@ -133,7 +133,7 @@
           label={datalakeData.rightAnchor.label}
           title={datalakeData.rightAnchor.title}
           description={datalakeData.rightAnchor.description}
-          labelColor="text-emerald-400/80"
+          labelColor="text-accent/80"
           align="right"
         />
       </div>
@@ -161,7 +161,7 @@
           label={datalakeData.rightAnchor.label}
           title={datalakeData.rightAnchor.title}
           description={datalakeData.rightAnchor.description}
-          labelColor="text-emerald-400/80"
+          labelColor="text-accent/80"
           align="center"
         />
 
@@ -169,9 +169,9 @@
           badge={datalakeData.header.badge}
           subtitle="Storage Architecture"
           Icon={HardDrive}
-          iconHoverColor="text-emerald-400"
+          iconHoverColor="text-accent"
           accentColor="border-emerald-400/40"
-          gradientFrom="from-emerald-400"
+          gradientFrom="from-accent"
           shortDescription={datalakeData.content.shortDescription}
           detailedPhilosophy={datalakeData.content.detailedPhilosophy}
         />

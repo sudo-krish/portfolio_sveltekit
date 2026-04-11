@@ -102,7 +102,7 @@
                     label={experienceData.leftAnchor.label}
                     title={experienceData.leftAnchor.title}
                     description={experienceData.leftAnchor.description}
-                    labelColor="text-blue-400/80"
+                    labelColor="text-primary/80"
                     align="left"
                 />
             </div>
@@ -121,9 +121,9 @@
                         badge={experienceData.header.badge}
                         subtitle="Career Progression"
                         Icon={Briefcase}
-                        iconHoverColor="text-blue-400"
-                        accentColor="border-blue-400/40"
-                        gradientFrom="from-blue-400"
+                        iconHoverColor="text-primary"
+                        accentColor="border-primary/40"
+                        gradientFrom="from-primary"
                         shortDescription={experienceData.content
                             .shortDescription}
                         detailedPhilosophy={experienceData.content
@@ -169,7 +169,7 @@
                     label={experienceData.leftAnchor.label}
                     title={experienceData.leftAnchor.title}
                     description={experienceData.leftAnchor.description}
-                    labelColor="text-blue-400/80"
+                    labelColor="text-primary/80"
                     align="center"
                     headingTag="div"
                 />
@@ -178,9 +178,9 @@
                     badge={experienceData.header.badge}
                     subtitle="Career Progression"
                     Icon={Briefcase}
-                    iconHoverColor="text-blue-400"
-                    accentColor="border-blue-400/40"
-                    gradientFrom="from-blue-400"
+                    iconHoverColor="text-primary"
+                    accentColor="border-primary/40"
+                    gradientFrom="from-primary"
                     shortDescription={experienceData.content.shortDescription}
                     detailedPhilosophy={experienceData.content
                         .detailedPhilosophy}

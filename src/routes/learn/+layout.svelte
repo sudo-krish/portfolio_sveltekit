@@ -83,7 +83,7 @@
                     class="w-full flex items-center gap-3 px-2 py-2 rounded-lg transition-colors {$page
                         .url.pathname === '/learn'
                         ? 'bg-primary/10 text-primary font-medium'
-                        : 'text-muted-foreground hover:bg-white/5 hover:text-foreground'}"
+                        : 'text-muted-foreground hover:bg-foreground/5 hover:text-foreground'}"
                 >
                     <BookOpen size={16} />
                     <span class="text-sm">Overview (All Notes)</span>
@@ -106,7 +106,7 @@
                         <div class="flex flex-col">
                             <!-- Folder Row -->
                             <div
-                                class="flex items-center w-full group rounded-lg hover:bg-white/5"
+                                class="flex items-center w-full group rounded-lg hover:bg-foreground/5"
                             >
                                 <button
                                     class="p-1.5 text-muted-foreground hover:text-foreground opacity-50 group-hover:opacity-100 transition-opacity"

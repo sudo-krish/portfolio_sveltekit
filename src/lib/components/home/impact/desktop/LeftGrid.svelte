@@ -53,7 +53,7 @@
             <!-- Header Section -->
             <div class="flex items-center" style="gap: 0.8cqi;">
                 <div
-                    class="flex items-center justify-center rounded-2xl bg-muted border border-border shadow-inner text-purple-500 group-hover:-translate-y-1 transition-all duration-500"
+                    class="flex items-center justify-center rounded-2xl bg-muted border border-border shadow-inner text-muted-foreground group-hover:-translate-y-1 transition-all duration-500"
                     style="width: 3cqi; height: 3cqi;"
                 >
                     <CheckCircle2
@@ -68,7 +68,7 @@
                         {resultsData.achievement.title}
                     </span>
                     <span
-                        class="font-mono text-purple-400 uppercase tracking-[0.2em]"
+                        class="font-mono text-muted-foreground uppercase tracking-[0.2em]"
                         style="font-size: clamp(8px, 0.7cqi, 12px); margin-top: 0.3cqi;"
                     >
                         {resultsData.achievement.subtitle}

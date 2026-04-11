@@ -29,7 +29,7 @@
         >
             <!-- Active gradient fill representing progress -->
             <div
-                class="absolute top-0 left-0 h-full w-[95%] bg-gradient-to-r from-blue-500/20 via-blue-400 to-amber-400 rounded-full opacity-80"
+                class="absolute top-0 left-0 h-full w-[95%] bg-gradient-to-r from-primary via-accent to-highlight rounded-full opacity-80"
             ></div>
         </div>
 
@@ -47,15 +47,15 @@
 
                     <!-- Main Icon Node -->
                     <div
-                        class="relative flex items-center justify-center rounded-[1.25rem] bg-[#030303]/80 backdrop-blur-xl border border-foreground/5 shadow-[0_10px_30px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] transition-all duration-500 {i === experienceData.milestones.length - 1
-                            ? 'border-amber-500/40 shadow-[0_0_20px_rgba(245,158,11,0.2)] scale-110 -translate-y-1'
-                            : 'group-hover:border-blue-400/30 group-hover:-translate-y-1 group-hover:bg-[#0a0a0a]'}"
+                        class="relative flex items-center justify-center rounded-[1.25rem] bg-card/80 backdrop-blur-xl border border-foreground/5 shadow-[0_10px_30px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] transition-all duration-500 {i === experienceData.milestones.length - 1
+                            ? 'border-highlight/40 shadow-[var(--glow-accent)] scale-110 -translate-y-1'
+                            : 'group-hover:border-primary/30 group-hover:-translate-y-1 group-hover:bg-card'}"
                         style="width: 3.5cqi; height: 3.5cqi;"
                     >
                         <!-- Pulsing glow for the current/future node -->
                         {#if i === experienceData.milestones.length - 1}
                             <div
-                                class="absolute -inset-1 rounded-[1.4rem] bg-amber-500/10 animate-[ping_2.5s_cubic-bezier(0,0,0.2,1)_infinite] opacity-50 pointer-events-none"
+                                class="absolute -inset-1 rounded-[1.4rem] bg-highlight/10 animate-[ping_2.5s_cubic-bezier(0,0,0.2,1)_infinite] opacity-50 pointer-events-none"
                             ></div>
                         {/if}
 
@@ -66,8 +66,8 @@
                             class="transition-transform duration-500 group-hover:scale-110 drop-shadow-[0_0_8px_currentColor]"
                             style="color: {i ===
                             experienceData.milestones.length - 1
-                                ? '#fbbf24'
-                                : '#94a3b8'}; {i !==
+                                ? 'hsl(var(--highlight))'
+                                : 'hsl(var(--muted-foreground))'}; {i !==
                                 experienceData.milestones.length - 1 &&
                                 'group-hover:color: white;'}"
                         />
@@ -91,7 +91,7 @@
                         ></div>
 
                         <span
-                            class="text-foreground/30 group-hover:text-blue-200/80 font-mono leading-relaxed transition-colors duration-300"
+                            class="text-foreground/30 group-hover:text-primary/80 font-mono leading-relaxed transition-colors duration-300"
                             style="font-size: clamp(7px, 0.7cqi, 10px);"
                         >
                             {m.role}

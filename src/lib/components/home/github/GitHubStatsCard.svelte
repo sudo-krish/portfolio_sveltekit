@@ -95,7 +95,7 @@
 
     <!-- Colored gradient border accent on the left -->
     <div
-        class="absolute inset-y-0 left-0 w-[1px] bg-gradient-to-b from-transparent via-[#22c55e]/50 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500"
+        class="absolute inset-y-0 left-0 w-[1px] bg-gradient-to-b from-transparent via-success/50 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500"
     ></div>
 
     <!-- Ambient organic green glow behind the UI -->
@@ -116,7 +116,7 @@
         <div class="flex items-center gap-3.5 2xl:gap-4">
             <!-- Profile Picture -->
             <div
-                class="relative w-12 h-12 2xl:w-14 2xl:h-14 rounded-full bg-gradient-to-br from-[#22c55e] to-[#22c55e]/20 p-[2px] shadow-[0_0_15px_hsl(var(--success)/)] group-hover:shadow-[0_0_25px_hsl(var(--success)/)] transition-shadow duration-500"
+                class="relative w-12 h-12 2xl:w-14 2xl:h-14 rounded-full bg-gradient-to-br from-success to-success/20 p-[2px] shadow-[0_0_15px_hsl(var(--success)/)] group-hover:shadow-[0_0_25px_hsl(var(--success)/)] transition-shadow duration-500"
             >
                 <div
                     class="w-full h-full bg-background rounded-full overflow-hidden border-2 border-transparent"
@@ -136,7 +136,7 @@
             <!-- Name & Username -->
             <div class="flex flex-col">
                 <span
-                    class="text-[clamp(14px,1.2vw,18px)] font-bold text-foreground leading-tight drop-shadow-sm group-hover:text-[#22c55e] transition-colors duration-300"
+                    class="text-[clamp(14px,1.2vw,18px)] font-bold text-foreground leading-tight drop-shadow-sm group-hover:text-foreground transition-colors duration-300"
                 >
                     {stats?.name || "Krishnanand Anil"}
                 </span>
@@ -150,11 +150,11 @@
 
         <!-- External Link Icon (Replaces Active indicator) -->
         <div
-            class="flex items-center justify-center w-8 h-8 rounded-full bg-muted border border-border group-hover:bg-[#22c55e]/10 group-hover:border-[#22c55e]/30 transition-colors duration-300"
+            class="flex items-center justify-center w-8 h-8 rounded-full bg-muted border border-border group-hover:bg-success/10 group-hover:border-success/30 transition-colors duration-300"
         >
             <ExternalLink
                 size={14}
-                class="text-muted-foreground group-hover:text-[#22c55e] transition-colors duration-300"
+                class="text-muted-foreground group-hover:text-foreground transition-colors duration-300"
             />
         </div>
     </div>
@@ -165,7 +165,7 @@
             class="flex-1 flex flex-col items-center justify-center py-12 relative z-10 gap-4"
         >
             <div
-                class="w-8 h-8 border-2 border-[#22c55e]/30 border-t-[#22c55e] rounded-full animate-spin"
+                class="w-8 h-8 border-2 border-success/30 border-t-success rounded-full animate-spin"
             ></div>
             <span
                 class="text-xs font-mono text-muted-foreground animate-pulse uppercase tracking-widest"
@@ -177,13 +177,13 @@
         <div class="grid grid-cols-2 gap-3 2xl:gap-4 mb-5 relative z-10">
             <!-- Primary Metric: The Streak -->
             <div
-                class="col-span-2 sm:col-span-1 flex flex-col justify-center p-4 2xl:p-5 rounded-[1.25rem] bg-gradient-to-br from-[#22c55e]/10 to-transparent border border-[#22c55e]/20 shadow-inner group/streak relative overflow-hidden backdrop-blur-md"
+                class="col-span-2 sm:col-span-1 flex flex-col justify-center p-4 2xl:p-5 rounded-[1.25rem] bg-gradient-to-br from-success/10 to-transparent border border-success/20 shadow-inner group/streak relative overflow-hidden backdrop-blur-md"
             >
                 <div
                     class="absolute right-0 top-0 w-24 h-24 bg-[radial-gradient(circle_at_top_right,hsl(var(--success)/)_0,transparent_70%)]"
                 ></div>
                 <div
-                    class="flex items-center justify-between mb-3 text-[#22c55e]/80 relative z-10"
+                    class="flex items-center justify-between mb-3 text-foreground/80 relative z-10"
                 >
                     <Activity
                         size={14}
@@ -196,7 +196,7 @@
                 </div>
                 <div class="flex items-baseline gap-1.5 relative z-10">
                     <span
-                        class="text-3xl 2xl:text-4xl font-black text-foreground font-mono leading-none drop-shadow-[0_0_15px_hsl(var(--success)/)] group-hover/streak:text-[#22c55e] transition-colors duration-300"
+                        class="text-3xl 2xl:text-4xl font-black text-foreground font-mono leading-none drop-shadow-[0_0_15px_hsl(var(--success)/)] group-hover/streak:text-foreground transition-colors duration-300"
                     >
                         {stats?.contributionStreak || 0}
                     </span>
@@ -242,7 +242,7 @@
                         class="absolute inset-0 bg-gradient-to-b from-[#eab308]/[0.02] to-transparent opacity-0 group-hover/stars:opacity-100 transition-opacity"
                     ></div>
                     <div
-                        class="flex items-center gap-1.5 text-muted-foreground mb-2 group-hover/stars:text-[#eab308] transition-colors relative z-10"
+                        class="flex items-center gap-1.5 text-muted-foreground mb-2 group-hover/stars:text-foreground transition-colors relative z-10"
                     >
                         <Star
                             size={12}
@@ -254,7 +254,7 @@
                         >
                     </div>
                     <span
-                        class="text-xl 2xl:text-2xl font-black text-foreground font-mono leading-none group-hover/stars:text-[#eab308] transition-colors relative z-10"
+                        class="text-xl 2xl:text-2xl font-black text-foreground font-mono leading-none group-hover/stars:text-foreground transition-colors relative z-10"
                     >
                         {stats?.totalStars || 0}
                     </span>
@@ -270,10 +270,10 @@
                 class="flex items-center justify-between mb-4 pb-2.5 border-b border-border font-bold tracking-[0.1em] text-[9px] uppercase"
             >
                 <div class="flex items-center gap-2 text-muted-foreground">
-                    <Terminal size={12} class="text-[#22c55e]" /> Recent Pushes
+                    <Terminal size={12} class="text-foreground" /> Recent Pushes
                 </div>
                 <div
-                    class="w-2 h-2 rounded-full bg-[#22c55e] animate-pulse shadow-[0_0_8px_hsl(var(--success)/)]"
+                    class="w-2 h-2 rounded-full bg-success animate-pulse shadow-[0_0_8px_hsl(var(--success)/)]"
                 ></div>
             </div>
 
@@ -297,12 +297,12 @@
                             {#if c.type === "pr"}
                                 <GitPullRequest
                                     size={10}
-                                    class="text-[#8b5cf6] relative z-10 drop-shadow-[0_0_2px_rgba(139,92,246,0.6)]"
+                                    class="text-foreground relative z-10 drop-shadow-[0_0_2px_rgba(139,92,246,0.6)]"
                                 />
                             {:else}
                                 <GitCommit
                                     size={10}
-                                    class="text-[#22c55e] relative z-10 drop-shadow-[0_0_2px_hsl(var(--success)/)]"
+                                    class="text-foreground relative z-10 drop-shadow-[0_0_2px_hsl(var(--success)/)]"
                                 />
                             {/if}
                         </div>
@@ -313,7 +313,7 @@
                                 class="flex items-center justify-between gap-2"
                             >
                                 <span
-                                    class="text-[#22c55e] font-bold text-[10px] 2xl:text-[11px] shrink-0 group-hover/commit:text-[#4ade80] transition-colors"
+                                    class="text-foreground font-bold text-[10px] 2xl:text-[11px] shrink-0 group-hover/commit:text-foreground transition-colors"
                                     >{c.sha}</span
                                 >
                                 <span
@@ -336,7 +336,7 @@
             class="mt-4 pt-3 border-t border-border flex items-center justify-end relative z-10 text-muted-foreground"
         >
             <div
-                class="flex items-center gap-2 group-hover:text-[#22c55e] transition-colors duration-300"
+                class="flex items-center gap-2 group-hover:text-foreground transition-colors duration-300"
             >
                 <span
                     class="text-[9px] 2xl:text-[10px] font-mono tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform -translate-x-2 group-hover:translate-x-0"

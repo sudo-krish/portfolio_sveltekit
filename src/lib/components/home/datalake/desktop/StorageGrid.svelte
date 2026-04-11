@@ -6,7 +6,7 @@
 <FeatureGrid
     items={datalakeData.storageNodes}
     
-    cardClass="bg-card/60 backdrop-blur-md border border-border hover:bg-emerald-950/20 hover:border-emerald-500/30"
+    cardClass="bg-card/60 backdrop-blur-md border border-border hover:bg-card hover:border-emerald-500/30"
     glowClass="bg-emerald-500/20"
-    textHoverClass="group-hover:text-emerald-400"
+    textHoverClass="group-hover:text-accent"
 />

@@ -39,7 +39,7 @@
         <div class="relative z-10 flex flex-col" style="gap: 0.8cqi;">
             <div class="flex items-center" style="gap: 0.8cqi;">
                 <div
-                    class="flex items-center justify-center w-12 h-12 rounded-2xl bg-card/60 border border-foreground/10 text-orange-400"
+                    class="flex items-center justify-center w-12 h-12 rounded-2xl bg-card/60 border border-foreground/10 text-muted-foreground"
                 >
                     <Shield size={24} />
                 </div>
@@ -50,7 +50,7 @@
                         {certificatesData.overview.title}
                     </span>
                     <span
-                        class="font-mono text-orange-400 uppercase tracking-[0.2em]"
+                        class="font-mono text-muted-foreground uppercase tracking-[0.2em]"
                         style="font-size: clamp(8px, 0.7cqi, 12px); margin-top: 0.3cqi;"
                     >
                         {certificatesData.overview.subtitle}

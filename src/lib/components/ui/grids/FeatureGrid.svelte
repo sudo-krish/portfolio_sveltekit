@@ -9,7 +9,7 @@
     let {
         items = [],
         gridClass = "grid-cols-2 lg:grid-cols-3",
-        cardClass = "bg-card/60 backdrop-blur-md border border-border hover:bg-neutral-900/20 hover:border-neutral-500/30",
+        cardClass = "bg-card/60 backdrop-blur-md border border-border hover:bg-card hover:border-neutral-500/30",
         glowClass = "bg-primary/20",
         textHoverClass = "group-hover:text-primary",
     } = $props<{

@@ -87,7 +87,7 @@
                     label={resultsData.rightAnchor.label}
                     title={resultsData.rightAnchor.title}
                     description={resultsData.rightAnchor.description}
-                    labelColor="text-purple-400/80"
+                    labelColor="text-muted-foreground/80"
                     align="right"
                 />
             </div>
@@ -125,7 +125,7 @@
                     label={resultsData.rightAnchor.label}
                     title={resultsData.rightAnchor.title}
                     description={resultsData.rightAnchor.description}
-                    labelColor="text-purple-400/80"
+                    labelColor="text-muted-foreground/80"
                     align="center"
                     headingTag="div"
                 />

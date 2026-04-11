@@ -41,15 +41,15 @@
         <div
             class="flex items-center gap-1.5 text-[9px] text-foreground/30 font-mono uppercase tracking-widest"
         >
-            <Shield size={10} class="text-orange-400" />
+            <Shield size={10} class="text-muted-foreground" />
             <span>Globally Recognized</span>
         </div>
         <div
             class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-green-500/10 border border-green-500/20"
         >
-            <CheckCircle size={9} class="text-green-400" />
+            <CheckCircle size={9} class="text-muted-foreground" />
             <span
-                class="text-[8px] font-bold text-green-400 tracking-widest uppercase"
+                class="text-[8px] font-bold text-muted-foreground tracking-widest uppercase"
                 >Verified</span
             >
         </div>

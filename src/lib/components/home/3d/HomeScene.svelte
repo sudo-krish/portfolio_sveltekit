@@ -5,6 +5,7 @@
   import gsap from "gsap";
   import { onMount } from "svelte";
   import { carouselSwipeFraction } from "$lib/stores/carousel-store";
+  import { theme } from "$lib/stores/theme";
 
   import DataMascot from "./DataMascot.svelte";
   import GlassPipe from "./GlassPipe.svelte";
@@ -448,8 +449,8 @@
 <Environment url="https://dl.polyhaven.org/file/ph-assets/HDRIs/exr/1k/abandoned_parking_1k.exr" />
 
 <T.PerspectiveCamera makeDefault position={[0, 0, cameraZ]} fov={cameraFov}>
-  <T.DirectionalLight position={[5, 5, 5]} intensity={2} />
-  <T.AmbientLight intensity={0.7} />
+  <T.DirectionalLight position={[5, 5, 5]} intensity={$theme === 'light' ? 3.5 : 2} />
+  <T.AmbientLight intensity={$theme === 'light' ? 1.5 : 0.7} />
 </T.PerspectiveCamera>
 
 <T.Group

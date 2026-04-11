@@ -25,7 +25,7 @@
         class="w-full p-4 rounded-[1.25rem] bg-card/60 backdrop-blur-md border border-border relative overflow-hidden"
     >
         <div
-            class="absolute top-6 bottom-6 left-[29px] w-px bg-gradient-to-b from-blue-500/40 via-violet-500/20 to-border"
+            class="absolute top-6 bottom-6 left-[29px] w-px bg-gradient-to-b from-primary via-violet-500/20 to-border"
         ></div>
 
         <div class="flex flex-col gap-4">
@@ -34,7 +34,7 @@
                     <div
                         class="relative z-10 flex-shrink-0 w-7 h-7 rounded-lg border flex items-center justify-center transition-all duration-300 {i ===
                         experienceData.milestones.length - 1
-                            ? 'bg-amber-500/15 border-amber-500/40 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
+                            ? 'bg-highlight/15 border-highlight/40 shadow-[var(--glow-accent)]'
                             : 'bg-muted border-border'}"
                     >
                         <svelte:component
@@ -44,7 +44,7 @@
                         />
                         {#if i === experienceData.milestones.length - 1}
                             <div
-                                class="absolute -inset-0.5 rounded-lg bg-amber-500/20 animate-ping opacity-40"
+                                class="absolute -inset-0.5 rounded-lg bg-highlight/20 animate-ping opacity-40"
                             ></div>
                         {/if}
                     </div>

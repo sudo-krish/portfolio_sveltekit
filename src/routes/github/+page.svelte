@@ -383,7 +383,7 @@
                                     <span class="flex items-center gap-1.5"
                                         ><Star
                                             size={12}
-                                            class="text-[#facc15]/70"
+                                            class="text-foreground/70"
                                         />
                                         {project.stars}</span
                                     >

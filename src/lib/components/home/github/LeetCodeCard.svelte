@@ -86,7 +86,7 @@
 
     <!-- Colored gradient border accent on the left -->
     <div
-        class="absolute inset-y-0 left-0 w-[1px] bg-gradient-to-b from-transparent via-[#ffa116]/50 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500"
+        class="absolute inset-y-0 left-0 w-[1px] bg-gradient-to-b from-transparent via-highlight/50 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500"
     ></div>
 
     <!-- Ambient organic orange glow behind the UI -->
@@ -107,7 +107,7 @@
         <div class="flex items-center gap-3.5 2xl:gap-4">
             <!-- Profile Picture -->
             <div
-                class="relative w-12 h-12 2xl:w-14 2xl:h-14 rounded-full bg-gradient-to-br from-[#ffa116] to-[#ffa116]/20 p-[2px] shadow-[0_0_15px_hsl(var(--warning)/)] group-hover:shadow-[0_0_25px_hsl(var(--warning)/)] transition-shadow duration-500"
+                class="relative w-12 h-12 2xl:w-14 2xl:h-14 rounded-full bg-gradient-to-br from-highlight to-highlight/20 p-[2px] shadow-[0_0_15px_hsl(var(--warning)/)] group-hover:shadow-[0_0_25px_hsl(var(--warning)/)] transition-shadow duration-500"
             >
                 <div
                     class="w-full h-full bg-background rounded-full overflow-hidden border-2 border-transparent"
@@ -127,7 +127,7 @@
             <!-- Name & Username -->
             <div class="flex flex-col">
                 <span
-                    class="text-[clamp(14px,1.2vw,18px)] font-bold text-foreground leading-tight drop-shadow-sm group-hover:text-[#ffa116] transition-colors duration-300"
+                    class="text-[clamp(14px,1.2vw,18px)] font-bold text-foreground leading-tight drop-shadow-sm group-hover:text-foreground transition-colors duration-300"
                 >
                     {stats?.name || "LeetCode Profile"}
                 </span>
@@ -142,11 +142,11 @@
         <!-- LeetCode Badge / External Link Icon -->
         <div class="flex items-center gap-2">
             <div
-                class="flex items-center justify-center w-8 h-8 rounded-full bg-muted border border-border group-hover:bg-[#ffa116]/10 group-hover:border-[#ffa116]/30 transition-colors duration-300"
+                class="flex items-center justify-center w-8 h-8 rounded-full bg-muted border border-border group-hover:bg-highlight/10 group-hover:border-highlight/30 transition-colors duration-300"
             >
                 <ExternalLink
                     size={14}
-                    class="text-muted-foreground group-hover:text-[#ffa116] transition-colors duration-300"
+                    class="text-muted-foreground group-hover:text-foreground transition-colors duration-300"
                 />
             </div>
         </div>
@@ -158,7 +158,7 @@
             class="flex-1 flex flex-col items-center justify-center py-12 relative z-10 gap-4"
         >
             <div
-                class="w-8 h-8 border-2 border-[#ffa116]/30 border-t-[#ffa116] rounded-full animate-spin"
+                class="w-8 h-8 border-2 border-highlight/30 border-t-highlight rounded-full animate-spin"
             ></div>
             <span
                 class="text-xs font-mono text-muted-foreground animate-pulse uppercase tracking-widest"
@@ -199,14 +199,14 @@
                 </div>
                 <div class="flex items-baseline gap-1 relative z-10">
                     <span
-                        class="text-xl 2xl:text-2xl font-black text-foreground font-mono leading-none group-hover/card:text-[#ffa116] transition-colors"
+                        class="text-xl 2xl:text-2xl font-black text-foreground font-mono leading-none group-hover/card:text-foreground transition-colors"
                     >
                         {stats.ranking?.toLocaleString() || "N/A"}
                     </span>
                 </div>
                 {#if stats.reputation}
                     <div
-                        class="text-[9px] text-[#ffa116]/80 mt-2 font-mono relative z-10 bg-[#ffa116]/10 self-start px-2 py-0.5 rounded-sm"
+                        class="text-[9px] text-foreground/80 mt-2 font-mono relative z-10 bg-highlight/10 self-start px-2 py-0.5 rounded-sm"
                     >
                         +{stats.reputation} Reputation
                     </div>
@@ -215,7 +215,7 @@
 
             <!-- Flame Streak Indicator -->
             <div
-                class="col-span-1 flex flex-col justify-center p-4 rounded-[1.25rem] bg-gradient-to-br from-card/80 to-foreground/[0.02] border border-foreground/5 shadow-inner hover:bg-[#ffa116]/5 hover:border-[#ffa116]/20 transition-all duration-300 relative overflow-hidden group/card shadow-[inset_0_4px_20px_rgba(0,0,0,0.5)]"
+                class="col-span-1 flex flex-col justify-center p-4 rounded-[1.25rem] bg-gradient-to-br from-card/80 to-foreground/[0.02] border border-foreground/5 shadow-inner hover:bg-highlight/5 hover:border-highlight/20 transition-all duration-300 relative overflow-hidden group/card shadow-[inset_0_4px_20px_rgba(0,0,0,0.5)]"
             >
                 <div
                     class="flex items-center gap-2 text-foreground/40 mb-3 relative z-10"
@@ -223,7 +223,7 @@
                     <Flame
                         size={14}
                         class={stats.streak > 0
-                            ? "text-[#ffa116] group-hover/card:animate-pulse"
+                            ? "text-foreground group-hover/card:animate-pulse"
                             : "text-muted-foreground"}
                     />
                     <span
@@ -233,7 +233,7 @@
                 </div>
                 <div class="flex items-baseline gap-1 relative z-10">
                     <span
-                        class="text-xl 2xl:text-2xl font-black text-[#ffa116] font-mono leading-none"
+                        class="text-xl 2xl:text-2xl font-black text-foreground font-mono leading-none"
                     >
                         {stats.streak || 0}
                     </span>
@@ -254,7 +254,7 @@
 
         <!-- Primary Centerpiece: Problems Solved -->
         <div
-            class="flex flex-col p-4 2xl:p-5 rounded-[1.25rem] bg-gradient-to-br from-[#ffa116]/10 to-transparent border border-[#ffa116]/20 shadow-inner group/streak relative z-10 mb-5 overflow-hidden backdrop-blur-md"
+            class="flex flex-col p-4 2xl:p-5 rounded-[1.25rem] bg-gradient-to-br from-highlight/10 to-transparent border border-highlight/20 shadow-inner group/streak relative z-10 mb-5 overflow-hidden backdrop-blur-md"
         >
             <!-- Background detail for the solved card -->
             <div
@@ -262,7 +262,7 @@
             ></div>
 
             <div class="flex items-center justify-between mb-4 relative z-10">
-                <div class="flex items-center gap-2 text-[#ffa116]/80">
+                <div class="flex items-center gap-2 text-foreground/80">
                     <Target size={16} />
                     <span
                         class="text-[10px] 2xl:text-xs font-mono uppercase tracking-widest font-bold"
@@ -288,19 +288,19 @@
                 class="w-full h-1.5 2xl:h-2 bg-foreground/5 rounded-full overflow-hidden mb-5 flex relative z-10 shadow-inner"
             >
                 <div
-                    class="h-full bg-[#2cbb5d] shadow-[0_0_10px_#2cbb5d]"
+                    class="h-full bg-success shadow-[0_0_10px_#2cbb5d]"
                     style="width: {stats.totalSolved
                         ? (stats.easySolved / stats.totalSolved) * 100
                         : 0}%"
                 ></div>
                 <div
-                    class="h-full bg-[#ffc01e] shadow-[0_0_10px_#ffc01e]"
+                    class="h-full bg-warning shadow-[0_0_10px_#ffc01e]"
                     style="width: {stats.totalSolved
                         ? (stats.mediumSolved / stats.totalSolved) * 100
                         : 0}%"
                 ></div>
                 <div
-                    class="h-full bg-[#ef4743] shadow-[0_0_10px_#ef4743]"
+                    class="h-full bg-destructive shadow-[0_0_10px_#ef4743]"
                     style="width: {stats.totalSolved
                         ? (stats.hardSolved / stats.totalSolved) * 100
                         : 0}%"

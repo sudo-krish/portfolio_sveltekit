@@ -62,7 +62,7 @@
         transition:fade={{ duration: 200 }}
     >
         <div
-            class="pointer-events-auto mx-auto sm:mx-0 w-full sm:max-w-[420px] rounded-2xl border border-white/10 bg-[rgba(16,18,24,0.88)] backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.28)] overflow-hidden"
+            class="pointer-events-auto mx-auto sm:mx-0 w-full sm:max-w-[420px] rounded-2xl border border-border bg-[rgba(16,18,24,0.88)] backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.28)] overflow-hidden"
             transition:fly={{ duration: 350, y: 24 }}
             role="dialog"
             aria-label="Cookie consent"
@@ -86,7 +86,7 @@
 
                             <button
                                 type="button"
-                                class="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs text-muted-foreground hover:text-foreground hover:bg-white/5 transition-colors"
+                                class="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors"
                                 on:click={() => (showDetails = !showDetails)}
                                 aria-expanded={showDetails}
                             >
@@ -125,7 +125,7 @@
                     <button
                         type="button"
                         on:click={reject}
-                        class="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm font-medium text-foreground hover:bg-white/[0.06] transition-all active:scale-[0.98]"
+                        class="inline-flex items-center justify-center rounded-xl border border-border bg-white/[0.03] px-4 py-3 text-sm font-medium text-foreground hover:bg-white/[0.06] transition-all active:scale-[0.98]"
                     >
                         Reject
                     </button>

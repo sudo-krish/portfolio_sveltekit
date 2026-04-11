@@ -1,13 +1,24 @@
 <script lang="ts">
+  import { theme, themeColors } from "$lib/stores/theme";
   import { T, useTask } from "@threlte/core";
   import { Float } from "@threlte/extras";
 
   import { Color } from "three";
 
-  // --- CONFIG (Same as Lake & House) ---
-  const deepColor = new Color("#1e3a8a"); // Deep Blue
-  const surfColor = new Color("#38bdf8"); // Cyan
-  const foamColor = new Color("#38bdf8"); // White Foam/Glow
+  // --- SEA WATER MASCOT COLORS ---
+  const deepColor = new Color(themeColors.dark.deep);
+  const surfColor = new Color(themeColors.dark.surf);
+  const foamColor = new Color(themeColors.dark.foam);
+
+  $: if ($theme === "light") {
+    deepColor.set(themeColors.light.deep);
+    surfColor.set(themeColors.light.surf);
+    foamColor.set(themeColors.light.foam);
+  } else {
+    deepColor.set(themeColors.dark.deep);
+    surfColor.set(themeColors.dark.surf);
+    foamColor.set(themeColors.dark.foam);
+  }
 
   // --- SHADER LOGIC ---
   const vertexShader = `
@@ -90,25 +101,21 @@
     uniform vec3 uDeepColor;
     uniform vec3 uSurfColor;
     uniform vec3 uFoamColor;
+    uniform float uOpacity;
     
     varying float vElevation;
     varying vec3 vNormal;
     varying vec3 vViewPosition;
 
     void main() {
-      // 1. COLOR MIXING (Deep Core -> Bright Surface)
-      // vElevation ranges roughly -0.5 to 0.5
       float mixStrength = smoothstep(-0.4, 0.4, vElevation);
       vec3 color = mix(uDeepColor, uSurfColor, mixStrength);
 
-      // 2. FRESNEL GLOW (The "Liquid Edge")
       vec3 viewDir = normalize(vViewPosition);
       float fresnel = pow(1.0 - dot(vNormal, viewDir), 3.0);
-      
-      // Add white glow at edges (like surface tension/foam)
       color = mix(color, uFoamColor, fresnel * 0.7);
 
-      gl_FragColor = vec4(color, 0.9); // Slight transparency
+      gl_FragColor = vec4(color, uOpacity);
     }
   `;
 
@@ -117,7 +124,11 @@
     uDeepColor: { value: deepColor },
     uSurfColor: { value: surfColor },
     uFoamColor: { value: foamColor },
+    uOpacity: { value: 0.9 },
   };
+
+  // Light mode: fully opaque solid blob. Dark mode: slightly translucent.
+  $: uniforms.uOpacity.value = $theme === "light" ? 1.0 : 0.9;
 
   useTask((dt) => {
     uniforms.uTime.value += dt;

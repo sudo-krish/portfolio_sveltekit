@@ -22,7 +22,7 @@
 
         <!-- Subtle Ambient Glow -->
         <div
-            class="absolute -left-10 -bottom-10 w-32 h-32 rounded-full blur-[50px] opacity-10 pointer-events-none bg-gradient-to-r from-[#22c55e] to-[#ffa116]"
+            class="absolute -left-10 -bottom-10 w-32 h-32 rounded-full blur-[50px] opacity-10 pointer-events-none bg-gradient-to-r from-success to-highlight"
         ></div>
 
         <div class="relative z-10">

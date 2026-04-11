@@ -55,7 +55,7 @@
                 class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_currentColor]"
             ></div>
             <span
-                class="font-mono uppercase tracking-[0.25em] text-emerald-400 font-bold"
+                class="font-mono uppercase tracking-[0.25em] text-accent font-bold"
                 style="font-size: clamp(7px, 0.6cqi, 9px);"
             >
                 {metaLabel}

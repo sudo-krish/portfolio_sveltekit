@@ -18,12 +18,12 @@
     }>();
 
     const colorMap: Record<string, { bg: string; shadow: string; hoverGlow: string }> = {
-        cyan: { bg: "bg-[#0891b2]", shadow: "shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_15px_rgba(8,145,178,0.4)]", hoverGlow: "hover:shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_25px_rgba(8,145,178,0.6)]" },
-        blue: { bg: "bg-[#2563eb]", shadow: "shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_15px_rgba(37,99,235,0.4)]", hoverGlow: "hover:shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_25px_rgba(37,99,235,0.6)]" },
-        purple: { bg: "bg-[#7c3aed]", shadow: "shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_15px_rgba(124,58,237,0.4)]", hoverGlow: "hover:shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_25px_rgba(124,58,237,0.6)]" },
-        orange: { bg: "bg-[#c2410c]", shadow: "shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_15px_rgba(194,65,12,0.4)]", hoverGlow: "hover:shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_25px_rgba(194,65,12,0.6)]" },
-        green: { bg: "bg-[#15803d]", shadow: "shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_15px_rgba(21,128,61,0.4)]", hoverGlow: "hover:shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_25px_rgba(21,128,61,0.6)]" },
-        amber: { bg: "bg-[#b45309]", shadow: "shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_15px_rgba(180,83,9,0.4)]", hoverGlow: "hover:shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_25px_rgba(180,83,9,0.6)]" },
+        cyan: { bg: "bg-primary", shadow: "shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_15px_rgba(8,145,178,0.4)]", hoverGlow: "hover:shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_25px_rgba(8,145,178,0.6)]" },
+        blue: { bg: "bg-primary", shadow: "shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_15px_rgba(37,99,235,0.4)]", hoverGlow: "hover:shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_25px_rgba(37,99,235,0.6)]" },
+        purple: { bg: "bg-primary", shadow: "shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_15px_rgba(124,58,237,0.4)]", hoverGlow: "hover:shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_25px_rgba(124,58,237,0.6)]" },
+        orange: { bg: "bg-highlight", shadow: "shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_15px_rgba(194,65,12,0.4)]", hoverGlow: "hover:shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_25px_rgba(194,65,12,0.6)]" },
+        green: { bg: "bg-success", shadow: "shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_15px_rgba(21,128,61,0.4)]", hoverGlow: "hover:shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_25px_rgba(21,128,61,0.6)]" },
+        amber: { bg: "bg-warning", shadow: "shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_15px_rgba(180,83,9,0.4)]", hoverGlow: "hover:shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_25px_rgba(180,83,9,0.6)]" },
         primary: { bg: "bg-primary", shadow: "shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_15px_hsl(var(--primary)/0.3)]", hoverGlow: "hover:shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_0_25px_hsl(var(--primary)/0.5)]" },
     };
 

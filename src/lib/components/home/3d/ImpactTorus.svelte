@@ -1,23 +1,28 @@
 <script lang="ts">
-    import { T, useTask } from "@threlte/core";
-    import { Float, useGltf, interactivity, Align } from "@threlte/extras";
-    import { Color, DoubleSide, Mesh, ShaderMaterial } from "three";
-    import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
+  import { theme, themeColors, modelMaterials } from "$lib/stores/theme";
+  import { T, useTask } from "@threlte/core";
+  import { Float, useGltf, interactivity, Align } from "@threlte/extras";
+  import {
+    Color,
+    DoubleSide,
+    Mesh,
+    ShaderMaterial,
+    MeshStandardMaterial,
+  } from "three";
+  import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 
+  interactivity();
 
-    interactivity();
+  // --- Draco Decompression ---
+  const dracoLoader = new DRACOLoader();
+  dracoLoader.setDecoderPath("/draco/");
 
-    // --- Draco Decompression ---
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath("/draco/");
+  const deepColor = new Color(modelMaterials.impactTorus.dark.deep);
+  const surfColor = new Color(modelMaterials.impactTorus.dark.surf);
+  const foamColor = new Color(modelMaterials.impactTorus.dark.foam);
 
-    // --- 1. THEME: OCEANIC MACHINERY ---
-    const deepColor = new Color("#1e3a8a"); // Deep Blue
-    const surfColor = new Color("#38bdf8"); // Cyan
-    const foamColor = new Color("#a855f7"); // White Foam
-
-    // --- 2. SHADER (TIGHTER DISPLACEMENT) ---
-    const vertexShader = `
+  // --- 2. SHADER (TIGHTER DISPLACEMENT) ---
+  const vertexShader = `
     uniform float uTime;
     varying vec2 vUv;
     varying float vElevation;
@@ -86,10 +91,11 @@
     }
   `;
 
-    const fragmentShader = `
+  const fragmentShader = `
     uniform vec3 uDeepColor;
     uniform vec3 uSurfColor;
     uniform vec3 uFoamColor;
+    uniform float uOpacity;
     varying float vElevation;
     varying vec3 vNormal;
     varying vec3 vViewPosition;
@@ -102,60 +108,81 @@
       float fresnel = pow(1.0 - dot(vNormal, viewDir), 3.0);
       
       color = mix(color, uFoamColor, fresnel * 0.8);
-      gl_FragColor = vec4(color, 0.9); 
+      gl_FragColor = vec4(color, uOpacity); 
     }
   `;
 
-    const uniforms = {
-        uTime: { value: 0 },
-        uDeepColor: { value: deepColor },
-        uSurfColor: { value: surfColor },
-        uFoamColor: { value: foamColor },
-    };
+  const uniforms = {
+    uTime: { value: 0 },
+    uDeepColor: { value: deepColor },
+    uSurfColor: { value: surfColor },
+    uFoamColor: { value: foamColor },
+    uOpacity: { value: 0.9 },
+  };
 
-    const customMaterial = new ShaderMaterial({
-        vertexShader,
-        fragmentShader,
-        uniforms,
-        transparent: true,
-        side: DoubleSide,
+  const customMaterial = new ShaderMaterial({
+    vertexShader,
+    fragmentShader,
+    uniforms,
+    transparent: true,
+    side: DoubleSide,
+  });
+
+  $: if ($theme === "light") {
+    deepColor.set(modelMaterials.impactTorus.light.deep);
+    surfColor.set(modelMaterials.impactTorus.light.surf);
+    foamColor.set(modelMaterials.impactTorus.light.foam);
+    uniforms.uOpacity.value = 1.0;
+    customMaterial.needsUpdate = true;
+  } else {
+    deepColor.set(modelMaterials.impactTorus.dark.deep);
+    surfColor.set(modelMaterials.impactTorus.dark.surf);
+    foamColor.set(modelMaterials.impactTorus.dark.foam);
+    uniforms.uOpacity.value = 0.9;
+    customMaterial.needsUpdate = true;
+  }
+
+  // Load the GLTF File (Ensure this path is exactly correct relative to your static folder)
+  const gltf = useGltf("/3d/balance/balance.glb", { dracoLoader });
+
+  // Tint the engine's native materials based on theme
+  const engineTint = new Color($theme === "light" ? "#111111" : "#111111");
+
+  $: if ($gltf) {
+    const tint = $theme === "light" ? "#111111" : "#111111";
+    engineTint.set(tint);
+    $gltf.scene.traverse((child) => {
+      if ((child as Mesh).isMesh) {
+        const mesh = child as Mesh;
+        const mat = mesh.material as MeshStandardMaterial;
+        if (mat && mat.color) {
+          mat.color.set(engineTint);
+          mat.needsUpdate = true;
+        }
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+      }
     });
+  }
 
-    // Load the GLTF File (Ensure this path is exactly correct relative to your static folder)
-    const gltf = useGltf("/3d/balance/balance.glb", { dracoLoader });
+  let rotationY = -Math.PI / 4;
 
-    // We use Svelte's reactive statement. When the GLTF loads, we manually traverse and overwrite the materials.
-    $: if ($gltf) {
-        $gltf.scene.traverse((child) => {
-            if ((child as Mesh).isMesh) {
-                const mesh = child as Mesh;
-                // Overwrite the original materials from the GLB
-                // mesh.material = customMaterial;
-                // Optional: Ensure shadows work
-                mesh.castShadow = true;
-                mesh.receiveShadow = true;
-            }
-        });
-    }
-
-    let rotationY = -Math.PI / 4;
-
-    useTask((dt) => {
-        uniforms.uTime.value += dt;
-        // Rotate the entire GLB to simulate mechanics
-        rotationY += dt * 0.2;
-    });
+  useTask((dt) => {
+    uniforms.uTime.value += dt;
+    // Rotate the entire GLB to simulate mechanics
+    rotationY += dt * 0.2;
+  });
 </script>
 
 <Float speed={2} rotationIntensity={0.2} floatIntensity={0.2}>
-    <T.Group rotation.y={rotationY} rotation.x={0.2} scale={0.035}>
-        <!-- Reduced scale to 0.02 since the model is ~100 units wide and wrap it in Align so it spins from its center -->
+  <T.Group rotation.y={rotationY} rotation.x={0.2} scale={0.035}>
+    <!-- Reduced scale to 0.02 since the model is ~100 units wide and wrap it in Align so it spins from its center -->
 
-        <!-- Render the GLB strictly once it exists -->
-        {#if $gltf}
-            <Align>
-                <T is={$gltf.scene} />
-            </Align>
-        {/if}
-    </T.Group>
+    <!-- Render the GLB strictly once it exists -->
+    {#if $gltf}
+      <Align>
+        <T is={$gltf.scene} />
+      </Align>
+    {/if}
+  </T.Group>
 </Float>

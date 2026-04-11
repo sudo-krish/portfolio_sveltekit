@@ -6,7 +6,7 @@
 <FeatureGrid
     items={lakehouseData.lakehouseNodes}
     
-    cardClass="bg-card/60 backdrop-blur-md border border-border hover:bg-blue-950/20 hover:border-blue-500/30"
-    glowClass="bg-blue-500/20"
-    textHoverClass="group-hover:text-blue-400"
+    cardClass="bg-card/60 backdrop-blur-md border border-border hover:bg-card hover:border-primary/30"
+    glowClass="bg-primary/20"
+    textHoverClass="group-hover:text-primary"
 />
