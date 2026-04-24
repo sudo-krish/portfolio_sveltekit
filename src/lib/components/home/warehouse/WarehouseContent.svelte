@@ -74,7 +74,7 @@
     label={warehouseData.rightAnchor.label}
     title={warehouseData.rightAnchor.title}
     description={warehouseData.rightAnchor.description}
-    labelColor="text-muted-foreground/80"
+    labelColor="text-primary/80"
     {align}
   />
 {/snippet}
@@ -84,8 +84,8 @@
     badge={warehouseData.header.badge}
     subtitle="BI & Serving Layer"
     Icon={BarChart3}
-    iconHoverColor="text-muted-foreground"
-    accentColor="hsl(280, 60%, 65%)"
+    iconHoverColor="text-primary"
+    accentColor="hsl(var(--primary))"
     shortDescription={warehouseData.content.shortDescription}
     detailedPhilosophy={warehouseData.content.detailedPhilosophy}
     metrics={[
@@ -106,8 +106,8 @@
 {#snippet warehouseGrid()}
   <WarehouseGrid
     items={warehouseData.warehouseNodes}
-    accent="hsl(280, 60%, 65%)"
-    textHoverClass="group-hover:text-foreground"
+    accent="hsl(var(--primary))"
+    textHoverClass="group-hover:text-primary"
   />
 {/snippet}
 

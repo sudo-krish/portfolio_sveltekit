@@ -13,7 +13,7 @@ export const datalakeData = {
         titleLine2: "Architecture.",
     },
     content: {
-        shortDescription: `I design <strong class="text-foreground font-medium">layered storage and processing patterns</strong> that improve governance, scalability, and downstream analytics performance across <span class="text-emerald-400 font-medium tracking-wide">cloud data platforms</span>.`,
+        shortDescription: `I design <strong class="text-foreground font-medium">layered storage and processing patterns</strong> that improve governance, scalability, and downstream analytics performance across <span class="text-success font-medium tracking-wide">cloud data platforms</span>.`,
 
         detailedPhilosophy: `Data lake and medallion architecture form the foundation for scalable analytics. I implement production-grade data lakes with bronze, silver, and gold zones on Amazon S3, using Apache Iceberg and Delta Lake for ACID transactions and schema evolution. By enforcing strict governance through AWS Lake Formation and Unity Catalog, I modernize traditional data swamps into well-governed, analytics-ready foundations that serve BI, reporting, and AI workloads.`
     },
@@ -30,7 +30,7 @@ export const datalakeData = {
         carousel: {
             sectionTitle: "Data Lake",
             sectionDescription: "Explore the storage architecture",
-            accentColor: "hsl(var(--foreground))" // Emerald
+            accentColor: "hsl(var(--primary))" // Emerald
         },
         cta: {
             label: "Enter the Lakehouse",

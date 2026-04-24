@@ -13,7 +13,7 @@ export const warehouseData = {
         titleLine2: "Analytics.",
     },
     content: {
-        shortDescription: `I design <strong class="text-foreground font-medium">warehouse refresh and modeling workflows</strong> that reduce reporting delay, improve query responsiveness, and support <span class="text-purple-300 font-medium tracking-wide">business-facing analytics use cases</span>.`,
+        shortDescription: `I design <strong class="text-foreground font-medium">warehouse refresh and modeling workflows</strong> that reduce reporting delay, improve query responsiveness, and support <span class="text-accent font-medium tracking-wide">business-facing analytics use cases</span>.`,
 
         detailedPhilosophy: `Data warehouses remain essential for sub-second latency, strict semantic governance, and high concurrency for Business Intelligence. I architect high-performance serving layers using Amazon Redshift and Snowflake, designing near real-time warehouse refresh patterns for faster reporting and operational visibility. By leveraging Airflow for orchestration and dbt for rigorous, metadata-driven modeling, I ensure every metric is version-controlled and tested. This enables sub-5-minute dashboard refresh SLAs, supports hundreds of concurrent users, and provides the analytics foundation that drives business decisions.`
     },
@@ -39,7 +39,7 @@ export const warehouseData = {
         carousel: {
             sectionTitle: "Data Warehouse",
             sectionDescription: "Explore the Analytics Engine",
-            accentColor: "hsl(var(--foreground))" // Purple
+            accentColor: "hsl(var(--primary))" // Purple
         }
     }
 };

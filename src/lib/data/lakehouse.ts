@@ -13,7 +13,7 @@ export const lakehouseData = {
         titleLine2: "Data Layer.",
     },
     content: {
-        shortDescription: `I architect <strong class="text-foreground font-medium">metadata-driven lakehouses</strong> and explore vector search, semantic retrieval, and analytics-ready data layers that support modern <span class="text-blue-400 font-medium tracking-wide">AI and knowledge-driven applications</span>.`,
+        shortDescription: `I architect <strong class="text-foreground font-medium">metadata-driven lakehouses</strong> and explore vector search, semantic retrieval, and analytics-ready data layers that support modern <span class="text-primary font-medium tracking-wide">AI and knowledge-driven applications</span>.`,
 
         detailedPhilosophy: `By leveraging Apache Spark alongside open table formats like Apache Iceberg and Delta Lake, I engineer architectures that support concurrent reads/writes and schema evolution on massive datasets. I implement centralized, metadata-driven governance using Databricks Unity Catalog and AWS Lake Formation. Beyond traditional analytics, I explore vector search, semantic retrieval, and analytics-ready data layers that support modern AI and knowledge-driven applications — unifying disparate storage into a highly governed foundation for BI, analytics, and Enterprise AI workloads.`
     },
@@ -33,7 +33,7 @@ export const lakehouseData = {
         carousel: {
             sectionTitle: "Lakehouse",
             sectionDescription: "Discover the Transactional Data Layer",
-            accentColor: "hsl(var(--foreground))" // Blue
+            accentColor: "hsl(var(--primary))" // Blue
         },
         cta: {
             label: "View Certifications",

@@ -11,7 +11,7 @@ export const experienceData = {
         badge: "Career Journey in Data Engineering",
     },
     content: {
-        shortDescription: `I have spent 5+ years building data systems across <strong class="text-foreground font-medium">enterprise and consulting environments</strong>, with experience spanning operational data movement, cloud data platforms, <span class="text-blue-400 font-medium tracking-wide">real-time processing, and analytics engineering</span>.`,
+        shortDescription: `I have spent 5+ years building data systems across <strong class="text-foreground font-medium">enterprise and consulting environments</strong>, with experience spanning operational data movement, cloud data platforms, <span class="text-primary font-medium tracking-wide">real-time processing, and analytics engineering</span>.`,
 
         detailedPhilosophy: `My work across Cognizant, Quantiphi, and DTDC reflects increasing ownership over architecture, performance, and delivery. From building foundational ETL systems on Hadoop and Informatica, I progressed to cloud data warehousing with AWS Glue, EMR, and Redshift. At Quantiphi, I architected near real-time streaming pipelines with Kinesis, Lambda, and DMS. Today at DTDC, I build open-source real-time streaming platforms using Kafka, Debezium, and Spark Streaming — focused on production reliability and scalable analytics.`
     },
@@ -25,7 +25,7 @@ export const experienceData = {
         carousel: {
             sectionTitle: "Experience",
             sectionDescription: "View my career journey",
-            accentColor: "hsl(var(--foreground))" // Blue
+            accentColor: "hsl(var(--primary))" // Blue
         },
         cta: {
             label: "Read Full Experience Timeline",

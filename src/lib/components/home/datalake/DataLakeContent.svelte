@@ -84,7 +84,7 @@
     label={datalakeData.rightAnchor.label}
     title={datalakeData.rightAnchor.title}
     description={datalakeData.rightAnchor.description}
-    labelColor="text-accent/80"
+    labelColor="text-primary/80"
     align={align}
   />
 {/snippet}
@@ -94,8 +94,8 @@
     badge={datalakeData.header.badge}
     subtitle="Storage Architecture"
     Icon={HardDrive}
-    iconHoverColor="text-accent"
-    accentColor="hsl(var(--accent))"
+    iconHoverColor="text-primary"
+    accentColor="hsl(var(--primary))"
     shortDescription={datalakeData.content.shortDescription}
     detailedPhilosophy={datalakeData.content.detailedPhilosophy}
   />
@@ -104,8 +104,8 @@
 {#snippet storageGrid()}
   <FeatureGrid
     items={datalakeData.storageNodes}
-    accent="hsl(var(--accent))"
-    textHoverClass="group-hover:text-accent"
+    accent="hsl(var(--primary))"
+    textHoverClass="group-hover:text-primary"
   />
 {/snippet}
 

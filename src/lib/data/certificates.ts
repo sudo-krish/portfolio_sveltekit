@@ -16,7 +16,7 @@ export const certificatesData = {
         carousel: {
             sectionTitle: "Credentials",
             sectionDescription: "AWS certified & published",
-            accentColor: "hsl(var(--foreground))"
+            accentColor: "hsl(var(--primary))"
         },
         cta: {
             label: "Explore Badges",

@@ -12,7 +12,7 @@ export const pipelineData = {
         titleLine2: "Data Systems.",
     },
     content: {
-        shortDescription: `My work focuses on <strong class="text-foreground font-medium">end-to-end data engineering</strong>: ingestion, CDC, transformation, orchestration, warehousing, observability, and platform design — specializing in <span class="text-cyan-300 font-medium tracking-wide">AWS-native and cloud-scale systems</span> that move data reliably and support analytics and AI use cases.`,
+        shortDescription: `My work focuses on <strong class="text-foreground font-medium">end-to-end data engineering</strong>: ingestion, CDC, transformation, orchestration, warehousing, observability, and platform design — specializing in <span class="text-primary font-medium tracking-wide">AWS-native and cloud-scale systems</span> that move data reliably and support analytics and AI use cases.`,
 
         detailedPhilosophy: `I design systems that reduce latency, improve downstream reporting, and support scalable analytics. My approach combines real-time data pipelines using Kafka and CDC patterns, batch and near real-time ETL/ELT using Spark and Airflow, data warehousing with Redshift, data lake and medallion architectures for scalable storage, and cloud migrations with platform standardization — all focused on reliability, maintainability, and business usefulness.`
     },
@@ -49,7 +49,7 @@ export const pipelineData = {
         carousel: {
             sectionTitle: "Data Engineering",
             sectionDescription: "Explore the Architecture",
-            accentColor: "hsl(var(--foreground))" // Cyan
+            accentColor: "hsl(var(--primary))" // Cyan
         },
         cta: {
             label: "Explore the Lake",

@@ -7,7 +7,7 @@ export const techstackData = {
         description: "Cloud services, streaming infrastructure, orchestration, warehousing, data modeling, and software engineering tools for reliable data systems."
     },
     content: {
-        shortDescription: `My stack spans <strong class="text-foreground font-medium">cloud services, streaming infrastructure, orchestration, warehousing, data modeling, and software engineering tools</strong> needed to design and operate <span class="text-cyan-400 font-medium tracking-wide">reliable data systems</span>.`,
+        shortDescription: `My stack spans <strong class="text-foreground font-medium">cloud services, streaming infrastructure, orchestration, warehousing, data modeling, and software engineering tools</strong> needed to design and operate <span class="text-primary font-medium tracking-wide">reliable data systems</span>.`,
         detailedPhilosophy: `I work across the full data engineering toolkit: AWS for cloud infrastructure, Kafka and Debezium for streaming and CDC, Airflow and dbt for orchestration and transformation, Python and PySpark for processing, and Docker/Kubernetes/Terraform for platform operations. Every tool in this stack has been used in production workloads processing millions of events.`
     },
     categories: [
@@ -86,7 +86,7 @@ export const techstackData = {
         carousel: {
             sectionTitle: "Tech Stack",
             sectionDescription: "Tools and production technologies",
-            accentColor: "hsl(var(--foreground))" // Cyan
+            accentColor: "hsl(var(--primary))" // Cyan
         },
         cta: {
             label: "View Projects",
