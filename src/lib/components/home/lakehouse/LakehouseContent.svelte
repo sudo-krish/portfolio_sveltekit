@@ -1,7 +1,7 @@
 <!-- src/lib/components/home/lakehouse/LakehouseContent.svelte -->
 <script lang="ts">
   import { onMount } from "svelte";
-  import { ChevronDown } from "lucide-svelte";
+  import { ChevronDown, Database } from "lucide-svelte";
   import gsap from "gsap";
   import GlowAccent from "$lib/components/ui/GlowAccent.svelte";
   import MobileCarousel from "$lib/components/ui/MobileCarousel.svelte";
@@ -9,8 +9,7 @@
 
   import SectionAnchor from "$lib/components/ui/anchors/SectionAnchor.svelte";
   import SectionCard from "$lib/components/ui/cards/SectionCard.svelte";
-  import LakehouseGrid from "./desktop/LakehouseGrid.svelte";
-  import { Database } from "lucide-svelte";
+  import LakehouseGrid from "$lib/components/ui/grids/FeatureGrid.svelte";
 
   let leftPanel: HTMLElement;
   let rightPanel: HTMLElement;
@@ -80,6 +79,36 @@
   });
 </script>
 
+{#snippet lakehouseAnchor(align: "left" | "center" | "right")}
+  <SectionAnchor
+    label={lakehouseData.leftAnchor.label}
+    title={lakehouseData.leftAnchor.title}
+    description={lakehouseData.leftAnchor.description}
+    labelColor="text-primary/80"
+    align={align}
+  />
+{/snippet}
+
+{#snippet lakehouseCard()}
+  <SectionCard
+    badge={lakehouseData.header.badge}
+    subtitle="Compute & Governance"
+    Icon={Database}
+    iconHoverColor="text-primary"
+    accentColor="hsl(var(--primary))"
+    shortDescription={lakehouseData.content.shortDescription}
+    detailedPhilosophy={lakehouseData.content.detailedPhilosophy}
+  />
+{/snippet}
+
+{#snippet lakehouseGrid()}
+  <LakehouseGrid
+    items={lakehouseData.lakehouseNodes}
+    accent="hsl(var(--primary))"
+    textHoverClass="group-hover:text-primary"
+  />
+{/snippet}
+
 <MobileCarousel
   layout="right"
   sectionTitle={lakehouseData.ui.carousel.sectionTitle}
@@ -106,13 +135,7 @@
         class="w-[45%] h-full flex flex-col items-start justify-end pointer-events-auto"
         style="padding-left: 3cqi; padding-bottom: 3cqi;"
       >
-        <SectionAnchor
-          label={lakehouseData.leftAnchor.label}
-          title={lakehouseData.leftAnchor.title}
-          description={lakehouseData.leftAnchor.description}
-          labelColor="text-primary/80"
-          align="left"
-        />
+        {@render lakehouseAnchor("left")}
       </div>
 
       <!-- RIGHT 55%: Dense Content & Grid -->
@@ -122,17 +145,8 @@
         style="padding-right: 3cqi;"
       >
         <div class="flex flex-col items-end w-full" style="gap: 1cqi;">
-          <SectionCard
-            badge={lakehouseData.header.badge}
-            subtitle="Compute & Governance"
-            Icon={Database}
-            iconHoverColor="text-primary"
-            accentColor="border-primary/40"
-            gradientFrom="from-primary"
-            shortDescription={lakehouseData.content.shortDescription}
-            detailedPhilosophy={lakehouseData.content.detailedPhilosophy}
-          />
-          <LakehouseGrid />
+          {@render lakehouseCard()}
+          {@render lakehouseGrid()}
         </div>
       </div>
 
@@ -155,25 +169,9 @@
         bind:this={mobilePanel}
         class="flex flex-col items-center justify-center w-full min-h-[100dvh] max-w-lg mx-auto gap-5 px-4 pt-[12dvh] pb-[20dvh]"
       >
-        <SectionAnchor
-          label={lakehouseData.leftAnchor.label}
-          title={lakehouseData.leftAnchor.title}
-          description={lakehouseData.leftAnchor.description}
-          labelColor="text-primary/80"
-          align="center"
-        />
-
-        <SectionCard
-          badge={lakehouseData.header.badge}
-          subtitle="Transactional Layer"
-          Icon={Database}
-          iconHoverColor="text-primary"
-          accentColor="border-primary/40"
-          gradientFrom="from-primary"
-          shortDescription={lakehouseData.content.shortDescription}
-          detailedPhilosophy={lakehouseData.content.detailedPhilosophy}
-        />
-        <LakehouseGrid />
+        {@render lakehouseAnchor("center")}
+        {@render lakehouseCard()}
+        {@render lakehouseGrid()}
       </div>
     </div>
   </svelte:fragment>

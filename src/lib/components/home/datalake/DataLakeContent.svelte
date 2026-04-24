@@ -1,7 +1,7 @@
 <!-- src/lib/components/home/datalake/DataLakeContent.svelte -->
 <script lang="ts">
   import { onMount } from "svelte";
-  import { ChevronDown } from "lucide-svelte";
+  import { ChevronDown, HardDrive } from "lucide-svelte";
   import gsap from "gsap";
   import GlowAccent from "$lib/components/ui/GlowAccent.svelte";
   import MobileCarousel from "$lib/components/ui/MobileCarousel.svelte";
@@ -9,10 +9,7 @@
 
   import SectionAnchor from "$lib/components/ui/anchors/SectionAnchor.svelte";
   import SectionCard from "$lib/components/ui/cards/SectionCard.svelte";
-  import StorageGrid from "./desktop/StorageGrid.svelte";
-  import { HardDrive } from "lucide-svelte";
-
-
+  import FeatureGrid from "$lib/components/ui/grids/FeatureGrid.svelte";
 
   let rightPanel: HTMLElement;
   let leftPanel: HTMLElement;
@@ -82,6 +79,36 @@
   });
 </script>
 
+{#snippet datalakeAnchor(align: "left" | "center" | "right")}
+  <SectionAnchor
+    label={datalakeData.rightAnchor.label}
+    title={datalakeData.rightAnchor.title}
+    description={datalakeData.rightAnchor.description}
+    labelColor="text-accent/80"
+    align={align}
+  />
+{/snippet}
+
+{#snippet datalakeCard()}
+  <SectionCard
+    badge={datalakeData.header.badge}
+    subtitle="Storage Architecture"
+    Icon={HardDrive}
+    iconHoverColor="text-accent"
+    accentColor="hsl(var(--accent))"
+    shortDescription={datalakeData.content.shortDescription}
+    detailedPhilosophy={datalakeData.content.detailedPhilosophy}
+  />
+{/snippet}
+
+{#snippet storageGrid()}
+  <FeatureGrid
+    items={datalakeData.storageNodes}
+    accent="hsl(var(--accent))"
+    textHoverClass="group-hover:text-accent"
+  />
+{/snippet}
+
 <MobileCarousel
   layout="left"
   sectionTitle={datalakeData.ui.carousel.sectionTitle}
@@ -109,17 +136,8 @@
         style="padding-left: 3cqi;"
       >
         <div class="flex flex-col items-start w-full" style="gap: 1cqi;">
-          <SectionCard
-            badge={datalakeData.header.badge}
-            subtitle="Central Data Reservoir"
-            Icon={HardDrive}
-            iconHoverColor="text-accent"
-            accentColor="border-emerald-400/40"
-            gradientFrom="from-accent"
-            shortDescription={datalakeData.content.shortDescription}
-            detailedPhilosophy={datalakeData.content.detailedPhilosophy}
-          />
-          <StorageGrid />
+          {@render datalakeCard()}
+          {@render storageGrid()}
         </div>
       </div>
 
@@ -129,13 +147,7 @@
         class="w-[45%] h-full flex flex-col items-end justify-end text-right pointer-events-auto"
         style="padding-right: 3cqi; padding-bottom: 3cqi;"
       >
-        <SectionAnchor
-          label={datalakeData.rightAnchor.label}
-          title={datalakeData.rightAnchor.title}
-          description={datalakeData.rightAnchor.description}
-          labelColor="text-accent/80"
-          align="right"
-        />
+        {@render datalakeAnchor("right")}
       </div>
 
       <!-- ABSOLUTE CENTER SCROLL HINT -->
@@ -157,25 +169,9 @@
         bind:this={mobilePanel}
         class="flex flex-col items-center justify-center w-full min-h-[100dvh] max-w-lg mx-auto gap-6 px-4 pt-[12dvh] pb-[20dvh]"
       >
-        <SectionAnchor
-          label={datalakeData.rightAnchor.label}
-          title={datalakeData.rightAnchor.title}
-          description={datalakeData.rightAnchor.description}
-          labelColor="text-accent/80"
-          align="center"
-        />
-
-        <SectionCard
-          badge={datalakeData.header.badge}
-          subtitle="Storage Architecture"
-          Icon={HardDrive}
-          iconHoverColor="text-accent"
-          accentColor="border-emerald-400/40"
-          gradientFrom="from-accent"
-          shortDescription={datalakeData.content.shortDescription}
-          detailedPhilosophy={datalakeData.content.detailedPhilosophy}
-        />
-        <StorageGrid />
+        {@render datalakeAnchor("center")}
+        {@render datalakeCard()}
+        {@render storageGrid()}
       </div>
     </div>
   </svelte:fragment>

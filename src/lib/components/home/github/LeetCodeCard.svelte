@@ -77,16 +77,21 @@
     href={leetcodeUrl}
     target="_blank"
     rel="noopener noreferrer"
-    class="group block relative flex flex-col p-5 2xl:p-7 rounded-[2rem] bg-card/80 backdrop-blur-3xl border border-border hover:border-primary/50 transition-all duration-700 overflow-hidden shadow-xl w-full h-full"
+    class="group block relative flex flex-col p-5 2xl:p-7 rounded-[2rem]
+           bg-card/70 backdrop-blur-2xl border border-foreground/[0.08]
+           hover:border-foreground/[0.14]
+           shadow-[0_20px_60px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.08)]
+           hover:shadow-[0_24px_72px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.12)]
+           transition-all duration-700 overflow-hidden w-full h-full"
 >
-    <!-- Ultra-premium internal top highlight -->
+    <!-- Top hairline highlight -->
     <div
-        class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-foreground/30 to-transparent opacity-60"
+        class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-foreground/20 to-transparent opacity-60"
     ></div>
 
-    <!-- Colored gradient border accent on the left -->
+    <!-- Left edge accent line -->
     <div
-        class="absolute inset-y-0 left-0 w-[1px] bg-gradient-to-b from-transparent via-highlight/50 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500"
+        class="absolute inset-y-0 left-0 w-[1px] bg-gradient-to-b from-transparent via-highlight/40 to-transparent opacity-40 group-hover:opacity-80 transition-opacity duration-700"
     ></div>
 
     <!-- Ambient organic orange glow behind the UI -->
@@ -102,7 +107,7 @@
 
     <!-- Profile Header Row -->
     <div
-        class="flex items-center justify-between mb-6 relative z-10 bg-muted/40 p-3 2xl:p-4 rounded-[1.25rem] border border-border shadow-inner backdrop-blur-md"
+        class="flex items-center justify-between mb-6 relative z-10 bg-foreground/[0.03] p-3 2xl:p-4 rounded-[1.25rem] border border-foreground/[0.06] shadow-[inset_0_1px_0_rgba(255,255,255,0.04),inset_0_-1px_3px_rgba(0,0,0,0.15)] backdrop-blur-md"
     >
         <div class="flex items-center gap-3.5 2xl:gap-4">
             <!-- Profile Picture -->

@@ -230,7 +230,12 @@
                             e.preventDefault();
                         }
                     }}
-                    class="relative overflow-hidden flex items-center rounded-2xl transition-all duration-300 w-max text-left shrink-0 group bg-foreground/[0.03] hover:bg-foreground/[0.06] shadow-[0_4px_12px_rgba(0,0,0,0.5)] border border-foreground/5"
+                    class="relative overflow-hidden flex items-center rounded-2xl transition-all duration-500 w-max text-left shrink-0 group
+                           bg-card/60 backdrop-blur-xl
+                           border border-foreground/[0.08]
+                           hover:border-foreground/[0.14] hover:bg-card/80
+                           shadow-[0_8px_24px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.06)]
+                           hover:shadow-[0_12px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]"
                     style="gap: 1cqi; padding: 1cqi 2.5cqi 1cqi 1.2cqi; min-height: 5cqi; --hover-color: {item.color};"
                 >
                     <!-- Hover Border Glow -->

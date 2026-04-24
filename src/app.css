@@ -3,128 +3,129 @@
 /* Define the light mode variant trigger */
 @custom-variant light (&:is(.light *));
 
-/* === DEFAULT: DARK MODE - OCEAN NIGHT VIBE === */
+/* === DEFAULT: DARK MODE - ENTERPRISE CLOUD === */
 :root {
   --radius: 0.75rem;
 
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  /* Background: Deep Midnight Ocean */
-  --background: 220 60% 6%;
+  /* Background: Deep Navy */
+  --background: 230 25% 12%;
   --foreground: 210 30% 90%;
-  --card: 220 50% 10%;
+  --card: 230 25% 16%;
   --card-foreground: 210 30% 90%;
 
-  /* Primary: Sea Blue */
-  --primary: 202 65% 45%;
+  /* Primary: AWS Orange / Sunset */
+  --primary: 25 95% 55%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 220 40% 15%;
+  --secondary: 230 25% 20%;
   --secondary-foreground: 210 30% 90%;
 
-  --muted: 220 40% 15%;
+  --muted: 230 25% 20%;
   --muted-foreground: 215 20% 65%;
 
-  /* Accent: Sea Green */
-  --accent: 173 55% 40%;
+  /* Accent: Calm Sky Blue */
+  --accent: 205 70% 50%;
   --accent-foreground: 0 0% 100%;
 
-  /* Highlight: Sunset Orange */
-  --highlight: 25 85% 55%;
-  --highlight-foreground: 220 60% 6%;
+  /* Highlight: Golden Sun */
+  --highlight: 45 95% 55%;
+  --highlight-foreground: 230 25% 12%;
 
-  --success: 150 80% 50%;
-  --success-foreground: 220 60% 6%;
+  --success: 150 80% 45%;
+  --success-foreground: 230 25% 12%;
 
   --warning: 35 100% 55%;
-  --warning-foreground: 220 60% 6%;
+  --warning-foreground: 230 25% 12%;
 
-  --destructive: 350 85% 60%;
+  --destructive: 0 85% 60%;
   --destructive-foreground: 210 30% 90%;
 
-  --border: 220 30% 18%;
-  --input: 220 30% 18%;
-  --ring: 202 65% 45%;
+  --border: 230 25% 25%;
+  --input: 230 25% 25%;
+  --ring: 25 95% 55%;
 
-  --popover: 220 50% 10%;
+  --popover: 230 25% 16%;
   --popover-foreground: 210 30% 90%;
 
   /* --- ADVANCED GLASSMORPHISM TOKENS (DARK) --- */
-  --glass-bg: 220 50% 10% / 0.35;
+  --glass-bg: 230 25% 16% / 0.35;
   --glass-border: 210 30% 90% / 0.15;
   --glass-blur: 24px;
-  --glass-highlight: 210 30% 90% / 0.25;
+  --glass-highlight: 210 30% 90% / 0.1;
 
   /* Deep structural shadows for floating glass panels */
-  --shadow-sm: 0 2px 4px 0 rgb(0 0 0 / 0.6);
-  --shadow-md: 0 8px 12px -2px rgb(0 0 0 / 0.7), 0 4px 6px -2px rgb(0 0 0 / 0.5);
-  --shadow-lg: 0 16px 24px -4px rgb(0 0 0 / 0.8), 0 8px 12px -4px rgb(0 0 0 / 0.6);
-  --shadow-xl: 0 24px 36px -8px rgb(0 0 0 / 0.9), 0 12px 16px -8px rgb(0 0 0 / 0.7);
+  --shadow-sm: 0 2px 4px 0 rgb(0 0 0 / 0.5);
+  --shadow-md: 0 8px 12px -2px rgb(0 0 0 / 0.6), 0 4px 6px -2px rgb(0 0 0 / 0.4);
+  --shadow-lg: 0 16px 24px -4px rgb(0 0 0 / 0.7), 0 8px 12px -4px rgb(0 0 0 / 0.5);
+  --shadow-xl: 0 24px 36px -8px rgb(0 0 0 / 0.8), 0 12px 16px -8px rgb(0 0 0 / 0.6);
 
   /* Ambient glowing shadows for interactive elements */
-  --glow-primary: 0 0 30px rgb(39 121 167 / 0.3);
-  --glow-accent: 0 0 30px rgb(73 197 182 / 0.3);
+  --glow-primary: 0 0 30px hsl(25 95% 55% / 0.3);
+  --glow-accent: 0 0 30px hsl(205 70% 50% / 0.3);
 }
 
-/* === LIGHT MODE - SEA BREEZE / TROPICAL MORNING === */
+/* === LIGHT MODE - ENTERPRISE CLOUD === */
 :root.light, .light, html.light {
-  /* Background: Pale ocean mist — NOT pure white, gives sea-washed feel */
-  --background: 195 30% 95%;
-  --foreground: 210 50% 12%;
-  /* Cards: Warm sandy white — visibly distinct from the blue-tinted background */
-  --card: 40 30% 97%;
-  --card-foreground: 210 50% 12%;
+  /* Background: Crisp Professional Off-White */
+  --background: 210 10% 98%;
+  --foreground: 230 25% 15%;
+  
+  /* Cards: Pure White */
+  --card: 0 0% 100%;
+  --card-foreground: 230 25% 15%;
 
-  /* Primary: Deep ocean teal — high contrast against pale bg */
-  --primary: 192 80% 30%;
+  /* Primary: Deep AWS Orange */
+  --primary: 25 95% 50%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 195 20% 90%;
-  --secondary-foreground: 210 50% 12%;
+  --secondary: 210 15% 90%;
+  --secondary-foreground: 230 25% 15%;
 
-  --muted: 195 15% 88%;
+  --muted: 210 15% 92%;
   --muted-foreground: 210 20% 40%;
 
-  /* Accent: Warm coral/sunset — sea breeze warmth */
-  --accent: 16 80% 55%;
+  /* Accent: Clean Sky Blue */
+  --accent: 205 70% 45%;
   --accent-foreground: 0 0% 100%;
 
-  /* Highlight: Golden sun on water */
+  /* Highlight: Golden */
   --highlight: 38 92% 50%;
-  --highlight-foreground: 210 50% 12%;
+  --highlight-foreground: 230 25% 15%;
 
-  --success: 160 70% 35%;
+  --success: 150 70% 35%;
   --success-foreground: 0 0% 100%;
 
   --warning: 38 92% 50%;
-  --warning-foreground: 210 50% 12%;
+  --warning-foreground: 230 25% 15%;
 
   --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 100%;
 
-  /* Borders: Visible sea-gray lines */
-  --border: 200 20% 80%;
-  --input: 200 20% 80%;
-  --ring: 192 80% 30%;
+  /* Borders: Visible clean lines */
+  --border: 210 15% 85%;
+  --input: 210 15% 85%;
+  --ring: 25 95% 50%;
 
-  --popover: 40 30% 97%;
-  --popover-foreground: 210 50% 12%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 230 25% 15%;
 
   /* --- LIGHT GLASSMORPHISM: Crisp, not muddy --- */
   --glass-bg: 0 0% 100% / 0.85;
-  --glass-border: 200 20% 70% / 0.4;
+  --glass-border: 210 15% 80% / 0.4;
   --glass-blur: 12px;
   --glass-highlight: 0 0% 100% / 0.9;
 
-  /* Clean drop shadows — no neon glow */
-  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.06);
+  /* Clean drop shadows — professional */
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 8px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.04);
   --shadow-lg: 0 10px 20px -4px rgb(0 0 0 / 0.08), 0 4px 8px -4px rgb(0 0 0 / 0.04);
   --shadow-xl: 0 20px 30px -6px rgb(0 0 0 / 0.08), 0 8px 12px -6px rgb(0 0 0 / 0.04);
 
-  --glow-primary: 0 4px 20px hsl(192 80% 30% / 0.15);
-  --glow-accent: 0 4px 20px hsl(16 80% 55% / 0.15);
+  --glow-primary: 0 4px 20px hsl(25 95% 50% / 0.2);
+  --glow-accent: 0 4px 20px hsl(205 70% 45% / 0.2);
 }
 
 @theme {

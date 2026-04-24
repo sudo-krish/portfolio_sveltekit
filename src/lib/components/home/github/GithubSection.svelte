@@ -1,4 +1,4 @@
-<!-- src/lib/components/home/github/GithubContent.svelte -->
+<!-- src/lib/components/home/github/GithubSection.svelte -->
 <script lang="ts">
     import { onMount } from "svelte";
     import gsap from "gsap";
@@ -6,13 +6,13 @@
     import MobileCarousel from "$lib/components/ui/MobileCarousel.svelte";
     import { codingStatsData } from "$lib/data/coding_stats";
 
-    // Desktop
     import SectionAnchor from "$lib/components/ui/anchors/SectionAnchor.svelte";
     import PillButton from "$lib/components/ui/buttons/PillButton.svelte";
-    import RightGrid from "./desktop/RightGrid.svelte";
+    import GlassCard from "$lib/components/ui/cards/GlassCard.svelte";
     import { Github, Code2 } from "lucide-svelte";
 
-    import MobileGrid from "./mobile/MobileGrid.svelte";
+    import GitHubStatsCard from "./GitHubStatsCard.svelte";
+    import LeetCodeCard from "./LeetCodeCard.svelte";
 
     let leftPanel: HTMLElement;
     let rightPanel: HTMLElement;
@@ -51,6 +51,50 @@
         return () => ctx.revert();
     });
 </script>
+
+{#snippet codingStatsGrid(isMobile: boolean)}
+    {#if isMobile}
+        <div class="w-full flex flex-col gap-4 mt-2 relative z-10">
+            <!-- Stats Cards Stacked -->
+            <GitHubStatsCard />
+            <LeetCodeCard />
+
+            <!-- Mobile Philosophy Card -->
+            <GlassCard variant="inset" hover={false} class="w-full">
+                <p
+                    class="text-[0.82rem] leading-[1.7] text-foreground/50 font-light"
+                >
+                    {@html codingStatsData.philosophy.shortDescription}
+                    {@html codingStatsData.philosophy.detailedPhilosophy}
+                </p>
+            </GlassCard>
+        </div>
+    {:else}
+        <div class="w-full flex flex-col relative z-10" style="gap: 1cqi;">
+            <!-- Side by Side Grid for Stats Cards -->
+            <div class="grid grid-cols-2" style="gap: 1cqi;">
+                <GitHubStatsCard />
+                <LeetCodeCard />
+            </div>
+
+            <!-- Desktop Philosophy Card -->
+            <GlassCard
+                variant="inset"
+                hover={false}
+                class="border-l-2 border-l-[color-mix(in_srgb,var(--_accent)_40%,transparent)]"
+                style="margin-top: 0.2cqi;"
+            >
+                <p
+                    class="leading-[1.6] text-foreground/50"
+                    style="font-size: clamp(0.65rem, 0.85cqi, 0.95rem);"
+                >
+                    {@html codingStatsData.philosophy.shortDescription}
+                    {@html codingStatsData.philosophy.detailedPhilosophy}
+                </p>
+            </GlassCard>
+        </div>
+    {/if}
+{/snippet}
 
 <MobileCarousel
     layout="right"
@@ -91,7 +135,7 @@
                 class="w-[65%] h-full flex flex-col justify-center items-end pointer-events-auto"
                 style="padding-right: 3cqi; gap: 1.5cqi;"
             >
-                <RightGrid />
+                {@render codingStatsGrid(false)}
             </div>
         </div>
 
@@ -158,7 +202,7 @@
                     />
                 </div>
 
-                <MobileGrid />
+                {@render codingStatsGrid(true)}
             </div>
         </div>
     </svelte:fragment>

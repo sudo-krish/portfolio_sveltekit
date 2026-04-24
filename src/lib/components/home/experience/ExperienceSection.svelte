@@ -1,4 +1,4 @@
-<!-- src/lib/components/home/experience/ExperienceContent.svelte -->
+<!-- src/lib/components/home/experience/ExperienceSection.svelte -->
 <script lang="ts">
     import { onMount } from "svelte";
     import gsap from "gsap";
@@ -9,14 +9,21 @@
     import SectionAnchor from "$lib/components/ui/anchors/SectionAnchor.svelte";
     import SectionCard from "$lib/components/ui/cards/SectionCard.svelte";
     import PillButton from "$lib/components/ui/buttons/PillButton.svelte";
-    import CareerTimeline from "./desktop/CareerTimeline.svelte";
-    import { Briefcase, ArrowRight } from "lucide-svelte";
-
-    import MobileCareerTimeline from "./mobile/MobileCareerTimeline.svelte";
+    import { Briefcase, ArrowRight, Terminal, Cloud, Zap, Sparkles } from "lucide-svelte";
 
     let leftPanel: HTMLElement;
     let rightPanel: HTMLElement;
     let mobilePanel: HTMLElement;
+
+    const getIcon = (name: string) => {
+        switch (name) {
+            case "Terminal": return Terminal;
+            case "Cloud": return Cloud;
+            case "Zap": return Zap;
+            case "Sparkles": return Sparkles;
+            default: return Terminal;
+        }
+    };
 
     onMount(() => {
         let ctx = gsap.context(() => {
@@ -72,6 +79,85 @@
     });
 </script>
 
+{#snippet experienceAnchor(align: "left" | "center" | "right")}
+    <SectionAnchor
+        label={experienceData.leftAnchor.label}
+        title={experienceData.leftAnchor.title}
+        description={experienceData.leftAnchor.description}
+        labelColor="text-primary/80"
+        align={align}
+        headingTag={align === 'center' ? 'div' : 'h2'}
+    />
+{/snippet}
+
+{#snippet experienceCard()}
+    <SectionCard
+        badge={experienceData.header.badge}
+        subtitle="Career Progression"
+        Icon={Briefcase}
+        iconHoverColor="text-primary"
+        accentColor="hsl(var(--primary))"
+        shortDescription={experienceData.content.shortDescription}
+        detailedPhilosophy={experienceData.content.detailedPhilosophy}
+    />
+{/snippet}
+
+{#snippet careerTimeline(isMobile: boolean)}
+    {#if isMobile}
+        <div class="w-full flex flex-col gap-3 relative z-10">
+            <div class="w-full p-4 rounded-[1.25rem] bg-card/60 backdrop-blur-md border border-border relative overflow-hidden">
+                <div class="absolute top-6 bottom-6 left-[29px] w-px bg-gradient-to-b from-primary via-violet-500/20 to-border"></div>
+                <div class="flex flex-col gap-4">
+                    {#each experienceData.milestones as m, i}
+                        <div class="relative flex items-start gap-3">
+                            <div class="relative z-10 flex-shrink-0 w-7 h-7 rounded-lg border flex items-center justify-center transition-all duration-300 {i === experienceData.milestones.length - 1 ? 'bg-highlight/15 border-highlight/40 shadow-[var(--glow-accent)]' : 'bg-muted border-border'}">
+                                <svelte:component this={getIcon(m.iconName)} size={12} style="color: {m.color}" />
+                                {#if i === experienceData.milestones.length - 1}
+                                    <div class="absolute -inset-0.5 rounded-lg bg-highlight/20 animate-ping opacity-40"></div>
+                                {/if}
+                            </div>
+                            <div class="flex flex-col pt-0.5">
+                                <div class="flex items-center gap-1.5 mb-0.5">
+                                    <span class="font-mono text-[10px] font-bold" style="color: {m.color}">{m.year}</span>
+                                    <span class="text-muted-foreground">·</span>
+                                    <span class="text-[11px] font-bold text-foreground">{m.label}</span>
+                                </div>
+                                <span class="text-[9px] text-muted-foreground font-mono leading-tight">{m.role}</span>
+                            </div>
+                        </div>
+                    {/each}
+                </div>
+            </div>
+        </div>
+    {:else}
+        <div class="w-full flex flex-col relative z-10" style="padding-top: 2cqi; padding-bottom: 3cqi;">
+            <div class="relative w-full">
+                <div class="absolute top-[2.5rem] left-[10%] right-[10%] h-0.5 bg-foreground/5 shadow-[0_0_10px_rgba(255,255,255,0.05)] rounded-full z-0">
+                    <div class="absolute top-0 left-0 h-full w-[95%] bg-gradient-to-r from-primary via-accent to-highlight rounded-full opacity-80"></div>
+                </div>
+                <div class="relative flex justify-between items-start w-full z-10 px-2">
+                    {#each experienceData.milestones as m, i}
+                        <div class="flex flex-col items-center group relative w-1/4">
+                            <span class="font-mono font-bold tracking-[0.2em] uppercase transition-all duration-300 transform group-hover:-translate-y-1 opacity-60 group-hover:opacity-100" style="color: {m.color}; font-size: clamp(8px, 0.8cqi, 11px); margin-bottom: 0.8cqi;">{m.year}</span>
+                            <div class="relative flex items-center justify-center rounded-[1.25rem] bg-card/70 backdrop-blur-xl border border-foreground/[0.08] shadow-[0_8px_24px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.06)] transition-all duration-500 {i === experienceData.milestones.length - 1 ? 'border-highlight/30 shadow-[0_8px_24px_rgba(0,0,0,0.4),0_0_20px_hsl(var(--highlight)/0.2),inset_0_1px_0_rgba(255,255,255,0.08)] scale-110 -translate-y-1' : 'group-hover:border-foreground/[0.14] group-hover:-translate-y-1 group-hover:bg-card/80'}" style="width: 3.5cqi; height: 3.5cqi;">
+                                {#if i === experienceData.milestones.length - 1}
+                                    <div class="absolute -inset-1 rounded-[1.4rem] bg-highlight/10 animate-[ping_2.5s_cubic-bezier(0,0,0.2,1)_infinite] opacity-50 pointer-events-none"></div>
+                                {/if}
+                                <svelte:component this={getIcon(m.iconName)} size={20} class="transition-transform duration-500 group-hover:scale-110 drop-shadow-[0_0_8px_currentColor]" style="color: {i === experienceData.milestones.length - 1 ? 'hsl(var(--highlight))' : 'hsl(var(--muted-foreground))'}; {i !== experienceData.milestones.length - 1 && 'group-hover:color: white;'}" />
+                            </div>
+                            <div class="flex flex-col items-center text-center" style="margin-top: 1.2cqi; max-width: 10cqi;">
+                                <span class="font-bold text-foreground/70 group-hover:text-foreground transition-colors duration-300 leading-tight tracking-wide" style="font-size: clamp(9px, 0.9cqi, 13px); margin-bottom: 0.3cqi;">{m.label}</span>
+                                <div class="h-[1px] w-4 bg-gradient-to-r from-transparent via-foreground/20 to-transparent mb-1.5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                <span class="text-foreground/30 group-hover:text-primary/80 font-mono leading-relaxed transition-colors duration-300" style="font-size: clamp(7px, 0.7cqi, 10px);">{m.role}</span>
+                            </div>
+                        </div>
+                    {/each}
+                </div>
+            </div>
+        </div>
+    {/if}
+{/snippet}
+
 <MobileCarousel
     layout="right"
     sectionTitle={experienceData.ui.carousel.sectionTitle}
@@ -98,13 +184,7 @@
                 class="w-[45%] h-full flex flex-col items-start justify-end pointer-events-auto"
                 style="padding-left: 3cqi; padding-bottom: 2cqi;"
             >
-                <SectionAnchor
-                    label={experienceData.leftAnchor.label}
-                    title={experienceData.leftAnchor.title}
-                    description={experienceData.leftAnchor.description}
-                    labelColor="text-primary/80"
-                    align="left"
-                />
+                {@render experienceAnchor("left")}
             </div>
 
             <!-- RIGHT 55%: Dense Content & Timeline -->
@@ -117,19 +197,8 @@
                     class="flex flex-col items-end w-full"
                     style="gap: 0.8cqi;"
                 >
-                    <SectionCard
-                        badge={experienceData.header.badge}
-                        subtitle="Career Progression"
-                        Icon={Briefcase}
-                        iconHoverColor="text-primary"
-                        accentColor="border-primary/40"
-                        gradientFrom="from-primary"
-                        shortDescription={experienceData.content
-                            .shortDescription}
-                        detailedPhilosophy={experienceData.content
-                            .detailedPhilosophy}
-                    />
-                    <CareerTimeline />
+                    {@render experienceCard()}
+                    {@render careerTimeline(false)}
                 </div>
             </div>
         </div>
@@ -165,27 +234,9 @@
                 bind:this={mobilePanel}
                 class="flex flex-col items-center justify-center w-full min-h-[100dvh] max-w-lg mx-auto gap-5 px-4 pt-[12dvh] pb-[20dvh]"
             >
-                <SectionAnchor
-                    label={experienceData.leftAnchor.label}
-                    title={experienceData.leftAnchor.title}
-                    description={experienceData.leftAnchor.description}
-                    labelColor="text-primary/80"
-                    align="center"
-                    headingTag="div"
-                />
-
-                <SectionCard
-                    badge={experienceData.header.badge}
-                    subtitle="Career Progression"
-                    Icon={Briefcase}
-                    iconHoverColor="text-primary"
-                    accentColor="border-primary/40"
-                    gradientFrom="from-primary"
-                    shortDescription={experienceData.content.shortDescription}
-                    detailedPhilosophy={experienceData.content
-                        .detailedPhilosophy}
-                />
-                <MobileCareerTimeline />
+                {@render experienceAnchor("center")}
+                {@render experienceCard()}
+                {@render careerTimeline(true)}
 
                 <div
                     class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] p-1.5 mt-2 w-max mx-auto"

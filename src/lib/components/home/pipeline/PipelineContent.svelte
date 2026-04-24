@@ -1,7 +1,6 @@
 <!-- src/lib/components/home/pipeline/PipelineContent.svelte -->
 <script lang="ts">
   import { onMount } from "svelte";
-  import { ChevronDown } from "lucide-svelte";
   import gsap from "gsap";
   import GlowAccent from "$lib/components/ui/GlowAccent.svelte";
   import MobileCarousel from "$lib/components/ui/MobileCarousel.svelte";
@@ -9,12 +8,8 @@
 
   import SectionAnchor from "$lib/components/ui/anchors/SectionAnchor.svelte";
   import SectionCard from "$lib/components/ui/cards/SectionCard.svelte";
-  import MarqueeRail from "./desktop/MarqueeRail.svelte";
+  import InfiniteMarquee from "$lib/components/ui/marquee/InfiniteMarquee.svelte";
   import { Database } from "lucide-svelte";
-
-  import MobileMarquee from "./mobile/MobileMarquee.svelte";
-
-
 
   let leftPanel: HTMLElement;
   let rightPanel: HTMLElement;
@@ -59,6 +54,52 @@
   });
 </script>
 
+{#snippet pipelineAnchor(align: "left" | "center" | "right")}
+  <SectionAnchor
+    label={pipelineData.leftAnchor.label}
+    title={pipelineData.leftAnchor.title}
+    description={pipelineData.leftAnchor.description}
+    labelColor="text-primary/80"
+    align={align}
+  />
+{/snippet}
+
+{#snippet pipelineCard()}
+  <SectionCard
+    badge={pipelineData.header.badge}
+    subtitle="System Architecture"
+    Icon={Database}
+    iconHoverColor="text-primary"
+    accentColor="hsl(var(--primary))"
+    shortDescription={pipelineData.content.shortDescription}
+    detailedPhilosophy={pipelineData.content.detailedPhilosophy}
+  />
+{/snippet}
+
+{#snippet marquee(isMobile: boolean)}
+  {#if isMobile}
+    <div
+      class="w-[110%] -ml-[5%] relative overflow-hidden mask-edges-fade opacity-90 scale-90"
+    >
+      <InfiniteMarquee
+        items={pipelineData.techStack}
+        baseSpeed={0.5}
+        direction="left"
+      />
+    </div>
+  {:else}
+    <div
+      class="w-full relative overflow-hidden mask-edges-fade opacity-80 hover:opacity-100 transition-opacity duration-500"
+    >
+      <InfiniteMarquee
+        items={pipelineData.techStack}
+        baseSpeed={0.8}
+        direction="left"
+      />
+    </div>
+  {/if}
+{/snippet}
+
 <MobileCarousel
   layout="right"
   sectionTitle={pipelineData.ui.carousel.sectionTitle}
@@ -85,13 +126,7 @@
         class="w-[45%] h-full flex flex-col items-start justify-end pointer-events-auto"
         style="padding-left: 3cqi; padding-bottom: 3cqi;"
       >
-        <SectionAnchor
-          label={pipelineData.leftAnchor.label}
-          title={pipelineData.leftAnchor.title}
-          description={pipelineData.leftAnchor.description}
-          labelColor="text-primary/80"
-          align="left"
-        />
+        {@render pipelineAnchor("left")}
       </div>
 
       <!-- RIGHT 55% -->
@@ -101,17 +136,8 @@
         style="padding-right: 3cqi;"
       >
         <div class="flex flex-col items-end w-full" style="gap: 0.8cqi;">
-          <SectionCard
-            badge={pipelineData.header.badge}
-            subtitle="System Architecture"
-            Icon={Database}
-            iconHoverColor="text-primary"
-            accentColor="border-cyan-400/40"
-            gradientFrom="from-primary"
-            shortDescription={pipelineData.content.shortDescription}
-            detailedPhilosophy={pipelineData.content.detailedPhilosophy}
-          />
-          <MarqueeRail />
+          {@render pipelineCard()}
+          {@render marquee(false)}
         </div>
       </div>
     </div>
@@ -128,27 +154,30 @@
         class="flex flex-col items-center justify-center w-full min-h-[100dvh] max-w-lg mx-auto gap-6 px-4 pt-[12dvh] pb-[20dvh] relative"
       >
         <div class="w-full flex flex-col items-center relative z-10">
-          <SectionAnchor
-            label={pipelineData.leftAnchor.label}
-            title={pipelineData.leftAnchor.title}
-            description={pipelineData.leftAnchor.description}
-            labelColor="text-primary/80"
-            align="center"
-          />
-
-          <SectionCard
-            badge={pipelineData.header.badge}
-            subtitle="System Architecture"
-            Icon={Database}
-            iconHoverColor="text-primary"
-            accentColor="border-cyan-400/40"
-            gradientFrom="from-primary"
-            shortDescription={pipelineData.content.shortDescription}
-            detailedPhilosophy={pipelineData.content.detailedPhilosophy}
-          />
-          <MobileMarquee />
+          {@render pipelineAnchor("center")}
+          {@render pipelineCard()}
+          {@render marquee(true)}
         </div>
       </div>
     </div>
   </svelte:fragment>
 </MobileCarousel>
+
+<style>
+  .mask-edges-fade {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 15%,
+      black 85%,
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 15%,
+      black 85%,
+      transparent
+    );
+  }
+</style>

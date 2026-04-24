@@ -1,5 +1,7 @@
 <!-- src/lib/components/ui/grids/FeatureGrid.svelte -->
 <script lang="ts">
+    import GlassCard from "$lib/components/ui/cards/GlassCard.svelte";
+
     export type GridItem = {
         name: string;
         desc: string;
@@ -9,55 +11,61 @@
     let {
         items = [],
         gridClass = "grid-cols-2 lg:grid-cols-3",
-        cardClass = "bg-card/60 backdrop-blur-md border border-border hover:bg-card hover:border-neutral-500/30",
-        glowClass = "bg-primary/20",
+        accent = "hsl(var(--primary))",
         textHoverClass = "group-hover:text-primary",
     } = $props<{
         items: GridItem[];
         gridClass?: string;
-        cardClass?: string;
-        glowClass?: string;
+        /** CSS color for accent glow */
+        accent?: string;
         textHoverClass?: string;
     }>();
 </script>
 
-<div class="w-full grid {gridClass} relative z-10" style="gap: max(0.75rem, 0.8cqi);">
+<div
+    class="w-full grid {gridClass} relative z-10"
+    style="gap: max(0.6rem, 0.7cqi);"
+>
     {#each items as node}
-        <div
-            class="group relative rounded-2xl {cardClass} transition-all duration-300 overflow-hidden flex items-center"
-            style="padding: max(0.75rem, 0.8cqi); gap: max(0.5rem, 0.8cqi);"
+        <GlassCard
+            variant="compact"
+            {accent}
+            class="group flex items-center"
+            style="gap: max(0.5rem, 0.7cqi);"
         >
+            <!-- Icon -->
             <div
-                class="absolute -right-4 -top-4 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity {glowClass}"
-                style="width: max(2rem, 3cqi); height: max(2rem, 3cqi);"
-            ></div>
-
-            <div
-                class="shrink-0 flex items-center justify-center opacity-70 group-hover:opacity-100 transition-opacity"
-                style="width: max(1.5rem, 1.8cqi); height: max(1.5rem, 1.8cqi);"
+                class="shrink-0 flex items-center justify-center
+                       rounded-lg bg-foreground/[0.03] border border-foreground/[0.05]
+                       shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]
+                       opacity-75 group-hover:opacity-100
+                       group-hover:scale-105
+                       transition-all duration-500"
+                style="width: max(1.6rem, 1.8cqi); height: max(1.6rem, 1.8cqi);"
             >
                 <img
                     src={node.iconUrl}
                     alt={node.name}
-                    class="w-full h-full object-contain"
+                    class="w-[60%] h-[60%] object-contain"
+                    loading="lazy"
                 />
             </div>
 
-            <div class="flex flex-col">
+            <!-- Text -->
+            <div class="flex flex-col relative z-10">
                 <span
-                    class="font-bold text-foreground {textHoverClass} transition-colors"
-                    style="font-size: clamp(0.75rem, 1.1cqi, 0.875rem);"
+                    class="font-bold text-foreground/85 {textHoverClass} transition-colors duration-400"
+                    style="font-size: clamp(0.72rem, 1cqi, 0.85rem);"
                 >
                     {node.name}
                 </span>
                 <span
-                    class="uppercase tracking-widest font-mono text-muted-foreground"
-                    style="font-size: clamp(9px, 0.7cqi, 11px);"
+                    class="uppercase tracking-widest font-mono text-muted-foreground/60"
+                    style="font-size: clamp(8px, 0.65cqi, 10px);"
                 >
                     {node.desc}
                 </span>
             </div>
-        </div>
+        </GlassCard>
     {/each}
 </div>
-

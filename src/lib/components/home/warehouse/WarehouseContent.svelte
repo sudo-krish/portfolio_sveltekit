@@ -8,9 +8,8 @@
 
   import SectionCard from "$lib/components/ui/cards/SectionCard.svelte";
   import SectionAnchor from "$lib/components/ui/anchors/SectionAnchor.svelte";
-  import WarehouseGrid from "./desktop/WarehouseGrid.svelte";
+  import WarehouseGrid from "$lib/components/ui/grids/FeatureGrid.svelte";
   import { BarChart3 } from "lucide-svelte";
-
 
   let leftPanel: HTMLElement;
   let rightPanel: HTMLElement;
@@ -70,6 +69,48 @@
   });
 </script>
 
+{#snippet warehouseAnchor(align: "left" | "center" | "right")}
+  <SectionAnchor
+    label={warehouseData.rightAnchor.label}
+    title={warehouseData.rightAnchor.title}
+    description={warehouseData.rightAnchor.description}
+    labelColor="text-muted-foreground/80"
+    {align}
+  />
+{/snippet}
+
+{#snippet warehouseCard()}
+  <SectionCard
+    badge={warehouseData.header.badge}
+    subtitle="BI & Serving Layer"
+    Icon={BarChart3}
+    iconHoverColor="text-muted-foreground"
+    accentColor="hsl(280, 60%, 65%)"
+    shortDescription={warehouseData.content.shortDescription}
+    detailedPhilosophy={warehouseData.content.detailedPhilosophy}
+    metrics={[
+      {
+        label: "Latency",
+        value: warehouseData.metrics.latency,
+        unit: warehouseData.metrics.latencyUnit,
+      },
+      {
+        label: "Concurrency",
+        value: warehouseData.metrics.concurrency,
+        unit: warehouseData.metrics.concurrencyUnit,
+      },
+    ]}
+  />
+{/snippet}
+
+{#snippet warehouseGrid()}
+  <WarehouseGrid
+    items={warehouseData.warehouseNodes}
+    accent="hsl(280, 60%, 65%)"
+    textHoverClass="group-hover:text-purple-400"
+  />
+{/snippet}
+
 <MobileCarousel
   layout="left"
   sectionTitle={warehouseData.ui.carousel.sectionTitle}
@@ -97,21 +138,8 @@
         style="padding-left: 3cqi;"
       >
         <div class="flex flex-col w-full" style="gap: 1cqi;">
-          <SectionCard
-            badge={warehouseData.header.badge}
-            subtitle="BI & Serving Layer"
-            Icon={BarChart3}
-            iconHoverColor="text-muted-foreground"
-            accentColor="border-purple-400/40"
-            gradientFrom="from-purple-400"
-            shortDescription={warehouseData.content.shortDescription}
-            detailedPhilosophy={warehouseData.content.detailedPhilosophy}
-            metrics={[
-              { label: "Latency", value: warehouseData.metrics.latency, unit: warehouseData.metrics.latencyUnit },
-              { label: "Concurrency", value: warehouseData.metrics.concurrency, unit: warehouseData.metrics.concurrencyUnit },
-            ]}
-          />
-          <WarehouseGrid />
+          {@render warehouseCard()}
+          {@render warehouseGrid()}
         </div>
       </div>
 
@@ -121,13 +149,7 @@
         class="w-[45%] h-full flex flex-col justify-end items-end text-right pointer-events-auto"
         style="padding-right: 3cqi; padding-bottom: 3cqi;"
       >
-        <SectionAnchor
-          label={warehouseData.rightAnchor.label}
-          title={warehouseData.rightAnchor.title}
-          description={warehouseData.rightAnchor.description}
-          labelColor="text-muted-foreground/80"
-          align="right"
-        />
+        {@render warehouseAnchor("right")}
       </div>
     </div>
   </svelte:fragment>
@@ -143,29 +165,9 @@
         bind:this={mobilePanel}
         class="flex flex-col items-center justify-center w-full min-h-[100dvh] max-w-lg mx-auto gap-5 px-4 pt-[12dvh] pb-[20dvh]"
       >
-        <SectionAnchor
-          label={warehouseData.rightAnchor.label}
-          title={warehouseData.rightAnchor.title}
-          description={warehouseData.rightAnchor.description}
-          labelColor="text-muted-foreground/80"
-          align="center"
-        />
-
-        <SectionCard
-          badge={warehouseData.header.badge}
-          subtitle="BI & Serving Layer"
-          Icon={BarChart3}
-          iconHoverColor="text-muted-foreground"
-          accentColor="border-purple-400/40"
-          gradientFrom="from-purple-400"
-          shortDescription={warehouseData.content.shortDescription}
-          detailedPhilosophy={warehouseData.content.detailedPhilosophy}
-          metrics={[
-            { label: "Latency", value: warehouseData.metrics.latency, unit: warehouseData.metrics.latencyUnit },
-            { label: "Concurrency", value: warehouseData.metrics.concurrency, unit: warehouseData.metrics.concurrencyUnit },
-          ]}
-        />
-        <WarehouseGrid />
+        {@render warehouseAnchor("center")}
+        {@render warehouseCard()}
+        {@render warehouseGrid()}
       </div>
     </div>
   </svelte:fragment>
