@@ -34,8 +34,8 @@
 <div class="min-h-screen bg-background">
     <!-- Subtle gradient background -->
     <div class="fixed inset-0 pointer-events-none z-0">
-        <div class="absolute top-0 left-1/4 w-96 h-96 rounded-full blur-[120px] opacity-10 bg-primary"></div>
-        <div class="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full blur-[100px] opacity-5 bg-primary"></div>
+        
+        
     </div>
 
     <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">

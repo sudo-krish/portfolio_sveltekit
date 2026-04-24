@@ -97,7 +97,7 @@
                 {#each resultsData.metrics as m}
                     <div class="group relative flex flex-col items-center justify-center text-center p-4 rounded-2xl bg-card/60 backdrop-blur-[40px] border border-foreground/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.08)] overflow-hidden">
                         <!-- Dynamic Glow based on Metric Color -->
-                        <div class="absolute inset-0 blur-[30px] opacity-10 pointer-events-none" style="background-color: {m.color}"></div>
+                        
 
                         <!-- Card top highlight -->
                         <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-foreground/20 to-transparent opacity-50"></div>

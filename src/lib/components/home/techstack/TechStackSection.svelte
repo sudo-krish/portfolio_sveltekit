@@ -114,10 +114,7 @@
                     <div
                         class="flex flex-col p-5 rounded-[1.25rem] bg-card/80 backdrop-blur-xl border border-border relative overflow-hidden"
                     >
-                        <div
-                            class="absolute -right-8 -top-8 w-24 h-24 rounded-full blur-[30px] opacity-10 pointer-events-none"
-                            style="background-color: {cat.accent}"
-                        ></div>
+                        
                         <div class="flex items-center gap-3 mb-4">
                             <div
                                 class="w-8 h-8 rounded-lg bg-muted border border-border flex items-center justify-center shadow-sm"

@@ -161,14 +161,8 @@
 
     <!-- Animated Ambient Orbs Background -->
     <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div
-            class="ambient-orb absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full blur-[120px] opacity-20"
-            style="background: {accentColor}"
-        ></div>
-        <div
-            class="ambient-orb absolute bottom-1/4 right-[-10%] w-[40vw] h-[40vw] rounded-full blur-[140px] opacity-10"
-            style="background: {accentColor}"
-        ></div>
+        
+        
     </div>
 
     <div

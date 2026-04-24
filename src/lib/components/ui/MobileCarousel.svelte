@@ -402,10 +402,7 @@
                         <div
                             class="flip-card relative overflow-hidden rounded-3xl p-6 bg-[hsl(var(--glass-bg))] backdrop-blur-[var(--glass-blur)] border border-[hsl(var(--glass-border))] border-t-[hsl(var(--glass-highlight))] shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
                         >
-                            <div
-                                class="absolute top-0 left-0 w-32 h-32 blur-[40px] opacity-20 dark:mix-blend-screen pointer-events-none"
-                                style="background: radial-gradient(circle, {accentColor} 0%, transparent 70%);"
-                            ></div>
+                            
                             <div class="relative z-10 text-right">
                                 <div
                                     class="flex items-center justify-end gap-2 mb-2"

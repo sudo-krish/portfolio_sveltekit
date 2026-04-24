@@ -53,8 +53,7 @@
 >
     <!-- Glow effect -->
     {#if featured}
-        <div class="absolute -top-12 -right-12 w-32 h-32 rounded-full blur-[60px] opacity-30
-                    bg-primary pointer-events-none group-hover:opacity-50 transition-opacity duration-500"></div>
+        
     {/if}
 
     <div class="relative z-10 p-5 flex flex-col gap-3 flex-1">

@@ -38,10 +38,7 @@
             class="relative w-full max-w-[550px] flex flex-col p-8 rounded-[2rem] bg-card border border-foreground/15 shadow-[0_40px_100px_rgba(0,0,0,0.8)] overflow-hidden cursor-default"
             onclick={(e) => e.stopPropagation()}
         >
-            <div
-                class="absolute -top-32 -right-32 w-80 h-80 rounded-full blur-[100px] opacity-20 pointer-events-none"
-                style="background-color: {item.color}"
-            ></div>
+            
 
             <button
                 onclick={onclose}

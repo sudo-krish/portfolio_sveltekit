@@ -101,9 +101,7 @@
     <div
         class="absolute bottom-2 w-40 sm:w-48 h-12 sm:h-16 bg-[#72a05e] border-[3px] border-[#5a804a] rounded-[100%] shadow-[inset_0_-4px_0_rgba(0,0,0,0.2)] z-0 transform scale-y-75"
     ></div>
-    <div
-        class="absolute bottom-4 w-20 h-4 bg-background/50 rounded-[100%] z-0 blur-[2px]"
-    ></div>
+    
 
     {#if battleState === "dialogue" || battleState === "start_anim" || battleState === "capture_animation"}
         <div class="relative z-10 flex items-center justify-center">
@@ -199,9 +197,7 @@
     <div
         class="absolute -bottom-2 w-48 sm:w-64 h-16 sm:h-20 bg-[#72a05e] border-[3px] border-[#5a804a] rounded-[100%] shadow-[inset_0_-4px_0_rgba(0,0,0,0.2)] z-0 transform scale-y-75"
     ></div>
-    <div
-        class="absolute bottom-2 w-24 h-6 bg-background/50 rounded-[100%] z-0 blur-[2px]"
-    ></div>
+    
     <div
         class="relative w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-tr from-[#2a5242] to-[#346856] border-[4px] border-[#e0f8d0] shadow-[0_10px_20px_rgba(0,0,0,0.3)] flex items-center justify-center z-10 rounded-lg overflow-hidden {isPlayerAttacking
             ? 'animate-tackle-lunge'

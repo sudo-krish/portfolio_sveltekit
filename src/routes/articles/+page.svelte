@@ -31,7 +31,7 @@
 
 <div class="min-h-screen bg-background">
     <div class="fixed inset-0 pointer-events-none z-0">
-        <div class="absolute bottom-20 left-1/3 w-96 h-96 rounded-full blur-[150px] opacity-10 bg-primary"></div>
+        
     </div>
 
     <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
