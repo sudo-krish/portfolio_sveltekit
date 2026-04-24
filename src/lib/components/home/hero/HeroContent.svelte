@@ -32,8 +32,8 @@
                     </div>
                     <span class="font-mono text-[9px] font-bold tracking-[0.25em] text-foreground/70 uppercase pt-px">{personal.name}</span>
                 </div>
-                <div class="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-3 py-1.5 backdrop-blur-md shadow-[0_0_15px_hsl(var(--primary)/)] shrink-0">
-                    <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_currentColor]"></div>
+                <div class="flex items-center gap-2 bg-foreground/5 border border-foreground/10 rounded-full px-3 py-1.5 backdrop-blur-md shadow-[0_0_15px_hsl(var(--foreground)/0.1)] shrink-0">
+                    <div class="w-1.5 h-1.5 rounded-full bg-foreground animate-pulse shadow-[0_0_8px_currentColor]"></div>
                     <span class="font-mono text-[9px] uppercase tracking-widest text-accent font-bold pt-px">{metaLabelMobile}</span>
                 </div>
             </div>
@@ -59,8 +59,8 @@
                     </div>
                     <span class="font-mono font-bold tracking-[0.3em] text-foreground/70 uppercase" style="font-size: clamp(8px, 0.7cqi, 10px);">{personal.name}</span>
                 </div>
-                <div class="flex items-center bg-emerald-500/10 border border-emerald-500/20 rounded-full backdrop-blur-md shadow-[0_0_15px_hsl(var(--primary)/)]" style="gap: 0.5cqi; padding: 0.5cqi 0.8cqi;">
-                    <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_currentColor]"></div>
+                <div class="flex items-center bg-foreground/5 border border-foreground/10 rounded-full backdrop-blur-md shadow-[0_0_15px_hsl(var(--foreground)/0.1)]" style="gap: 0.5cqi; padding: 0.5cqi 0.8cqi;">
+                    <div class="w-1.5 h-1.5 rounded-full bg-foreground animate-pulse shadow-[0_0_10px_currentColor]"></div>
                     <span class="font-mono uppercase tracking-[0.25em] text-accent font-bold" style="font-size: clamp(7px, 0.6cqi, 9px);">{metaLabelDesktop}</span>
                 </div>
             </div>

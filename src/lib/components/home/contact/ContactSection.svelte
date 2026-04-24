@@ -101,10 +101,10 @@
                 >
                     <span class="relative flex h-2 w-2">
                         <span
-                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60"
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-foreground opacity-30"
                         ></span>
                         <span
-                            class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"
+                            class="relative inline-flex rounded-full h-2 w-2 bg-foreground"
                         ></span>
                     </span>
                     Open to Work

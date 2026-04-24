@@ -19,7 +19,7 @@ export const resultsData = {
             value: "50M+",
             description: "Built and supported <span class=\"text-[#06b6d4]\">high-throughput data systems</span> designed for large-scale event ingestion and downstream analytics.",
             iconName: "TrendingUp",
-            color: "#06b6d4" // Cyan
+            color: "hsl(var(--foreground))" // Cyan
         },
         {
             id: "refresh",
@@ -27,7 +27,7 @@ export const resultsData = {
             value: "<5min",
             description: "Designed <span class=\"text-[#10b981]\">near real-time warehouse refresh</span> patterns for faster reporting and operational visibility.",
             iconName: "Zap",
-            color: "#10b981" // Emerald
+            color: "hsl(var(--foreground))" // Emerald
         },
         {
             id: "uptime",
@@ -35,7 +35,7 @@ export const resultsData = {
             value: "99.9%",
             description: "Focused on <span class=\"text-[#a855f7]\">resilient pipeline design</span>, monitoring, retries, and production reliability.",
             iconName: "Award",
-            color: "#a855f7" // Purple
+            color: "hsl(var(--foreground))" // Purple
         },
         {
             id: "latency",
@@ -43,7 +43,7 @@ export const resultsData = {
             value: "hrs→sec",
             description: "Reduced <span class=\"text-[#ef4444]\">reporting and data movement delays</span> through better pipeline architecture and automation.",
             iconName: "Target",
-            color: "#ef4444" // Red
+            color: "hsl(var(--foreground))" // Red
         },
         {
             id: "accuracy",
@@ -51,14 +51,14 @@ export const resultsData = {
             value: "60→98%",
             description: "Improved <span class=\"text-[#eab308]\">data quality and consistency</span> through stronger transformation logic and validation patterns.",
             iconName: "Target",
-            color: "#eab308" // Yellow
+            color: "hsl(var(--foreground))" // Yellow
         }
     ],
     ui: {
         carousel: {
             sectionTitle: "Impact & Results",
             sectionDescription: "See the measurable difference",
-            accentColor: "#a855f7" // Purple
+            accentColor: "hsl(var(--foreground))" // Purple
         },
         cta: {
             label: "See Project Case Studies",

@@ -16,16 +16,16 @@ export const experienceData = {
         detailedPhilosophy: `My work across Cognizant, Quantiphi, and DTDC reflects increasing ownership over architecture, performance, and delivery. From building foundational ETL systems on Hadoop and Informatica, I progressed to cloud data warehousing with AWS Glue, EMR, and Redshift. At Quantiphi, I architected near real-time streaming pipelines with Kinesis, Lambda, and DMS. Today at DTDC, I build open-source real-time streaming platforms using Kafka, Debezium, and Spark Streaming — focused on production reliability and scalable analytics.`
     },
     milestones: [
-        { year: "2020", label: "Program Analyst", role: "Cognizant: Built engineering foundations across enterprise data workflows and delivery environments.", iconName: "Terminal", color: "#3b82f6" },
-        { year: "2022", label: "Associate", role: "Cognizant: AWS Cloud Warehousing with Glue, EMR, and Redshift.", iconName: "Cloud", color: "#8b5cf6" },
-        { year: "2024", label: "Senior Data Eng", role: "Quantiphi: Expanded into cloud data engineering, scalable pipelines, and analytics architecture.", iconName: "Zap", color: "#ec4899" },
-        { year: "2025", label: "Data Engineer", role: "DTDC: Focused on real-time streaming, CDC, warehouse refresh, and production-scale data operations.", iconName: "Sparkles", color: "#f59e0b" }
+        { year: "2020", label: "Program Analyst", role: "Cognizant: Built engineering foundations across enterprise data workflows and delivery environments.", iconName: "Terminal", color: "hsl(var(--foreground))" },
+        { year: "2022", label: "Associate", role: "Cognizant: AWS Cloud Warehousing with Glue, EMR, and Redshift.", iconName: "Cloud", color: "hsl(var(--foreground))" },
+        { year: "2024", label: "Senior Data Eng", role: "Quantiphi: Expanded into cloud data engineering, scalable pipelines, and analytics architecture.", iconName: "Zap", color: "hsl(var(--foreground))" },
+        { year: "2025", label: "Data Engineer", role: "DTDC: Focused on real-time streaming, CDC, warehouse refresh, and production-scale data operations.", iconName: "Sparkles", color: "hsl(var(--foreground))" }
     ],
     ui: {
         carousel: {
             sectionTitle: "Experience",
             sectionDescription: "View my career journey",
-            accentColor: "#3b82f6" // Blue
+            accentColor: "hsl(var(--foreground))" // Blue
         },
         cta: {
             label: "Read Full Experience Timeline",

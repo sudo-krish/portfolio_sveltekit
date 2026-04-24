@@ -86,7 +86,7 @@ export const techstackData = {
         carousel: {
             sectionTitle: "Tech Stack",
             sectionDescription: "Tools and production technologies",
-            accentColor: "#06b6d4" // Cyan
+            accentColor: "hsl(var(--foreground))" // Cyan
         },
         cta: {
             label: "View Projects",

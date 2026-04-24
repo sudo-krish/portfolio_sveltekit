@@ -107,7 +107,7 @@
     {#if isMobile}
         <div class="w-full flex flex-col gap-3 relative z-10">
             <GlassCard variant="inset" hover={false} class="w-full !p-4 relative">
-                <div class="absolute top-6 bottom-6 left-[29px] w-px bg-gradient-to-b from-primary via-violet-500/20 to-transparent opacity-50"></div>
+                <div class="absolute top-6 bottom-6 left-[29px] w-px bg-gradient-to-b from-foreground/50 via-foreground/20 to-transparent opacity-50"></div>
                 <div class="flex flex-col gap-4 relative z-10">
                     {#each experienceData.milestones as m, i}
                         <div class="relative flex items-start gap-3 group/node">
@@ -134,7 +134,7 @@
         <div class="w-full flex flex-col relative z-10" style="padding-top: 2cqi; padding-bottom: 3cqi;">
             <div class="relative w-full">
                 <div class="absolute top-[2.5rem] left-[10%] right-[10%] h-0.5 bg-foreground/5 shadow-[0_0_10px_rgba(255,255,255,0.05)] rounded-full z-0">
-                    <div class="absolute top-0 left-0 h-full w-[95%] bg-gradient-to-r from-primary via-accent to-highlight rounded-full opacity-80"></div>
+                    <div class="absolute top-0 left-0 h-full w-[95%] bg-gradient-to-r from-foreground/50 via-foreground/20 to-transparent rounded-full opacity-80"></div>
                 </div>
                 <div class="relative flex justify-between items-start w-full z-10 px-2">
                     {#each experienceData.milestones as m, i}

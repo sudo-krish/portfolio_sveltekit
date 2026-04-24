@@ -107,7 +107,7 @@
   <WarehouseGrid
     items={warehouseData.warehouseNodes}
     accent="hsl(280, 60%, 65%)"
-    textHoverClass="group-hover:text-purple-400"
+    textHoverClass="group-hover:text-foreground"
   />
 {/snippet}
 

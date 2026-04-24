@@ -180,8 +180,8 @@
     <div class="flex items-center" style="gap: 0.4cqi; padding: 0 0.4cqi; margin-bottom: 0.4cqi;">
         <div
             class="w-1.5 h-1.5 rounded-full {variant === 'cert'
-                ? 'bg-orange-500'
-                : 'bg-emerald-500'} animate-pulse"
+                ? 'bg-foreground'
+                : 'bg-muted-foreground'} animate-pulse"
         ></div>
         <h4
             class="font-mono uppercase tracking-[0.25em] text-foreground/40 font-bold"

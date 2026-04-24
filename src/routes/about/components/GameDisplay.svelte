@@ -124,10 +124,10 @@
                     class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none"
                 >
                     <div
-                        class="absolute w-[115%] h-[115%] border-4 border-blue-400 rounded-full bg-blue-300/30 animate-pulse shadow-[0_0_15px_rgba(79,195,247,0.8)]"
+                        class="absolute w-[115%] h-[115%] border-4 border-foreground rounded-full bg-foreground/10 animate-pulse shadow-[0_0_15px_hsl(var(--foreground)/0.3)]"
                     ></div>
                     <span
-                        class="retro-font text-foreground bg-blue-600 border-[2px] border-white px-2 py-1 rounded shadow-lg font-bold text-lg sm:text-xl relative z-30 drop-shadow-md transform -translate-y-8 tracking-widest"
+                        class="retro-font text-foreground bg-foreground text-background border-[2px] border-white px-2 py-1 rounded shadow-lg font-bold text-lg sm:text-xl relative z-30 drop-shadow-md transform -translate-y-8 tracking-widest"
                         >{lastDamageAmount === 0 ? "BLOCKED!" : "GUARD!"}</span
                     >
                 </div>
@@ -139,7 +139,7 @@
                     class="absolute -right-4 -top-6 z-30 animate-bounce pointer-events-none delay-100"
                 >
                     <span
-                        class="retro-font text-foreground bg-red-600 border-[2px] border-white px-2 py-1 rounded shadow-lg font-bold text-lg sm:text-xl drop-shadow-md"
+                        class="retro-font text-foreground bg-foreground text-background border-[2px] border-white px-2 py-1 rounded shadow-lg font-bold text-lg sm:text-xl drop-shadow-md"
                         >-{lastDamageAmount} HP</span
                     >
                 </div>
@@ -223,7 +223,7 @@
                 class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none delay-300"
             >
                 <span
-                    class="retro-font text-foreground bg-purple-600 border-[2px] border-white px-1 py-0.5 rounded shadow-lg font-bold text-sm drop-shadow-md animate-bounce transform translate-y-8"
+                    class="retro-font text-foreground bg-foreground text-background border-[2px] border-white px-1 py-0.5 rounded shadow-lg font-bold text-sm drop-shadow-md animate-bounce transform translate-y-8"
                     >CONFUSED!</span
                 >
             </div>

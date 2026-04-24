@@ -30,14 +30,14 @@
     }>();
 
     const difficultyColors: Record<string, string> = {
-        beginner: 'bg-green-500/20 text-muted-foreground border-green-500/30',
-        intermediate: 'bg-yellow-500/20 text-muted-foreground border-yellow-500/30',
-        advanced: 'bg-red-500/20 text-muted-foreground border-red-500/30',
+        beginner: 'bg-foreground/5 text-muted-foreground border-foreground/10',
+        intermediate: 'bg-foreground/10 text-muted-foreground border-foreground/20',
+        advanced: 'bg-foreground/15 text-muted-foreground border-foreground/30',
     };
 
     const statusColors: Record<string, string> = {
-        production: 'bg-green-500/20 text-muted-foreground',
-        'in-progress': 'bg-yellow-500/20 text-muted-foreground',
+        production: 'bg-foreground/10 text-muted-foreground',
+        'in-progress': 'bg-foreground/5 text-muted-foreground',
         archived: 'bg-gray-500/20 text-muted-foreground',
     };
 </script>

@@ -98,7 +98,7 @@
                     <Shield size={10} class="text-muted-foreground" />
                     <span>Globally Recognized</span>
                 </div>
-                <div class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-green-500/10 border border-green-500/20">
+                <div class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-foreground/5 border border-foreground/10">
                     <CheckCircle size={9} class="text-muted-foreground" />
                     <span class="text-[8px] font-bold text-muted-foreground tracking-widest uppercase">Verified</span>
                 </div>
@@ -107,7 +107,7 @@
             <!-- MAIN SCROLLABLE CONTAINER -->
             <div class="group relative flex flex-col w-full rounded-[1.5rem] bg-gradient-to-br from-foreground/[0.04] to-foreground/[0.01] backdrop-blur-[40px] border border-foreground/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.12)] overflow-hidden">
                 <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-foreground/30 to-transparent opacity-60"></div>
-                <div class="absolute -right-10 -bottom-10 w-48 h-48 rounded-full blur-[60px] opacity-20 pointer-events-none bg-orange-500"></div>
+
 
                 <div class="relative z-10 flex flex-col w-full max-h-[380px] overflow-y-auto no-scrollbar scroll-smooth p-2">
                     {#each allItems as item}
@@ -156,7 +156,7 @@
             <!-- OVERVIEW SEO CARD -->
             <div class="group relative flex flex-col rounded-[2rem] bg-gradient-to-br from-foreground/[0.06] to-foreground/[0.01] backdrop-blur-[60px] border border-foreground/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.12)] overflow-hidden" style="padding: 1.5cqi; margin-bottom: 0.4cqi;">
                 <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-foreground/40 to-transparent opacity-60"></div>
-                <div class="absolute -right-20 -top-20 w-96 h-96 rounded-full blur-[100px] opacity-10 pointer-events-none bg-orange-500"></div>
+
 
                 <div class="relative z-10 flex flex-col" style="gap: 0.8cqi;">
                     <div class="flex items-center" style="gap: 0.8cqi;">

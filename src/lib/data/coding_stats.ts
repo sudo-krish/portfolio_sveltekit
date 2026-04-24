@@ -25,7 +25,7 @@ export const codingStatsData = {
         carousel: {
             sectionTitle: "Engineering Metrics",
             sectionDescription: "Real-time activity across algorithmic problem solving and open-source systems architecture",
-            accentColor: "#22c55e"
+            accentColor: "hsl(var(--foreground))"
         },
         cta: {
             label: "View Repositories",

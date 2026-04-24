@@ -178,9 +178,7 @@
     -webkit-backdrop-filter: blur(0.5px) contrast(1.1);
 
     /* Crystal clear gradient that creates the edge of the bubble */
-    background: radial-gradient(
-      circle at 30% 30%,
-      rgba(255, 255, 255, 0.1) 0%,
+     0%,
       transparent 40%,
       rgba(255, 255, 255, 0.05) 80%,
       rgba(255, 255, 255, 0.2) 100%

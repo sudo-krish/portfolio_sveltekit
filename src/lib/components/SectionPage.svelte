@@ -237,10 +237,7 @@
                         )}"
                     >
                         <!-- Card Hover Glow -->
-                        <div
-                            class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-                            style="background: radial-gradient(circle at center, {accentColor}15 0%, transparent 60%);"
-                        ></div>
+                        
 
                         <div class="relative z-10">
                             <h3
@@ -391,10 +388,7 @@
                 <div
                     class="absolute inset-0 bg-gradient-to-b from-transparent to-background/80"
                 ></div>
-                <div
-                    class="absolute inset-0 opacity-20"
-                    style="background: radial-gradient(circle at bottom, {accentColor}, transparent 70%);"
-                ></div>
+                
             </div>
 
             <div

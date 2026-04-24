@@ -71,7 +71,7 @@
         <!-- Blinking Arrow for Auto-advance Dialogue -->
         {#if !isTyping && (!currentNode.options || currentNode.options.length === 0)}
             <div
-                class="absolute bottom-3 sm:bottom-4 right-4 sm:right-5 w-0 h-0 border-l-[8px] sm:border-l-[10px] border-l-transparent border-r-[8px] sm:border-r-[10px] border-r-transparent border-t-[12px] sm:border-t-[14px] border-t-red-600 animate-bounce z-10"
+                class="absolute bottom-3 sm:bottom-4 right-4 sm:right-5 w-0 h-0 border-l-[8px] sm:border-l-[10px] border-l-transparent border-r-[8px] sm:border-r-[10px] border-r-transparent border-t-[12px] sm:border-t-[14px] border-t-foreground animate-bounce z-10"
             ></div>
         {/if}
     </div>
@@ -92,7 +92,7 @@
                     on:click={() => (showInterviewOptions = true)}
                 >
                     <div
-                        class="absolute left-1 sm:left-2 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-red-600 opacity-0 group-hover:opacity-100"
+                        class="absolute left-1 sm:left-2 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-foreground opacity-0 group-hover:opacity-100"
                     ></div>
                     RESPOND
                 </button>
@@ -103,17 +103,17 @@
                         alert("Scroll down to view your KEY ITEMS in the BAG!")}
                 >
                     <div
-                        class="absolute left-1 sm:left-2 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-red-600 opacity-0 group-hover:opacity-100"
+                        class="absolute left-1 sm:left-2 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-foreground opacity-0 group-hover:opacity-100"
                     ></div>
                     BAG
                 </button>
 
                 <button
-                    class="group relative flex items-center justify-center retro-font text-primary font-bold text-lg sm:text-xl hover:bg-blue-100 transition-colors"
+                    class="group relative flex items-center justify-center retro-font text-primary font-bold text-lg sm:text-xl hover:bg-muted transition-colors"
                     on:click={() => advanceNode("catch_attempt")}
                 >
                     <div
-                        class="absolute left-1 sm:left-2 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-blue-600 opacity-0 group-hover:opacity-100"
+                        class="absolute left-1 sm:left-2 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-foreground opacity-0 group-hover:opacity-100"
                     ></div>
                     HIRE
                 </button>
@@ -123,7 +123,7 @@
                     on:click={() => (window.location.href = "/")}
                 >
                     <div
-                        class="absolute left-1 sm:left-2 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-red-600 opacity-0 group-hover:opacity-100"
+                        class="absolute left-1 sm:left-2 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-foreground opacity-0 group-hover:opacity-100"
                     ></div>
                     RUN
                 </button>
@@ -162,7 +162,7 @@
 
             <!-- Back/Cancel Button -->
             <button
-                class="absolute bottom-2 sm:bottom-3 right-3 sm:right-4 retro-font text-red-600 text-sm sm:text-lg hover:underline z-30 font-bold bg-white px-2 py-1 rounded"
+                class="absolute bottom-2 sm:bottom-3 right-3 sm:right-4 retro-font text-foreground text-sm sm:text-lg hover:underline z-30 font-bold bg-white px-2 py-1 rounded"
                 on:click={() => (showInterviewOptions = false)}
             >
                 CANCEL

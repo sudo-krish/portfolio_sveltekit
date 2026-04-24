@@ -185,7 +185,7 @@
                 class="min-h-[60vh] flex flex-col items-center justify-center gap-6 max-w-md mx-auto text-center"
             >
                 <div
-                    class="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center text-muted-foreground/80 mb-2 border border-red-500/20"
+                    class="w-16 h-16 rounded-full bg-foreground text-background/10 flex items-center justify-center text-muted-foreground/80 mb-2 border border-foreground/20"
                 >
                     <ExternalLink size={24} />
                 </div>
@@ -292,10 +292,7 @@
                     <div
                         class="fade-up md:col-span-7 rounded-3xl border border-foreground/[0.06] bg-gradient-to-br from-foreground/[0.04] to-transparent p-8 lg:p-10 relative overflow-hidden group"
                     >
-                        <div
-                            class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-                            style="background: radial-gradient(circle at top right, {accentColor}10 0%, transparent 60%);"
-                        ></div>
+                        
 
                         <h2
                             class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-muted-foreground mb-8 border-b border-border pb-4"
@@ -372,10 +369,7 @@
                         <div
                             class="rounded-3xl border border-foreground/[0.06] bg-gradient-to-br from-foreground/[0.04] to-transparent p-8 relative overflow-hidden group flex flex-col justify-center"
                         >
-                            <div
-                                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-                                style="background: radial-gradient(circle at bottom left, {accentColor}10 0%, transparent 60%);"
-                            ></div>
+                            
 
                             <div class="flex items-center gap-4 mb-6">
                                 <div
@@ -581,10 +575,7 @@
                     <div
                         class="absolute inset-0 bg-gradient-to-b from-transparent to-background/80"
                     ></div>
-                    <div
-                        class="absolute inset-0 opacity-20"
-                        style="background: radial-gradient(circle at bottom, {accentColor}, transparent 70%);"
-                    ></div>
+                    
                 </div>
 
                 <div

@@ -33,7 +33,7 @@ export const lakehouseData = {
         carousel: {
             sectionTitle: "Lakehouse",
             sectionDescription: "Discover the Transactional Data Layer",
-            accentColor: "#3b82f6" // Blue
+            accentColor: "hsl(var(--foreground))" // Blue
         },
         cta: {
             label: "View Certifications",

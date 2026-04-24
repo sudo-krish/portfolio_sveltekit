@@ -91,7 +91,7 @@
     <!-- Bag Header -->
     <div class="flex items-center gap-3 mb-2 px-2">
         <div
-            class="w-8 h-8 bg-orange-500 rounded flex items-center justify-center border-2 border-[#333] shadow-[2px_2px_0_#333]"
+            class="w-8 h-8 bg-muted-foreground text-background rounded flex items-center justify-center border-2 border-[#333] shadow-[2px_2px_0_#333]"
         >
             <Backpack size={20} class="text-foreground" />
         </div>

@@ -72,15 +72,7 @@
 <div
   class="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none bg-[hsl(var(--background))]"
 >
-  <!-- Ambient Light Source -->
-  <div class="absolute inset-0 z-0">
-    <div
-      class="absolute top-[0%] left-[20%] w-[50vw] h-[50vw] bg-[hsl(var(--primary)/0.25)] rounded-full blur-[100px] dark:mix-blend-screen"
-    ></div>
-    <div
-      class="absolute bottom-[20%] right-[10%] w-[40vw] h-[40vw] bg-[hsl(var(--accent)/0.2)] rounded-full blur-[100px] dark:mix-blend-screen"
-    ></div>
-  </div>
+
 
   <!-- 
     The 3D Isometric Container 

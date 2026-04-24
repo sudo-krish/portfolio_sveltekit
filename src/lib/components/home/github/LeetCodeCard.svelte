@@ -88,7 +88,7 @@
         <div class="flex items-center gap-3.5 2xl:gap-4">
             <!-- Profile Picture -->
             <div
-                class="relative w-12 h-12 2xl:w-14 2xl:h-14 rounded-full bg-gradient-to-br from-highlight to-highlight/20 p-[2px] shadow-[0_0_15px_hsl(var(--warning)/)] group-hover:shadow-[0_0_25px_hsl(var(--warning)/)] transition-shadow duration-500"
+                class="relative w-12 h-12 2xl:w-14 2xl:h-14 rounded-full bg-gradient-to-br from-foreground/20 to-foreground/5 p-[2px] shadow-[0_0_15px_hsl(var(--foreground)/0.1)] group-hover:shadow-[0_0_25px_hsl(var(--foreground)/0.2)] transition-shadow duration-500"
             >
                 <div
                     class="w-full h-full bg-background rounded-full overflow-hidden border-2 border-transparent"
@@ -123,7 +123,7 @@
         <!-- LeetCode Badge / External Link Icon -->
         <div class="flex items-center gap-2">
             <div
-                class="flex items-center justify-center w-8 h-8 rounded-full bg-muted border border-border group-hover:bg-highlight/10 group-hover:border-highlight/30 transition-colors duration-300"
+                class="flex items-center justify-center w-8 h-8 rounded-full bg-muted border border-border group-hover:bg-foreground/5 group-hover:border-foreground/20 transition-colors duration-300"
             >
                 <ExternalLink
                     size={14}
@@ -139,7 +139,7 @@
             class="flex-1 flex flex-col items-center justify-center py-12 relative z-10 gap-4"
         >
             <div
-                class="w-8 h-8 border-2 border-highlight/30 border-t-highlight rounded-full animate-spin"
+                class="w-8 h-8 border-2 border-foreground/20 border-t-foreground/60 rounded-full animate-spin"
             ></div>
             <span
                 class="text-xs font-mono text-muted-foreground animate-pulse uppercase tracking-widest"
@@ -185,7 +185,7 @@
                 </div>
                 {#if stats.reputation}
                     <div
-                        class="text-[9px] text-foreground/80 mt-2 font-mono relative z-10 bg-highlight/10 self-start px-2 py-0.5 rounded-sm"
+                        class="text-[9px] text-foreground/80 mt-2 font-mono relative z-10 bg-foreground/10 self-start px-2 py-0.5 rounded-sm"
                     >
                         +{stats.reputation} Reputation
                     </div>
@@ -233,11 +233,7 @@
         </div>
 
         <!-- Primary Centerpiece: Problems Solved -->
-        <GlassCard variant="inset" hover={false} class="flex flex-col !p-4 2xl:!p-5 border-highlight/20 group/streak mb-5 !bg-gradient-to-br from-highlight/10 to-transparent">
-            <!-- Background detail for the solved card -->
-            <div
-                class="absolute right-0 top-0 w-32 h-32 bg-[radial-gradient(circle_at_top_right,hsl(var(--warning)/)_0,transparent_70%)]"
-            ></div>
+        <GlassCard variant="inset" hover={false} class="flex flex-col !p-4 2xl:!p-5 border-foreground/10 group/streak mb-5">
 
             <div class="flex items-center justify-between mb-4 relative z-10">
                 <div class="flex items-center gap-2 text-foreground/80">
@@ -266,13 +262,13 @@
                 class="w-full h-1.5 2xl:h-2 bg-foreground/5 rounded-full overflow-hidden mb-5 flex relative z-10 shadow-inner"
             >
                 <div
-                    class="h-full bg-success shadow-[0_0_10px_#2cbb5d]"
+                    class="h-full bg-foreground shadow-[0_0_10px_hsl(var(--foreground)/0.3)]"
                     style="width: {stats.totalSolved
                         ? (stats.easySolved / stats.totalSolved) * 100
                         : 0}%"
                 ></div>
                 <div
-                    class="h-full bg-warning shadow-[0_0_10px_#ffc01e]"
+                    class="h-full bg-muted-foreground shadow-[0_0_10px_hsl(var(--muted-foreground)/0.3)]"
                     style="width: {stats.totalSolved
                         ? (stats.mediumSolved / stats.totalSolved) * 100
                         : 0}%"

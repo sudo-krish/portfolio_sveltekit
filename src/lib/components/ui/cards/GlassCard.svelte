@@ -99,15 +99,7 @@
             ></div>
         {/if}
 
-        <!-- ── Ambient radial glow ── -->
-        {#if variant !== "inset"}
-            <div
-                class="pointer-events-none absolute -right-16 -top-16
-                       w-56 h-56 rounded-full blur-[60px]
-                       opacity-20 {hover ? 'group-hover:opacity-40' : ''} transition-opacity duration-700"
-                style="background: radial-gradient(circle at center, var(--_accent, hsl(var(--primary))) 0%, transparent 65%);"
-            ></div>
-        {/if}
+        
 
         <!-- ── Content slot ── -->
         <div class="relative z-10 h-full flex flex-col">
@@ -142,15 +134,7 @@
             ></div>
         {/if}
 
-        <!-- ── Ambient radial glow ── -->
-        {#if variant !== "inset"}
-            <div
-                class="pointer-events-none absolute -right-16 -top-16
-                       w-56 h-56 rounded-full blur-[60px]
-                       opacity-20 {hover ? 'group-hover:opacity-40' : ''} transition-opacity duration-700"
-                style="background: radial-gradient(circle at center, var(--_accent, hsl(var(--primary))) 0%, transparent 65%);"
-            ></div>
-        {/if}
+        
 
         <!-- ── Content slot ── -->
         <div class="relative z-10 h-full flex flex-col">
@@ -183,15 +167,7 @@
         ></div>
     {/if}
 
-    <!-- ── Ambient radial glow ── -->
-    {#if variant !== "inset"}
-        <div
-            class="pointer-events-none absolute -right-16 -top-16
-                   w-56 h-56 rounded-full blur-[60px]
-                   opacity-20 {hover ? 'group-hover:opacity-40' : ''} transition-opacity duration-700"
-            style="background: radial-gradient(circle at center, var(--_accent, hsl(var(--primary))) 0%, transparent 65%);"
-        ></div>
-    {/if}
+    
 
         <!-- ── Content slot ── -->
         <div class="relative z-10 h-full flex flex-col">

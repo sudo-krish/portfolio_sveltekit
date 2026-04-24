@@ -54,7 +54,7 @@
 </script>
 
 <!-- {#if pageErrors.length > 0}
-  <div class="fixed top-0 left-0 w-full bg-red-600 text-foreground font-mono p-8 z-[9999] overflow-auto max-h-[50vh]">
+  <div class="fixed top-0 left-0 w-full bg-foreground text-background text-foreground font-mono p-8 z-[9999] overflow-auto max-h-[50vh]">
     <h1 class="text-2xl font-bold border-b border-white pb-2 mb-4">CAUGHT ERRORS</h1>
     {#each pageErrors as err}
       <div class="mb-2 p-2 bg-background/50 rounded">{err}</div>

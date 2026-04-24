@@ -39,7 +39,7 @@ export const warehouseData = {
         carousel: {
             sectionTitle: "Data Warehouse",
             sectionDescription: "Explore the Analytics Engine",
-            accentColor: "#a855f7" // Purple
+            accentColor: "hsl(var(--foreground))" // Purple
         }
     }
 };

@@ -49,7 +49,7 @@ export const pipelineData = {
         carousel: {
             sectionTitle: "Data Engineering",
             sectionDescription: "Explore the Architecture",
-            accentColor: "#06b6d4" // Cyan
+            accentColor: "hsl(var(--foreground))" // Cyan
         },
         cta: {
             label: "Explore the Lake",

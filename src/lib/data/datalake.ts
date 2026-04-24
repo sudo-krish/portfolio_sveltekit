@@ -30,7 +30,7 @@ export const datalakeData = {
         carousel: {
             sectionTitle: "Data Lake",
             sectionDescription: "Explore the storage architecture",
-            accentColor: "#10b981" // Emerald
+            accentColor: "hsl(var(--foreground))" // Emerald
         },
         cta: {
             label: "Enter the Lakehouse",

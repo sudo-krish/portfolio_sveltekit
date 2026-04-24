@@ -100,7 +100,7 @@
 
                 <div class="flex items-center justify-between mt-auto pt-4">
                     <div
-                        class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 w-max"
+                        class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-foreground/5 border border-foreground/10 w-max"
                     >
                         <CheckCircle size={12} class="text-muted-foreground" />
                         <span

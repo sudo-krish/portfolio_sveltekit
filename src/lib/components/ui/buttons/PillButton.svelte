@@ -32,8 +32,8 @@
 
 <a
     {href}
-    class="group relative inline-flex items-center justify-center {c.bg} {c.shadow} {c.hoverGlow} font-bold rounded-[1.2rem] overflow-hidden transition-all duration-300 {reversed ? 'flex-row-reverse' : ''}"
-    style="height: max(3rem, 3cqi); padding: 0 max(1.5rem, 1.5cqi); gap: max(0.5rem, 0.5cqi); font-size: clamp(0.875rem, 1cqi, 1rem); color: white;"
+    class="group relative inline-flex items-center justify-center {c.bg} {c.shadow} {c.hoverGlow} text-primary-foreground font-bold rounded-[1.2rem] overflow-hidden transition-all duration-300 {reversed ? 'flex-row-reverse' : ''}"
+    style="height: max(3rem, 3cqi); padding: 0 max(1.5rem, 1.5cqi); gap: max(0.5rem, 0.5cqi); font-size: clamp(0.875rem, 1cqi, 1rem);"
 >
     <!-- Shimmer sweep animation (same as Hero CTA) -->
     <div
@@ -41,8 +41,8 @@
     ></div>
 
     <!-- Label text -->
-    <span class="z-10 whitespace-nowrap" style="color: white;">{label}</span>
+    <span class="z-10 whitespace-nowrap">{label}</span>
 
     <!-- Icon -->
-    <Icon class="z-10" size={18} style="color: white;" />
+    <Icon class="z-10" size={18} />
 </a>

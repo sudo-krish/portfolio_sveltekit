@@ -65,9 +65,9 @@
             <!-- MAIN ACHIEVEMENT CARD (Mobile) -->
             <div class="group relative flex flex-col p-5 sm:p-6 rounded-[1.5rem] bg-card/80 backdrop-blur-[60px] border border-foreground/[0.08] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
                 <!-- Top internal highlight -->
-                <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-60"></div>
+                <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-foreground/40 to-transparent opacity-60"></div>
                 <!-- Ambient Purple Glow -->
-                <div class="absolute -right-20 -top-20 w-48 h-48 rounded-full blur-[60px] opacity-20 pointer-events-none bg-purple-500"></div>
+
 
                 <div class="relative z-10 flex flex-col gap-4">
                     <!-- Mobile Header Section -->
@@ -100,7 +100,7 @@
                         <div class="absolute inset-0 blur-[30px] opacity-10 pointer-events-none" style="background-color: {m.color}"></div>
 
                         <!-- Card top highlight -->
-                        <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent opacity-50"></div>
+                        <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-foreground/20 to-transparent opacity-50"></div>
 
                         <div class="relative z-10 flex flex-col items-center w-full">
                             <!-- Smaller icon box for mobile -->
@@ -127,7 +127,7 @@
     {:else}
         <div class="w-full flex flex-col relative z-10" style="gap: 1cqi; padding-top: 1cqi;">
             <!-- MAIN ACHIEVEMENT CARD (Top Full Width) -->
-            <GlassCard variant="default" accent="hsl(280, 60%, 50%)" class="group">
+            <GlassCard variant="default" accent="hsl(var(--foreground))" class="group">
                 <div class="flex flex-col" style="gap: 1cqi;">
                     <div class="flex items-center" style="gap: 0.8cqi;">
                         <div class="flex items-center justify-center rounded-xl bg-foreground/[0.03] border border-foreground/[0.05] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] group-hover:-translate-y-1 transition-all duration-500" style="width: 3cqi; height: 3cqi;">

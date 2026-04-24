@@ -22,10 +22,7 @@
     ></div>
 
     <!-- Hover Glow & Gradient -->
-    <div
-        class="absolute inset-0 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-300"
-        style="background: radial-gradient(circle at center, color-mix(in srgb, {color} 25%, transparent) 0%, transparent 100%);"
-    ></div>
+    
 
     <!-- Borders: Static & Hover -->
     <div

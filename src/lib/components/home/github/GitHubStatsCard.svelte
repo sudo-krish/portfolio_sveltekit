@@ -98,7 +98,7 @@
         <div class="flex items-center gap-3.5 2xl:gap-4">
             <!-- Profile Picture -->
             <div
-                class="relative w-12 h-12 2xl:w-14 2xl:h-14 rounded-full bg-gradient-to-br from-success to-success/20 p-[2px] shadow-[0_0_15px_hsl(var(--success)/)] group-hover:shadow-[0_0_25px_hsl(var(--success)/)] transition-shadow duration-500"
+                class="relative w-12 h-12 2xl:w-14 2xl:h-14 rounded-full bg-gradient-to-br from-foreground/20 to-foreground/5 p-[2px] shadow-[0_0_15px_hsl(var(--foreground)/0.1)] group-hover:shadow-[0_0_25px_hsl(var(--foreground)/0.2)] transition-shadow duration-500"
             >
                 <div
                     class="w-full h-full bg-background rounded-full overflow-hidden border-2 border-transparent"
@@ -132,7 +132,7 @@
 
         <!-- External Link Icon (Replaces Active indicator) -->
         <div
-            class="flex items-center justify-center w-8 h-8 rounded-full bg-muted border border-border group-hover:bg-success/10 group-hover:border-success/30 transition-colors duration-300"
+            class="flex items-center justify-center w-8 h-8 rounded-full bg-muted border border-border group-hover:bg-foreground/5 group-hover:border-foreground/20 transition-colors duration-300"
         >
             <ExternalLink
                 size={14}
@@ -147,7 +147,7 @@
             class="flex-1 flex flex-col items-center justify-center py-12 relative z-10 gap-4"
         >
             <div
-                class="w-8 h-8 border-2 border-success/30 border-t-success rounded-full animate-spin"
+                class="w-8 h-8 border-2 border-foreground/20 border-t-foreground/60 rounded-full animate-spin"
             ></div>
             <span
                 class="text-xs font-mono text-muted-foreground animate-pulse uppercase tracking-widest"
@@ -160,11 +160,9 @@
             <!-- Primary Metric: The Streak -->
             <GlassCard
                 variant="inset"
-                class="col-span-2 sm:col-span-1 flex flex-col justify-center p-4 2xl:p-5 !bg-gradient-to-br from-success/10 to-transparent border-success/20 group/streak relative overflow-hidden"
+                class="col-span-2 sm:col-span-1 flex flex-col justify-center p-4 2xl:p-5 border-foreground/10 group/streak relative overflow-hidden"
             >
-                <div
-                    class="absolute right-0 top-0 w-24 h-24 bg-[radial-gradient(circle_at_top_right,hsl(var(--success)/)_0,transparent_70%)]"
-                ></div>
+                
                 <div
                     class="flex items-center justify-between mb-3 text-foreground/80 relative z-10"
                 >
@@ -179,7 +177,7 @@
                 </div>
                 <div class="flex items-baseline gap-1.5 relative z-10">
                     <span
-                        class="text-3xl 2xl:text-4xl font-black text-foreground font-mono leading-none drop-shadow-[0_0_15px_hsl(var(--success)/)] group-hover/streak:text-foreground transition-colors duration-300"
+                        class="text-3xl 2xl:text-4xl font-black text-foreground font-mono leading-none drop-shadow-[0_0_15px_hsl(var(--foreground)/0.3)] group-hover/streak:text-foreground transition-colors duration-300"
                     >
                         {stats?.contributionStreak || 0}
                     </span>
@@ -250,7 +248,7 @@
                     <Terminal size={12} class="text-foreground" /> Recent Pushes
                 </div>
                 <div
-                    class="w-2 h-2 rounded-full bg-success animate-pulse shadow-[0_0_8px_hsl(var(--success)/)]"
+                    class="w-2 h-2 rounded-full bg-foreground animate-pulse shadow-[0_0_8px_hsl(var(--foreground)/0.3)]"
                 ></div>
             </div>
 
@@ -279,7 +277,7 @@
                             {:else}
                                 <GitCommit
                                     size={10}
-                                    class="text-foreground relative z-10 drop-shadow-[0_0_2px_hsl(var(--success)/)]"
+                                    class="text-foreground relative z-10 drop-shadow-[0_0_2px_hsl(var(--foreground)/0.3)]"
                                 />
                             {/if}
                         </div>

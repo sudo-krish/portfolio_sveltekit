@@ -37,8 +37,8 @@
                     <div
                         class="hidden sm:flex flex-col gap-1 items-center justify-center"
                     >
-                        <div class="w-4 h-12 bg-red-500 skew-x-[-15deg]"></div>
-                        <div class="w-4 h-4 bg-red-500 skew-x-[-15deg]"></div>
+                        <div class="w-4 h-12 bg-foreground text-background skew-x-[-15deg]"></div>
+                        <div class="w-4 h-4 bg-foreground text-background skew-x-[-15deg]"></div>
                     </div>
 
                     <!-- Main Glitching Text -->
@@ -51,8 +51,8 @@
                     <div
                         class="hidden sm:flex flex-col gap-1 items-center justify-center"
                     >
-                        <div class="w-4 h-12 bg-red-500 skew-x-[-15deg]"></div>
-                        <div class="w-4 h-4 bg-red-500 skew-x-[-15deg]"></div>
+                        <div class="w-4 h-12 bg-foreground text-background skew-x-[-15deg]"></div>
+                        <div class="w-4 h-4 bg-foreground text-background skew-x-[-15deg]"></div>
                     </div>
                 </div>
             </div>

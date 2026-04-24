@@ -283,10 +283,7 @@
                         <div
                             class="fade-up group relative overflow-hidden rounded-3xl border border-foreground/[0.06] bg-gradient-to-br from-foreground/[0.04] to-transparent p-6 flex flex-col justify-between hover:border-foreground/15 transition-all duration-500 min-h-[160px]"
                         >
-                            <div
-                                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-                                style="background: radial-gradient(circle at center, {accentColor}15 0%, transparent 60%);"
-                            ></div>
+                            
 
                             <div
                                 class="relative z-10 flex items-center justify-between mb-4"
