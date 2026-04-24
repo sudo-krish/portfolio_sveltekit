@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
+    import GlassCard from "$lib/components/ui/cards/GlassCard.svelte";
     import {
         Code2,
         Target,
@@ -73,42 +74,17 @@
     }
 </script>
 
-<a
+<GlassCard
+    variant="default"
+    accent={codingStatsData.leetcode.accent}
     href={leetcodeUrl}
     target="_blank"
     rel="noopener noreferrer"
-    class="group block relative flex flex-col p-5 2xl:p-7 rounded-[2rem]
-           bg-card/70 backdrop-blur-2xl border border-foreground/[0.08]
-           hover:border-foreground/[0.14]
-           shadow-[0_20px_60px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.08)]
-           hover:shadow-[0_24px_72px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.12)]
-           transition-all duration-700 overflow-hidden w-full h-full"
+    class="group w-full h-full"
 >
-    <!-- Top hairline highlight -->
-    <div
-        class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-foreground/20 to-transparent opacity-60"
-    ></div>
-
-    <!-- Left edge accent line -->
-    <div
-        class="absolute inset-y-0 left-0 w-[1px] bg-gradient-to-b from-transparent via-highlight/40 to-transparent opacity-40 group-hover:opacity-80 transition-opacity duration-700"
-    ></div>
-
-    <!-- Ambient organic orange glow behind the UI -->
-    <div
-        class="absolute -right-20 -top-20 w-64 h-64 rounded-full blur-[80px] opacity-15 group-hover:opacity-30 transition-opacity duration-1000 pointer-events-none"
-        style="background-color: {codingStatsData.leetcode.accent}"
-    ></div>
-
-    <div
-        class="absolute -left-20 -bottom-20 w-64 h-64 rounded-full blur-[80px] opacity-[0.08] group-hover:opacity-20 transition-opacity duration-1000 pointer-events-none"
-        style="background-color: {codingStatsData.leetcode.accent}"
-    ></div>
 
     <!-- Profile Header Row -->
-    <div
-        class="flex items-center justify-between mb-6 relative z-10 bg-foreground/[0.03] p-3 2xl:p-4 rounded-[1.25rem] border border-foreground/[0.06] shadow-[inset_0_1px_0_rgba(255,255,255,0.04),inset_0_-1px_3px_rgba(0,0,0,0.15)] backdrop-blur-md"
-    >
+    <GlassCard variant="inset" hover={false} class="flex items-center justify-between mb-6 !p-3 2xl:!p-4 z-10">
         <div class="flex items-center gap-3.5 2xl:gap-4">
             <!-- Profile Picture -->
             <div
@@ -155,7 +131,7 @@
                 />
             </div>
         </div>
-    </div>
+    </GlassCard>
 
     <!-- Title and Content Body -->
     {#if loading}
@@ -184,12 +160,10 @@
         <!-- Top Metrics Row (Rank and Streak) -->
         <div class="grid grid-cols-2 gap-3 2xl:gap-4 mb-5 relative z-10">
             <!-- Global Rank -->
-            <div
-                class="col-span-1 flex flex-col justify-center p-4 rounded-[1.25rem] bg-gradient-to-br from-card/80 to-foreground/[0.02] border border-foreground/5 shadow-inner hover:bg-foreground/[0.04] transition-colors relative overflow-hidden group/card shadow-[inset_0_4px_20px_rgba(0,0,0,0.5)]"
+            <GlassCard
+                variant="inset"
+                class="col-span-1 flex flex-col justify-center p-4 group/card"
             >
-                <div
-                    class="absolute inset-0 bg-gradient-to-b from-foreground/[0.02] to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity"
-                ></div>
                 <div
                     class="flex items-center gap-2 text-foreground/40 mb-3 relative z-10"
                 >
@@ -216,11 +190,12 @@
                         +{stats.reputation} Reputation
                     </div>
                 {/if}
-            </div>
+            </GlassCard>
 
             <!-- Flame Streak Indicator -->
-            <div
-                class="col-span-1 flex flex-col justify-center p-4 rounded-[1.25rem] bg-gradient-to-br from-card/80 to-foreground/[0.02] border border-foreground/5 shadow-inner hover:bg-highlight/5 hover:border-highlight/20 transition-all duration-300 relative overflow-hidden group/card shadow-[inset_0_4px_20px_rgba(0,0,0,0.5)]"
+            <GlassCard
+                variant="inset"
+                class="col-span-1 flex flex-col justify-center p-4 hover:border-highlight/20 group/card transition-all duration-300"
             >
                 <div
                     class="flex items-center gap-2 text-foreground/40 mb-3 relative z-10"
@@ -254,13 +229,11 @@
                         {stats.activeDays} Active Days
                     </div>
                 {/if}
-            </div>
+            </GlassCard>
         </div>
 
         <!-- Primary Centerpiece: Problems Solved -->
-        <div
-            class="flex flex-col p-4 2xl:p-5 rounded-[1.25rem] bg-gradient-to-br from-highlight/10 to-transparent border border-highlight/20 shadow-inner group/streak relative z-10 mb-5 overflow-hidden backdrop-blur-md"
-        >
+        <GlassCard variant="inset" hover={false} class="flex flex-col !p-4 2xl:!p-5 border-highlight/20 group/streak mb-5 !bg-gradient-to-br from-highlight/10 to-transparent">
             <!-- Background detail for the solved card -->
             <div
                 class="absolute right-0 top-0 w-32 h-32 bg-[radial-gradient(circle_at_top_right,hsl(var(--warning)/)_0,transparent_70%)]"
@@ -327,7 +300,7 @@
                     </div>
                 {/each}
             </div>
-        </div>
+        </GlassCard>
 
         <!-- Bottom Footer (Acceptance Rate) -->
         <div
@@ -351,4 +324,4 @@
             </div>
         </div>
     {/if}
-</a>
+</GlassCard>

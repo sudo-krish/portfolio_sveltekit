@@ -1,6 +1,7 @@
 <!-- src/lib/components/home/credentials/desktop/PremiumMarquee.svelte -->
 <script lang="ts">
     import { onMount, onDestroy } from "svelte";
+    import GlassCard from "$lib/components/ui/cards/GlassCard.svelte";
     import {
         Database,
         Code2,
@@ -220,8 +221,9 @@
             class="flex w-max shrink-0 will-change-transform" style="gap: 0.8cqi;"
         >
             {#each loopItems as item}
-                <button
-                    type="button"
+                <GlassCard
+                    variant="compact"
+                    accent={item.color}
                     onclick={(e) => {
                         // Only trigger select if we haven't dragged significantly
                         if (dragDistance < 5) {
@@ -230,60 +232,46 @@
                             e.preventDefault();
                         }
                     }}
-                    class="relative overflow-hidden flex items-center rounded-2xl transition-all duration-500 w-max text-left shrink-0 group
-                           bg-card/60 backdrop-blur-xl
-                           border border-foreground/[0.08]
-                           hover:border-foreground/[0.14] hover:bg-card/80
-                           shadow-[0_8px_24px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.06)]
-                           hover:shadow-[0_12px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]"
-                    style="gap: 1cqi; padding: 1cqi 2.5cqi 1cqi 1.2cqi; min-height: 5cqi; --hover-color: {item.color};"
+                    class="group w-max shrink-0 transition-all duration-500"
+                    style="min-height: 5cqi;"
                 >
-                    <!-- Hover Border Glow -->
-                    <div
-                        class="absolute inset-0 border-2 border-transparent group-hover:border-[var(--hover-color)] opacity-0 group-hover:opacity-30 rounded-2xl transition-all duration-300 pointer-events-none"
-                    ></div>
-
-                    <!-- Subtle glow blob on hover inside the card -->
-                    <div
-                        class="absolute -right-10 -bottom-10 w-32 h-32 rounded-full blur-[40px] opacity-0 group-hover:opacity-15 transition-opacity duration-300 pointer-events-none"
-                        style="background-color: {item.color};"
-                    ></div>
-
-                    <!-- Taller, Cleaner Icon Box -->
-                    <div
-                        class="w-14 h-14 shrink-0 flex items-center justify-center rounded-2xl transition-all duration-300 shadow-inner group-hover:scale-110"
-                        style="background-color: {item.color}15; color: {item.color};"
-                    >
-                        <svelte:component this={getIcon(item.id)} size={24} />
-                    </div>
-
-                    <!-- Clean Typography -->
-                    <div class="flex flex-col" style="max-width: 26cqi;">
-                        <span
-                            class="font-bold tracking-wide text-foreground/90 group-hover:text-foreground transition-colors duration-300 truncate"
-                            style="font-size: clamp(10px, 0.9cqi, 15px);"
+                    <div class="flex items-center" style="gap: 1cqi;">
+                        <!-- Taller, Cleaner Icon Box -->
+                        <div
+                            class="w-14 h-14 shrink-0 flex items-center justify-center rounded-2xl transition-all duration-300 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] bg-foreground/[0.03] border border-foreground/[0.05] group-hover:scale-110"
+                            style="color: {item.color};"
                         >
-                            {item.name}
-                        </span>
-                        <div class="flex items-center" style="gap: 0.4cqi; margin-top: 0.3cqi;">
+                            <svelte:component this={getIcon(item.id)} size={24} />
+                        </div>
+
+                        <!-- Clean Typography -->
+                        <div class="flex flex-col" style="max-width: 26cqi;">
                             <span
-                                class="font-mono text-foreground/50 group-hover:text-foreground/70 transition-colors duration-300 uppercase tracking-widest truncate"
-                                style="font-size: clamp(8px, 0.7cqi, 11px);"
+                                class="font-bold tracking-wide text-foreground/90 group-hover:text-foreground transition-colors duration-300 truncate"
+                                style="font-size: clamp(10px, 0.9cqi, 15px);"
                             >
-                                {item.issuer}
+                                {item.name}
                             </span>
-                            <span
-                                class="w-1 h-1 rounded-full bg-foreground/20 shrink-0"
-                            ></span>
-                            <span
-                                class="font-mono text-foreground/40 group-hover:text-foreground/60 transition-colors duration-300 whitespace-nowrap"
-                                style="font-size: clamp(8px, 0.7cqi, 11px);"
-                            >
-                                {item.date}
-                            </span>
+                            <div class="flex items-center" style="gap: 0.4cqi; margin-top: 0.3cqi;">
+                                <span
+                                    class="font-mono text-foreground/50 group-hover:text-foreground/70 transition-colors duration-300 uppercase tracking-widest truncate"
+                                    style="font-size: clamp(8px, 0.7cqi, 11px);"
+                                >
+                                    {item.issuer}
+                                </span>
+                                <span
+                                    class="w-1 h-1 rounded-full bg-foreground/20 shrink-0"
+                                ></span>
+                                <span
+                                    class="font-mono text-foreground/40 group-hover:text-foreground/60 transition-colors duration-300 whitespace-nowrap"
+                                    style="font-size: clamp(8px, 0.7cqi, 11px);"
+                                >
+                                    {item.date}
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </button>
+                </GlassCard>
             {/each}
         </div>
     </div>

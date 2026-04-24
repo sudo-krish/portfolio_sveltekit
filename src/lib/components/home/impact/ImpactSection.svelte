@@ -63,7 +63,7 @@
     {#if isMobile}
         <div class="w-full flex flex-col gap-3 relative z-10">
             <!-- MAIN ACHIEVEMENT CARD (Mobile) -->
-            <div class="group relative flex flex-col p-5 sm:p-6 rounded-[1.5rem] bg-card/80 backdrop-blur-[60px] border border-border overflow-hidden shadow-xl">
+            <div class="group relative flex flex-col p-5 sm:p-6 rounded-[1.5rem] bg-card/80 backdrop-blur-[60px] border border-foreground/[0.08] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
                 <!-- Top internal highlight -->
                 <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-60"></div>
                 <!-- Ambient Purple Glow -->
@@ -95,7 +95,7 @@
             <!-- 4 SMALL METRIC CARDS (2x2 Mobile Grid) -->
             <div class="grid grid-cols-2 gap-3 mt-1">
                 {#each resultsData.metrics as m}
-                    <div class="group relative flex flex-col items-center justify-center text-center p-4 rounded-2xl bg-card/60 backdrop-blur-[40px] border border-border shadow-sm overflow-hidden">
+                    <div class="group relative flex flex-col items-center justify-center text-center p-4 rounded-2xl bg-card/60 backdrop-blur-[40px] border border-foreground/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.08)] overflow-hidden">
                         <!-- Dynamic Glow based on Metric Color -->
                         <div class="absolute inset-0 blur-[30px] opacity-10 pointer-events-none" style="background-color: {m.color}"></div>
 

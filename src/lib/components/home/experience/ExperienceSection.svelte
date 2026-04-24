@@ -8,6 +8,7 @@
 
     import SectionAnchor from "$lib/components/ui/anchors/SectionAnchor.svelte";
     import SectionCard from "$lib/components/ui/cards/SectionCard.svelte";
+    import GlassCard from "$lib/components/ui/cards/GlassCard.svelte";
     import PillButton from "$lib/components/ui/buttons/PillButton.svelte";
     import { Briefcase, ArrowRight, Terminal, Cloud, Zap, Sparkles } from "lucide-svelte";
 
@@ -105,29 +106,29 @@
 {#snippet careerTimeline(isMobile: boolean)}
     {#if isMobile}
         <div class="w-full flex flex-col gap-3 relative z-10">
-            <div class="w-full p-4 rounded-[1.25rem] bg-card/60 backdrop-blur-md border border-border relative overflow-hidden">
-                <div class="absolute top-6 bottom-6 left-[29px] w-px bg-gradient-to-b from-primary via-violet-500/20 to-border"></div>
-                <div class="flex flex-col gap-4">
+            <GlassCard variant="inset" hover={false} class="w-full !p-4 relative">
+                <div class="absolute top-6 bottom-6 left-[29px] w-px bg-gradient-to-b from-primary via-violet-500/20 to-transparent opacity-50"></div>
+                <div class="flex flex-col gap-4 relative z-10">
                     {#each experienceData.milestones as m, i}
-                        <div class="relative flex items-start gap-3">
-                            <div class="relative z-10 flex-shrink-0 w-7 h-7 rounded-lg border flex items-center justify-center transition-all duration-300 {i === experienceData.milestones.length - 1 ? 'bg-highlight/15 border-highlight/40 shadow-[var(--glow-accent)]' : 'bg-muted border-border'}">
+                        <div class="relative flex items-start gap-3 group/node">
+                            <div class="relative z-10 flex-shrink-0 w-7 h-7 rounded-lg border flex items-center justify-center transition-all duration-300 {i === experienceData.milestones.length - 1 ? 'bg-highlight/15 border-highlight/40 shadow-[0_0_10px_hsl(var(--highlight)/0.2)]' : 'bg-foreground/[0.03] border-foreground/[0.08] group-hover/node:bg-foreground/[0.06]'}">
                                 <svelte:component this={getIcon(m.iconName)} size={12} style="color: {m.color}" />
                                 {#if i === experienceData.milestones.length - 1}
-                                    <div class="absolute -inset-0.5 rounded-lg bg-highlight/20 animate-ping opacity-40"></div>
+                                    <div class="absolute -inset-0.5 rounded-lg bg-highlight/20 animate-ping opacity-40 pointer-events-none"></div>
                                 {/if}
                             </div>
                             <div class="flex flex-col pt-0.5">
                                 <div class="flex items-center gap-1.5 mb-0.5">
                                     <span class="font-mono text-[10px] font-bold" style="color: {m.color}">{m.year}</span>
-                                    <span class="text-muted-foreground">·</span>
-                                    <span class="text-[11px] font-bold text-foreground">{m.label}</span>
+                                    <span class="text-muted-foreground/50">·</span>
+                                    <span class="text-[11px] font-bold text-foreground/80 group-hover/node:text-foreground transition-colors">{m.label}</span>
                                 </div>
-                                <span class="text-[9px] text-muted-foreground font-mono leading-tight">{m.role}</span>
+                                <span class="text-[9px] text-foreground/40 font-mono leading-tight transition-colors">{m.role}</span>
                             </div>
                         </div>
                     {/each}
                 </div>
-            </div>
+            </GlassCard>
         </div>
     {:else}
         <div class="w-full flex flex-col relative z-10" style="padding-top: 2cqi; padding-bottom: 3cqi;">
@@ -139,12 +140,12 @@
                     {#each experienceData.milestones as m, i}
                         <div class="flex flex-col items-center group relative w-1/4">
                             <span class="font-mono font-bold tracking-[0.2em] uppercase transition-all duration-300 transform group-hover:-translate-y-1 opacity-60 group-hover:opacity-100" style="color: {m.color}; font-size: clamp(8px, 0.8cqi, 11px); margin-bottom: 0.8cqi;">{m.year}</span>
-                            <div class="relative flex items-center justify-center rounded-[1.25rem] bg-card/70 backdrop-blur-xl border border-foreground/[0.08] shadow-[0_8px_24px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.06)] transition-all duration-500 {i === experienceData.milestones.length - 1 ? 'border-highlight/30 shadow-[0_8px_24px_rgba(0,0,0,0.4),0_0_20px_hsl(var(--highlight)/0.2),inset_0_1px_0_rgba(255,255,255,0.08)] scale-110 -translate-y-1' : 'group-hover:border-foreground/[0.14] group-hover:-translate-y-1 group-hover:bg-card/80'}" style="width: 3.5cqi; height: 3.5cqi;">
+                            <GlassCard variant="compact" accent={m.color} hover={false} class="flex items-center justify-center transition-all duration-500 {i === experienceData.milestones.length - 1 ? 'border-highlight/30 shadow-[0_0_20px_hsl(var(--highlight)/0.2)] scale-110 -translate-y-1' : 'group-hover:border-foreground/[0.14] group-hover:-translate-y-1'}" style="width: 3.5cqi; height: 3.5cqi; padding: 0;">
                                 {#if i === experienceData.milestones.length - 1}
                                     <div class="absolute -inset-1 rounded-[1.4rem] bg-highlight/10 animate-[ping_2.5s_cubic-bezier(0,0,0.2,1)_infinite] opacity-50 pointer-events-none"></div>
                                 {/if}
-                                <svelte:component this={getIcon(m.iconName)} size={20} class="transition-transform duration-500 group-hover:scale-110 drop-shadow-[0_0_8px_currentColor]" style="color: {i === experienceData.milestones.length - 1 ? 'hsl(var(--highlight))' : 'hsl(var(--muted-foreground))'}; {i !== experienceData.milestones.length - 1 && 'group-hover:color: white;'}" />
-                            </div>
+                                <svelte:component this={getIcon(m.iconName)} size={20} class="transition-transform duration-500 group-hover:scale-110 relative z-10 drop-shadow-[0_0_8px_currentColor]" style="color: {i === experienceData.milestones.length - 1 ? 'hsl(var(--highlight))' : 'hsl(var(--muted-foreground))'}; {i !== experienceData.milestones.length - 1 && 'group-hover:color: white;'}" />
+                            </GlassCard>
                             <div class="flex flex-col items-center text-center" style="margin-top: 1.2cqi; max-width: 10cqi;">
                                 <span class="font-bold text-foreground/70 group-hover:text-foreground transition-colors duration-300 leading-tight tracking-wide" style="font-size: clamp(9px, 0.9cqi, 13px); margin-bottom: 0.3cqi;">{m.label}</span>
                                 <div class="h-[1px] w-4 bg-gradient-to-r from-transparent via-foreground/20 to-transparent mb-1.5 opacity-0 group-hover:opacity-100 transition-opacity"></div>

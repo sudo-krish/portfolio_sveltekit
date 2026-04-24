@@ -1,5 +1,7 @@
 <script lang="ts">
+    import { fade, slide } from "svelte/transition";
     import { onMount } from "svelte";
+    import GlassCard from "$lib/components/ui/cards/GlassCard.svelte";
     import {
         Terminal,
         Github,
@@ -82,42 +84,17 @@
     }
 </script>
 
-<a
+<GlassCard
+    variant="default"
+    accent={codingStatsData.github.accent}
     href={githubProfileUrl}
     target="_blank"
     rel="noopener noreferrer"
-    class="group block relative flex flex-col p-5 2xl:p-7 rounded-[2rem]
-           bg-card/70 backdrop-blur-2xl border border-foreground/[0.08]
-           hover:border-foreground/[0.14]
-           shadow-[0_20px_60px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.08)]
-           hover:shadow-[0_24px_72px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.12)]
-           transition-all duration-700 overflow-hidden w-full h-full"
+    class="group w-full h-full"
 >
-    <!-- Top hairline highlight -->
-    <div
-        class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-foreground/20 to-transparent opacity-60"
-    ></div>
-
-    <!-- Left edge accent line -->
-    <div
-        class="absolute inset-y-0 left-0 w-[1px] bg-gradient-to-b from-transparent via-success/40 to-transparent opacity-40 group-hover:opacity-80 transition-opacity duration-700"
-    ></div>
-
-    <!-- Ambient organic green glow behind the UI -->
-    <div
-        class="absolute -right-20 -top-20 w-64 h-64 rounded-full blur-[80px] opacity-10 group-hover:opacity-25 transition-opacity duration-1000 pointer-events-none"
-        style="background-color: {codingStatsData.github.accent}"
-    ></div>
-
-    <div
-        class="absolute -left-20 -bottom-20 w-64 h-64 rounded-full blur-[80px] opacity-[0.05] group-hover:opacity-15 transition-opacity duration-1000 pointer-events-none"
-        style="background-color: {codingStatsData.github.accent}"
-    ></div>
 
     <!-- Profile Header Row -->
-    <div
-        class="flex items-center justify-between mb-6 relative z-10 bg-foreground/[0.03] p-3 2xl:p-4 rounded-[1.25rem] border border-foreground/[0.06] shadow-[inset_0_1px_0_rgba(255,255,255,0.04),inset_0_-1px_3px_rgba(0,0,0,0.15)] backdrop-blur-md"
-    >
+    <GlassCard variant="inset" hover={false} class="flex items-center justify-between mb-6 !p-3 2xl:!p-4 z-10">
         <div class="flex items-center gap-3.5 2xl:gap-4">
             <!-- Profile Picture -->
             <div
@@ -162,7 +139,7 @@
                 class="text-muted-foreground group-hover:text-foreground transition-colors duration-300"
             />
         </div>
-    </div>
+    </GlassCard>
 
     {#if loading}
         <!-- Loading State for Content Body -->
@@ -181,8 +158,9 @@
         <!-- Core Metrics Dashboard Layout -->
         <div class="grid grid-cols-2 gap-3 2xl:gap-4 mb-5 relative z-10">
             <!-- Primary Metric: The Streak -->
-            <div
-                class="col-span-2 sm:col-span-1 flex flex-col justify-center p-4 2xl:p-5 rounded-[1.25rem] bg-gradient-to-br from-success/10 to-transparent border border-success/20 shadow-inner group/streak relative overflow-hidden backdrop-blur-md"
+            <GlassCard
+                variant="inset"
+                class="col-span-2 sm:col-span-1 flex flex-col justify-center p-4 2xl:p-5 !bg-gradient-to-br from-success/10 to-transparent border-success/20 group/streak relative overflow-hidden"
             >
                 <div
                     class="absolute right-0 top-0 w-24 h-24 bg-[radial-gradient(circle_at_top_right,hsl(var(--success)/)_0,transparent_70%)]"
@@ -210,19 +188,17 @@
                         >Days</span
                     >
                 </div>
-            </div>
+            </GlassCard>
 
             <!-- Secondary Metrics Grid -->
             <div
                 class="col-span-2 sm:col-span-1 grid grid-cols-2 gap-3 2xl:gap-4"
             >
                 <!-- Repositories -->
-                <div
-                    class="flex flex-col justify-center p-3 2xl:p-4 rounded-xl bg-gradient-to-br from-card/80 to-foreground/[0.02] border border-foreground/5 shadow-[inset_0_4px_20px_rgba(0,0,0,0.5)] hover:bg-foreground/[0.04] transition-colors group/card overflow-hidden relative"
+                <GlassCard
+                    variant="inset"
+                    class="flex flex-col justify-center p-3 2xl:p-4 group/card"
                 >
-                    <div
-                        class="absolute inset-0 bg-gradient-to-b from-foreground/[0.02] to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity"
-                    ></div>
                     <div
                         class="flex items-center gap-1.5 text-muted-foreground mb-2 relative z-10 group-hover/card:text-foreground transition-colors"
                     >
@@ -237,15 +213,13 @@
                     >
                         {stats?.totalRepos || 0}
                     </span>
-                </div>
+                </GlassCard>
 
                 <!-- Stars -->
-                <div
-                    class="flex flex-col justify-center p-3 2xl:p-4 rounded-xl bg-gradient-to-br from-card/80 to-foreground/[0.02] border border-foreground/5 shadow-[inset_0_4px_20px_rgba(0,0,0,0.5)] hover:bg-[#eab308]/5 hover:border-[#eab308]/20 transition-colors group/stars overflow-hidden relative"
+                <GlassCard
+                    variant="inset"
+                    class="flex flex-col justify-center p-3 2xl:p-4 group/stars hover:border-[#eab308]/20 transition-colors"
                 >
-                    <div
-                        class="absolute inset-0 bg-gradient-to-b from-[#eab308]/[0.02] to-transparent opacity-0 group-hover/stars:opacity-100 transition-opacity"
-                    ></div>
                     <div
                         class="flex items-center gap-1.5 text-muted-foreground mb-2 group-hover/stars:text-foreground transition-colors relative z-10"
                     >
@@ -263,14 +237,12 @@
                     >
                         {stats?.totalStars || 0}
                     </span>
-                </div>
+                </GlassCard>
             </div>
         </div>
 
         <!-- Recent Activity Console log -->
-        <div
-            class="rounded-[1.25rem] bg-foreground/[0.025] border border-foreground/[0.06] p-4 2xl:p-5 font-mono text-[10px] 2xl:text-xs shadow-[inset_0_1px_0_rgba(255,255,255,0.04),inset_0_-1px_3px_rgba(0,0,0,0.15)] relative z-10 flex-1 flex flex-col backdrop-blur-md hover:border-foreground/[0.12] transition-colors duration-500"
-        >
+        <GlassCard variant="inset" hover={false} class="font-mono text-[10px] 2xl:text-xs flex-1 flex flex-col hover:border-foreground/[0.12] !p-4 2xl:!p-5 z-10">
             <div
                 class="flex items-center justify-between mb-4 pb-2.5 border-b border-border font-bold tracking-[0.1em] text-[9px] uppercase"
             >
@@ -334,7 +306,7 @@
                     </div>
                 {/each}
             </div>
-        </div>
+        </GlassCard>
 
         <!-- Bottom Footer -->
         <div
@@ -350,4 +322,4 @@
             </div>
         </div>
     {/if}
-</a>
+</GlassCard>
