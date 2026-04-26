@@ -4,7 +4,7 @@
 /* Define the light mode variant trigger */
 @custom-variant light (&:is(.light *));
 
-/* === DEFAULT: DARK MODE - PURE MONOCHROME === */
+/* === DEFAULT: DARK MODE - SOFT PASTEL === */
 :root {
   --radius: 0.75rem;
 
@@ -12,117 +12,117 @@
   --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --font-heading: "Outfit", system-ui, -apple-system, sans-serif;
 
-      /* Background: Deep Tech Space */
-  --background: 220 20% 4%;
-  --foreground: 220 10% 98%;
-  --card: 220 20% 6%;
-  --card-foreground: 220 10% 98%;
+  /* Background: Deep soft slate (not pure black) */
+  --background: 230 20% 8%;
+  --foreground: 40 20% 95%;
+  --card: 230 18% 11%;
+  --card-foreground: 40 20% 95%;
 
-  /* Primary: Vibrant Cyan */
-  --primary: 185 100% 50%;
-  --primary-foreground: 220 20% 4%;
+  /* Primary: Soft Lavender */
+  --primary: 250 60% 72%;
+  --primary-foreground: 230 20% 8%;
 
-  --secondary: 220 20% 12%;
-  --secondary-foreground: 220 10% 98%;
+  --secondary: 230 15% 16%;
+  --secondary-foreground: 40 20% 95%;
 
-  --muted: 220 20% 12%;
-  --muted-foreground: 220 10% 70%;
+  --muted: 230 15% 16%;
+  --muted-foreground: 230 10% 60%;
 
-  --accent: 185 100% 15%;
-  --accent-foreground: 220 10% 98%;
+  /* Accent: Muted periwinkle */
+  --accent: 250 30% 22%;
+  --accent-foreground: 40 20% 95%;
 
-  --highlight: 185 100% 80%;
-  --highlight-foreground: 220 20% 4%;
+  /* Highlight: Bright lavender */
+  --highlight: 250 80% 82%;
+  --highlight-foreground: 230 20% 8%;
 
-  /* Semantic colors: Highly Vibrant */
-  --success: 142 76% 55%; /* Vibrant Green */
-  --success-foreground: 220 20% 4%;
-  --warning: 45 93% 55%; /* Vibrant Amber */
-  --warning-foreground: 220 20% 4%;
-  --destructive: 0 84% 60%; /* Vibrant Red */
-  --destructive-foreground: 220 10% 98%;
+  /* Semantic: Soft pastels */
+  --success: 160 45% 55%;
+  --success-foreground: 230 20% 8%;
+  --warning: 35 70% 65%;
+  --warning-foreground: 230 20% 8%;
+  --destructive: 0 55% 62%;
+  --destructive-foreground: 40 20% 95%;
 
-  --border: 185 100% 15%;
-  --input: 185 100% 15%;
-  --ring: 185 100% 50%;
+  --border: 250 20% 18%;
+  --input: 250 20% 18%;
+  --ring: 250 60% 72%;
 
-  --popover: 220 20% 6%;
-  --popover-foreground: 220 10% 98%;
+  --popover: 230 18% 11%;
+  --popover-foreground: 40 20% 95%;
 
-  /* --- PURE MONOCHROME GLASSMORPHISM WITH VIBRANT TINTS --- */
-  --glass-bg: 220 20% 6% / 0.45;
-  --glass-border: 185 100% 50% / 0.15;
+  /* Glassmorphism with lavender tints */
+  --glass-bg: 230 18% 11% / 0.5;
+  --glass-border: 250 60% 72% / 0.12;
   --glass-blur: 24px;
-  --glass-highlight: 185 100% 50% / 0.1;
+  --glass-highlight: 250 60% 72% / 0.06;
 
   /* Deep structural shadows */
-  --shadow-sm: 0 2px 4px 0 rgb(0 0 0 / 0.5);
-  --shadow-md: 0 8px 12px -2px rgb(0 0 0 / 0.6), 0 4px 6px -2px rgb(0 0 0 / 0.4);
-  --shadow-lg: 0 16px 24px -4px rgb(0 0 0 / 0.7), 0 8px 12px -4px rgb(0 0 0 / 0.5);
-  --shadow-xl: 0 24px 36px -8px rgb(0 0 0 / 0.8), 0 12px 16px -8px rgb(0 0 0 / 0.6);
+  --shadow-sm: 0 2px 4px 0 rgb(0 0 0 / 0.4);
+  --shadow-md: 0 8px 12px -2px rgb(0 0 0 / 0.5), 0 4px 6px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 16px 24px -4px rgb(0 0 0 / 0.5), 0 8px 12px -4px rgb(0 0 0 / 0.3);
+  --shadow-xl: 0 24px 36px -8px rgb(0 0 0 / 0.6), 0 12px 16px -8px rgb(0 0 0 / 0.4);
 
-  /* Ambient glowing shadows */
-  --glow-primary: 0 0 30px hsl(185 100% 50% / 0.15);
-  --glow-accent: 0 0 30px hsl(185 100% 50% / 0.08);
+  /* Ambient glow */
+  --glow-primary: 0 0 30px hsl(250 60% 72% / 0.12);
+  --glow-accent: 0 0 30px hsl(250 60% 72% / 0.06);
 }
 
-/* === LIGHT MODE - PURE MONOCHROME === */
+/* === LIGHT MODE - SOFT PASTEL === */
 :root.light, .light, html.light {
-  /* Background: Crisp Off-White */
-  --background: 0 0% 98%;
-  --foreground: 0 0% 4%;
+  /* Background: Warm cream */
+  --background: 40 30% 97%;
+  --foreground: 230 25% 15%;
   
-  /* Cards: Pure White */
-  --card: 0 0% 100%;
-  --card-foreground: 0 0% 4%;
+  --card: 40 20% 100%;
+  --card-foreground: 230 25% 15%;
 
-  /* Primary: Deep Black */
-  --primary: 0 0% 4%;
-  --primary-foreground: 0 0% 98%;
+  /* Primary: Rich lavender */
+  --primary: 250 55% 58%;
+  --primary-foreground: 40 30% 97%;
 
-  --secondary: 0 0% 94%;
-  --secondary-foreground: 0 0% 4%;
+  --secondary: 40 15% 93%;
+  --secondary-foreground: 230 25% 15%;
 
-  --muted: 0 0% 94%;
-  --muted-foreground: 0 0% 45%;
+  --muted: 40 15% 93%;
+  --muted-foreground: 230 10% 50%;
 
-  /* Accent: Structural Grey */
-  --accent: 0 0% 65%;
-  --accent-foreground: 0 0% 4%;
+  /* Accent: Soft periwinkle wash */
+  --accent: 250 40% 92%;
+  --accent-foreground: 230 25% 15%;
 
-  /* Highlight: Deep Black */
-  --highlight: 0 0% 0%;
-  --highlight-foreground: 0 0% 100%;
+  --highlight: 250 60% 50%;
+  --highlight-foreground: 40 30% 97%;
 
-  --success: 0 0% 60%;
-  --success-foreground: 0 0% 98%;
-  --warning: 0 0% 40%;
-  --warning-foreground: 0 0% 98%;
-  --destructive: 0 0% 40%;
-  --destructive-foreground: 0 0% 98%;
+  /* Semantic: Muted pastels */
+  --success: 160 50% 38%;
+  --success-foreground: 40 30% 97%;
+  --warning: 35 80% 50%;
+  --warning-foreground: 230 25% 15%;
+  --destructive: 0 60% 50%;
+  --destructive-foreground: 40 30% 97%;
 
-  /* Borders: Visible clean lines */
-  --border: 0 0% 88%;
-  --input: 0 0% 88%;
-  --ring: 0 0% 4%;
+  --border: 250 15% 88%;
+  --input: 250 15% 88%;
+  --ring: 250 55% 58%;
 
-  --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 4%;
+  --popover: 40 20% 100%;
+  --popover-foreground: 230 25% 15%;
 
-  /* --- LIGHT GLASSMORPHISM: Crisp, clear --- */
-  --glass-bg: 0 0% 100% / 0.7;
-  --glass-border: 0 0% 4% / 0.08;
+  /* Glassmorphism with lavender tints */
+  --glass-bg: 40 20% 100% / 0.7;
+  --glass-border: 250 55% 58% / 0.1;
   --glass-blur: 16px;
-  --glass-highlight: 0 0% 100% / 0.6;
+  --glass-highlight: 250 55% 58% / 0.05;
 
   /* Clean drop shadows */
-  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 8px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.04);
-  --shadow-lg: 0 10px 20px -4px rgb(0 0 0 / 0.08), 0 4px 8px -4px rgb(0 0 0 / 0.04);
-  --shadow-xl: 0 20px 30px -6px rgb(0 0 0 / 0.08), 0 8px 12px -6px rgb(0 0 0 / 0.04);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.04);
+  --shadow-md: 0 4px 8px -1px rgb(0 0 0 / 0.06), 0 2px 4px -2px rgb(0 0 0 / 0.03);
+  --shadow-lg: 0 10px 20px -4px rgb(0 0 0 / 0.06), 0 4px 8px -4px rgb(0 0 0 / 0.03);
+  --shadow-xl: 0 20px 30px -6px rgb(0 0 0 / 0.06), 0 8px 12px -6px rgb(0 0 0 / 0.03);
 
-  --glow-primary: 0 4px 20px hsl(185 90% 40% / 0.12);
-  --glow-accent: 0 4px 20px hsl(185 90% 40% / 0.06);
+  --glow-primary: 0 4px 20px hsl(250 55% 58% / 0.1);
+  --glow-accent: 0 4px 20px hsl(250 55% 58% / 0.05);
 }
 
 @theme {

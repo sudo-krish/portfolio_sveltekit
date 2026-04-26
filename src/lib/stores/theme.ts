@@ -4,33 +4,33 @@ import { browser } from '$app/environment';
 
 export type Theme = 'light' | 'dark';
 
-// Unified Vibrant Cyber Cyan theme for the 3D components
-const vibrantCyan = {
-  dark: { deep: "#001f29", surf: "#0088a8", foam: "#00e5ff", transparent: true },
-  light: { deep: "#006b7a", surf: "#00b4d8", foam: "#005f73", transparent: false }
+// Soft Pastel palette for 3D components
+const pastelLavender = {
+  dark: { deep: "#1a1530", surf: "#6d5daa", foam: "#b4a7e0", transparent: true },
+  light: { deep: "#4a3d8f", surf: "#7c6dc0", foam: "#2d2060", transparent: false }
 };
 
-const vibrantAmber = {
-  dark: { deep: "#291600", surf: "#a85d00", foam: "#ffbf00" },
-  light: { deep: "#7a4100", surf: "#d88200", foam: "#5f3000" }
+const pastelSage = {
+  dark: { deep: "#142018", surf: "#4a8f6a", foam: "#8dd4aa" },
+  light: { deep: "#2d7050", surf: "#5aaa7a", foam: "#1a4530" }
 };
 
-const vibrantGreen = {
-  dark: { deep: "#002910", surf: "#00a842", foam: "#00ff73" },
-  light: { deep: "#007a30", surf: "#00d85f", foam: "#005f20" }
+const pastelPeach = {
+  dark: { deep: "#2a1a14", surf: "#c08060", foam: "#f0c0a0" },
+  light: { deep: "#8a5a3a", surf: "#c09070", foam: "#5a3020" }
 };
 
-export const themeColors = vibrantCyan;
+export const themeColors = pastelLavender;
 
 export const modelMaterials = {
-  dataHouse: vibrantCyan,
-  dataWarehouse: vibrantCyan,
-  techCube: vibrantCyan,
-  experienceGem: vibrantCyan,
-  githubOcta: vibrantCyan,
-  impactTorus: vibrantAmber, // Keep Torus warm but make it vibrant
-  credentialShield: vibrantAmber, // Shield is vibrant gold
-  contactBeacon: vibrantGreen, // Make contact beacon vibrant green
+  dataHouse: pastelLavender,
+  dataWarehouse: pastelLavender,
+  techCube: pastelLavender,
+  experienceGem: pastelLavender,
+  githubOcta: pastelLavender,
+  impactTorus: pastelPeach,
+  credentialShield: pastelPeach,
+  contactBeacon: pastelSage,
 };
 
 function createThemeStore() {
