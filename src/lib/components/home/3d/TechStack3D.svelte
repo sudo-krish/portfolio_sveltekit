@@ -2,13 +2,7 @@
   import { theme, themeColors, modelMaterials } from "$lib/stores/theme";
   import { T, useTask } from "@threlte/core";
   import { Float, useGltf, interactivity, Align } from "@threlte/extras";
-  import {
-    Color,
-    DoubleSide,
-    Mesh,
-    ShaderMaterial,
-    MeshStandardMaterial,
-  } from "three";
+  import { Color, DoubleSide, Mesh, ShaderMaterial } from "three";
   import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 
   interactivity();
@@ -17,10 +11,9 @@
   const dracoLoader = new DRACOLoader();
   dracoLoader.setDecoderPath("/draco/");
 
-  // --- 1. THEME: SEA WATER COLORS ---
-  const deepColor = new Color(modelMaterials.experienceGem.dark.deep);
-  const surfColor = new Color(modelMaterials.experienceGem.dark.surf);
-  const foamColor = new Color(modelMaterials.experienceGem.dark.foam);
+  const deepColor = new Color(modelMaterials.techStack3D.dark.deep);
+  const surfColor = new Color(modelMaterials.techStack3D.dark.surf);
+  const foamColor = new Color(modelMaterials.techStack3D.dark.foam);
 
   // --- 2. SHADER (TIGHTER DISPLACEMENT) ---
   const vertexShader = `
@@ -47,9 +40,9 @@
       vec3 x2 = x0 - i2 + C.yyy;
       vec3 x3 = x0 - D.yyy;
       i = mod289(i);
-      vec4 p = permute( permute( permute(
+      vec4 p = permute( permute( permute( 
                  i.z + vec4(0.0, i1.z, i2.z, 1.0 ))
-               + i.y + vec4(0.0, i1.y, i2.y, 1.0 ))
+               + i.y + vec4(0.0, i1.y, i2.y, 1.0 )) 
                + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
       float n_ = 0.142857142857;
       vec3  ns = n_ * D.wyz - D.xzx;
@@ -82,8 +75,8 @@
       vNormal = normalize(normalMatrix * normal);
       vec3 pos = position;
 
-      float noise = snoise(pos * 3.0 + uTime * 0.8);
-      pos += normal * noise * 0.02;
+      float noise = snoise(pos * 3.0 + uTime * 0.8); 
+      pos += normal * noise * 0.02; 
 
       vElevation = noise;
       vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
@@ -104,12 +97,12 @@
     void main() {
       float mixStrength = smoothstep(-0.5, 0.5, vElevation);
       vec3 color = mix(uDeepColor, uSurfColor, mixStrength);
-
+      
       vec3 viewDir = normalize(vViewPosition);
       float fresnel = pow(1.0 - dot(vNormal, viewDir), 3.0);
-
+      
       color = mix(color, uFoamColor, fresnel * 0.8);
-      gl_FragColor = vec4(color, uOpacity);
+      gl_FragColor = vec4(color, uOpacity); 
     }
   `;
 
@@ -130,36 +123,30 @@
   });
 
   $: if ($theme === "light") {
-    deepColor.set(modelMaterials.experienceGem.light.deep);
-    surfColor.set(modelMaterials.experienceGem.light.surf);
-    foamColor.set(modelMaterials.experienceGem.light.foam);
+    deepColor.set(modelMaterials.techStack3D.light.deep);
+    surfColor.set(modelMaterials.techStack3D.light.surf);
+    foamColor.set(modelMaterials.techStack3D.light.foam);
     uniforms.uOpacity.value = 1.0;
     customMaterial.needsUpdate = true;
   } else {
-    deepColor.set(modelMaterials.experienceGem.dark.deep);
-    surfColor.set(modelMaterials.experienceGem.dark.surf);
-    foamColor.set(modelMaterials.experienceGem.dark.foam);
+    deepColor.set(modelMaterials.techStack3D.dark.deep);
+    surfColor.set(modelMaterials.techStack3D.dark.surf);
+    foamColor.set(modelMaterials.techStack3D.dark.foam);
     uniforms.uOpacity.value = 0.9;
     customMaterial.needsUpdate = true;
   }
 
-  // Load the GLTF File
-  const gltf = useGltf("/3d/experiance/scene.gltf", { dracoLoader });
+  // Load the GLTF File (Ensure this path is exactly correct relative to your static folder)
+  const gltf = useGltf("/3d/skill/skill_card.glb", { dracoLoader });
 
-  // Tint the engine's native materials based on theme
-  const engineTint = new Color($theme === "light" ? "#111111" : "#111111");
-
+  // We use Svelte's reactive statement. When the GLTF loads, we manually traverse and overwrite the materials.
   $: if ($gltf) {
-    const tint = $theme === "light" ? "#111111" : "#111111";
-    engineTint.set(tint);
     $gltf.scene.traverse((child) => {
       if ((child as Mesh).isMesh) {
         const mesh = child as Mesh;
-        const mat = mesh.material as MeshStandardMaterial;
-        if (mat) {
-          if (mat.color) mat.color.set("#FFFFFF");
-          mat.needsUpdate = true;
-        }
+        // Overwrite the original materials from the GLB
+        // mesh.material = customMaterial;
+        // Optional: Ensure shadows work
         mesh.castShadow = true;
         mesh.receiveShadow = true;
       }
@@ -170,12 +157,16 @@
 
   useTask((dt) => {
     uniforms.uTime.value += dt;
+    // Rotate the entire GLB to simulate mechanics
     rotationY += dt * 0.2;
   });
 </script>
 
 <Float speed={2} rotationIntensity={0.2} floatIntensity={0.2}>
-  <T.Group rotation.y={rotationY} rotation.x={0.2} scale={0.035}>
+  <T.Group rotation.y={rotationY} rotation.x={0.2} scale={0.005}>
+    <!-- Reduced scale to 0.02 since the model is ~100 units wide and wrap it in Align so it spins from its center -->
+
+    <!-- Render the GLB strictly once it exists -->
     {#if $gltf}
       <Align>
         <T is={$gltf.scene} />

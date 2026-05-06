@@ -13,10 +13,13 @@
 
   interactivity();
 
-  // Load the GLTF safely via Threlte's internal WASM worker abstraction
-  const deepColor = new Color(modelMaterials.dataHouse.dark.deep);
-  const surfColor = new Color(modelMaterials.dataHouse.dark.surf);
-  const foamColor = new Color(modelMaterials.dataHouse.dark.foam);
+  // --- Draco Decompression ---
+  const dracoLoader = new DRACOLoader();
+  dracoLoader.setDecoderPath("/draco/");
+
+  const deepColor = new Color(modelMaterials.warehouse3D.dark.deep);
+  const surfColor = new Color(modelMaterials.warehouse3D.dark.surf);
+  const foamColor = new Color(modelMaterials.warehouse3D.dark.foam);
 
   // --- 2. SHADER (TIGHTER DISPLACEMENT) ---
   const vertexShader = `
@@ -126,42 +129,34 @@
   });
 
   $: if ($theme === "light") {
-    deepColor.set(modelMaterials.dataHouse.light.deep);
-    surfColor.set(modelMaterials.dataHouse.light.surf);
-    foamColor.set(modelMaterials.dataHouse.light.foam);
+    deepColor.set(modelMaterials.warehouse3D.light.deep);
+    surfColor.set(modelMaterials.warehouse3D.light.surf);
+    foamColor.set(modelMaterials.warehouse3D.light.foam);
     uniforms.uOpacity.value = 1.0;
     customMaterial.needsUpdate = true;
   } else {
-    deepColor.set(modelMaterials.dataHouse.dark.deep);
-    surfColor.set(modelMaterials.dataHouse.dark.surf);
-    foamColor.set(modelMaterials.dataHouse.dark.foam);
+    deepColor.set(modelMaterials.warehouse3D.dark.deep);
+    surfColor.set(modelMaterials.warehouse3D.dark.surf);
+    foamColor.set(modelMaterials.warehouse3D.dark.foam);
     uniforms.uOpacity.value = 0.9;
     customMaterial.needsUpdate = true;
   }
 
   // Load the GLTF File (Ensure this path is exactly correct relative to your static folder)
-  const dracoLoader = new DRACOLoader();
-  dracoLoader.setDecoderPath("/draco/");
-
-  const gltf = useGltf("/3d/house/house.glb", {
-    dracoLoader,
-  });
+  const gltf = useGltf("/3d/engine/scene.gltf", { dracoLoader });
 
   // Tint the engine's native materials based on theme
-  const engineTint = new Color($theme === "light" ? "#111111" : "#111111");
+  const engineTint = new Color("#111111");
 
-  // We use Svelte's reactive statement. When the GLTF loads, we manually traverse and overwrite the materials.
   $: if ($gltf) {
-    const tint = $theme === "light" ? "#FFFFFF" : "#111111";
+    const tint = "#111111";
     engineTint.set(tint);
     $gltf.scene.traverse((child) => {
       if ((child as Mesh).isMesh) {
         const mesh = child as Mesh;
         const mat = mesh.material as MeshStandardMaterial;
-        if (mat) {
-          // Preserve textures but allow subtle theme-based brightness adjustment if needed
-          // For now, we set to white to ensure full texture visibility as requested
-          if (mat.color) mat.color.set("#FFFFFF");
+        if (mat && mat.color) {
+          mat.color.set(engineTint);
           mat.needsUpdate = true;
         }
         mesh.castShadow = true;
@@ -180,7 +175,7 @@
 </script>
 
 <Float speed={2} rotationIntensity={0.2} floatIntensity={0.2}>
-  <T.Group rotation.y={rotationY} rotation.x={0.2} scale={1}>
+  <T.Group rotation.y={rotationY} rotation.x={0.2} scale={0.01}>
     <!-- Reduced scale to 0.02 since the model is ~100 units wide and wrap it in Align so it spins from its center -->
 
     <!-- Render the GLB strictly once it exists -->

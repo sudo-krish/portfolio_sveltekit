@@ -10,11 +10,11 @@
   const dracoLoader = new DRACOLoader();
   dracoLoader.setDecoderPath("/draco/");
 
-  const deepColor = new Color(modelMaterials.contactBeacon.dark.deep);
-  const surfColor = new Color(modelMaterials.contactBeacon.dark.surf);
-  const foamColor = new Color(modelMaterials.contactBeacon.dark.foam);
+  const deepColor = new Color(modelMaterials.credentials3D.dark.deep);
+  const surfColor = new Color(modelMaterials.credentials3D.dark.surf);
+  const foamColor = new Color(modelMaterials.credentials3D.dark.foam);
 
-  // --- SHADER: NO DISPLACEMENT — preserve phone shape ---
+  // --- SHADER: NO DISPLACEMENT — preserve certificate shape ---
   const vertexShader = `
     uniform float uTime;
     varying vec2 vUv;
@@ -69,20 +69,20 @@
   });
 
   $: if ($theme === "light") {
-    deepColor.set(modelMaterials.contactBeacon.light.deep);
-    surfColor.set(modelMaterials.contactBeacon.light.surf);
-    foamColor.set(modelMaterials.contactBeacon.light.foam);
+    deepColor.set(modelMaterials.credentials3D.light.deep);
+    surfColor.set(modelMaterials.credentials3D.light.surf);
+    foamColor.set(modelMaterials.credentials3D.light.foam);
     uniforms.uOpacity.value = 1.0;
     customMaterial.needsUpdate = true;
   } else {
-    deepColor.set(modelMaterials.contactBeacon.dark.deep);
-    surfColor.set(modelMaterials.contactBeacon.dark.surf);
-    foamColor.set(modelMaterials.contactBeacon.dark.foam);
+    deepColor.set(modelMaterials.credentials3D.dark.deep);
+    surfColor.set(modelMaterials.credentials3D.dark.surf);
+    foamColor.set(modelMaterials.credentials3D.dark.foam);
     uniforms.uOpacity.value = 0.9;
     customMaterial.needsUpdate = true;
   }
 
-  const gltf = useGltf("/3d/contact/iphone17.glb", { dracoLoader });
+  const gltf = useGltf("/3d/certificate/certificate.glb", { dracoLoader });
 
   $: if ($gltf) {
     $gltf.scene.traverse((child) => {
@@ -104,7 +104,7 @@
 </script>
 
 <Float speed={2} rotationIntensity={0.2} floatIntensity={0.2}>
-  <T.Group rotation.y={rotationY} rotation.x={0.2} scale={1.5}>
+  <T.Group rotation.y={rotationY} rotation.x={0.2} scale={0.8}>
     {#if $gltf}
       <Align>
         <T is={$gltf.scene} />

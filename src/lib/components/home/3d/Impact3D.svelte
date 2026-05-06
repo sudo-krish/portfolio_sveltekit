@@ -17,9 +17,9 @@
   const dracoLoader = new DRACOLoader();
   dracoLoader.setDecoderPath("/draco/");
 
-  const deepColor = new Color(modelMaterials.dataWarehouse.dark.deep);
-  const surfColor = new Color(modelMaterials.dataWarehouse.dark.surf);
-  const foamColor = new Color(modelMaterials.dataWarehouse.dark.foam);
+  const deepColor = new Color(modelMaterials.impact3D.dark.deep);
+  const surfColor = new Color(modelMaterials.impact3D.dark.surf);
+  const foamColor = new Color(modelMaterials.impact3D.dark.foam);
 
   // --- 2. SHADER (TIGHTER DISPLACEMENT) ---
   const vertexShader = `
@@ -129,27 +129,27 @@
   });
 
   $: if ($theme === "light") {
-    deepColor.set(modelMaterials.dataWarehouse.light.deep);
-    surfColor.set(modelMaterials.dataWarehouse.light.surf);
-    foamColor.set(modelMaterials.dataWarehouse.light.foam);
+    deepColor.set(modelMaterials.impact3D.light.deep);
+    surfColor.set(modelMaterials.impact3D.light.surf);
+    foamColor.set(modelMaterials.impact3D.light.foam);
     uniforms.uOpacity.value = 1.0;
     customMaterial.needsUpdate = true;
   } else {
-    deepColor.set(modelMaterials.dataWarehouse.dark.deep);
-    surfColor.set(modelMaterials.dataWarehouse.dark.surf);
-    foamColor.set(modelMaterials.dataWarehouse.dark.foam);
+    deepColor.set(modelMaterials.impact3D.dark.deep);
+    surfColor.set(modelMaterials.impact3D.dark.surf);
+    foamColor.set(modelMaterials.impact3D.dark.foam);
     uniforms.uOpacity.value = 0.9;
     customMaterial.needsUpdate = true;
   }
 
   // Load the GLTF File (Ensure this path is exactly correct relative to your static folder)
-  const gltf = useGltf("/3d/engine/scene.gltf", { dracoLoader });
+  const gltf = useGltf("/3d/balance/balance.glb", { dracoLoader });
 
   // Tint the engine's native materials based on theme
-  const engineTint = new Color("#111111");
+  const engineTint = new Color($theme === "light" ? "#111111" : "#111111");
 
   $: if ($gltf) {
-    const tint = "#111111";
+    const tint = $theme === "light" ? "#111111" : "#111111";
     engineTint.set(tint);
     $gltf.scene.traverse((child) => {
       if ((child as Mesh).isMesh) {
@@ -175,7 +175,7 @@
 </script>
 
 <Float speed={2} rotationIntensity={0.2} floatIntensity={0.2}>
-  <T.Group rotation.y={rotationY} rotation.x={0.2} scale={0.01}>
+  <T.Group rotation.y={rotationY} rotation.x={0.2} scale={0.035}>
     <!-- Reduced scale to 0.02 since the model is ~100 units wide and wrap it in Align so it spins from its center -->
 
     <!-- Render the GLB strictly once it exists -->

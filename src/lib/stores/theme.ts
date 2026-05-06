@@ -23,14 +23,14 @@ const pastelPeach = {
 export const themeColors = pastelLavender;
 
 export const modelMaterials = {
-  dataHouse: pastelLavender,
-  dataWarehouse: pastelLavender,
-  techCube: pastelLavender,
-  experienceGem: pastelLavender,
-  githubOcta: pastelLavender,
-  impactTorus: pastelPeach,
-  credentialShield: pastelPeach,
-  contactBeacon: pastelSage,
+  lakehouse3D: pastelLavender,
+  warehouse3D: pastelLavender,
+  techStack3D: pastelLavender,
+  experience3D: pastelLavender,
+  github3D: pastelLavender,
+  impact3D: pastelPeach,
+  credentials3D: pastelPeach,
+  contact3D: pastelSage,
 };
 
 function createThemeStore() {

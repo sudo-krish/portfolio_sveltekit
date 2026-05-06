@@ -105,12 +105,12 @@
                     class="absolute inset-1 border-[2px] border-[#333] rounded-sm pointer-events-none"
                 ></div>
 
-                <h1
+                <h2
                     class="retro-font text-4xl sm:text-5xl font-bold mb-6 drop-shadow-md tracking-widest"
                     style="color: #000000 !important;"
                 >
                     SYSTEM ENCOUNTER
-                </h1>
+                </h2>
 
                 <div
                     class="bg-white border-[4px] border-[#333] p-4 w-full text-left mb-8 shadow-inner"

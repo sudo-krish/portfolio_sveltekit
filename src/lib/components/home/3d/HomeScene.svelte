@@ -7,18 +7,18 @@
   import { carouselSwipeFraction } from "$lib/stores/carousel-store";
   import { theme } from "$lib/stores/theme";
 
-  import DataMascot from "./DataMascot.svelte";
-  import GlassPipe from "./GlassPipe.svelte";
-  import DataLake from "./DataLake.svelte";
-  import DataHouse from "./DataHouse.svelte";
-  import DataWarehouse from "./DataWarehouse.svelte";
+  import Hero3D from "./Hero3D.svelte";
+  import Pipe3D from "./Pipe3D.svelte";
+  import Datalake3D from "./Datalake3D.svelte";
+  import Lakehouse3D from "./Lakehouse3D.svelte";
+  import Warehouse3D from "./Warehouse3D.svelte";
 
-  import ExperienceGem from "./ExperienceGem.svelte";
-  import TechCube from "./TechCube.svelte";
-  import GithubOcta from "./GithubOcta.svelte";
-  import ImpactTorus from "./ImpactTorus.svelte";
-  import CredentialShield from "./CredentialShield.svelte";
-  import ContactBeacon from "./ContactBeacon.svelte";
+  import Experience3D from "./Experience3D.svelte";
+  import TechStack3D from "./TechStack3D.svelte";
+  import Github3D from "./Github3D.svelte";
+  import Impact3D from "./Impact3D.svelte";
+  import Credentials3D from "./Credentials3D.svelte";
+  import Contact3D from "./Contact3D.svelte";
 
   let mascotGroup: any;
   let pipeGroup: any;
@@ -458,7 +458,7 @@
   position={[pos.start.x, pos.start.y, pos.start.z]}
 >
   <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
-    <DataMascot />
+    <Hero3D />
   </Float>
 </T.Group>
 
@@ -468,19 +468,19 @@
   rotation.z={0}
   scale={PIPE_SCALE}
 >
-  <GlassPipe />
+  <Pipe3D />
 </T.Group>
 
 <T.Group bind:ref={lakeGroup} position={[pos.lake.x, -20, 0]}>
-  <DataLake />
+  <Datalake3D />
 </T.Group>
 
 <T.Group bind:ref={houseGroup} position={[pos.house.x, -20, 0]} scale={0}>
-  <DataHouse />
+  <Lakehouse3D />
 </T.Group>
 
 <T.Group bind:ref={warehouseGroup} position={[pos.ware.x, -20, 0]} scale={0}>
-  <DataWarehouse />
+  <Warehouse3D />
 </T.Group>
 
 <!-- Metrics Section -->
@@ -490,7 +490,7 @@
   visible={false}
 >
   <Float speed={1.5} rotationIntensity={0.4} floatIntensity={0.6}>
-    <ExperienceGem />
+    <Experience3D />
   </Float>
 </T.Group>
 <T.Group
@@ -499,7 +499,7 @@
   visible={false}
 >
   <Float speed={1.2} rotationIntensity={0.6} floatIntensity={0.4}>
-    <TechCube />
+    <TechStack3D />
   </Float>
 </T.Group>
 <T.Group
@@ -508,7 +508,7 @@
   visible={false}
 >
   <Float speed={1.8} rotationIntensity={0.5} floatIntensity={0.5}>
-    <GithubOcta />
+    <Github3D />
   </Float>
 </T.Group>
 <T.Group
@@ -517,7 +517,7 @@
   visible={false}
 >
   <Float speed={1} rotationIntensity={0.3} floatIntensity={0.7}>
-    <ImpactTorus />
+    <Impact3D />
   </Float>
 </T.Group>
 <T.Group
@@ -526,7 +526,7 @@
   visible={false}
 >
   <Float speed={1.3} rotationIntensity={0} floatIntensity={0}>
-    <CredentialShield />
+    <Credentials3D />
   </Float>
 </T.Group>
 <T.Group
@@ -535,6 +535,6 @@
   visible={false}
 >
   <Float speed={2} rotationIntensity={0.2} floatIntensity={0.8}>
-    <ContactBeacon />
+    <Contact3D />
   </Float>
 </T.Group>
