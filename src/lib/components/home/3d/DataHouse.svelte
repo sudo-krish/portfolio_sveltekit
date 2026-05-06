@@ -141,7 +141,7 @@
 
   // Load the GLTF File (Ensure this path is exactly correct relative to your static folder)
   const dracoLoader = new DRACOLoader();
-  dracoLoader.setDecoderPath("https://www.gstatic.com/draco/v1/decoders/");
+  dracoLoader.setDecoderPath("/draco/");
 
   const gltf = useGltf("/3d/house/house.glb", {
     dracoLoader,
@@ -158,8 +158,10 @@
       if ((child as Mesh).isMesh) {
         const mesh = child as Mesh;
         const mat = mesh.material as MeshStandardMaterial;
-        if (mat && mat.color) {
-          mat.color.set(engineTint);
+        if (mat) {
+          // Preserve textures but allow subtle theme-based brightness adjustment if needed
+          // For now, we set to white to ensure full texture visibility as requested
+          if (mat.color) mat.color.set("#FFFFFF");
           mat.needsUpdate = true;
         }
         mesh.castShadow = true;

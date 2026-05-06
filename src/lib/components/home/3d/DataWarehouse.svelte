@@ -155,8 +155,8 @@
       if ((child as Mesh).isMesh) {
         const mesh = child as Mesh;
         const mat = mesh.material as MeshStandardMaterial;
-        if (mat && mat.color) {
-          mat.color.set(engineTint);
+        if (mat) {
+          if (mat.color) mat.color.set("#FFFFFF");
           mat.needsUpdate = true;
         }
         mesh.castShadow = true;
