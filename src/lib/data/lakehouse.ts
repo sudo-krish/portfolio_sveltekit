@@ -5,7 +5,7 @@ export const lakehouseData = {
     leftAnchor: {
         label: "AI-READY DATA FOUNDATIONS",
         title: "The Data\nLakehouse.",
-        description: "Bringing warehouse-level transactions, semantic retrieval, and AI-ready data layers directly to cloud object storage."
+        description: "We are entering an era where data isn't just queried; it's conversed with. I design lakehouses that bridge the gap between massive scale and surgical precision."
     },
     header: {
         badge: "AI & Analytics Foundations",
@@ -13,9 +13,9 @@ export const lakehouseData = {
         titleLine2: "Data Layer.",
     },
     content: {
-        shortDescription: `I architect <strong class="text-foreground font-medium">metadata-driven lakehouses</strong> and explore vector search, semantic retrieval, and analytics-ready data layers that support modern <span class="text-primary font-medium tracking-wide">AI and knowledge-driven applications</span>.`,
+        shortDescription: `We are entering an era where data isn't just queried; it's conversed with. I architect <strong class="text-foreground font-medium">metadata-driven lakehouses</strong> that bridge the gap between massive scale and surgical precision for <span class="text-primary font-medium tracking-wide">AI and knowledge-driven applications</span>.`,
 
-        detailedPhilosophy: `By leveraging Apache Spark alongside open table formats like Apache Iceberg and Delta Lake, I engineer architectures that support concurrent reads/writes and schema evolution on massive datasets. I implement centralized, metadata-driven governance using Databricks Unity Catalog and AWS Lake Formation. Beyond traditional analytics, I explore vector search, semantic retrieval, and analytics-ready data layers that support modern AI and knowledge-driven applications — unifying disparate storage into a highly governed foundation for BI, analytics, and Enterprise AI workloads.`
+        detailedPhilosophy: `The line between data storage and machine intelligence is disappearing. By leveraging Apache Spark alongside open table formats like Apache Iceberg and Delta Lake, I engineer architectures that give you warehouse-level reliability directly on your data lake. But it's not just about SQL anymore. I explore vector search, semantic retrieval, and analytics-ready data layers that actually power modern AI applications. I unify disparate storage into a highly governed foundation that doesn't just answer questions—it powers intelligence.`
     },
     // The grid items that sit below the main card
     lakehouseNodes: [

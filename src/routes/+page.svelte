@@ -105,8 +105,12 @@
 
           // Ignore GSAP observer for TOUCH/PEN events inside a carousel (carousel manages its own touch section nav).
           // We allow physical mouse wheels to pass through so the user can still wheel-scroll to the next section.
-          const isTouch = evt.type?.startsWith("touch") || (evt as PointerEvent).pointerType === "touch" || (evt as PointerEvent).pointerType === "pen";
-          if (isTouch && target.closest("[data-carousel-touch-zone]")) return true;
+          const isTouch =
+            evt.type?.startsWith("touch") ||
+            (evt as PointerEvent).pointerType === "touch" ||
+            (evt as PointerEvent).pointerType === "pen";
+          if (isTouch && target.closest("[data-carousel-touch-zone]"))
+            return true;
 
           const scroller = target.closest(
             ".overflow-y-auto, .overflow-y-scroll",
@@ -172,8 +176,14 @@
         }
 
         function onTouchEnd(e: TouchEvent) {
-          if (insideCarousel) { insideCarousel = false; return; }
-          if (touchAxis !== "v" || isAnimating) { touchAxis = "none"; return; }
+          if (insideCarousel) {
+            insideCarousel = false;
+            return;
+          }
+          if (touchAxis !== "v" || isAnimating) {
+            touchAxis = "none";
+            return;
+          }
 
           const endY = e.changedTouches[0].clientY;
           const delta = touchStartY - endY; // +ve = swiped up
@@ -425,6 +435,9 @@
     flex-direction: column;
     justify-content: center;
     overflow: hidden;
+    padding-top: 5rem; /* Reserve space for the floating navbar */
+    padding-bottom: 2rem;
+    box-sizing: border-box;
   }
 
   .fixed-canvas {

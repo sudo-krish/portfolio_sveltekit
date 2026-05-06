@@ -5,7 +5,7 @@ export const warehouseData = {
     rightAnchor: {
         label: "NEAR REAL-TIME WAREHOUSING",
         title: "The Data\nWarehouse.",
-        description: "Warehouse refresh and modeling workflows that reduce reporting delay, improve query responsiveness, and support business-facing analytics."
+        description: "The data warehouse is where raw information finally becomes truth. I obsess over modeling and performance so the answers are waiting before the questions are even asked."
     },
     header: {
         badge: "Analytics & Serving Layer",
@@ -13,9 +13,9 @@ export const warehouseData = {
         titleLine2: "Analytics.",
     },
     content: {
-        shortDescription: `I design <strong class="text-foreground font-medium">warehouse refresh and modeling workflows</strong> that reduce reporting delay, improve query responsiveness, and support <span class="text-accent font-medium tracking-wide">business-facing analytics use cases</span>.`,
+        shortDescription: `The data warehouse is where <strong class="text-foreground font-medium">raw information finally becomes truth</strong>. I obsess over modeling and performance so the answers are waiting for <span class="text-accent font-medium tracking-wide">business teams</span> before the questions are even asked.`,
 
-        detailedPhilosophy: `Data warehouses remain essential for sub-second latency, strict semantic governance, and high concurrency for Business Intelligence. I architect high-performance serving layers using Amazon Redshift and Snowflake, designing near real-time warehouse refresh patterns for faster reporting and operational visibility. By leveraging Airflow for orchestration and dbt for rigorous, metadata-driven modeling, I ensure every metric is version-controlled and tested. This enables sub-5-minute dashboard refresh SLAs, supports hundreds of concurrent users, and provides the analytics foundation that drives business decisions.`
+        detailedPhilosophy: `If a dashboard takes ten minutes to load, no one will use it. I architect high-performance serving layers using Amazon Redshift and Snowflake that don't just store data—they deliver it at the speed of thought. By leaning into near real-time refresh patterns and rigorous, version-controlled modeling with dbt, I make sure every metric is tested and bulletproof. I build analytics foundations that can handle hundreds of concurrent users without breaking a sweat, turning data teams from cost centers into the heroes of the business.`
     },
     // The grid items that sit below the main card
     warehouseNodes: [

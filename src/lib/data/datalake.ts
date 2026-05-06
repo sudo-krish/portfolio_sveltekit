@@ -5,7 +5,7 @@ export const datalakeData = {
     rightAnchor: {
         label: "DATA LAKE ARCHITECTURE",
         title: "The Data\nLake.",
-        description: "Layered storage and processing patterns that improve governance, scalability, and downstream analytics performance across cloud data platforms."
+        description: "A data lake shouldn't be a dumping ground—it should be a carefully curated library. I architect governed storage systems that turn chaotic data swamps into pristine foundations."
     },
     header: {
         badge: "Scalable Storage & Governance",
@@ -13,9 +13,9 @@ export const datalakeData = {
         titleLine2: "Architecture.",
     },
     content: {
-        shortDescription: `I design <strong class="text-foreground font-medium">layered storage and processing patterns</strong> that improve governance, scalability, and downstream analytics performance across <span class="text-success font-medium tracking-wide">cloud data platforms</span>.`,
+        shortDescription: `A data lake shouldn't be a dumping ground—it should be a <strong class="text-foreground font-medium">carefully curated library</strong>. I architect governed storage systems that turn chaotic data swamps into pristine, reliable foundations across <span class="text-success font-medium tracking-wide">cloud data platforms</span>.`,
 
-        detailedPhilosophy: `Data lake and medallion architecture form the foundation for scalable analytics. I implement production-grade data lakes with bronze, silver, and gold zones on Amazon S3, using Apache Iceberg and Delta Lake for ACID transactions and schema evolution. By enforcing strict governance through AWS Lake Formation and Unity Catalog, I modernize traditional data swamps into well-governed, analytics-ready foundations that serve BI, reporting, and AI workloads.`
+        detailedPhilosophy: `Data lake and medallion architecture form the true foundation for scalable analytics, but only if they are respected. I implement production-grade data lakes with bronze, silver, and gold zones on Amazon S3, using Apache Iceberg and Delta Lake for ACID transactions and schema evolution. By enforcing strict governance through AWS Lake Formation and Unity Catalog, I make sure the data is secure, trusted, and ready to serve everything from basic BI dashboards to advanced AI workloads without the usual headaches.`
     },
     // The grid items that will sit below the main card
     storageNodes: [

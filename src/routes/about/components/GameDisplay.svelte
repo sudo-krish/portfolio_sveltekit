@@ -63,10 +63,10 @@
             </div>
             <div class="flex items-center justify-end px-1">
                 <div
-                    class="bg-secondary rounded px-1 py-px mr-2 shadow-[2px_2px_0_rgba(0,0,0,0.2)]"
+                    class="bg-[#333] rounded px-1 py-px mr-2 shadow-[2px_2px_0_rgba(0,0,0,0.2)]"
                 >
                     <span
-                        class="retro-font text-muted-foreground text-[10px] sm:text-xs font-bold leading-none block pt-[2px]"
+                        class="retro-font text-[#f8d030] text-[10px] sm:text-xs font-bold leading-none block pt-[2px]"
                         >HP</span
                     >
                 </div>
@@ -111,34 +111,37 @@
                 class="relative w-28 h-28 sm:w-36 sm:h-36 object-cover border-4 border-white shadow-[0_10px_20px_rgba(0,0,0,0.3)] z-10 rounded-sm {battleState ===
                 'capture_animation'
                     ? 'animate-suck-in'
-                    : ''} {isPlayerAttacking && lastDamageAmount > 0
+                    : 'animate-idle-bob'} {isPlayerAttacking && lastDamageAmount > 0
                     ? 'animate-damage-blink'
                     : ''}"
             />
 
-            <!-- Defend Shield Text Overlay (Shown if damage is 0 or if explicitly defending) -->
+            <!-- Defend Shield Flash (Shown if damage is 0 / blocked) -->
             {#if isEnemyDefending || (isPlayerAttacking && lastDamageAmount === 0)}
                 <div
                     class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none"
                 >
+                    <!-- Quick white flash over the sprite -->
                     <div
-                        class="absolute w-[115%] h-[115%] border-4 border-foreground rounded-full bg-foreground/10 animate-pulse shadow-[0_0_15px_hsl(var(--foreground)/0.3)]"
+                        class="absolute inset-0 bg-white animate-block-flash rounded-sm"
                     ></div>
+                    <!-- "BLOCKED!" text pops in with a slight recoil -->
                     <span
-                        class="retro-font text-foreground bg-foreground text-background border-[2px] border-white px-2 py-1 rounded shadow-lg font-bold text-lg sm:text-xl relative z-30 drop-shadow-md transform -translate-y-8 tracking-widest"
+                        class="retro-font bg-[#3b82f6] text-white border-[2px] border-[#1e3a5f] px-3 py-1 rounded shadow-[3px_3px_0_rgba(0,0,0,0.5)] font-bold text-lg sm:text-xl relative z-30 drop-shadow-md tracking-widest animate-block-text-pop"
                         >{lastDamageAmount === 0 ? "BLOCKED!" : "GUARD!"}</span
                     >
                 </div>
             {/if}
 
-            <!-- Damage Popup Overlay -->
+            <!-- Floating Damage Number: pops in big, then drifts up and fades -->
             {#if isPlayerAttacking && lastDamageAmount > 0}
                 <div
-                    class="absolute -right-4 -top-6 z-30 animate-bounce pointer-events-none delay-100"
+                    class="absolute -right-2 -top-4 z-30 animate-dmg-pop pointer-events-none"
                 >
                     <span
-                        class="retro-font text-foreground bg-foreground text-background border-[2px] border-white px-2 py-1 rounded shadow-lg font-bold text-lg sm:text-xl drop-shadow-md"
-                        >-{lastDamageAmount} HP</span
+                        class="retro-font text-white font-bold text-2xl sm:text-3xl drop-shadow-[2px_2px_0_#000]"
+                        style="text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;"
+                        >-{lastDamageAmount}</span
                     >
                 </div>
             {/if}
@@ -201,7 +204,7 @@
     <div
         class="relative w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-tr from-[#2a5242] to-[#346856] border-[4px] border-[#e0f8d0] shadow-[0_10px_20px_rgba(0,0,0,0.3)] flex items-center justify-center z-10 rounded-lg overflow-hidden {isPlayerAttacking
             ? 'animate-tackle-lunge'
-            : ''} {isEnemyDefending && lastDamageAmount === 0
+            : 'animate-idle-bob-player'} {isEnemyDefending && lastDamageAmount === 0
             ? 'animate-damage-blink'
             : ''}"
     >
@@ -219,7 +222,7 @@
                 class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none delay-300"
             >
                 <span
-                    class="retro-font text-foreground bg-foreground text-background border-[2px] border-white px-1 py-0.5 rounded shadow-lg font-bold text-sm drop-shadow-md animate-bounce transform translate-y-8"
+                    class="retro-font bg-[#f59e0b] text-[#333] border-[2px] border-[#333] px-1 py-0.5 rounded shadow-[2px_2px_0_rgba(0,0,0,0.3)] font-bold text-sm drop-shadow-md animate-bounce transform translate-y-8"
                     >CONFUSED!</span
                 >
             </div>
@@ -253,10 +256,10 @@
         </div>
         <div class="flex items-center justify-end px-1 mb-1">
             <div
-                class="bg-secondary rounded px-1 py-px mr-2 shadow-[2px_2px_0_rgba(0,0,0,0.2)]"
+                class="bg-[#333] rounded px-1 py-px mr-2 shadow-[2px_2px_0_rgba(0,0,0,0.2)]"
             >
                 <span
-                    class="retro-font text-muted-foreground text-[10px] sm:text-xs font-bold leading-none block pt-[2px]"
+                    class="retro-font text-[#f8d030] text-[10px] sm:text-xs font-bold leading-none block pt-[2px]"
                     >HP</span
                 >
             </div>
@@ -282,48 +285,95 @@
         font-family: "VT323", monospace, "Courier New", Courier;
         letter-spacing: 0.05em;
     }
+
+    /* Idle breathing bob for the enemy portrait */
+    .animate-idle-bob {
+        animation: idleBob 3s ease-in-out infinite;
+    }
+    @keyframes idleBob {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-6px); }
+    }
+
+    /* Idle breathing bob for the player sprite (slightly different timing) */
+    .animate-idle-bob-player {
+        animation: idleBobPlayer 3.5s ease-in-out infinite;
+    }
+    @keyframes idleBobPlayer {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-4px); }
+    }
+
+    /* === DAMAGE BLINK: Authentic Pokemon rapid opacity flicker === */
+    .animate-damage-blink {
+        animation: damageBlink 0.6s step-end;
+    }
+    @keyframes damageBlink {
+        0%  { opacity: 1; }
+        8%  { opacity: 0; }
+        16% { opacity: 1; }
+        24% { opacity: 0; }
+        32% { opacity: 1; }
+        40% { opacity: 0; }
+        48% { opacity: 1; }
+        56% { opacity: 0; }
+        64% { opacity: 1; }
+        72% { opacity: 0; }
+        80% { opacity: 1; }
+        100% { opacity: 1; }
+    }
+
+    /* === BLOCK FLASH: Quick white overlay flash on the sprite === */
+    .animate-block-flash {
+        animation: blockFlash 0.4s ease-out forwards;
+    }
+    @keyframes blockFlash {
+        0% { opacity: 0.8; }
+        30% { opacity: 0; }
+        60% { opacity: 0.5; }
+        100% { opacity: 0; }
+    }
+
+    /* === BLOCK TEXT POP: Text snaps in with a recoil bounce === */
+    .animate-block-text-pop {
+        animation: blockTextPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.4) both;
+    }
+    @keyframes blockTextPop {
+        0% { transform: scale(0) translateY(-10px); opacity: 0; }
+        50% { transform: scale(1.3) translateY(-12px); opacity: 1; }
+        100% { transform: scale(1) translateY(-10px); opacity: 1; }
+    }
+
+    /* === DAMAGE NUMBER POP: Scales up big then drifts upward and fades === */
+    .animate-dmg-pop {
+        animation: dmgPop 1.2s ease-out forwards;
+    }
+    @keyframes dmgPop {
+        0% { transform: scale(0.3) translateY(0); opacity: 0; }
+        15% { transform: scale(1.4) translateY(-5px); opacity: 1; }
+        30% { transform: scale(1) translateY(-10px); opacity: 1; }
+        70% { opacity: 1; }
+        100% { transform: scale(1) translateY(-50px); opacity: 0; }
+    }
+
+    /* Floating damage (legacy, kept for compatibility) */
+    .animate-float-up-fade {
+        animation: floatUpFade 1s ease-out forwards;
+    }
+    @keyframes floatUpFade {
+        0% { transform: translateY(0); opacity: 1; }
+        60% { opacity: 1; }
+        100% { transform: translateY(-40px); opacity: 0; }
+    }
+
+    /* === TACKLE LUNGE: Player sprite lunges forward toward the enemy === */
     .animate-tackle-lunge {
         animation: tackleLunge 0.3s ease-in-out;
     }
     @keyframes tackleLunge {
-        0% {
-            transform: translate(0, 0);
-        }
-        50% {
-            transform: translate(30px, -20px) scale(1.1);
-        }
-        100% {
-            transform: translate(0, 0);
-        }
-    }
-    .animate-damage-blink {
-        animation: damageBlink 0.5s ease-in-out;
-    }
-    @keyframes damageBlink {
-        0% {
-            filter: brightness(1);
-            transform: translateX(0);
-        }
-        20% {
-            filter: brightness(2);
-            transform: translateX(10px);
-        }
-        40% {
-            filter: brightness(0) invert(1);
-            transform: translateX(-10px);
-        }
-        60% {
-            filter: brightness(2);
-            transform: translateX(10px);
-        }
-        80% {
-            filter: brightness(0) invert(1);
-            transform: translateX(-10px);
-        }
-        100% {
-            filter: brightness(1);
-            transform: translateX(0);
-        }
+        0% { transform: translate(0, 0); }
+        50% { transform: translate(30px, -20px) scale(1.1); }
+        100% { transform: translate(0, 0); }
     }
     .animate-suck-in {
         animation: suckIntoBall 0.5s ease-in-out 0.9s forwards;

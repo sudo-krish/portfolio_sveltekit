@@ -21,11 +21,11 @@ export const contactSectionContent: SectionContent = {
     ],
     headline: "Open to Data Engineering Roles",
     subHeadline: "Senior Data Engineering and Platform Roles",
-    introParagraph: "I am based in Bengaluru, India and open to remote, hybrid, and on-site opportunities. I am especially interested in roles involving data platforms, streaming systems, warehousing, cloud architecture, and production-scale analytics engineering.",
+    introParagraph: "I'm always looking for the next hard problem to solve. Based in Bengaluru, I'm open to remote or hybrid roles where I can architect data platforms, tame streaming systems, and build analytics infrastructure that actually moves the needle.",
     paragraphs: [
-        "With 5+ years of hands-on experience building production data systems at enterprise scale, I bring deep expertise in AWS cloud services, real-time streaming with Apache Kafka, data warehouse design with Amazon Redshift, and AI-ready analytics platforms.",
-        "I am currently based in Bengaluru, India, and available for remote collaboration across time zones. My typical response time is within 24 hours.",
-        "Whether you need to architect a real-time CDC pipeline, migrate batch workloads to streaming, design a medallion data lake on AWS, or build an AI-powered analytics platform, I have done it in production and can contribute from day one.",
+        "If you're dealing with a messy data swamp, struggling to move from batch to real-time, or just need someone who knows how to keep a production pipeline from collapsing, we should talk. I bring 5+ years of hands-on experience doing exactly that.",
+        "While I'm based in Bengaluru, I'm highly experienced in async, remote collaboration across time zones. I treat communication as seriously as I treat code, and I typically respond within 24 hours.",
+        "Whether you need to build a real-time CDC pipeline from scratch, wrangle a medallion data lake on AWS, or just need a senior engineer who can contribute from day one without hand-holding—let's build something great.",
     ],
     highlights: [
         { label: "Response Time", value: "< 24h", description: "Typical email and LinkedIn response time" },

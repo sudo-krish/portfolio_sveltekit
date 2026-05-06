@@ -12,11 +12,11 @@ export const credentialsSectionContent: SectionContent = {
     ],
     headline: "AWS Certifications and Foundations",
     subHeadline: "Certifications That Support Real Work",
-    introParagraph: "My AWS certifications strengthen the cloud architecture, platform design, and delivery practices I apply in real data engineering work.",
+    introParagraph: "Certifications only matter if you can back them up with execution. My academic background and AWS credentials aren't just badges; they represent the rigorous foundation I bring to every architecture I design.",
     paragraphs: [
-        "I hold the AWS Certified Solutions Architect – Associate certification, validating my expertise in designing distributed systems, implementing fault-tolerant architectures, and optimizing cost-effective solutions on Amazon Web Services.",
-        "My academic foundation includes a Master of Technology (M.Tech) in Data Science & Engineering from BITS Pilani, one of India's premier engineering institutions.",
-        "Beyond certifications and education, I have contributed to the research community with peer-reviewed publications in international journals.",
+        "My AWS Solutions Architect certification reflects a deep understanding of distributed systems. It's not about memorizing services; it's about knowing how to stitch them together into resilient, cost-effective architectures that actually work under pressure.",
+        "My Master's degree in Data Science from BITS Pilani taught me the theory behind the tools. It gave me the mathematical and analytical rigor needed to understand not just how data flows, but what it actually means.",
+        "I've always believed in sharing knowledge. Contributing to peer-reviewed research allowed me to push the boundaries of what I knew, testing my ideas against the scrutiny of the international engineering community.",
     ],
     highlights: [
         { label: "AWS Certifications", value: "2", description: "Solutions Architect Associate + Cloud Practitioner" },

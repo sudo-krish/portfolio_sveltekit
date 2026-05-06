@@ -12,11 +12,11 @@ export const impactSectionContent: SectionContent = {
     ],
     headline: "Production Outcomes",
     subHeadline: "Delivery Metrics from Real-World Systems",
-    introParagraph: "These metrics reflect the kinds of engineering problems I have worked on, from large-scale event processing to low-latency analytics refresh, pipeline uptime, and automation-driven efficiency improvements.",
+    introParagraph: "Behind every metric is a moment where a system didn't crash, a team got their report on time, or a business finally trusted their data. I've spent my career moving companies away from brittle, overnight batch jobs to resilient, real-time architectures that actually deliver on their promises.",
     paragraphs: [
-        "Data engineering is ultimately about delivering business value. My approach centers on identifying high-impact opportunities where better data infrastructure directly translates to faster decisions, more accurate reporting, and significant cost savings. The metrics below represent verified production outcomes, not theoretical benchmarks.",
-        "At DTDC Express, I replaced batch processing cycles with a real-time streaming architecture that delivers data in sub-second timeframes. At Quantiphi, I improved report accuracy from 60% to 98% through advanced query optimization and validation pipelines.",
-        "Beyond speed and accuracy, I focus on operational efficiency. By automating manual reporting workflows with Apache Airflow, dbt, and AWS Glue, I have consistently reduced manual effort by 70–80%, freeing data teams to focus on higher-value analytics work.",
+        "It's easy to build something that works once in a lab. It's entirely different to build systems that survive the messy, unpredictable reality of production. My work has always been about impact: turning sluggish, unreliable data swamps into fast, dependable engines that drive decisions. The numbers below aren't just vanity metrics; they represent real moments where I helped companies see clearer and move faster.",
+        "When I was at DTDC Express, I replaced traditional batch processing cycles with a real-time streaming architecture that delivers data in sub-second timeframes, fundamentally changing how quickly the business could react. At Quantiphi, I pushed report accuracy from 60% to a rock-solid 98% by implementing rigorous, multi-layer validation pipelines.",
+        "Beyond speed and accuracy, I obsess over operational efficiency. By automating manual reporting workflows with Apache Airflow, dbt, and AWS Glue, I have consistently cut away 70–80% of the manual toil—freeing data teams from the grind so they can focus on the analytics that actually matter.",
     ],
     highlights: [
         { label: "Events/Day", value: "50M+", description: "High-throughput data systems for large-scale event ingestion and analytics" },

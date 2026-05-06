@@ -49,7 +49,7 @@
 >
     <!-- Top Navigation -->
     <div
-        class="relative z-40 w-full max-w-4xl mx-auto px-4 pt-16 sm:pt-24 pb-2 flex flex-col gap-4"
+        class="relative z-40 w-full max-w-4xl mx-auto px-4 pt-24 sm:pt-32 pb-2 flex flex-col gap-4"
     >
         <div class="flex justify-between items-center">
             <Breadcrumbs {crumbs} />
@@ -106,7 +106,8 @@
                 ></div>
 
                 <h1
-                    class="retro-font text-4xl sm:text-5xl text-black font-bold mb-6 drop-shadow-md tracking-widest"
+                    class="retro-font text-4xl sm:text-5xl font-bold mb-6 drop-shadow-md tracking-widest"
+                    style="color: #000000 !important;"
                 >
                     SYSTEM ENCOUNTER
                 </h1>
@@ -115,13 +116,15 @@
                     class="bg-white border-[4px] border-[#333] p-4 w-full text-left mb-8 shadow-inner"
                 >
                     <h3
-                        class="retro-font text-2xl text-primary font-bold mb-3 border-b-2 border-border pb-1"
+                        class="retro-font text-2xl font-bold mb-3 border-b-2 border-border pb-1"
+                        style="color: #e3350d !important;"
                     >
                         HOW TO PLAY:
                     </h3>
 
                     <ul
-                        class="retro-font text-lg sm:text-2xl text-black space-y-4 leading-snug"
+                        class="retro-font text-lg sm:text-2xl space-y-4 leading-snug"
+                        style="color: #000000 !important;"
                     >
                         <li class="flex gap-2">
                             <span>🎮</span>
@@ -155,7 +158,7 @@
                 </div>
 
                 <button
-                    class="retro-font text-2xl sm:text-3xl text-foreground bg-foreground text-background border-[4px] border-[#333] px-8 py-3 rounded hover:bg-foreground text-background hover:-translate-y-1 transition-transform shadow-[4px_4px_0_rgba(0,0,0,0.8)] active:shadow-none active:translate-y-1 active:translate-x-1 font-bold tracking-widest"
+                    class="retro-font text-2xl sm:text-3xl text-white bg-[#e3350d] border-[4px] border-[#333] px-8 py-3 rounded hover:bg-[#c82b09] hover:-translate-y-1 transition-transform shadow-[4px_4px_0_rgba(0,0,0,0.8)] active:shadow-none active:translate-y-1 active:translate-x-1 font-bold tracking-widest"
                     on:click={startGame}
                 >
                     START ENCOUNTER

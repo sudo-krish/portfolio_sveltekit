@@ -13,11 +13,11 @@ export const techstackSectionContent: SectionContent = {
     ],
     headline: "Tools and Technologies",
     subHeadline: "Production-Oriented Data Engineering Stack",
-    introParagraph: "My stack spans cloud services, streaming infrastructure, orchestration, warehousing, data modeling, and software engineering tools needed to design and operate reliable data systems.",
+    introParagraph: "Tools are just tools until you apply them to a real problem. I don't chase the newest frameworks; I choose the right technologies to build resilient, scalable systems that let businesses sleep soundly at night.",
     paragraphs: [
-        "At the core of my cloud expertise is Amazon Web Services (AWS), where I architect solutions using services like AWS Glue for serverless ETL, AWS Lambda for event-driven compute, Amazon EMR for big data processing with Apache Spark and PySpark, Amazon Kinesis for real-time streaming, and Amazon Redshift for high-performance data warehousing.",
-        "For real-time data engineering, I leverage Apache Kafka with Debezium for Change Data Capture (CDC), Apache Airflow for workflow orchestration, and dbt (Data Build Tool) for transformation-layer management.",
-        "My DevOps and infrastructure-as-code practice includes Docker containerization, Kubernetes orchestration, Terraform for infrastructure provisioning, and CI/CD pipeline automation.",
+        "AWS is my foundation. I architect solutions using everything from serverless Lambda functions to massive EMR clusters. Whether it's spinning up Kinesis for real-time streaming or optimizing Redshift for complex analytical queries, I use AWS not just to host data, but to activate it.",
+        "When milliseconds matter, I lean on Apache Kafka and Debezium. Capturing changes as they happen and moving them reliably through the ecosystem is an art form. I use Airflow to orchestrate the chaos and dbt to turn raw data into tested, trusted models.",
+        "You can't have reliable data without reliable infrastructure. That's why I treat infrastructure as code. Docker, Kubernetes, Terraform, and rigorous CI/CD pipelines ensure that what works on my laptop works flawlessly in production.",
     ],
     highlights: [
         { label: "Cloud Services", value: "15+", description: "AWS services in production use" },

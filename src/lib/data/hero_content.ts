@@ -2,8 +2,8 @@
 
 export const heroProfile = {
     jobTitle: "Senior Data Engineer | AWS | Kafka | Spark | Real-Time Data Platforms",
-    shortBio: "Senior Data Engineer with 5+ years building AWS, Kafka, Spark, and warehouse pipelines. Explore projects, articles, learning resources, and production-scale data systems.",
-    bio: "Senior Data Engineer with 5+ years building AWS, Kafka, Spark, and warehouse pipelines. I design and build production-grade data platforms using AWS, Kafka, Spark, Airflow, and modern warehousing patterns. My work spans real-time pipelines, CDC architectures, warehouse refresh systems, cloud migrations, and scalable analytics foundations that support faster reporting, better reliability, and stronger engineering operations.",
+    shortBio: "Data isn't just rows and columns to me—it's the lifeblood of how modern companies think, act, and survive. Explore the systems, pipelines, and architectures I've built over the last 5 years.",
+    bio: "Data isn't just rows and columns to me—it's the lifeblood of how modern companies think, act, and survive. Over the past five years, I've dedicated myself to taming the chaos of raw data, building the unseen highways that carry millions of events every second. I don't just write pipelines; I engineer clarity. From the rush of streaming Kafka data to the silent strength of a well-architected data lake, I build systems that let businesses stop guessing and start knowing.",
     resumeUrl: "https://drive.google.com/file/d/1lkamX2hfp25wsLecHgEStbYD7-1ZEMwv/view?usp=drive_link",
     topSkills: [
         "Real-time data pipelines using Kafka, CDC patterns, and event-driven ingestion",
@@ -74,9 +74,9 @@ export const heroContent: HeroContent = {
     bioCard: {
         metaLabel: "Data Engineering",
         metaTitle: "Krishnanand Anil",
-        main: "I design and build production-grade data platforms using AWS, Kafka, Spark, Airflow, and modern warehousing patterns. Over 5+ years, I have worked across real-time pipelines, CDC architectures, warehouse refresh systems, cloud migrations, and scalable analytics foundations.",
+        main: "I've always believed that bad data infrastructure is a silent tax on a company's potential. Over the last 5+ years, I've dedicated myself to building systems that survive the messy, unpredictable reality of production.",
         details:
-            "My work supports faster reporting, better reliability, and stronger engineering operations. I specialize in end-to-end data engineering: ingestion, CDC, transformation, orchestration, warehousing, observability, and platform design — all on AWS-native and cloud-scale systems.",
+            "From the first spark of raw data ingestion to the final, clean dataset ready for analysis, I design pipelines that don't just move data—they protect its integrity every step of the way. I specialize in turning sluggish, unreliable data swamps into fast, dependable engines that drive decisions.",
     },
 
     marquee: {

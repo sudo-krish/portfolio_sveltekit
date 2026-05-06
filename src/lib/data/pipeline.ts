@@ -4,7 +4,7 @@ export const pipelineData = {
     leftAnchor: {
         label: "CORE COMPETENCIES",
         title: "What I\nBuild.",
-        description: "End-to-end data engineering: ingestion, CDC, transformation, orchestration, warehousing, observability, and platform design."
+        description: "I build the nervous system. From the first spark of raw data ingestion to the final, clean dataset ready for analysis, I design pipelines that protect data integrity every step of the way."
     },
     header: {
         badge: "Data Engineering & Cloud Architecture",
@@ -12,9 +12,9 @@ export const pipelineData = {
         titleLine2: "Data Systems.",
     },
     content: {
-        shortDescription: `My work focuses on <strong class="text-foreground font-medium">end-to-end data engineering</strong>: ingestion, CDC, transformation, orchestration, warehousing, observability, and platform design — specializing in <span class="text-primary font-medium tracking-wide">AWS-native and cloud-scale systems</span> that move data reliably and support analytics and AI use cases.`,
+        shortDescription: `I build the nervous system. From the first spark of raw data ingestion to the final, clean dataset ready for analysis, I design <strong class="text-foreground font-medium">pipelines that don't just move data</strong>—they protect its integrity every step of the way, especially across <span class="text-primary font-medium tracking-wide">AWS-native and cloud-scale systems</span>.`,
 
-        detailedPhilosophy: `I design systems that reduce latency, improve downstream reporting, and support scalable analytics. My approach combines real-time data pipelines using Kafka and CDC patterns, batch and near real-time ETL/ELT using Spark and Airflow, data warehousing with Redshift, data lake and medallion architectures for scalable storage, and cloud migrations with platform standardization — all focused on reliability, maintainability, and business usefulness.`
+        detailedPhilosophy: `I've always believed that bad data infrastructure is a silent tax on a company's potential. My philosophy is simple: build pipelines that are as resilient as they are fast. Whether it's wiring up real-time streaming with Kafka, capturing changes as they happen, or orchestrating massive batch loads with Airflow, I obsess over the details so that the data analysts and decision-makers downstream never have to worry if the numbers are right.`
     },
     details: [
         {

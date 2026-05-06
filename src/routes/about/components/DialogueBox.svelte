@@ -1,4 +1,10 @@
 <script lang="ts">
+    import {
+        playSelect,
+        playMenuOpen,
+        playError,
+    } from "../soundManager";
+
     export let battleState: string;
     export let currentNode: any;
     export let displayedText: string;
@@ -11,6 +17,19 @@
 
     // UI state to toggle the interview choices overlay
     let showInterviewOptions = false;
+
+    // "Can't escape!" flash
+    let runMessage = "";
+    let runMessageTimeout: ReturnType<typeof setTimeout>;
+
+    function showRunFail() {
+        playError();
+        clearTimeout(runMessageTimeout);
+        runMessage = "Can't escape!";
+        runMessageTimeout = setTimeout(() => {
+            runMessage = "";
+        }, 1500);
+    }
 
     function localHandleBoxClick() {
         if (isTyping) {
@@ -62,16 +81,23 @@
         <p
             class="retro-font text-[1.1rem] sm:text-[1.6rem] leading-snug pt-1 sm:pt-2 px-1 pb-4 relative z-10 {currentNode.speaker ===
             'System'
-                ? '!text-primary'
+                ? '!text-[#3b82f6]'
                 : '!text-black'}"
         >
             {displayedText}
         </p>
 
+        <!-- "Can't escape!" flash message -->
+        {#if runMessage}
+            <div class="absolute bottom-3 left-4 sm:left-6 z-20 animate-bounce">
+                <span class="retro-font text-[#e3350d] text-sm sm:text-lg font-bold tracking-widest">{runMessage}</span>
+            </div>
+        {/if}
+
         <!-- Blinking Arrow for Auto-advance Dialogue -->
         {#if !isTyping && (!currentNode.options || currentNode.options.length === 0)}
             <div
-                class="absolute bottom-3 sm:bottom-4 right-4 sm:right-5 w-0 h-0 border-l-[8px] sm:border-l-[10px] border-l-transparent border-r-[8px] sm:border-r-[10px] border-r-transparent border-t-[12px] sm:border-t-[14px] border-t-foreground animate-bounce z-10"
+                class="absolute bottom-3 sm:bottom-4 right-4 sm:right-5 w-0 h-0 border-l-[8px] sm:border-l-[10px] border-l-transparent border-r-[8px] sm:border-r-[10px] border-r-transparent border-t-[12px] sm:border-t-[14px] border-t-[#333] animate-bounce z-10"
             ></div>
         {/if}
     </div>
@@ -88,42 +114,49 @@
 
             <div class="w-full h-full grid grid-cols-2 grid-rows-2 p-1 sm:p-2">
                 <button
-                    class="group relative flex items-center justify-center retro-font !text-black text-lg sm:text-xl hover:bg-gray-200 transition-colors"
-                    on:click={() => (showInterviewOptions = true)}
+                    class="group relative flex items-center justify-center retro-font !text-black text-lg sm:text-xl hover:bg-gray-200 transition-colors active:scale-95"
+                    on:click={() => {
+                        playMenuOpen();
+                        showInterviewOptions = true;
+                    }}
                 >
                     <div
-                        class="absolute left-1 sm:left-2 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-foreground opacity-0 group-hover:opacity-100"
+                        class="absolute left-1 sm:left-2 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-[#333] opacity-0 group-hover:opacity-100"
                     ></div>
                     RESPOND
                 </button>
 
                 <button
-                    class="group relative flex items-center justify-center retro-font !text-black text-lg sm:text-xl hover:bg-gray-200 transition-colors"
-                    on:click={() =>
-                        alert("Scroll down to view your KEY ITEMS in the BAG!")}
+                    class="group relative flex items-center justify-center retro-font !text-black text-lg sm:text-xl hover:bg-gray-200 transition-colors active:scale-95"
+                    on:click={() => {
+                        playSelect();
+                        // Smoothly scroll down to the inventory bag section
+                        const bagEl = document.querySelector('[data-bag-section]');
+                        if (bagEl) bagEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }}
                 >
                     <div
-                        class="absolute left-1 sm:left-2 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-foreground opacity-0 group-hover:opacity-100"
+                        class="absolute left-1 sm:left-2 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-[#333] opacity-0 group-hover:opacity-100"
                     ></div>
                     BAG
                 </button>
 
                 <button
-                    class="group relative flex items-center justify-center retro-font text-primary font-bold text-lg sm:text-xl hover:bg-muted transition-colors"
-                    on:click={() => advanceNode("catch_attempt")}
+                    class="group relative flex items-center justify-center retro-font text-[#e3350d] font-bold text-lg sm:text-xl hover:bg-gray-200 transition-colors active:scale-95"
+                    on:click={() => { playSelect(); advanceNode("catch_attempt"); }}
                 >
                     <div
-                        class="absolute left-1 sm:left-2 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-foreground opacity-0 group-hover:opacity-100"
+                        class="absolute left-1 sm:left-2 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-[#e3350d] opacity-0 group-hover:opacity-100"
                     ></div>
                     HIRE
                 </button>
 
                 <button
-                    class="group relative flex items-center justify-center retro-font !text-black text-lg sm:text-xl hover:bg-gray-200 transition-colors"
-                    on:click={() => (window.location.href = "/")}
+                    class="group relative flex items-center justify-center retro-font !text-black text-lg sm:text-xl hover:bg-gray-200 transition-colors active:scale-95"
+                    on:click={showRunFail}
                 >
                     <div
-                        class="absolute left-1 sm:left-2 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-foreground opacity-0 group-hover:opacity-100"
+                        class="absolute left-1 sm:left-2 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-[#333] opacity-0 group-hover:opacity-100"
                     ></div>
                     RUN
                 </button>
@@ -147,10 +180,11 @@
                 {#each currentNode.options as option}
                     <button
                         on:click={() => {
+                            playSelect();
                             showInterviewOptions = false;
                             advanceNode(option.nextId, option.unlock);
                         }}
-                        class="text-left retro-font !text-black text-[1rem] leading-tight sm:leading-normal sm:text-[1.3rem] hover:bg-gray-200 outline-none flex items-start sm:items-center gap-2 group rounded relative py-1.5 sm:py-1 pr-2"
+                        class="text-left retro-font !text-black text-[1rem] leading-tight sm:leading-normal sm:text-[1.3rem] hover:bg-gray-200 outline-none flex items-start sm:items-center gap-2 group rounded relative py-1.5 sm:py-1 pr-2 active:scale-[0.98] transition-transform"
                     >
                         <div
                             class="mt-1.5 sm:mt-0 w-0 h-0 border-t-[5px] sm:border-t-[6px] border-t-transparent border-b-[5px] sm:border-b-[6px] border-b-transparent border-l-[8px] sm:border-l-[10px] border-l-black opacity-0 group-hover:opacity-100 shrink-0 transition-opacity"
@@ -162,8 +196,11 @@
 
             <!-- Back/Cancel Button -->
             <button
-                class="absolute bottom-2 sm:bottom-3 right-3 sm:right-4 retro-font text-foreground text-sm sm:text-lg hover:underline z-30 font-bold bg-white px-2 py-1 rounded"
-                on:click={() => (showInterviewOptions = false)}
+                class="absolute bottom-2 sm:bottom-3 right-3 sm:right-4 retro-font text-[#333] text-sm sm:text-lg hover:underline z-30 font-bold bg-white px-2 py-1 rounded active:scale-95 transition-transform"
+                on:click={() => {
+                    playSelect();
+                    showInterviewOptions = false;
+                }}
             >
                 CANCEL
             </button>

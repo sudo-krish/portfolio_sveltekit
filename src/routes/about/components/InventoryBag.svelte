@@ -38,7 +38,10 @@
                 "Kafka & Distributed Systems",
             ],
             icon: Code2,
-            color: "blue",
+            itemBg: "#dbeafe",
+            iconBg: "#bfdbfe",
+            iconBorder: "#60a5fa",
+            iconColor: "#1d4ed8",
         },
         experience: {
             title: "EXP_SHARE",
@@ -50,7 +53,10 @@
                 "Built automated CI/CD data pipelines",
             ],
             icon: Trophy,
-            color: "yellow",
+            itemBg: "#fef3c7",
+            iconBg: "#fde68a",
+            iconBorder: "#facc15",
+            iconColor: "#a16207",
         },
         lore: {
             title: "DEV_QUIRKS",
@@ -62,7 +68,10 @@
                 "Hates poorly formatted logs",
             ],
             icon: Gamepad2,
-            color: "purple",
+            itemBg: "#f3e8ff",
+            iconBg: "#e9d5ff",
+            iconBorder: "#c084fc",
+            iconColor: "#7e22ce",
         },
     };
 
@@ -84,6 +93,7 @@
 </script>
 
 <div
+    data-bag-section
     class="w-full mt-6 {battleState === 'start_anim'
         ? 'opacity-0'
         : 'opacity-100 transition-opacity duration-1000 delay-500'}"
@@ -96,7 +106,7 @@
             <Backpack size={20} class="text-foreground" />
         </div>
         <h2
-            class="retro-font text-foreground text-2xl drop-shadow-[2px_2px_0_#000] tracking-wider"
+            class="retro-font text-white text-2xl drop-shadow-[2px_2px_0_#000] tracking-wider"
         >
             KEY ITEMS
         </h2>
@@ -122,12 +132,12 @@
                         <svelte:component
                             this={itemData[displayItem].icon}
                             size={48}
-                            class="text-{itemData[displayItem]
-                                .color}-600 drop-shadow-md"
+                            class="drop-shadow-md"
+                            color={itemData[displayItem].iconColor}
                         />
                     </div>
                 {:else}
-                    <span class="retro-font text-foreground text-4xl opacity-30"
+                    <span class="retro-font text-4xl" style="color: #4a8a70 !important;"
                         >?</span
                     >
                 {/if}
@@ -139,13 +149,14 @@
             >
                 {#if displayItem && inventory[displayItem]}
                     <p
-                        class="retro-font !text-black text-lg leading-snug"
+                        class="retro-font text-lg leading-snug"
+                        style="color: #000000 !important;"
                         in:fade
                     >
                         {itemData[displayItem].brief}
                     </p>
                 {:else}
-                    <p class="retro-font text-muted-foreground text-lg leading-snug">
+                    <p class="retro-font text-lg leading-snug" style="color: #444444 !important;">
                         Select an item from the bag to view its details.
                     </p>
                 {/if}
@@ -160,41 +171,39 @@
                 <!-- svelte-ignore a11y_click_events_have_key_events -->
                 <!-- svelte-ignore a11y_no_static_element_interactions -->
                 <div
-                    class="w-full p-2 flex items-center justify-between border-b-2 border-dashed border-border transition-colors {inventory[
+                    class="w-full p-2 flex items-center justify-between border-b-2 border-dashed border-[#ccc] transition-colors {inventory[
                         item
                     ]
                         ? 'cursor-pointer'
-                        : 'cursor-not-allowed'} {displayItem === item
-                        ? `bg-${itemData[item].color}-100`
-                        : 'hover:bg-gray-100'}"
+                        : 'cursor-not-allowed'} hover:bg-black/5"
+                    style="background-color: {displayItem === item ? itemData[item].itemBg : 'transparent'};"
                     on:mouseenter={() => (selectedItem = item)}
                     on:mouseleave={() => (selectedItem = null)}
                     on:click={() => openModal(item)}
                 >
                     <div class="flex items-center gap-3">
                         <div
-                            class="w-8 h-8 rounded bg-{itemData[item]
-                                .color}-200 border-2 border-{itemData[item]
-                                .color}-400 flex items-center justify-center"
+                            class="w-8 h-8 rounded border-2 flex items-center justify-center"
+                            style="background-color: {itemData[item].iconBg}; border-color: {itemData[item].iconBorder};"
                         >
                             <svelte:component
                                 this={itemData[item].icon}
                                 size={16}
-                                class="text-{itemData[item].color}-700"
+                                color={itemData[item].iconColor}
                             />
                         </div>
                         <span
-                            class="retro-font text-xl {inventory[item]
-                                ? '!text-black'
-                                : 'text-muted-foreground'}">{itemData[item].title}</span
+                            class="retro-font text-xl"
+                            style="color: {inventory[item] ? '#000000' : '#888888'} !important;"
+                            >{itemData[item].title}</span
                         >
                     </div>
                     {#if inventory[item]}
-                        <span class="retro-font !text-black text-lg px-2"
+                        <span class="retro-font text-lg px-2" style="color: #000000 !important;"
                             >x01</span
                         >
                     {:else}
-                        <span class="retro-font text-muted-foreground text-lg">???</span
+                        <span class="retro-font text-lg" style="color: #888888 !important;">???</span
                         >
                     {/if}
                 </div>
@@ -204,7 +213,7 @@
             <div
                 class="w-full p-2 flex items-center justify-between border-b-2 border-dashed border-border opacity-50"
             >
-                <span class="retro-font text-muted-foreground text-xl pl-11"
+                <span class="retro-font text-xl pl-11" style="color: #333333 !important;"
                     >CANCEL</span
                 >
             </div>
@@ -226,20 +235,20 @@
                 >
                     <!-- Modal Header -->
                     <div
-                        class="bg-secondary px-3 py-2 flex justify-between items-center text-foreground"
+                        class="bg-[#e3350d] border-b-[4px] border-[#333] px-3 py-2 flex justify-between items-center text-white"
                     >
                         <div class="flex items-center gap-2">
                             <svelte:component
                                 this={itemData[modalItem].icon}
                                 size={18}
-                                class="text-{itemData[modalItem].color}-400"
+                                class="text-white"
                             />
-                            <span class="retro-font text-xl tracking-wider"
+                            <span class="retro-font text-xl tracking-wider pt-1"
                                 >{itemData[modalItem].title} DETAILS</span
                             >
                         </div>
                         <button
-                            class="hover:text-muted-foreground transition-colors"
+                            class="hover:text-gray-300 transition-colors"
                             on:click={closeModal}
                         >
                             <X size={20} />

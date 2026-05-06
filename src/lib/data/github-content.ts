@@ -12,11 +12,11 @@ export const githubSectionContent: SectionContent = {
     ],
     headline: "GitHub Repositories",
     subHeadline: "Open Source Work and Engineering Projects",
-    introParagraph: "This page curates the public repositories that best represent my work across data engineering, automation, architecture experiments, and developer tooling. Instead of listing repositories without context, it highlights what each repo is for, the problem it solves, and how it connects to my projects, articles, and learning material.",
+    introParagraph: "I believe that the best way to prove you can build something is to simply build it. My GitHub isn't just a portfolio; it's a sandbox where I test ideas, share architectures, and solve the kinds of problems I see in production every day.",
     paragraphs: [
-        "I maintain an active GitHub presence with repositories spanning real-time streaming architectures, AWS automation utilities, Python data processing libraries, and infrastructure-as-code templates. Each project is documented with comprehensive READMEs, architecture diagrams, and deployment instructions.",
-        "My coding philosophy emphasizes readability, testability, and operational excellence. I follow conventional commit standards, implement automated testing pipelines, and structure repositories with clear separation of concerns.",
-        "Beyond personal projects, I actively contribute to the broader data engineering ecosystem through code reviews, technical discussions, and sharing architectural patterns that have proven successful in enterprise environments.",
+        "You'll find everything here from real-time streaming architectures to automated AWS utilities. I don't just dump code and walk away—every project is documented so that another engineer can actually understand the 'why' behind the architecture, not just the 'how'.",
+        "I write code with the assumption that someone else is going to have to maintain it at 2 AM. That means readability, comprehensive test suites, and operational excellence aren't afterthoughts; they're the baseline.",
+        "Open source is about giving back. Beyond my own repositories, I try to contribute to the broader data ecosystem—sharing the patterns and hard-won lessons that have kept my enterprise systems running.",
     ],
     highlights: [
         { label: "Public Repositories", value: "42+", description: "Open-source data engineering tools and templates" },
