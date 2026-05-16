@@ -350,9 +350,9 @@
             class="w-full relative z-20 pointer-events-auto"
         >
             <div
-                class="flex flex-col items-center w-full min-h-max px-4 pt-[14vh] pb-[18vh] mx-auto relative"
+                class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-lg mx-auto px-5 pt-16 pb-16 relative"
             >
-                <div class="w-full flex flex-col items-center relative z-10">
+                <div class="w-full flex flex-col items-center relative z-10" style="gap: 2rem;">
                     {@render heroHeader(true)}
                     {@render heroBioCard(true)}
                     {@render heroActionDock(true)}

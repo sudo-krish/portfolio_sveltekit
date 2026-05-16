@@ -356,15 +356,7 @@
         100% { transform: scale(1) translateY(-50px); opacity: 0; }
     }
 
-    /* Floating damage (legacy, kept for compatibility) */
-    .animate-float-up-fade {
-        animation: floatUpFade 1s ease-out forwards;
-    }
-    @keyframes floatUpFade {
-        0% { transform: translateY(0); opacity: 1; }
-        60% { opacity: 1; }
-        100% { transform: translateY(-40px); opacity: 0; }
-    }
+
 
     /* === TACKLE LUNGE: Player sprite lunges forward toward the enemy === */
     .animate-tackle-lunge {

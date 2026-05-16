@@ -51,10 +51,6 @@
            hover:border-primary/30
            transition-all duration-500 hover:-translate-y-1"
 >
-    <!-- Glow effect -->
-    {#if featured}
-        
-    {/if}
 
     <div class="relative z-10 p-5 flex flex-col gap-3 flex-1">
         <!-- Top row: category/platform + badges -->
