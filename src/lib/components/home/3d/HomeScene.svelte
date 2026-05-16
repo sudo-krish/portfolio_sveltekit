@@ -545,7 +545,7 @@
 </script>
 
 <Environment
-  url="https://dl.polyhaven.org/file/ph-assets/HDRIs/exr/1k/abandoned_parking_1k.exr"
+  url="/hdri/abandoned_parking_1k.hdr"
 />
 
 <T.PerspectiveCamera makeDefault position={[0, 0, cameraZ]} fov={cameraFov}>
