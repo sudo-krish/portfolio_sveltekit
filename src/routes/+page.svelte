@@ -33,6 +33,7 @@
 
   let observer: any;
   let keydownHandler: any;
+  let unsubscribers: (() => void)[] = [];
 
   onMount(() => {
     // 1. SCROLL RESET LOGIC
@@ -116,93 +117,83 @@
           return !!(scroller && scroller.scrollHeight > scroller.clientHeight);
         }
 
-        // 4. DESKTOP: GSAP observer for wheel & pointer (no touch)
-        observer = ScrollTrigger.observe({
-          target: container,
-          type: "wheel,pointer",
-          wheelSpeed: -1,
-          tolerance: 10,
-          preventDefault: true,
-          onUp: (self) => {
-            if (Math.abs(self.deltaX) > Math.abs(self.deltaY)) return;
-            if (isInsideScrollableChild(self)) return;
-            if (!isAnimating) gotoSection(currentIndex + 1);
-          },
-          onDown: (self) => {
-            if (Math.abs(self.deltaX) > Math.abs(self.deltaY)) return;
-            if (isInsideScrollableChild(self)) return;
-            if (!isAnimating) gotoSection(currentIndex - 1);
-          },
-        });
+        // 4. DESKTOP ONLY: GSAP observer for wheel & pointer (no touch)
+        if (window.innerWidth >= 1024) {
+          observer = ScrollTrigger.observe({
+            target: container,
+            type: "wheel,pointer",
+            wheelSpeed: -1,
+            tolerance: 10,
+            preventDefault: true,
+            onUp: (self) => {
+              if (Math.abs(self.deltaX) > Math.abs(self.deltaY)) return;
+              if (isInsideScrollableChild(self)) return;
+              if (!isAnimating) gotoSection(currentIndex + 1);
+            },
+            onDown: (self) => {
+              if (Math.abs(self.deltaX) > Math.abs(self.deltaY)) return;
+              if (isInsideScrollableChild(self)) return;
+              if (!isAnimating) gotoSection(currentIndex - 1);
+            },
+          });
 
-        // 5. MOBILE: Touch handling for section snapping.
-        // MobileCarousel areas handle their own touch logic and signal
-        // section changes via scrollDirection store. We skip them here.
-        let touchStartY = 0;
-        let touchStartX = 0;
-        let touchAxis: "none" | "h" | "v" = "none";
-        let insideCarousel = false;
+          // 5. DESKTOP ONLY: Touch handling for section snapping (on trackpads/touch laptops)
+          let touchStartY = 0;
+          let touchStartX = 0;
+          let touchAxis: "none" | "h" | "v" = "none";
+          let insideCarousel = false;
 
-        function onTouchStart(e: TouchEvent) {
-          const target = e.target as HTMLElement;
-          // Detect if touch originated inside ANY carousel element (the zone or its scrollable content)
-          insideCarousel = !!(target.closest("[data-carousel-touch-zone]") || target.closest('[data-carousel-scroller="true"]'));
-          if (insideCarousel) return;
+          const onTouchStart = (e: TouchEvent) => {
+            const target = e.target as HTMLElement;
+            insideCarousel = !!(target.closest("[data-carousel-touch-zone]") || target.closest('[data-carousel-scroller="true"]'));
+            if (insideCarousel) return;
 
-          touchStartY = e.touches[0].clientY;
-          touchStartX = e.touches[0].clientX;
-          touchAxis = "none";
-        }
-
-        function onTouchMove(e: TouchEvent) {
-          if (insideCarousel) return;
-
-          const cy = e.touches[0].clientY;
-          const cx = e.touches[0].clientX;
-
-          if (touchAxis === "none") {
-            const ax = Math.abs(cx - touchStartX);
-            const ay = Math.abs(cy - touchStartY);
-            if (ax + ay >= 10) {
-              touchAxis = ax > ay ? "h" : "v";
-            }
-          }
-
-          // Only handle vertical swipes for section snapping
-          if (touchAxis === "v") {
-            if (e.cancelable) e.preventDefault();
-          }
-        }
-
-        function onTouchEnd(e: TouchEvent) {
-          if (insideCarousel) {
-            insideCarousel = false;
-            return;
-          }
-          if (touchAxis !== "v" || isAnimating) {
+            touchStartY = e.touches[0].clientY;
+            touchStartX = e.touches[0].clientX;
             touchAxis = "none";
-            return;
-          }
+          };
 
-          const endY = e.changedTouches[0].clientY;
-          const delta = touchStartY - endY; // +ve = swiped up
-          const TOLERANCE = 40;
+          const onTouchMove = (e: TouchEvent) => {
+            if (insideCarousel) return;
+            const cy = e.touches[0].clientY;
+            const cx = e.touches[0].clientX;
 
-          if (Math.abs(delta) >= TOLERANCE) {
-            if (delta > 0) gotoSection(currentIndex + 1);
-            else gotoSection(currentIndex - 1);
-          }
+            if (touchAxis === "none") {
+              const ax = Math.abs(cx - touchStartX);
+              const ay = Math.abs(cy - touchStartY);
+              if (ax + ay >= 10) touchAxis = ax > ay ? "h" : "v";
+            }
 
-          touchAxis = "none";
+            if (touchAxis === "v") {
+              if (e.cancelable) e.preventDefault();
+            }
+          };
+
+          const onTouchEnd = (e: TouchEvent) => {
+            if (insideCarousel) {
+              insideCarousel = false;
+              return;
+            }
+            if (touchAxis !== "v" || isAnimating) {
+              touchAxis = "none";
+              return;
+            }
+
+            const endY = e.changedTouches[0].clientY;
+            const delta = touchStartY - endY;
+            const TOLERANCE = 40;
+
+            if (Math.abs(delta) >= TOLERANCE) {
+              if (delta > 0) gotoSection(currentIndex + 1);
+              else gotoSection(currentIndex - 1);
+            }
+            touchAxis = "none";
+          };
+
+          container.addEventListener("touchstart", onTouchStart, { passive: true });
+          container.addEventListener("touchmove", onTouchMove, { passive: false });
+          container.addEventListener("touchend", onTouchEnd);
         }
-
-        container.addEventListener("touchstart", onTouchStart, {
-          passive: true,
-        });
-        container.addEventListener("touchmove", onTouchMove, {
-          passive: false,
-        });
-        container.addEventListener("touchend", onTouchEnd);
 
         // 5. Intercept the keyboard keys
         keydownHandler = (e: KeyboardEvent) => {
@@ -251,14 +242,15 @@
           }
         });
 
-        // Add unsubscribes to the observer cleanup later
-        observer.unsubscribeTarget = unsubscribeTarget;
-        observer.unsubscribeDir = unsubscribeDir;
+        // Add unsubscribes to the list for cleanup
+        unsubscribers.push(unsubscribeTarget);
+        unsubscribers.push(unsubscribeDir);
       }
     });
 
     return () => {
       if (ro) ro.disconnect();
+      unsubscribers.forEach(u => u());
     };
   });
 
@@ -267,14 +259,11 @@
       document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
     }
-    if (observer) {
-      observer.kill();
-      if (observer.unsubscribeTarget) observer.unsubscribeTarget();
-      if (observer.unsubscribeDir) observer.unsubscribeDir();
-    }
+    if (observer) observer.kill();
     if (typeof window !== "undefined" && keydownHandler) {
       window.removeEventListener("keydown", keydownHandler);
     }
+    unsubscribers.forEach(u => u());
     ScrollTrigger.defaults({ scroller: window });
     ScrollTrigger.getAll().forEach((t) => t.kill());
   });

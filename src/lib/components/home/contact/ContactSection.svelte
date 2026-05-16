@@ -209,7 +209,7 @@
 
     <!-- MOBILE / SMALL TABLET -->
     <svelte:fragment slot="content-mobile">
-        <div class="h-full w-full overflow-y-auto overscroll-contain no-scrollbar touch-pan-y relative z-20 pointer-events-auto">
+        <div class="w-full relative z-20 pointer-events-auto">
             <div bind:this={mobilePanel} class="flex flex-col items-center justify-center w-full min-h-[100dvh] max-w-lg mx-auto gap-5 px-4 pt-[12dvh] pb-[20dvh]">
                 {@render contactAnchor("center")}
                 <div class="w-full max-w-sm mt-4">

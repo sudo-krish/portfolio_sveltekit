@@ -32,155 +32,85 @@
     let observer: IntersectionObserver;
     let isCurrentlyVisible = $state(false);
 
-    // Svelte action: isolate wheel AND pointer events from GSAP observer.
-    // Chrome generates pointer events from touch, which GSAP catches and preventDefault()s,
-    // killing native touch scroll. We stopPropagation on all these so GSAP never sees them.
-    function eventIsolation(node: HTMLElement) {
-        function stopProp(e: Event) {
-            e.stopPropagation();
-        }
-        node.addEventListener("wheel", stopProp, { passive: false, capture: false });
-        node.addEventListener("pointerdown", stopProp, { passive: false, capture: false });
-        node.addEventListener("pointermove", stopProp, { passive: false, capture: false });
-        node.addEventListener("pointerup", stopProp, { passive: false, capture: false });
-        return {
-            destroy() {
-                node.removeEventListener("wheel", stopProp);
-                node.removeEventListener("pointerdown", stopProp);
-                node.removeEventListener("pointermove", stopProp);
-                node.removeEventListener("pointerup", stopProp);
-            },
-        };
+    // CRITICAL FIX: We must reset the store to 0 so consecutive swipes don't get ignored!
+    function triggerSectionChange(dir: number) {
+        scrollDirection.set(dir);
+        setTimeout(() => {
+            scrollDirection.set(0);
+        }, 100);
     }
 
-    // Content slide boundary detector: signals scrollDirection when
-    // vertical scroll reaches top/bottom. Horizontal swipes propagate
-    // to the carousel handler for slide navigation.
-    function contentTouchBoundary(node: HTMLElement) {
-        let startY = 0;
-        let startX = 0;
-        let axis: "none" | "h" | "v" = "none";
-        let hitBoundary = false;
-        let boundaryY = 0;
+    /**
+     * Svelte Action applied to BOTH slides.
+     * It strictly listens to boundaries without blocking native scroll.
+     */
+    function swipeSection(node: HTMLElement, is3D: boolean) {
+        let startY = 0,
+            startX = 0;
 
         function onStart(e: TouchEvent) {
-            startY = e.touches[0].clientY;
             startX = e.touches[0].clientX;
-            axis = "none";
-            hitBoundary = false;
+            startY = e.touches[0].clientY;
         }
 
-        function onMove(e: TouchEvent) {
-            const cy = e.touches[0].clientY;
-            if (axis === "none") {
-                const dx = Math.abs(e.touches[0].clientX - startX);
-                const dy = Math.abs(cy - startY);
-                if (dx + dy >= 8) axis = dx > dy ? "h" : "v";
-            }
-            if (axis !== "v") return;
+        function onEnd(e: TouchEvent) {
+            const dx = e.changedTouches[0].clientX - startX;
+            const dy = startY - e.changedTouches[0].clientY; // Positive = Swiped UP
 
-            const delta = startY - cy; // positive = scrolling down
-            const atTop = node.scrollTop <= 0;
-            const atBottom =
-                Math.ceil(node.scrollTop + node.clientHeight) >=
-                node.scrollHeight;
+            if (Math.abs(dx) > Math.abs(dy)) return; // Ignore horizontal swipes
 
-            if ((atBottom && delta > 0) || (atTop && delta < 0)) {
-                // At boundary — prevent native scroll (rubber-band) and track
-                if (e.cancelable) e.preventDefault();
-                if (!hitBoundary) {
-                    hitBoundary = true;
-                    boundaryY = cy;
+            if (Math.abs(dy) > 50) {
+                if (is3D) {
+                    triggerSectionChange(dy > 0 ? 1 : -1);
+                } else {
+                    const atTop = node.scrollTop <= 2;
+                    const maxScroll = node.scrollHeight - node.clientHeight;
+                    const atBottom = node.scrollTop >= maxScroll - 2;
+
+                    if (atTop && dy < -50) triggerSectionChange(-1);
+                    else if (atBottom && dy > 50) triggerSectionChange(1);
                 }
+            }
+        }
+
+        function onWheel(e: WheelEvent) {
+            if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+
+            if (is3D) {
+                if (Math.abs(e.deltaY) > 10)
+                    triggerSectionChange(e.deltaY > 0 ? 1 : -1);
             } else {
-                hitBoundary = false;
+                const atTop = node.scrollTop <= 2;
+                const maxScroll = node.scrollHeight - node.clientHeight;
+                const atBottom = node.scrollTop >= maxScroll - 2;
+
+                if (atTop && e.deltaY < -10) triggerSectionChange(-1);
+                else if (atBottom && e.deltaY > 10) triggerSectionChange(1);
             }
         }
 
-        function onEnd(e: TouchEvent) {
-            if (axis === "v" && hitBoundary) {
-                const pastDelta = boundaryY - e.changedTouches[0].clientY;
-                if (Math.abs(pastDelta) >= 40) {
-                    scrollDirection.set(pastDelta > 0 ? 1 : -1);
-                }
-            }
-            axis = "none";
-            hitBoundary = false;
+        function onNativeScroll() {
+            if (is3D) return;
+            const maxScroll = node.scrollHeight - node.clientHeight;
+
+            // Detect mobile rubber-band overscroll
+            if (node.scrollTop < -30) triggerSectionChange(-1);
+            else if (node.scrollTop > maxScroll + 30 && maxScroll > 0)
+                triggerSectionChange(1);
         }
 
+        // All passive: true guarantees 100% native scrolling isn't blocked
         node.addEventListener("touchstart", onStart, { passive: true });
-        node.addEventListener("touchmove", onMove, { passive: false });
         node.addEventListener("touchend", onEnd, { passive: true });
+        node.addEventListener("wheel", onWheel, { passive: true });
+        node.addEventListener("scroll", onNativeScroll, { passive: true });
+
         return {
             destroy() {
                 node.removeEventListener("touchstart", onStart);
-                node.removeEventListener("touchmove", onMove);
                 node.removeEventListener("touchend", onEnd);
-            },
-        };
-    }
-
-    // Carousel container touch handler. Owns all touch logic:
-    // - Horizontal → programmatic goToSlide()
-    // - Vertical on 3D slide (non-scrollable) → signal scrollDirection
-    // - Vertical on content slide → handled by contentTouchBoundary
-    function carouselTouch(node: HTMLElement) {
-        let startX = 0;
-        let startY = 0;
-        let axis: "none" | "h" | "v" = "none";
-        let hasScroller = false;
-
-        function onStart(e: TouchEvent) {
-            // No stopPropagation — parent detects carousel via data attributes
-            startX = e.touches[0].clientX;
-            startY = e.touches[0].clientY;
-            axis = "none";
-            const target = e.target as HTMLElement;
-            const el = target.closest('[data-carousel-scroller="true"]');
-            hasScroller = !!el;
-        }
-
-        function onMove(e: TouchEvent) {
-            if (axis === "none") {
-                const dx = Math.abs(e.touches[0].clientX - startX);
-                const dy = Math.abs(e.touches[0].clientY - startY);
-                if (dx + dy >= 8) axis = dx > dy ? "h" : "v";
-            }
-            if (axis === "h") {
-                // Horizontal swipe — prevent native scroll, we handle slide switching
-                if (e.cancelable) e.preventDefault();
-            } else if (axis === "v" && !hasScroller) {
-                // Vertical swipe on 3D slide (no scrollable content) — prevent native scroll
-                if (e.cancelable) e.preventDefault();
-            }
-            // Vertical swipe on content slide: let contentTouchBoundary handle it
-        }
-
-        function onEnd(e: TouchEvent) {
-            const THRESHOLD = 40;
-            if (axis === "h") {
-                const dx = startX - e.changedTouches[0].clientX;
-                if (Math.abs(dx) >= THRESHOLD) {
-                    if (dx > 0 && activeSlide === 0) goToSlide(1);
-                    else if (dx < 0 && activeSlide === 1) goToSlide(0);
-                }
-            } else if (axis === "v" && !hasScroller) {
-                const dy = startY - e.changedTouches[0].clientY;
-                if (Math.abs(dy) >= THRESHOLD) {
-                    scrollDirection.set(dy > 0 ? 1 : -1);
-                }
-            }
-            axis = "none";
-        }
-
-        node.addEventListener("touchstart", onStart, { passive: false });
-        node.addEventListener("touchmove", onMove, { passive: false });
-        node.addEventListener("touchend", onEnd, { passive: true });
-        return {
-            destroy() {
-                node.removeEventListener("touchstart", onStart);
-                node.removeEventListener("touchmove", onMove);
-                node.removeEventListener("touchend", onEnd);
+                node.removeEventListener("wheel", onWheel);
+                node.removeEventListener("scroll", onNativeScroll);
             },
         };
     }
@@ -205,23 +135,10 @@
             activeSlide = 0;
             carouselEl.style.scrollBehavior = "smooth";
         }
-
-        if (wrapperEl) {
-            const scrollContainers = wrapperEl.querySelectorAll(
-                ".overflow-y-auto, .overflow-y-scroll",
-            );
-            scrollContainers.forEach((container) => {
-                container.scrollTop = 0;
-            });
-        }
-
-        if (isCurrentlyVisible) {
-            carouselSwipeFraction.set(0);
-        }
     }
 
     function onScroll() {
-        if (!carouselEl || !isCurrentlyVisible) return;
+        if (!carouselEl) return;
 
         const slideWidth = carouselEl.clientWidth;
         const scrollPos = carouselEl.scrollLeft;
@@ -232,17 +149,16 @@
             if (hintVisible) hintVisible = false;
         }
 
+        if (!isCurrentlyVisible) return;
+
         let scrollPercentage = scrollPos / slideWidth;
         scrollPercentage = Math.max(0, Math.min(scrollPercentage, 1));
 
         const SWIPE_OFFSET = 10;
-        let actual3DOffset = 0;
-
-        if (layout === "left") {
-            actual3DOffset = -(scrollPercentage * SWIPE_OFFSET);
-        } else {
-            actual3DOffset = (1 - scrollPercentage) * SWIPE_OFFSET;
-        }
+        const actual3DOffset =
+            layout === "left"
+                ? -(scrollPercentage * SWIPE_OFFSET)
+                : (1 - scrollPercentage) * SWIPE_OFFSET;
 
         carouselSwipeFraction.set(actual3DOffset);
     }
@@ -250,19 +166,13 @@
     let hintTimer: ReturnType<typeof setTimeout>;
 
     onMount(() => {
-        requestAnimationFrame(() => {
-            resetTo3D();
-        });
+        requestAnimationFrame(() => resetTo3D());
 
         observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        isCurrentlyVisible = true;
-                        resetTo3D();
-                    } else {
-                        isCurrentlyVisible = false;
-                    }
+                    isCurrentlyVisible = entry.isIntersecting;
+                    if (isCurrentlyVisible) resetTo3D();
                 });
             },
             { threshold: 0.5 },
@@ -293,9 +203,7 @@
             });
         }
 
-        hintTimer = setTimeout(() => {
-            hintVisible = false;
-        }, 6000);
+        hintTimer = setTimeout(() => (hintVisible = false), 6000);
     });
 
     onDestroy(() => {
@@ -304,7 +212,6 @@
     });
 </script>
 
-<!-- CHANGED: wrapperEl pointer-events removed. We manage pointer events strictly on the children now -->
 <div
     bind:this={wrapperEl}
     class="relative w-full h-[100dvh] overflow-hidden z-20"
@@ -314,27 +221,23 @@
         <slot name="content-pc" />
     </div>
 
-    <!-- CHANGED: onwheel={handleWheel} removed from here to prevent Svelte passive listener conflicts -->
-    <!-- HIDDEN FROM CRAWLERS: aria-hidden="true" completely stops SEO from reading this block twice! -->
-    <div class="lg:hidden w-full h-[100dvh] relative" aria-hidden="true">
+    <div class="lg:hidden w-full h-[100dvh] relative">
         <div
             bind:this={carouselEl}
-            use:carouselTouch
-            use:eventIsolation
-            data-carousel-touch-zone="true"
             onscroll={onScroll}
-            class="hide-scroll flex w-full h-full overflow-x-auto snap-x snap-mandatory pointer-events-auto touch-pan-y"
+            class="hide-scroll flex w-full h-[100dvh] overflow-x-auto snap-x snap-mandatory pointer-events-auto"
             style="scroll-behavior: smooth;"
         >
             {#if layout === "left"}
+                <!-- 3D SLIDE -->
                 <div
-                    class="w-full h-full shrink-0 snap-center relative pointer-events-none flex flex-col justify-end pb-28"
+                    use:swipeSection={true}
+                    class="flex-none w-full h-full snap-center relative pointer-events-none flex flex-col justify-end pb-28"
                 >
                     <div class="mx-4 w-auto pointer-events-auto relative">
                         <div
                             class="flip-card relative overflow-hidden rounded-3xl p-6 bg-[hsl(var(--glass-bg))] backdrop-blur-[var(--glass-blur)] border border-[hsl(var(--glass-border))] border-t-[hsl(var(--glass-highlight))] shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
                         >
-                            
                             <div class="relative z-10">
                                 <div class="flex items-center gap-2 mb-2">
                                     <div
@@ -382,25 +285,22 @@
                     </div>
                 </div>
 
-                <!-- CHANGED: Applied use:isolateTouch here, and added touch-pan-y to restore native scroll -->
+                <!-- SPECS SLIDE: flex-none ensures Flexbox strictly calculates its height boundaries -->
                 <div
-                    use:contentTouchBoundary
-                    use:eventIsolation
-                    data-carousel-scroller="true"
-                    class="w-full h-full shrink-0 snap-center relative z-20 pointer-events-auto overflow-y-auto overscroll-y-contain touch-pan-y hide-scroll"
+                    use:swipeSection={false}
+                    class="flex-none w-full h-full snap-center relative z-20 pointer-events-auto overflow-y-auto overscroll-y-contain block"
                 >
+                    <!-- Ensure internal content is tall enough to register bounds -->
                     <div class="min-h-[101%] pb-32">
                         <!-- svelte-ignore slot_element_deprecated -->
                         <slot name="content-mobile" />
                     </div>
                 </div>
             {:else}
-                <!-- CHANGED: Applied use:isolateTouch here, and added touch-pan-y to restore native scroll -->
+                <!-- SPECS SLIDE -->
                 <div
-                    use:contentTouchBoundary
-                    use:eventIsolation
-                    data-carousel-scroller="true"
-                    class="w-full h-full shrink-0 snap-center relative z-20 pointer-events-auto overflow-y-auto overscroll-y-contain touch-pan-y hide-scroll"
+                    use:swipeSection={false}
+                    class="flex-none w-full h-full snap-center relative z-20 pointer-events-auto overflow-y-auto overscroll-y-contain block"
                 >
                     <div class="min-h-[101%] pb-32">
                         <!-- svelte-ignore slot_element_deprecated -->
@@ -408,14 +308,15 @@
                     </div>
                 </div>
 
+                <!-- 3D SLIDE -->
                 <div
-                    class="w-full h-full shrink-0 snap-center relative pointer-events-none flex flex-col justify-end pb-28"
+                    use:swipeSection={true}
+                    class="flex-none w-full h-full snap-center relative pointer-events-none flex flex-col justify-end pb-28"
                 >
                     <div class="mx-4 w-auto pointer-events-auto relative">
                         <div
                             class="flip-card relative overflow-hidden rounded-3xl p-6 bg-[hsl(var(--glass-bg))] backdrop-blur-[var(--glass-blur)] border border-[hsl(var(--glass-border))] border-t-[hsl(var(--glass-highlight))] shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
                         >
-                            
                             <div class="relative z-10 text-right">
                                 <div
                                     class="flex items-center justify-end gap-2 mb-2"
@@ -467,7 +368,7 @@
             {/if}
         </div>
 
-        <!-- Pagination Indicator & Section Navigation (UNCHANGED) -->
+        <!-- Pagination Indicator -->
         <div
             class="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 pointer-events-auto w-[90vw] max-w-[380px]"
         >
@@ -489,29 +390,24 @@
                             ? 'text-foreground font-bold'
                             : 'text-muted-foreground'}"
                     >
-                        {#if layout === "left"}
-                            <Eye
+                        {#if layout === "left"}<Eye
                                 size={16}
                                 class={activeSlide === 0
                                     ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
                                     : ""}
-                            />
-                            <span
+                            /><span
                                 class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate"
                                 >3D Model</span
                             >
-                        {:else}
-                            <FileText
+                        {:else}<FileText
                                 size={16}
                                 class={activeSlide === 0
                                     ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
                                     : ""}
-                            />
-                            <span
+                            /><span
                                 class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate"
                                 >Specs</span
-                            >
-                        {/if}
+                            >{/if}
                     </button>
                     <button
                         type="button"
@@ -521,49 +417,42 @@
                             ? 'text-foreground font-bold'
                             : 'text-muted-foreground'}"
                     >
-                        {#if layout === "left"}
-                            <FileText
+                        {#if layout === "left"}<FileText
                                 size={16}
                                 class={activeSlide === 1
                                     ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
                                     : ""}
-                            />
-                            <span
+                            /><span
                                 class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate"
                                 >Specs</span
                             >
-                        {:else}
-                            <Eye
+                        {:else}<Eye
                                 size={16}
                                 class={activeSlide === 1
                                     ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
                                     : ""}
-                            />
-                            <span
+                            /><span
                                 class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate"
                                 >3D Model</span
-                            >
-                        {/if}
+                            >{/if}
                     </button>
                 </div>
                 <div class="w-px h-8 bg-border/50 mx-1 shrink-0"></div>
                 <div class="flex items-center gap-1 shrink-0">
                     <button
                         type="button"
-                        onclick={() => scrollDirection.set(-1)}
+                        onclick={() => triggerSectionChange(-1)}
                         aria-label="Previous Section"
                         class="w-10 h-10 rounded-xl flex items-center justify-center bg-transparent hover:bg-muted text-foreground transition-colors active:scale-95"
+                        ><ChevronUp size={20} /></button
                     >
-                        <ChevronUp size={20} />
-                    </button>
                     <button
                         type="button"
-                        onclick={() => scrollDirection.set(1)}
+                        onclick={() => triggerSectionChange(1)}
                         aria-label="Next Section"
                         class="w-10 h-10 rounded-xl flex items-center justify-center bg-transparent hover:bg-muted text-foreground transition-colors active:scale-95"
+                        ><ChevronDown size={20} /></button
                     >
-                        <ChevronDown size={20} />
-                    </button>
                 </div>
             </div>
         </div>
@@ -572,19 +461,17 @@
 
 <style>
     .hide-scroll {
-        -ms-overflow-style: none; /* IE and Edge */
-        scrollbar-width: none; /* Firefox */
-        overscroll-behavior-x: none; /* Prevent horizontal bounce/pull-to-refresh */
-        overscroll-behavior-y: contain; /* Prevent vertical bleeding into parent */
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        overscroll-behavior-x: none;
+        overscroll-behavior-y: contain;
     }
     .hide-scroll::-webkit-scrollbar {
-        display: none; /* Chrome, Safari, Opera */
+        display: none;
     }
     .flip-card {
         will-change: transform;
     }
-
-    /* Native CSS Swipe Hints that will not interfere with scroll-snap */
     .swipe-track-left {
         transform: translateX(-100%);
         animation: swipeLightLeft 2.5s infinite ease-in-out;
