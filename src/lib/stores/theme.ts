@@ -2,36 +2,48 @@
 import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
 
+import { Color } from 'three';
+
 export type Theme = 'light' | 'dark';
 
-// Soft Pastel palette for 3D components
-const pastelLavender = {
-  dark: { deep: "#1a1530", surf: "#6d5daa", foam: "#b4a7e0", transparent: true },
-  light: { deep: "#4a3d8f", surf: "#7c6dc0", foam: "#2d2060", transparent: false }
-};
+function hslToHex(hslString: string): string {
+  if (!hslString) return '#ffffff';
+  // handle format like "270 70% 60%" or "270 70% 60% / 0.5"
+  const parts = hslString.split('/').map(p => p.trim())[0].split(' ').map(v => parseFloat(v));
+  if (parts.length < 3) return '#ffffff';
+  const h = parts[0] / 360;
+  const s = parts[1] / 100;
+  const l = parts[2] / 100;
+  const color = new Color();
+  color.setHSL(h, s, l);
+  return '#' + color.getHexString();
+}
 
-const pastelSage = {
-  dark: { deep: "#142018", surf: "#4a8f6a", foam: "#8dd4aa" },
-  light: { deep: "#2d7050", surf: "#5aaa7a", foam: "#1a4530" }
-};
+// We can extract colors from CSS directly
+export function getThemeColor(varName: string): Color {
+  if (!browser) return new Color('#ffffff');
+  const val = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+  return new Color(hslToHex(val));
+}
 
-const pastelPeach = {
-  dark: { deep: "#2a1a14", surf: "#c08060", foam: "#f0c0a0" },
-  light: { deep: "#8a5a3a", surf: "#c09070", foam: "#5a3020" }
-};
+// Instead of static modelMaterials, we will just read CSS variables within the components themselves,
+// or provide a helper store that updates when the theme changes.
+export const cssColors = writable({
+  primary: '#000000',
+  background: '#000000',
+  card: '#000000',
+  accent: '#000000'
+});
 
-export const themeColors = pastelLavender;
-
-export const modelMaterials = {
-  lakehouse3D: pastelLavender,
-  warehouse3D: pastelLavender,
-  techStack3D: pastelLavender,
-  experience3D: pastelLavender,
-  github3D: pastelLavender,
-  impact3D: pastelPeach,
-  credentials3D: pastelPeach,
-  contact3D: pastelSage,
-};
+function updateCssColors() {
+  if (!browser) return;
+  cssColors.set({
+    primary: hslToHex(getComputedStyle(document.documentElement).getPropertyValue('--primary').trim()),
+    background: hslToHex(getComputedStyle(document.documentElement).getPropertyValue('--background').trim()),
+    card: hslToHex(getComputedStyle(document.documentElement).getPropertyValue('--card').trim()),
+    accent: hslToHex(getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()),
+  });
+}
 
 function createThemeStore() {
   const { subscribe, set } = writable<Theme>('dark');
@@ -49,6 +61,8 @@ function createThemeStore() {
           document.documentElement.classList.remove('light');
           localStorage.setItem('theme', 'dark');
         }
+        // Small delay to allow CSS custom properties to evaluate after class toggle
+        setTimeout(updateCssColors, 10);
       }
     },
     set: (value: Theme) => {
@@ -56,6 +70,7 @@ function createThemeStore() {
         set(value);
         localStorage.setItem('theme', value);
         document.documentElement.classList.toggle('light', value === 'light');
+        setTimeout(updateCssColors, 10);
       }
     },
     toggle: () => {
@@ -65,6 +80,7 @@ function createThemeStore() {
         set(newTheme);
         localStorage.setItem('theme', newTheme);
         document.documentElement.classList.toggle('light', newTheme === 'light');
+        setTimeout(updateCssColors, 10);
       }
     }
   };

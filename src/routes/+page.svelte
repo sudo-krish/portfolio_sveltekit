@@ -26,7 +26,9 @@
   import {
     scrollTriggerTarget,
     scrollDirection,
+    activeSectionIndex
   } from "$lib/stores/scroll-store";
+  import SideNav from "$lib/components/ui/navigation/SideNav.svelte";
   import { siteDefaults } from "$lib/data/site";
 
   let observer: any;
@@ -82,6 +84,7 @@
 
           isAnimating = true;
           currentIndex = index;
+          activeSectionIndex.set(index);
 
           // We animate the container's scroll position, which triggers HomeScene perfectly
           gsap.to(container, {
@@ -287,6 +290,9 @@
     <svelte:component this={DeferredScene} />
   {/if}
 </div>
+
+<!-- SIDE NAVIGATION -->
+<SideNav />
 
 <!-- MAIN SCROLL CONTAINER -->
 <main class="snap-container">

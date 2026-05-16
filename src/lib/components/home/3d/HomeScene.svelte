@@ -43,6 +43,13 @@
 
   // This is now purely the X positional offset (e.g. -10 or +10), already calculated by the carousel
   let calculatedSwipeOffset = 0;
+  
+  // Disable floating during physics drop
+  let mascotFloatIntensity = 0.5;
+  
+  // Controls the scale of the internal Pipe3D droplets
+  let pipeDrainProgress = 0;
+
   const unsubFraction = carouselSwipeFraction.subscribe(
     (v) => (calculatedSwipeOffset = v),
   );
@@ -90,12 +97,27 @@
   const easeInOutCubic = (t: number) =>
     t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
+  const mapR = (
+    val: number,
+    inMin: number,
+    inMax: number,
+    outMin: number,
+    outMax: number,
+    ease = (t: number) => t,
+  ) => {
+    let p = (val - inMin) / (inMax - inMin);
+    p = Math.max(0, Math.min(1, p));
+    return outMin + (outMax - outMin) * ease(p);
+  };
+
   let debugLogged = false;
 
   const tick = () => {
     if (!mascotGroup) {
       if (!debugLogged) {
-        console.log("[HomeScene] tick running but mascotGroup is missing/undefined");
+        console.log(
+          "[HomeScene] tick running but mascotGroup is missing/undefined",
+        );
         debugLogged = true;
       }
       return;
@@ -105,11 +127,21 @@
     const rawProgress = scrollY_current / innerHeight;
 
     if (!debugLogged) {
-        console.log("[HomeScene] First real tick!", { rawProgress, innerHeight, scrollY_target });
-        debugLogged = true;
+      console.log("[HomeScene] First real tick!", {
+        rawProgress,
+        innerHeight,
+        scrollY_target,
+      });
+      debugLogged = true;
     }
 
     const isVisible = rawProgress <= 12;
+
+    // Stop bobbing when inside the pipe and dropping to ensure precise contact with the lake
+    mascotFloatIntensity = rawProgress < 0.7 ? 0.5 : 0;
+
+    // Drain the pipe's internal droplets right before the main drop emerges at 1.3
+    pipeDrainProgress = mapR(rawProgress, 1.15, 1.3, 0, 1, easeInOutCubic);
 
     // Extend pipeline visibility so Warehouse can exit smoothly during scroll index 4 -> 5
     const pipelineVisible = rawProgress < 5.5;
@@ -172,244 +204,300 @@
       }
     });
 
-    if (!isVisible) return;
-
     // --- 2. PROCESS PIPELINE MODELS ---
-    if (rawProgress <= 1.0) {
-      // Hero to Pipe
-      const p1 = Math.max(0, rawProgress);
-      const moveP = easeInOutCubic(
-        gsap.utils.clamp(0, 1, gsap.utils.mapRange(0, 0.6, 0, 1, p1)),
-      );
+    // We evaluate EACH object independently across the entire rawProgress range.
+    // This prevents "popping" if the user scrolls rapidly and skips a frame.
 
-      mascotGroup.position.x = gsap.utils.interpolate(
+
+
+    // A. MASCOT
+    if (rawProgress <= 1.0) {
+      mascotGroup.position.x = mapR(
+        rawProgress,
+        0,
+        0.6,
         pos.start.x,
         pos.pipe.x,
-        moveP,
+        easeInOutCubic,
       );
-      mascotGroup.position.y = gsap.utils.interpolate(
+      mascotGroup.position.y = mapR(
+        rawProgress,
+        0,
+        0.6,
         pos.start.y,
         pos.pipe.y,
-        moveP,
+        easeInOutCubic,
       );
-      mascotGroup.position.z = gsap.utils.interpolate(
+      mascotGroup.position.z = mapR(
+        rawProgress,
+        0,
+        0.6,
         pos.start.z,
         pos.pipe.z,
-        moveP,
+        easeInOutCubic,
       );
-
-      const mScale = gsap.utils.interpolate(HERO_SCALE, PIPE_SCALE, moveP);
-      mascotGroup.scale.set(mScale, mScale, mScale);
-
-      const pipeRiseP = easeInOutCubic(
-        gsap.utils.clamp(0, 1, gsap.utils.mapRange(0.3, 0.8, 0, 1, p1)),
-      );
-      pipeGroup.position.x = pos.pipe.x;
-      pipeGroup.position.y = gsap.utils.interpolate(-20, pos.pipe.y, pipeRiseP);
-
-      const rotP = gsap.utils.clamp(
+      const s = mapR(
+        rawProgress,
         0,
-        1,
-        gsap.utils.mapRange(0.7, 1.0, 0, 1, p1),
+        0.6,
+        HERO_SCALE,
+        PIPE_SCALE,
+        easeInOutCubic,
       );
-      pipeGroup.rotation.z = gsap.utils.interpolate(0, Math.PI / 2, rotP);
+      // Drop shrinks away as it enters the pipe
+      const s2 = mapR(rawProgress, 0.7, 1.0, s, 0, (t) => t);
+      mascotGroup.scale.set(s2, s2, s2);
+    } else if (rawProgress <= 2.0) {
+      mascotGroup.position.x = mapR(
+        rawProgress,
+        1.0,
+        1.25,
+        pos.pipe.x,
+        pos.lake.x,
+        easeInOutCubic,
+      );
+      
+      const pipeYOffset = mapR(rawProgress, 1.0, 1.25, pos.pipe.y, pos.lake.y + 5.5, easeInOutCubic);
+      const pipeTipY = pipeYOffset - 1.5;
 
-      const finalShrink = gsap.utils.interpolate(
+      if (rawProgress < 1.3) {
+        mascotGroup.position.y = pipeTipY;
+        mascotGroup.scale.set(0, 0, 0); // Hide completely while in pipe
+      } else {
+        // Drop into the lake! (Slowed down to fall between 1.3 and 1.8)
+        mascotGroup.position.y = mapR(
+          rawProgress,
+          1.3,
+          1.8,
+          pipeTipY,
+          pos.lake.y,
+          (t) => t * t, // Quadratic ease (gravity)
+        );
+        
+        if (rawProgress < 1.8) {
+          // Falling phase
+          let s = mapR(rawProgress, 1.3, 1.4, 0, COMPACT_SCALE, easeInOutCubic);
+          // Add a gravity stretch to look like a falling teardrop
+          let stretchY = mapR(rawProgress, 1.4, 1.8, 1, 1.6, (t) => t * t);
+          let squashXZ = mapR(rawProgress, 1.4, 1.8, 1, 0.75, (t) => t * t);
+          mascotGroup.scale.set(s * squashXZ, s * stretchY, s * squashXZ);
+        } else {
+          // Melting/Splashing phase (1.8 to 2.0)
+          // Y rapidly squashes into the water to 0
+          let sy = mapR(rawProgress, 1.8, 1.9, COMPACT_SCALE * 1.6, 0, easeInOutCubic);
+          
+          // X/Z spread out into a wide puddle, then fade to 0
+          let sxz = 0;
+          if (rawProgress < 1.9) {
+            sxz = mapR(rawProgress, 1.8, 1.9, COMPACT_SCALE * 0.75, COMPACT_SCALE * 2.5, easeInOutCubic);
+          } else {
+            sxz = mapR(rawProgress, 1.9, 2.0, COMPACT_SCALE * 2.5, 0, easeInOutCubic);
+          }
+          mascotGroup.scale.set(sxz, sy, sxz);
+        }
+      }
+    } else {
+      mascotGroup.scale.set(0, 0, 0);
+    }
+
+    // B. PIPE
+    if (rawProgress <= 1.0) {
+      pipeGroup.position.x = pos.pipe.x;
+      pipeGroup.position.y = mapR(
+        rawProgress,
+        0.3,
+        0.8,
+        -20,
+        pos.pipe.y,
+        easeInOutCubic,
+      );
+      pipeGroup.rotation.z = mapR(
+        rawProgress,
+        0.7,
+        1.0,
+        0,
+        Math.PI / 2,
+        (t) => t,
+      );
+      const s = mapR(
+        rawProgress,
+        0.7,
+        1.0,
         PIPE_SCALE,
         COMPACT_SCALE,
-        rotP,
+        (t) => t,
       );
-      pipeGroup.scale.set(finalShrink, finalShrink, finalShrink);
-      if (rotP > 0)
-        mascotGroup.scale.set(finalShrink, finalShrink, finalShrink);
-    } else if (rawProgress <= 2.0) {
-      // Pipe to Lake
-      const p2 = rawProgress - 1;
-      houseGroup.scale.set(0, 0, 0);
-
-      const pipeMoveP = easeInOutCubic(
-        gsap.utils.clamp(0, 1, gsap.utils.mapRange(0, 0.4, 0, 1, p2)),
+      pipeGroup.scale.set(s, s, s);
+    } else if (rawProgress <= 2.2) {
+      pipeGroup.position.x = mapR(
+        rawProgress,
+        1.0,
+        1.25,
+        pos.pipe.x,
+        pos.lake.x,
+        easeInOutCubic,
       );
-      const pourX = gsap.utils.interpolate(pos.pipe.x, pos.lake.x, pipeMoveP);
-      const pourY = gsap.utils.interpolate(
+      // Calculate a base Y that elevates the pipe to hover high above the lake for a dramatic drop
+      let currentPipeY = mapR(
+        rawProgress,
+        1.0,
+        1.25,
         pos.pipe.y,
-        pos.lake.y + (isMobile ? 3 : 2),
-        pipeMoveP,
+        pos.lake.y + 5.5,
+        easeInOutCubic,
       );
-
-      pipeGroup.position.x = pourX;
-      pipeGroup.position.y = isMobile ? pourY : pos.pipe.y;
-      pipeGroup.rotation.z = gsap.utils.interpolate(
+      pipeGroup.rotation.z = mapR(
+        rawProgress,
+        1.0,
+        1.25,
         Math.PI / 2,
         Math.PI,
-        pipeMoveP,
+        easeInOutCubic,
       );
-
-      if (p2 < 0.4) {
-        mascotGroup.position.x = pourX;
-        mascotGroup.position.y = pipeGroup.position.y;
-      }
-
-      const easeFall = Math.pow(
-        gsap.utils.clamp(0, 1, gsap.utils.mapRange(0.4, 0.6, 0, 1, p2)),
-        2,
+      pipeGroup.position.y = mapR(
+        rawProgress,
+        1.9,
+        2.2,
+        currentPipeY,
+        20,
+        (t) => t,
       );
+      pipeGroup.scale.set(COMPACT_SCALE, COMPACT_SCALE, COMPACT_SCALE);
+    } else {
+      pipeGroup.position.y = 20; // safe off-screen
+    }
 
-      if (p2 >= 0.4) {
-        mascotGroup.position.x = pos.lake.x;
-        mascotGroup.position.y = gsap.utils.interpolate(
-          pipeGroup.position.y,
-          pos.lake.y,
-          easeFall,
+    // C. LAKE
+    if (rawProgress <= 2.0) {
+      lakeGroup.position.x = pos.lake.x;
+      lakeGroup.position.y = mapR(
+        rawProgress,
+        1.5,
+        1.9,
+        -20,
+        pos.lake.y,
+        easeInOutCubic,
+      );
+      lakeGroup.scale.set(1, 1, 1);
+    } else if (rawProgress <= 3.0) {
+      lakeGroup.position.x = mapR(
+        rawProgress,
+        2.0,
+        2.6,
+        pos.lake.x,
+        pos.house.x,
+        easeInOutCubic,
+      );
+      lakeGroup.position.y = mapR(
+        rawProgress,
+        2.0,
+        2.6,
+        pos.lake.y,
+        pos.house.y - 1.2,
+        easeInOutCubic,
+      );
+      lakeGroup.scale.set(1, 1, 1);
+    } else if (rawProgress <= 4.0) {
+      lakeGroup.position.x = pos.house.x;
+      lakeGroup.position.y = mapR(
+        rawProgress,
+        3.0,
+        3.3,
+        pos.house.y - 1.2,
+        pos.house.y + 8 - 1.2,
+        (t) => t,
+      );
+      const s = mapR(rawProgress, 3.0, 3.3, 1, 0, (t) => t);
+      lakeGroup.scale.set(s, s, s);
+    } else {
+      lakeGroup.scale.set(0, 0, 0);
+    }
+
+    // D. HOUSE
+    if (rawProgress <= 2.0) {
+      houseGroup.scale.set(0, 0, 0);
+    } else if (rawProgress <= 3.0) {
+      houseGroup.position.x = mapR(
+        rawProgress,
+        2.0,
+        2.6,
+        pos.lake.x,
+        pos.house.x,
+        easeInOutCubic,
+      );
+      
+      // Fluid "forming out of the lake" animation
+      if (rawProgress < 2.4) {
+        houseGroup.scale.set(0, 0, 0);
+      } else {
+        // XZ starts wide (puddle) and narrows to actual size
+        const sxz = mapR(rawProgress, 2.4, 2.9, HOUSE_SCALE * 1.5, HOUSE_SCALE, easeInOutCubic);
+        // Y starts flat (0) and extrudes upwards
+        const sy = mapR(rawProgress, 2.4, 2.9, 0, HOUSE_SCALE, easeInOutCubic);
+        houseGroup.scale.set(sxz, sy, sxz);
+        
+        // Rise from lake surface up to final position
+        houseGroup.position.y = mapR(
+          rawProgress,
+          2.4,
+          2.9,
+          pos.house.y - 1.2, // Lake surface height
+          pos.house.y,
+          easeInOutCubic,
         );
       }
-
-      const pipeExitP = gsap.utils.clamp(
-        0,
-        1,
-        gsap.utils.mapRange(0.6, 0.9, 0, 1, p2),
-      );
-      pipeGroup.position.y = gsap.utils.interpolate(
-        pipeGroup.position.y,
-        20,
-        pipeExitP,
-      );
-
-      const lakeRiseP = easeInOutCubic(
-        gsap.utils.clamp(0, 1, gsap.utils.mapRange(0.5, 0.9, 0, 1, p2)),
-      );
-      lakeGroup.position.x = pos.lake.x;
-      lakeGroup.position.y = gsap.utils.interpolate(-20, pos.lake.y, lakeRiseP);
-      lakeGroup.scale.set(1, 1, 1);
-
-      const dissolveP = gsap.utils.clamp(
-        0,
-        1,
-        gsap.utils.mapRange(0.55, 0.7, 0, 1, p2),
-      );
-      const mScale = gsap.utils.interpolate(COMPACT_SCALE, 0.1, dissolveP);
-      mascotGroup.scale.set(mScale, mScale, mScale);
-    } else if (rawProgress <= 3.0) {
-      // Lake to House
-      const p3 = rawProgress - 2;
-      mascotGroup.scale.set(0, 0, 0);
-      warehouseGroup.scale.set(0, 0, 0);
-
-      const moveP = easeInOutCubic(
-        gsap.utils.clamp(0, 1, gsap.utils.mapRange(0, 0.6, 0, 1, p3)),
-      );
-      const targetX = gsap.utils.interpolate(pos.lake.x, pos.house.x, moveP);
-      const lakeTargetY = pos.house.y - 1.2;
-      const targetY = gsap.utils.interpolate(pos.lake.y, lakeTargetY, moveP);
-
-      lakeGroup.position.x = targetX;
-      lakeGroup.position.y = targetY;
-      lakeGroup.scale.set(1, 1, 1);
-
-      const rawGrow = gsap.utils.clamp(
-        0,
-        1,
-        gsap.utils.mapRange(0.4, 0.9, 0, 1, p3),
-      );
-      const growP =
-        1 +
-        2.70158 * Math.pow(rawGrow - 1, 3) +
-        1.70158 * Math.pow(rawGrow - 1, 2);
-
-      const hScale = gsap.utils.interpolate(
-        0,
-        HOUSE_SCALE,
-        Math.min(Math.max(0, growP), 1),
-      );
-      houseGroup.scale.set(hScale, hScale, hScale);
-      houseGroup.position.x = targetX;
-      houseGroup.position.y = gsap.utils.interpolate(
-        lakeTargetY - 0.5,
-        pos.house.y,
-        rawGrow,
-      );
     } else if (rawProgress <= 4.0) {
-      // House to Warehouse
-      const p4 = rawProgress - 3;
-
-      const houseExitP = gsap.utils.clamp(
-        0,
-        1,
-        gsap.utils.mapRange(0, 0.3, 0, 1, p4),
-      );
-      houseGroup.position.y = gsap.utils.interpolate(
+      houseGroup.position.x = pos.house.x;
+      houseGroup.position.y = mapR(
+        rawProgress,
+        3.0,
+        3.3,
         pos.house.y,
         pos.house.y + 8,
-        houseExitP,
+        (t) => t,
       );
-      houseGroup.position.x = pos.house.x;
-      const hScale = gsap.utils.interpolate(HOUSE_SCALE, 0, houseExitP);
-      houseGroup.scale.set(hScale, hScale, hScale);
+      const s = mapR(rawProgress, 3.0, 3.3, HOUSE_SCALE, 0, (t) => t);
+      houseGroup.scale.set(s, s, s);
+    } else {
+      houseGroup.scale.set(0, 0, 0);
+    }
 
-      const lakeMoveP = easeInOutCubic(
-        gsap.utils.clamp(0, 1, gsap.utils.mapRange(0.1, 0.5, 0, 1, p4)),
-      );
-      const lakeTargetY = pos.ware.y - 1.2;
-
-      lakeGroup.position.x = gsap.utils.interpolate(
-        pos.house.x,
-        pos.ware.x,
-        lakeMoveP,
-      );
-      lakeGroup.position.y = gsap.utils.interpolate(
-        pos.house.y - 1.2,
-        lakeTargetY,
-        lakeMoveP,
-      );
-
-      const rawDrop = gsap.utils.clamp(
-        0,
-        1,
-        gsap.utils.mapRange(0.4, 0.8, 0, 1, p4),
-      );
-      const easeDrop = 1 - Math.pow(1 - rawDrop, 3);
-
+    // E. WAREHOUSE
+    if (rawProgress <= 3.0) {
+      warehouseGroup.scale.set(0, 0, 0);
+    } else if (rawProgress <= 4.0) {
       warehouseGroup.position.x = pos.ware.x;
-      warehouseGroup.position.y = gsap.utils.interpolate(
+      const easeDrop = (t: number) => 1 - Math.pow(1 - t, 3);
+      warehouseGroup.position.y = mapR(
+        rawProgress,
+        3.4,
+        3.8,
         pos.ware.y + 12,
         pos.ware.y,
         easeDrop,
       );
-
-      const wScale = rawDrop > 0.01 ? WAREHOUSE_SCALE : 0;
-      warehouseGroup.scale.set(wScale, wScale, wScale);
-
-      const absorbP = gsap.utils.clamp(
-        0,
-        1,
-        gsap.utils.mapRange(0.7, 0.9, 0, 1, p4),
-      );
-      const lScale = gsap.utils.interpolate(1, 0, absorbP);
-      lakeGroup.scale.set(lScale, lScale, lScale);
+      const rawDrop = mapR(rawProgress, 3.4, 3.8, 0, 1, (t) => t);
+      const s = rawDrop > 0.01 ? WAREHOUSE_SCALE : 0;
+      warehouseGroup.scale.set(s, s, s);
     } else if (rawProgress <= 5.0) {
-      // WAREHOUSE EXIT TRANSITION (Scroll section 4 -> 5)
-      // Smoothly exits the warehouse model so it doesn't persist into the Experience section
-      const p5 = rawProgress - 4;
-
-      const warehouseExitP = easeInOutCubic(
-        gsap.utils.clamp(0, 1, gsap.utils.mapRange(0, 0.6, 0, 1, p5)),
-      );
-
       warehouseGroup.position.x = pos.ware.x;
-      // Drop it down through the floor as we enter the metrics section
-      warehouseGroup.position.y = gsap.utils.interpolate(
+      warehouseGroup.position.y = mapR(
+        rawProgress,
+        4.0,
+        4.6,
         pos.ware.y,
         pos.ware.y - 15,
-        warehouseExitP,
+        easeInOutCubic,
       );
-
-      const wScale = gsap.utils.interpolate(WAREHOUSE_SCALE, 0, warehouseExitP);
-      warehouseGroup.scale.set(wScale, wScale, wScale);
+      const s = mapR(rawProgress, 4.0, 4.6, WAREHOUSE_SCALE, 0, easeInOutCubic);
+      warehouseGroup.scale.set(s, s, s);
+    } else {
+      warehouseGroup.scale.set(0, 0, 0);
     }
 
     // --- 3. GLOBAL MOBILE SWIPE OVERRIDE FOR PIPELINE MODELS ---
     if (isMobile && pipelineVisible) {
-      if (mascotGroup.visible)
+      if (mascotGroup?.visible)
         mascotGroup.position.x = pos.start.x + calculatedSwipeOffset;
       if (pipeGroup?.visible)
         pipeGroup.position.x = pos.pipe.x + calculatedSwipeOffset;
@@ -446,18 +534,23 @@
   });
 </script>
 
-<Environment url="https://dl.polyhaven.org/file/ph-assets/HDRIs/exr/1k/abandoned_parking_1k.exr" />
+<Environment
+  url="https://dl.polyhaven.org/file/ph-assets/HDRIs/exr/1k/abandoned_parking_1k.exr"
+/>
 
 <T.PerspectiveCamera makeDefault position={[0, 0, cameraZ]} fov={cameraFov}>
-  <T.DirectionalLight position={[5, 5, 5]} intensity={$theme === 'light' ? 3.5 : 2} />
-  <T.AmbientLight intensity={$theme === 'light' ? 1.5 : 0.7} />
+  <T.DirectionalLight
+    position={[5, 5, 5]}
+    intensity={$theme === "light" ? 3.5 : 2}
+  />
+  <T.AmbientLight intensity={$theme === "light" ? 1.5 : 0.7} />
 </T.PerspectiveCamera>
 
 <T.Group
   bind:ref={mascotGroup}
   position={[pos.start.x, pos.start.y, pos.start.z]}
 >
-  <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
+  <Float speed={2} rotationIntensity={0.5} floatIntensity={mascotFloatIntensity}>
     <Hero3D />
   </Float>
 </T.Group>
@@ -468,7 +561,7 @@
   rotation.z={0}
   scale={PIPE_SCALE}
 >
-  <Pipe3D />
+  <Pipe3D drainProgress={pipeDrainProgress} />
 </T.Group>
 
 <T.Group bind:ref={lakeGroup} position={[pos.lake.x, -20, 0]}>

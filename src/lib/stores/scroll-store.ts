@@ -6,3 +6,6 @@ export const scrollTriggerTarget = writable<string | null>(null);
 
 // This store holds relative navigation direction (1 for next, -1 for prev)
 export const scrollDirection = writable<number>(0);
+
+// This store holds the currently active section index for side navigation highlighting
+export const activeSectionIndex = writable<number>(0);

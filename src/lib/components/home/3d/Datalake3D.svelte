@@ -1,132 +1,125 @@
 <script lang="ts">
-  import { theme, themeColors } from "$lib/stores/theme";
+  import { theme } from "$lib/stores/theme";
   import { T, useTask } from "@threlte/core";
-
-  import { Color, DoubleSide } from "three";
-
-  // --- SEA WATER LAKE COLORS ---
-  const deepColor = new Color(themeColors.dark.deep);
-  const surfColor = new Color(themeColors.dark.surf);
-  const foamColor = new Color(themeColors.dark.foam);
-
-  $: if ($theme === "light") {
-    deepColor.set(themeColors.light.deep);
-    surfColor.set(themeColors.light.surf);
-    foamColor.set(themeColors.light.foam);
-  } else {
-    deepColor.set(themeColors.dark.deep);
-    surfColor.set(themeColors.dark.surf);
-    foamColor.set(themeColors.dark.foam);
-  }
-
-  // Custom Shader Material Logic
-  const vertexShader = `
-    uniform float uTime;
-    varying vec2 vUv;
-    varying float vElevation;
-
-    // Simplex Noise (Included for brevity, usually imported)
-    // Simple pseudo-random function
-    vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
-    float snoise(vec2 v){
-      const vec4 C = vec4(0.211324865405187, 0.366025403784439,
-               -0.577350269189626, 0.024390243902439);
-      vec2 i  = floor(v + dot(v, C.yy) );
-      vec2 x0 = v -   i + dot(i, C.xx);
-      vec2 i1;
-      i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
-      vec4 x12 = x0.xyxy + C.xxzz;
-      x12.xy -= i1;
-      i = mod(i, 289.0);
-      vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))
-      + i.x + vec3(0.0, i1.x, 1.0 ));
-      vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
-      m = m*m ;
-      m = m*m ;
-      vec3 x = 2.0 * fract(p * C.www) - 1.0;
-      vec3 h = abs(x) - 0.5;
-      vec3 ox = floor(x + 0.5);
-      vec3 a0 = x - ox;
-      m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
-      vec3 g;
-      g.x  = a0.x  * x0.x  + h.x  * x0.y;
-      g.yz = a0.yz * x12.xz + h.yz * x12.yw;
-      return 130.0 * dot(m, g);
-    }
-
-    void main() {
-      vUv = uv;
-      vec3 pos = position;
-
-      // 1. Large Swells (Low frequency)
-      float bigWaves = snoise(pos.xy * 0.2 + uTime * 0.3) * 0.5;
-
-      // 2. Small Ripples (High frequency)
-      float smallWaves = snoise(pos.xy * 1.5 - uTime * 0.5) * 0.15;
-
-      // Combine
-      float elevation = bigWaves + smallWaves;
-      
-      // Update Z (Height)
-      pos.z += elevation;
-      
-      vElevation = elevation;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-    }
-  `;
-
-  const fragmentShader = `
-    uniform vec3 uDeepColor;
-    uniform vec3 uSurfColor;
-    uniform vec3 uFoamColor;
-    uniform float uOpacity;
-    
-    varying vec2 vUv;
-    varying float vElevation;
-
-    void main() {
-      float mixStrength = (vElevation + 0.5) * 0.8;
-      vec3 color = mix(uDeepColor, uSurfColor, mixStrength);
-      
-      float foamMix = smoothstep(0.4, 0.6, vElevation);
-      color = mix(color, uFoamColor, foamMix);
-
-      // Circular edge fade
-      float dist = distance(vUv, vec2(0.5));
-      float alpha = 1.0 - smoothstep(0.3, 0.5, dist);
-
-      gl_FragColor = vec4(color, alpha * uOpacity);
-    }
-  `;
+  import { DoubleSide } from "three";
 
   const uniforms = {
     uTime: { value: 0 },
-    uDeepColor: { value: deepColor },
-    uSurfColor: { value: surfColor },
-    uFoamColor: { value: foamColor },
-    uOpacity: { value: 0.8 },
+    uColorShallow: { value: [0.055, 0.647, 0.914] }, // #0ea5e9
+    uColorDeep: { value: [0.012, 0.412, 0.631] },     // #0369a1
+    uColorFoam: { value: [0.85, 0.95, 1.0] },         // white foam highlights
   };
 
-  $: uniforms.uOpacity.value = $theme === "light" ? 1.0 : 0.8;
+  // Theme reactivity
+  $: {
+    if ($theme === 'light') {
+      uniforms.uColorShallow.value = [0.055, 0.647, 0.914];
+      uniforms.uColorDeep.value = [0.012, 0.412, 0.631];
+      uniforms.uColorFoam.value = [0.85, 0.95, 1.0];
+    } else {
+      uniforms.uColorShallow.value = [0.035, 0.420, 0.620];
+      uniforms.uColorDeep.value = [0.010, 0.220, 0.400];
+      uniforms.uColorFoam.value = [0.6, 0.8, 0.9];
+    }
+  }
 
   useTask((dt) => {
     uniforms.uTime.value += dt;
   });
+
+  const vertexShader = `
+    uniform float uTime;
+    varying vec2 vUv;
+    varying float vElevation;
+    varying vec3 vWorldNormal;
+    varying vec3 vViewDir;
+
+    void main() {
+      vUv = uv;
+
+      vec3 pos = position;
+
+      // --- Multiple wave layers for realistic water ---
+      // Large slow rolling waves
+      float wave1 = sin(pos.x * 0.6 + uTime * 1.2) * 0.35;
+      float wave2 = sin(pos.y * 0.5 - uTime * 0.9) * 0.25;
+
+      // Medium cross-waves
+      float wave3 = sin((pos.x + pos.y) * 0.8 + uTime * 1.6) * 0.15;
+
+      // Small ripples
+      float wave4 = sin(pos.x * 2.5 + uTime * 3.0) * 0.05;
+      float wave5 = sin(pos.y * 3.0 - uTime * 2.5) * 0.04;
+
+      float elevation = wave1 + wave2 + wave3 + wave4 + wave5;
+      vElevation = elevation;
+
+      pos.z += elevation;
+
+      // Compute analytical normal from wave derivatives
+      float dx = cos(pos.x * 0.6 + uTime * 1.2) * 0.6 * 0.35
+               + cos((position.x + position.y) * 0.8 + uTime * 1.6) * 0.8 * 0.15
+               + cos(position.x * 2.5 + uTime * 3.0) * 2.5 * 0.05;
+
+      float dy = cos(position.y * 0.5 - uTime * 0.9) * 0.5 * 0.25
+               + cos((position.x + position.y) * 0.8 + uTime * 1.6) * 0.8 * 0.15
+               + cos(position.y * 3.0 - uTime * 2.5) * 3.0 * 0.04;
+
+      vec3 perturbedNormal = normalize(vec3(-dx, -dy, 1.0));
+      vWorldNormal = normalize(normalMatrix * perturbedNormal);
+
+      vec4 mvPos = modelViewMatrix * vec4(pos, 1.0);
+      vViewDir = normalize(-mvPos.xyz);
+      gl_Position = projectionMatrix * mvPos;
+    }
+  `;
+
+  const fragmentShader = `
+    uniform vec3 uColorShallow;
+    uniform vec3 uColorDeep;
+    uniform vec3 uColorFoam;
+    uniform float uTime;
+    varying float vElevation;
+    varying vec2 vUv;
+    varying vec3 vWorldNormal;
+    varying vec3 vViewDir;
+
+    void main() {
+      // --- Depth coloring based on wave height ---
+      float depthMix = smoothstep(-0.5, 0.5, vElevation);
+      vec3 waterColor = mix(uColorDeep, uColorShallow, depthMix);
+
+      // --- Foam on wave crests ---
+      float foamMask = smoothstep(0.3, 0.6, vElevation);
+      waterColor = mix(waterColor, uColorFoam, foamMask * 0.35);
+
+      // --- Fresnel rim for that glassy water edge ---
+      float fresnel = pow(1.0 - max(dot(vWorldNormal, vViewDir), 0.0), 4.0);
+      waterColor = mix(waterColor, uColorFoam, fresnel * 0.5);
+
+      // --- Subtle specular highlight (fake sun reflection) ---
+      vec3 lightDir = normalize(vec3(0.5, 1.0, 0.8));
+      vec3 halfDir = normalize(lightDir + vViewDir);
+      float spec = pow(max(dot(vWorldNormal, halfDir), 0.0), 64.0);
+      waterColor += vec3(1.0) * spec * 0.3;
+
+      // --- Circular edge fade for bounded lake shape ---
+      float dist = distance(vUv, vec2(0.5));
+      float edgeAlpha = 1.0 - smoothstep(0.35, 0.5, dist);
+
+      gl_FragColor = vec4(waterColor, 0.88 * edgeAlpha);
+    }
+  `;
 </script>
 
 <T.Mesh rotation.x={-Math.PI / 2}>
-  <!-- 
-    PlaneGeometry args: [width, height, widthSegments, heightSegments]
-    128x128 segments = 16k vertices (very cheap for GPU) 
-    Gives ultra-smooth water look.
-  -->
-  <T.PlaneGeometry args={[14, 14, 128, 128]} />
-  
+  <T.PlaneGeometry args={[18, 18, 200, 200]} />
   <T.ShaderMaterial
     {vertexShader}
     {fragmentShader}
     {uniforms}
     transparent={true}
     side={DoubleSide}
+    depthWrite={false}
   />
 </T.Mesh>

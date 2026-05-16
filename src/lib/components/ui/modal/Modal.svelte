@@ -114,7 +114,7 @@
                             href={item.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="flex items-center gap-2 text-xs font-bold text-foreground hover:text-foreground/70 transition-colors group"
+                            class="flex items-center gap-2 text-xs font-bold !text-foreground hover:!text-foreground/70 transition-colors group"
                         >
                             View Original
                             <ExternalLink

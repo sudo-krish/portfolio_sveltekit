@@ -180,6 +180,15 @@
 
             <!-- CERTIFICATES HORIZONTAL DRAG ROW -->
             <div class="flex flex-col w-full" style="margin-top: 1cqi;">
+                <div class="flex items-center justify-end w-full mb-2 pr-6">
+                    <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-foreground/[0.03] border border-foreground/[0.05]">
+                        <span class="relative flex h-1.5 w-1.5">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-50"></span>
+                            <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
+                        </span>
+                        <span class="text-[9px] font-mono uppercase tracking-[0.15em] text-foreground/40 font-bold">Click cards to view details</span>
+                    </div>
+                </div>
                 <DraggableRow title="Verified Certifications" items={certificatesData.list} icon={Award} direction="left" variant="cert" onSelect={(item: any) => openModal(item, "cert")} />
                 <DraggableRow title="Peer-Reviewed Publications" items={certificatesData.papers} icon={BookOpen} direction="right" variant="paper" onSelect={(item: any) => openModal(item, "paper")} />
             </div>
@@ -197,11 +206,6 @@
 >
     <!-- DESKTOP -->
     <svelte:fragment slot="content-pc">
-        <GlowAccent
-            color={certificatesData.ui.carousel.accentColor}
-            position="top-[15%] right-[10%]"
-            size={600}
-        />
 
         <div
             class="absolute inset-0 z-20 pointer-events-none flex relative"
