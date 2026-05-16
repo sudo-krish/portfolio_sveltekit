@@ -41,11 +41,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 		const csp = [
 			"default-src 'self'",
 			"script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://static.cloudflareinsights.com",
-			"style-src 'self' 'unsafe-inline'",
+			"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
 			"img-src 'self' data: blob: https: https://www.google-analytics.com https://www.googletagmanager.com",
-			"font-src 'self' data:",
+			"font-src 'self' data: https://fonts.gstatic.com",
 			"connect-src 'self' blob: https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://api.github.com https://leetcode.com",
 			"worker-src 'self' blob:",
+			"frame-src https://www.openstreetmap.org",
 			"frame-ancestors 'none'",
 			"base-uri 'self'",
 			"form-action 'self'"
