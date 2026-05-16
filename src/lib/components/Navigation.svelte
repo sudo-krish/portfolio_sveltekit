@@ -76,7 +76,7 @@
   class="fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] origin-top pb-4 pt-2
          {isShrunk
     ? 'top-2 sm:top-3 scale-75 sm:scale-90 opacity-60 hover:opacity-100'
-    : 'top-4 sm:top-6 scale-100 opacity-100 w-[94%] sm:w-max max-w-[560px] sm:max-w-none'}"
+    : 'top-4 sm:top-6 scale-100 opacity-100 w-[96%] sm:w-max max-w-[480px] sm:max-w-none'}"
   onmouseenter={() => (isHoveredDock = true)}
   onmouseleave={() => (isHoveredDock = false)}
   role="navigation"
@@ -148,7 +148,7 @@
         <a
           {href}
           class="relative z-10 h-8 sm:h-9 flex items-center justify-center transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] group rounded-full active:scale-95 no-underline
-                 {isShrunk ? 'w-9 gap-0' : 'w-11 sm:w-[80px] gap-1.5'}"
+                 {isShrunk ? 'w-9 gap-0' : 'w-9 sm:w-[80px] gap-1.5'}"
           onmouseenter={() => (hoveredItem = href)}
           aria-label="Go to {label}"
         >
@@ -187,7 +187,7 @@
       class="relative z-10 flex items-center shrink-0 overflow-hidden transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)]
              {isShrunk
         ? 'max-w-0 opacity-0 pl-0 pr-0 ml-0 border-0'
-        : 'max-w-[100px] opacity-100 pl-1 sm:pl-3 pr-1 sm:pr-1.5 ml-2 sm:ml-0'}"
+        : 'max-w-[100px] opacity-100 pl-0.5 sm:pl-3 pr-0.5 sm:pr-1.5 ml-1 sm:ml-0'}"
     >
       <div
         class="p-1 rounded-full bg-[hsl(var(--background)/0.3)] border border-[hsl(var(--border)/0.3)] hover:border-[hsl(var(--foreground)/0.3)] hover:bg-[hsl(var(--foreground)/0.05)] transition-colors active:scale-95 cursor-pointer shrink-0"

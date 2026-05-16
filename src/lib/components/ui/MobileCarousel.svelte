@@ -32,16 +32,25 @@
     let observer: IntersectionObserver;
     let isCurrentlyVisible = $state(false);
 
-    // Prevent desktop wheel events from bubbling to GSAP observer
-    function handleWheel(e: WheelEvent) {
-        const target = e.target as HTMLElement;
-        const container = target.closest(
-            ".overflow-y-auto, .overflow-y-scroll",
-        ) as HTMLElement;
-
-        if (container && container.scrollHeight > container.clientHeight) {
+    // Svelte action: isolate wheel AND pointer events from GSAP observer.
+    // Chrome generates pointer events from touch, which GSAP catches and preventDefault()s,
+    // killing native touch scroll. We stopPropagation on all these so GSAP never sees them.
+    function eventIsolation(node: HTMLElement) {
+        function stopProp(e: Event) {
             e.stopPropagation();
         }
+        node.addEventListener("wheel", stopProp, { passive: false, capture: false });
+        node.addEventListener("pointerdown", stopProp, { passive: false, capture: false });
+        node.addEventListener("pointermove", stopProp, { passive: false, capture: false });
+        node.addEventListener("pointerup", stopProp, { passive: false, capture: false });
+        return {
+            destroy() {
+                node.removeEventListener("wheel", stopProp);
+                node.removeEventListener("pointerdown", stopProp);
+                node.removeEventListener("pointermove", stopProp);
+                node.removeEventListener("pointerup", stopProp);
+            },
+        };
     }
 
     // Content slide boundary detector: signals scrollDirection when
@@ -77,6 +86,8 @@
                 node.scrollHeight;
 
             if ((atBottom && delta > 0) || (atTop && delta < 0)) {
+                // At boundary — prevent native scroll (rubber-band) and track
+                if (e.cancelable) e.preventDefault();
                 if (!hitBoundary) {
                     hitBoundary = true;
                     boundaryY = cy;
@@ -98,7 +109,7 @@
         }
 
         node.addEventListener("touchstart", onStart, { passive: true });
-        node.addEventListener("touchmove", onMove, { passive: true });
+        node.addEventListener("touchmove", onMove, { passive: false });
         node.addEventListener("touchend", onEnd, { passive: true });
         return {
             destroy() {
@@ -120,7 +131,7 @@
         let hasScroller = false;
 
         function onStart(e: TouchEvent) {
-            e.stopPropagation(); // Block GSAP Observer from catching this and calling preventDefault()
+            // No stopPropagation — parent detects carousel via data attributes
             startX = e.touches[0].clientX;
             startY = e.touches[0].clientY;
             axis = "none";
@@ -130,21 +141,22 @@
         }
 
         function onMove(e: TouchEvent) {
-            e.stopPropagation(); // Block GSAP Observer from catching this and calling preventDefault()
             if (axis === "none") {
                 const dx = Math.abs(e.touches[0].clientX - startX);
                 const dy = Math.abs(e.touches[0].clientY - startY);
                 if (dx + dy >= 8) axis = dx > dy ? "h" : "v";
             }
             if (axis === "h") {
+                // Horizontal swipe — prevent native scroll, we handle slide switching
                 if (e.cancelable) e.preventDefault();
             } else if (axis === "v" && !hasScroller) {
+                // Vertical swipe on 3D slide (no scrollable content) — prevent native scroll
                 if (e.cancelable) e.preventDefault();
             }
+            // Vertical swipe on content slide: let contentTouchBoundary handle it
         }
 
         function onEnd(e: TouchEvent) {
-            e.stopPropagation(); // Block GSAP Observer from catching this and calling preventDefault()
             const THRESHOLD = 40;
             if (axis === "h") {
                 const dx = startX - e.changedTouches[0].clientX;
@@ -161,7 +173,7 @@
             axis = "none";
         }
 
-        node.addEventListener("touchstart", onStart, { passive: true });
+        node.addEventListener("touchstart", onStart, { passive: false });
         node.addEventListener("touchmove", onMove, { passive: false });
         node.addEventListener("touchend", onEnd, { passive: true });
         return {
@@ -308,9 +320,10 @@
         <div
             bind:this={carouselEl}
             use:carouselTouch
+            use:eventIsolation
             data-carousel-touch-zone="true"
             onscroll={onScroll}
-            class="hide-scroll flex w-full h-full overflow-x-auto snap-x snap-mandatory pointer-events-auto"
+            class="hide-scroll flex w-full h-full overflow-x-auto snap-x snap-mandatory pointer-events-auto touch-pan-y"
             style="scroll-behavior: smooth;"
         >
             {#if layout === "left"}
@@ -372,8 +385,8 @@
                 <!-- CHANGED: Applied use:isolateTouch here, and added touch-pan-y to restore native scroll -->
                 <div
                     use:contentTouchBoundary
+                    use:eventIsolation
                     data-carousel-scroller="true"
-                    onwheel={handleWheel}
                     class="w-full h-full shrink-0 snap-center relative z-20 pointer-events-auto overflow-y-auto overscroll-y-contain touch-pan-y hide-scroll"
                 >
                     <div class="min-h-[101%] pb-32">
@@ -385,8 +398,8 @@
                 <!-- CHANGED: Applied use:isolateTouch here, and added touch-pan-y to restore native scroll -->
                 <div
                     use:contentTouchBoundary
+                    use:eventIsolation
                     data-carousel-scroller="true"
-                    onwheel={handleWheel}
                     class="w-full h-full shrink-0 snap-center relative z-20 pointer-events-auto overflow-y-auto overscroll-y-contain touch-pan-y hide-scroll"
                 >
                     <div class="min-h-[101%] pb-32">

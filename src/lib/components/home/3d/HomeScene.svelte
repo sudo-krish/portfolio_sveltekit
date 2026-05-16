@@ -54,13 +54,11 @@
     (v) => (calculatedSwipeOffset = v),
   );
 
-  const DESKTOP_POS = {
-    start: { x: 3, y: -0.2, z: 0 },
-    pipe: { x: -3.5, y: -0.5, z: 0 },
-    lake: { x: 3.5, y: -1.0, z: 0 },
-    house: { x: -3.5, y: 0.2, z: 0 },
-    ware: { x: 3.5, y: 0.0, z: 0 },
-  };
+  // Reference width where current hardcoded values are "perfect"
+  const REF_WIDTH = 1920;
+
+  // Viewport scale factor — 1.0 at 1920px, scales down smoothly for narrower screens
+  let vw = 1;
 
   const MOBILE_POS = {
     start: { x: 0, y: 1.5, z: 0 },
@@ -70,27 +68,39 @@
     ware: { x: 0, y: 1.5, z: 0 },
   };
 
-  let pos = DESKTOP_POS;
+  let pos = MOBILE_POS;
 
-  $: HERO_SCALE = isMobile ? 1.1 : 1.2;
-  $: PIPE_SCALE = isMobile ? 0.45 : 0.5;
-  $: COMPACT_SCALE = 0.35;
-  $: HOUSE_SCALE = isMobile ? 0.4 : 0.45;
-  $: WAREHOUSE_SCALE = isMobile ? 1.0 : 1.4;
+  $: HERO_SCALE = isMobile ? 1.1 : 1.2 * vw;
+  $: PIPE_SCALE = isMobile ? 0.45 : 0.5 * vw;
+  $: COMPACT_SCALE = isMobile ? 0.35 : 0.35 * vw;
+  $: HOUSE_SCALE = isMobile ? 0.4 : 0.45 * vw;
+  $: WAREHOUSE_SCALE = isMobile ? 1.0 : 1.4 * vw;
 
   function updateLayout() {
     if (typeof window === "undefined") return;
     const width = window.innerWidth;
     isMobile = width < 1024;
     innerHeight = window.innerHeight;
-    pos = isMobile ? MOBILE_POS : DESKTOP_POS;
 
-    if (width < 768) {
+    // Compute continuous viewport factor (clamped 0.5–1.0 for desktop range)
+    vw = Math.max(0.5, Math.min(1.0, width / REF_WIDTH));
+
+    if (isMobile) {
+      pos = MOBILE_POS;
       cameraZ = 14;
       cameraFov = 40;
     } else {
-      cameraZ = 10;
-      cameraFov = 35;
+      // Scale all desktop x-offsets by viewport factor
+      pos = {
+        start: { x: 3 * vw,    y: -0.2, z: 0 },
+        pipe:  { x: -3.5 * vw, y: -0.5, z: 0 },
+        lake:  { x: 3.5 * vw,  y: -1.0, z: 0 },
+        house: { x: -3.5 * vw, y: 0.2,  z: 0 },
+        ware:  { x: 3.5 * vw,  y: 0.0,  z: 0 },
+      };
+      // Smooth camera: closer + wider FOV on narrower screens
+      cameraZ = 8 + 2 * vw;   // 10 at 1920, ~9 at 1280
+      cameraFov = 33 + 2 * vw; // 35 at 1920, ~34 at 1280
     }
   }
 
@@ -192,8 +202,8 @@
           g.position.x = calculatedSwipeOffset;
           g.position.y = MOBILE_POS.start.y;
         } else {
-          // Desktop: Alternate sides, slight Y float for dynamic feel
-          const baseOffset = i % 2 === 0 ? -4.5 : 4.5;
+          // Desktop: Alternate sides, scaled by viewport factor
+          const baseOffset = (i % 2 === 0 ? -4.5 : 4.5) * vw;
 
           // Allow them to subtly slide vertically into place based on scroll
           const verticalSlide = (rawProgress - centerIndex) * -5;

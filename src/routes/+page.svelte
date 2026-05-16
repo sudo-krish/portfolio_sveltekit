@@ -100,19 +100,14 @@
           });
         }
 
-        // Guard: desktop wheel/pointer inside scrollable content should not snap
+        // Guard: any event inside scrollable content or carousel should not trigger section snap
         function isInsideScrollableChild(self: any): boolean {
           const evt = self.event as TouchEvent | PointerEvent | WheelEvent;
           const target = evt?.target as HTMLElement;
           if (!target) return false;
 
-          // Ignore GSAP observer for TOUCH/PEN events inside a carousel (carousel manages its own touch section nav).
-          // We allow physical mouse wheels to pass through so the user can still wheel-scroll to the next section.
-          const isTouch =
-            evt.type?.startsWith("touch") ||
-            (evt as PointerEvent).pointerType === "touch" ||
-            (evt as PointerEvent).pointerType === "pen";
-          if (isTouch && target.closest("[data-carousel-touch-zone]"))
+          // Always block section snap if inside a carousel zone or its scrollable content
+          if (target.closest("[data-carousel-touch-zone]") || target.closest('[data-carousel-scroller="true"]'))
             return true;
 
           const scroller = target.closest(
@@ -150,7 +145,8 @@
 
         function onTouchStart(e: TouchEvent) {
           const target = e.target as HTMLElement;
-          insideCarousel = !!target.closest("[data-carousel-touch-zone]");
+          // Detect if touch originated inside ANY carousel element (the zone or its scrollable content)
+          insideCarousel = !!(target.closest("[data-carousel-touch-zone]") || target.closest('[data-carousel-scroller="true"]'));
           if (insideCarousel) return;
 
           touchStartY = e.touches[0].clientY;

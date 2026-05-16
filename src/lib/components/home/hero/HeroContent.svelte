@@ -124,7 +124,7 @@
                         class="w-1.5 h-1.5 rounded-full bg-foreground animate-pulse shadow-[0_0_10px_currentColor]"
                     ></div>
                     <span
-                        class="font-mono uppercase tracking-[0.25em] text-accent font-bold"
+                        class="font-mono uppercase tracking-[0.25em] text-foreground/70 font-bold"
                         style="font-size: clamp(7px, 0.6cqi, 9px);"
                         >{metaLabelDesktop}</span
                     >
@@ -133,17 +133,17 @@
 
             <div class="flex flex-col" role="presentation">
                 <span
-                    class="hero-type block font-black leading-[0.82] tracking-[-0.04em] text-[clamp(6rem,9vw,11rem)] text-foreground/72"
+                    class="hero-type block font-black leading-[0.82] tracking-[-0.04em] text-[clamp(4.5rem,7vw,8.5rem)] text-foreground/72"
                     >{prefix}</span
                 >
                 <span
-                    class="hero-type block font-black leading-[0.82] tracking-[-0.04em] text-[clamp(6rem,9vw,11rem)] text-foreground"
+                    class="hero-type block font-black leading-[0.82] tracking-[-0.04em] text-[clamp(4.5rem,7vw,8.5rem)] text-foreground"
                     >{suffix}</span
                 >
             </div>
 
             <div
-                class="hero-type w-full max-w-[95%] flex flex-wrap items-center gap-3 mt-6 mb-2 pointer-events-auto"
+                class="hero-type w-full max-w-[95%] flex flex-wrap items-center gap-2.5 mt-5 mb-1.5 pointer-events-auto"
             >
                 <a href="/projects" class="btn-hero-nav"
                     ><span class="hero-index">01</span><span
@@ -168,7 +168,7 @@
 
             <div
                 class="hero-type w-full max-w-[95%] pointer-events-auto flex items-center"
-                style="margin-top: 2.5cqi; gap: 1.2cqi;"
+                style="margin-top: 2cqi; gap: 1cqi;"
             >
                 <div
                     class="flex items-center border border-foreground/10 bg-foreground/[0.03] shadow-[0_8px_16px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.15)] backdrop-blur-md rounded-xl shrink-0"
