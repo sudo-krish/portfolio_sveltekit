@@ -163,7 +163,8 @@
     >
       <div
         bind:this={mobilePanel}
-        class="flex flex-col items-center justify-center w-full min-h-[100dvh] max-w-lg mx-auto gap-5 px-4 pt-[12dvh] pb-[20dvh]"
+        class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-lg mx-auto px-5 pt-16 pb-16"
+        style="gap: 2rem;"
       >
         {@render warehouseAnchor("center")}
         {@render warehouseCard()}

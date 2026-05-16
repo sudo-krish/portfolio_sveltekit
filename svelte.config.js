@@ -23,6 +23,8 @@ const config = {
       
       crawl: false,      // Don't auto-discover routes
       
+      handleUnseenRoutes: 'ignore',
+      
       handleHttpError: ({ path, message }) => {
         // Ignore API route errors during prerendering
         if (path.startsWith('/api/')) {
