@@ -135,6 +135,9 @@
             activeSlide = 0;
             carouselEl.style.scrollBehavior = "smooth";
         }
+        
+        // Reset the global store so the 3D model returns to the center
+        carouselSwipeFraction.set(0);
     }
 
     function onScroll() {
