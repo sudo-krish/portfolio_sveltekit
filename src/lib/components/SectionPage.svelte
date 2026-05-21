@@ -173,7 +173,7 @@
             </div>
 
             <h1
-                class="hero-elem text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8"
+                class="hero-elem text-5xl sm:text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8"
             >
                 <span class="block text-foreground">{content.headline}</span>
                 <span
@@ -200,7 +200,7 @@
                 </div>
                 <div class="md:col-span-8">
                     <p
-                        class="text-xl md:text-2xl text-muted-foreground leading-relaxed font-light"
+                        class="text-lg sm:text-xl md:text-2xl text-muted-foreground leading-relaxed font-light"
                     >
                         {@html content.introParagraph}
                     </p>

@@ -104,8 +104,8 @@
 
                         <div class="relative z-10 flex flex-col items-center w-full">
                             <!-- Smaller icon box for mobile -->
-                            <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-muted border border-border shadow-inner mb-2.5">
-                                <svelte:component this={getIcon(m.iconName)} size={14} style="color: {m.color}" />
+                            <div class="flex items-center justify-center w-6 h-6 rounded-md bg-muted border border-border shadow-inner mb-2">
+                                <svelte:component this={getIcon(m.iconName)} size={12} style="color: {m.color}" />
                             </div>
 
                             <div class="flex flex-col items-center w-full">

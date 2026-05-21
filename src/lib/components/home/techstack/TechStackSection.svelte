@@ -109,7 +109,7 @@
             </div>
 
             <!-- Grid of Skill Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="flex flex-col gap-4 w-full max-w-sm mt-6">
                 {#each techstackData.categories as cat}
                     <div
                         class="flex flex-col p-5 rounded-[1.25rem] bg-card/80 backdrop-blur-xl border border-border relative overflow-hidden"

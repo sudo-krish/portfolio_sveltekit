@@ -109,7 +109,7 @@
                 <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-foreground/30 to-transparent opacity-60"></div>
 
 
-                <div class="relative z-10 flex flex-col w-full max-h-[380px] overflow-y-auto no-scrollbar scroll-smooth p-2">
+                <div class="relative z-10 flex flex-col w-full overflow-y-auto no-scrollbar scroll-smooth p-2">
                     {#each allItems as item}
                         <div class="flex flex-col border-b border-foreground/[0.05] last:border-none">
                             <button type="button" class="flex items-center gap-3 w-full p-3 sm:p-4 hover:bg-foreground/[0.02] rounded-xl transition-colors duration-300 text-left cursor-pointer" onclick={() => toggleAccordion(item.id)}>
@@ -117,11 +117,11 @@
                                     <svelte:component this={item.icon} size={16} style="color: {activeId === item.id ? item.color : 'rgba(255,255,255,0.4)'};" />
                                 </div>
                                 <div class="flex flex-col flex-1 min-w-0 pr-1">
-                                    <span class="text-[12px] sm:text-[13px] font-bold text-foreground/90 truncate leading-tight">{item.name}</span>
+                                    <span class="text-[13px] sm:text-[14px] font-bold text-foreground/90 truncate leading-tight">{item.name}</span>
                                     <div class="flex items-center gap-1.5 mt-1">
-                                        <span class="text-[9px] font-mono truncate tracking-wider" style="color: {item.color}e6;">{item.issuer}</span>
-                                        <span class="text-[8px] text-foreground/30">·</span>
-                                        <span class="text-[9px] text-foreground/40 font-medium">{item.date}</span>
+                                        <span class="text-[10px] sm:text-[11px] font-mono truncate tracking-wider" style="color: {item.color}e6;">{item.issuer}</span>
+                                        <span class="text-[9px] text-foreground/30">·</span>
+                                        <span class="text-[10px] sm:text-[11px] text-foreground/40 font-medium">{item.date}</span>
                                     </div>
                                 </div>
                                 <div class="shrink-0 flex items-center justify-center w-5 h-5 rounded-full border transition-transform duration-300" style="transform: {activeId === item.id ? 'rotate(180deg)' : 'rotate(0deg)'}; background-color: {activeId === item.id ? `${item.color}20` : 'rgba(255,255,255,0.05)'}; border-color: {activeId === item.id ? `${item.color}30` : 'rgba(255,255,255,0.05)'}; color: {activeId === item.id ? item.color : 'rgba(255,255,255,0.3)'};">
@@ -132,12 +132,12 @@
                                 <div transition:slide={{ duration: 300 }} class="overflow-hidden">
                                     <div class="pl-14 pr-3 pb-4 pt-1">
                                         <div class="p-3 rounded-xl bg-card/80 border border-foreground/5 shadow-inner">
-                                            <h4 class="text-[8px] font-mono uppercase tracking-[0.2em] mb-1.5 font-bold" style="color: {item.color};">{item.metaLabel}</h4>
-                                            <p class="text-[10px] sm:text-[11px] leading-relaxed text-foreground/70 font-light">{@html item.impact}</p>
+                                            <h4 class="text-[10px] font-mono uppercase tracking-[0.2em] mb-1.5 font-bold" style="color: {item.color};">{item.metaLabel}</h4>
+                                            <p class="text-[11px] sm:text-[12px] leading-relaxed text-foreground/70 font-light">{@html item.impact}</p>
                                             {#if item.url}
                                                 <div class="mt-3 flex justify-end">
                                                     <a href={item.url} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border hover:bg-foreground/5 transition-colors" style="border-color: {item.color}40;">
-                                                        <span class="text-[9px] font-bold uppercase tracking-wider" style="color: {item.color};">{item.linkText}</span>
+                                                        <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider" style="color: {item.color};">{item.linkText}</span>
                                                         <ExternalLink size={10} style="color: {item.color};" />
                                                     </a>
                                                 </div>

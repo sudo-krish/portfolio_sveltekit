@@ -76,19 +76,19 @@
             </div>
 
             <div
-                class="hero-type flex flex-wrap justify-center items-center gap-2 mt-4 pointer-events-auto relative z-50"
+                class="hero-type flex flex-col w-full gap-3 mt-6 pointer-events-auto relative z-50 px-2"
             >
-                <a href="/projects" class="btn-hero-nav"
-                    ><span class="text-primary font-bold">01</span> Explore Projects</a
+                <a href="/projects" class="btn-hero-nav-mobile group"
+                    ><span class="hero-index-mobile">01</span><span class="flex-1 text-left">Explore Projects</span><span class="text-muted-foreground/30 group-active:text-primary transition-colors">&rarr;</span></a
                 >
-                <a href="/learn" class="btn-hero-nav"
-                    ><span class="text-primary font-bold">02</span> Learn Concepts</a
+                <a href="/learn" class="btn-hero-nav-mobile group"
+                    ><span class="hero-index-mobile">02</span><span class="flex-1 text-left">Learn Concepts</span><span class="text-muted-foreground/30 group-active:text-primary transition-colors">&rarr;</span></a
                 >
-                <a href="/articles" class="btn-hero-nav"
-                    ><span class="text-primary font-bold">03</span> Read Articles</a
+                <a href="/articles" class="btn-hero-nav-mobile group"
+                    ><span class="hero-index-mobile">03</span><span class="flex-1 text-left">Read Articles</span><span class="text-muted-foreground/30 group-active:text-primary transition-colors">&rarr;</span></a
                 >
-                <a href="/experience" class="btn-hero-nav"
-                    ><span class="text-primary font-bold">04</span> View Experience</a
+                <a href="/experience" class="btn-hero-nav-mobile group"
+                    ><span class="hero-index-mobile">04</span><span class="flex-1 text-left">View Experience</span><span class="text-muted-foreground/30 group-active:text-primary transition-colors">&rarr;</span></a
                 >
             </div>
         </div>
@@ -432,5 +432,52 @@
         background: hsl(var(--primary) / 0.12);
         border-color: hsl(var(--primary) / 0.2);
         color: hsl(var(--primary));
+    }
+
+    .btn-hero-nav-mobile {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        gap: 1rem;
+        padding: 0.85rem 1.25rem;
+        border-radius: 1.25rem;
+        border: 1px solid hsl(var(--foreground) / 0.08);
+        background: linear-gradient(
+            180deg,
+            hsl(var(--foreground) / 0.045),
+            hsl(var(--foreground) / 0.025)
+        );
+        color: hsl(var(--foreground) / 0.85);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        box-shadow:
+            0 8px 24px rgba(0, 0, 0, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        font-size: 0.95rem;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        transition: all 200ms ease;
+    }
+
+    .btn-hero-nav-mobile:active {
+        transform: scale(0.98);
+        background: hsl(var(--foreground) / 0.08);
+    }
+
+    .hero-index-mobile {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 1.8rem;
+        height: 1.8rem;
+        border-radius: 0.6rem;
+        background: hsl(var(--foreground) / 0.06);
+        border: 1px solid hsl(var(--foreground) / 0.08);
+        color: hsl(var(--primary));
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+            monospace;
     }
 </style>
