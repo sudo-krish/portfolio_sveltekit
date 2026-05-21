@@ -79,8 +79,7 @@ export const GET: RequestHandler = async ({ platform, fetch, setHeaders }) => {
     const GITHUB_TOKEN = platform?.env?.GITHUB_TOKEN || import.meta.env.VITE_GITHUB_TOKEN || '';
     const GITHUB_USERNAME = platform?.env?.PUBLIC_GITHUB_USERNAME || env.PUBLIC_GITHUB_USERNAME || 'sudo-krish';
 
-    // ✅ Single console log - shows if token is loaded
-    console.log(`✅ GITHUB_TOKEN loaded: ${GITHUB_TOKEN ? `${GITHUB_TOKEN.substring(0, 10)}...` : 'NOT FOUND'}`);
+
 
     const headers: Record<string, string> = {
       'Accept': 'application/vnd.github.v3+json',

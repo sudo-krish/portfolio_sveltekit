@@ -120,30 +120,13 @@
     return outMin + (outMax - outMin) * ease(p);
   };
 
-  let debugLogged = false;
-
   const tick = () => {
     if (!mascotGroup) {
-      if (!debugLogged) {
-        console.log(
-          "[HomeScene] tick running but mascotGroup is missing/undefined",
-        );
-        debugLogged = true;
-      }
       return;
     }
 
     scrollY_current += (scrollY_target - scrollY_current) * 0.08;
     const rawProgress = scrollY_current / innerHeight;
-
-    if (!debugLogged) {
-      console.log("[HomeScene] First real tick!", {
-        rawProgress,
-        innerHeight,
-        scrollY_target,
-      });
-      debugLogged = true;
-    }
 
     const isVisible = rawProgress <= 12;
 

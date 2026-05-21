@@ -96,7 +96,7 @@
       aria-label="Go to home"
     >
       <div
-        class="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-[hsl(var(--border))] group-hover:border-[hsl(var(--primary))] transition-colors duration-500 shadow-sm shrink-0"
+        class="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-[hsl(var(--border))] group-hover:border-[hsl(var(--primary))] group-hover:shadow-[0_0_15px_hsl(var(--primary)/0.4)] transition-all duration-500 shadow-sm shrink-0"
       >
         <div
           class="absolute inset-0 bg-[hsl(var(--primary)/0.2)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -133,10 +133,10 @@
     >
       <!-- Sliding Pill -->
       <div
-        class="absolute top-1 bottom-1 rounded-full bg-[hsl(var(--foreground)/0.08)] border border-[hsl(var(--foreground)/0.15)] shadow-[0_4px_12px_rgba(0,0,0,0.1)] backdrop-blur-md transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-none
+        class="absolute top-1 bottom-1 rounded-full bg-[hsl(var(--foreground)/0.12)] border border-[hsl(var(--foreground)/0.15)] shadow-[0_4px_12px_rgba(0,0,0,0.1)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-none
                {isShrunk
-          ? 'opacity-0 scale-75 w-10'
-          : 'opacity-100 scale-100 w-11 sm:w-[80px]'}"
+          ? 'opacity-0 scale-75 w-9'
+          : 'opacity-100 scale-100 w-9 sm:w-[80px]'}"
         style="transform: translateX(calc({displayIndex} * 100%));"
       >
         <div
@@ -151,6 +151,7 @@
                  {isShrunk ? 'w-9 gap-0' : 'w-9 sm:w-[80px] gap-1.5'}"
           onmouseenter={() => (hoveredItem = href)}
           aria-label="Go to {label}"
+          aria-current={(href === '/' ? activePath === '/' : activePath.startsWith(href)) ? 'page' : undefined}
         >
           <Icon
             size={isShrunk ? 18 : 16}

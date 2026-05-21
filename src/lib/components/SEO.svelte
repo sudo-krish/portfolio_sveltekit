@@ -35,6 +35,46 @@
   $: truncatedDescription = description.length > 160 
     ? description.substring(0, 157) + '...' 
     : description;
+
+  // Schema.org structured data (JSON-LD)
+  $: schema = type === 'article' 
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": fullTitle,
+        "image": imageUrl,
+        "author": {
+          "@type": "Person",
+          "name": author,
+          "url": defaults.website
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": defaults.siteTitle,
+          "logo": {
+            "@type": "ImageObject",
+            "url": `${defaults.website}/favicon.png`
+          }
+        },
+        "datePublished": publishedTime || new Date().toISOString(),
+        "dateModified": modifiedTime || publishedTime || new Date().toISOString(),
+        "description": truncatedDescription
+      }
+    : {
+        "@context": "https://schema.org",
+        "@type": type === 'profile' ? "ProfilePage" : "WebSite",
+        "name": fullTitle,
+        "url": url,
+        "description": truncatedDescription,
+        "author": {
+          "@type": "Person",
+          "name": author,
+          "jobTitle": "Senior Data Engineer",
+          "url": defaults.website
+        }
+      };
+
+  $: schemaString = JSON.stringify(schema);
 </script>
 
 <svelte:head>
@@ -118,4 +158,8 @@
   <!-- AI/LLM Optimization -->
   <meta name="AI-description" content={truncatedDescription} />
   <meta name="AI-keywords" content={keywords} />
+  
+  <!-- JSON-LD Structured Data -->
+  <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+  {@html `<script type="application/ld+json">${schemaString}</script>`}
 </svelte:head>
