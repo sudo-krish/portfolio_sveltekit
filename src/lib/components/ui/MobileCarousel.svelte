@@ -265,14 +265,15 @@
                                 <button
                                     type="button"
                                     onclick={() => goToSlide(1)}
-                                    class="w-full mt-2 flex flex-col items-center justify-center cursor-pointer group hover:bg-transparent bg-transparent border-none outline-none"
+                                    aria-label="View specifications"
+                                    class="w-full mt-2 flex flex-col items-center justify-center cursor-pointer group hover:bg-transparent bg-transparent border-none outline-none p-2"
                                 >
                                     <span
                                         class="font-mono text-[9px] font-bold uppercase tracking-[0.3em] text-muted-foreground mb-2 transition-colors group-hover:text-foreground"
                                         >Swipe to turn page</span
                                     >
                                     <div
-                                        class="relative w-16 h-8 flex items-center justify-center overflow-hidden rounded-full bg-muted border border-border shadow-sm"
+                                        class="relative w-20 h-10 flex items-center justify-center overflow-hidden rounded-full bg-muted border border-border shadow-sm"
                                     >
                                         <div
                                             class="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-foreground/20 to-transparent swipe-track-left"
@@ -346,14 +347,15 @@
                                 <button
                                     type="button"
                                     onclick={() => goToSlide(0)}
-                                    class="w-full mt-2 flex flex-col items-center justify-center cursor-pointer group hover:bg-transparent bg-transparent border-none outline-none"
+                                    aria-label="View 3D model"
+                                    class="w-full mt-2 flex flex-col items-center justify-center cursor-pointer group hover:bg-transparent bg-transparent border-none outline-none p-2"
                                 >
                                     <span
                                         class="font-mono text-[9px] font-bold uppercase tracking-[0.3em] text-muted-foreground mb-2 transition-colors group-hover:text-foreground"
                                         >Swipe to turn page</span
                                     >
                                     <div
-                                        class="relative w-16 h-8 flex items-center justify-center overflow-hidden rounded-full bg-foreground/5 border border-foreground/10 shadow-[inset_0_1px_4px_rgba(0,0,0,0.5)]"
+                                        class="relative w-20 h-10 flex items-center justify-center overflow-hidden rounded-full bg-foreground/5 border border-foreground/10 shadow-[inset_0_1px_4px_rgba(0,0,0,0.5)]"
                                     >
                                         <div
                                             class="absolute inset-0 w-[200%] h-full bg-gradient-to-l from-transparent via-foreground/20 to-transparent swipe-track-right"

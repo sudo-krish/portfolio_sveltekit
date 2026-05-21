@@ -90,8 +90,8 @@
           // We animate the container's scroll position, which triggers HomeScene perfectly
           gsap.to(container, {
             scrollTo: { y: sections[currentIndex], autoKill: false },
-            duration: 1.5, // THIS IS THE SPEED (1.2 seconds is beautifully slow)
-            ease: "power2.inOut",
+            duration: 1.0, // THIS IS THE SPEED (Snappier for better UX on mobile)
+            ease: "power3.inOut",
             onComplete: () => {
               // Add a tiny 50ms buffer before allowing the next scroll
               setTimeout(() => {

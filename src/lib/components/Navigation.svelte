@@ -75,7 +75,7 @@
 <div
   class="fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] origin-top pb-4 pt-2
          {isShrunk
-    ? 'top-2 sm:top-3 scale-75 sm:scale-90 opacity-60 hover:opacity-100'
+    ? 'top-2 sm:top-3 scale-[0.85] sm:scale-90 opacity-80 sm:opacity-60 hover:opacity-100'
     : 'top-4 sm:top-6 scale-100 opacity-100 w-[96%] sm:w-max max-w-[480px] sm:max-w-none'}"
   onmouseenter={() => (isHoveredDock = true)}
   onmouseleave={() => (isHoveredDock = false)}

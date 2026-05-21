@@ -61,11 +61,11 @@
   let vw = 1;
 
   const MOBILE_POS = {
-    start: { x: 0, y: 1.5, z: 0 },
-    pipe: { x: 0, y: 1.5, z: 0 },
-    lake: { x: 0, y: 1.5, z: 0 },
-    house: { x: 0, y: 1.5, z: 0 },
-    ware: { x: 0, y: 1.5, z: 0 },
+    start: { x: 0, y: 2.5, z: 0 },
+    pipe: { x: 0, y: 2.5, z: 0 },
+    lake: { x: 0, y: 2.5, z: 0 },
+    house: { x: 0, y: 2.5, z: 0 },
+    ware: { x: 0, y: 2.5, z: 0 },
   };
 
   let pos = MOBILE_POS;
