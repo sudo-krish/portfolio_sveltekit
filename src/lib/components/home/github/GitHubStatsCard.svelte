@@ -171,7 +171,7 @@
                         class="group-hover/streak:animate-pulse"
                     />
                     <span
-                        class="text-[9px] 2xl:text-[10px] font-mono uppercase tracking-widest font-bold"
+                        class="text-[10px] 2xl:text-[11px] font-mono uppercase tracking-widest font-bold"
                         >Daily Streak</span
                     >
                 </div>
@@ -182,7 +182,7 @@
                         {stats?.contributionStreak || 0}
                     </span>
                     <span
-                        class="text-[10px] text-muted-foreground font-mono uppercase"
+                        class="text-[11px] text-muted-foreground font-mono uppercase"
                         >Days</span
                     >
                 </div>
@@ -202,7 +202,7 @@
                     >
                         <GitFork size={12} />
                         <span
-                            class="text-[9px] font-mono uppercase tracking-widest"
+                            class="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest"
                             >Repos</span
                         >
                     </div>
@@ -226,7 +226,7 @@
                             class="group-hover/stars:fill-warning/30 group-hover/stars:text-warning transition-colors"
                         />
                         <span
-                            class="text-[9px] font-mono uppercase tracking-widest"
+                            class="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest"
                             >Stars</span
                         >
                     </div>
@@ -242,7 +242,7 @@
         <!-- Recent Activity Console log -->
         <GlassCard variant="inset" hover={false} class="font-mono text-[10px] 2xl:text-xs flex-1 flex flex-col hover:border-foreground/[0.12] !p-4 2xl:!p-5 z-10">
             <div
-                class="flex items-center justify-between mb-4 pb-2.5 border-b border-border font-bold tracking-[0.1em] text-[9px] uppercase"
+                class="flex items-center justify-between mb-4 pb-2.5 border-b border-border font-bold tracking-[0.1em] text-[10px] 2xl:text-[11px] uppercase"
             >
                 <div class="flex items-center gap-2 text-muted-foreground">
                     <Terminal size={12} class="text-foreground" /> Recent Pushes
@@ -292,7 +292,7 @@
                                     >{c.sha}</span
                                 >
                                 <span
-                                    class="text-muted-foreground text-[8px] 2xl:text-[9px] shrink-0 font-sans tracking-wide"
+                                    class="text-muted-foreground text-[10px] 2xl:text-[11px] shrink-0 font-sans tracking-wide"
                                     >{c.time}</span
                                 >
                             </div>

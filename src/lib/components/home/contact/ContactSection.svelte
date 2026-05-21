@@ -102,17 +102,17 @@
             <div class="flex flex-col gap-4">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="flex flex-col gap-1.5">
-                        <label for="contact-name" class="text-[10px] uppercase tracking-[0.15em] text-foreground/50 font-mono ml-0.5">Name</label>
+                        <label for="contact-name" class="text-[11px] uppercase tracking-wider text-foreground/50 font-mono ml-0.5">Name</label>
                         <input id="contact-name" type="text" bind:value={formName} placeholder="Your name" class="w-full px-3.5 py-2.5 rounded-xl bg-foreground/[0.03] border border-foreground/[0.08] text-sm text-foreground placeholder:text-foreground/20 outline-none focus:border-primary/40 focus:bg-foreground/[0.05] transition-all duration-300" />
                     </div>
                     <div class="flex flex-col gap-1.5">
-                        <label for="contact-subject" class="text-[10px] uppercase tracking-[0.15em] text-foreground/50 font-mono ml-0.5">Subject</label>
+                        <label for="contact-subject" class="text-[11px] uppercase tracking-wider text-foreground/50 font-mono ml-0.5">Subject</label>
                         <input id="contact-subject" type="text" bind:value={formSubject} placeholder="What's this about?" class="w-full px-3.5 py-2.5 rounded-xl bg-foreground/[0.03] border border-foreground/[0.08] text-sm text-foreground placeholder:text-foreground/20 outline-none focus:border-primary/40 focus:bg-foreground/[0.05] transition-all duration-300" />
                     </div>
                 </div>
 
                 <div class="flex flex-col gap-1.5">
-                    <label for="contact-message" class="text-[10px] uppercase tracking-[0.15em] text-foreground/50 font-mono ml-0.5">Message</label>
+                    <label for="contact-message" class="text-[11px] uppercase tracking-wider text-foreground/50 font-mono ml-0.5">Message</label>
                     <textarea id="contact-message" bind:value={formMessage} placeholder="Hello! I'd like to discuss..." rows={isMobile ? 2 : 3} class="w-full px-3.5 py-3 rounded-xl bg-foreground/[0.03] border border-foreground/[0.08] text-sm text-foreground placeholder:text-foreground/20 outline-none focus:border-primary/40 focus:bg-foreground/[0.05] transition-all duration-300 resize-none"></textarea>
                 </div>
 
@@ -131,7 +131,7 @@
                 </div>
                 <div class="flex flex-col">
                     <span class="text-sm 2xl:text-base font-bold tracking-wide">Calendly</span>
-                    <span class="text-[9px] 2xl:text-[10px] font-medium opacity-80 uppercase tracking-widest">Schedule Call</span>
+                    <span class="text-[10px] sm:text-[11px] font-medium opacity-80 uppercase tracking-widest">Schedule Call</span>
                 </div>
             </a>
 
@@ -141,7 +141,7 @@
                 </div>
                 <div class="flex flex-col">
                     <span class="text-sm 2xl:text-base font-bold tracking-wide">Support Me</span>
-                    <span class="text-[9px] 2xl:text-[10px] font-bold opacity-70 uppercase tracking-widest">Buy a Coffee</span>
+                    <span class="text-[10px] sm:text-[11px] font-bold opacity-70 uppercase tracking-widest">Buy a Coffee</span>
                 </div>
             </a>
         </div>
@@ -161,7 +161,7 @@
                 </div>
                 <div class="flex flex-col">
                     <span class="text-xs sm:text-sm 2xl:text-base font-bold text-foreground tracking-tight drop-shadow-sm">{personal.address.city}, {personal.address.country}</span>
-                    <span class="text-[9px] 2xl:text-[10px] text-foreground/60 font-mono uppercase tracking-[0.1em] mt-0.5">Based In (View Map)</span>
+                    <span class="text-[10px] sm:text-[11px] text-foreground/60 font-mono uppercase tracking-[0.1em] mt-0.5">Based In (View Map)</span>
                 </div>
             </div>
             <div class="relative z-10 w-8 h-8 2xl:w-10 2xl:h-10 rounded-full bg-card/80 backdrop-blur-sm border border-foreground/10 shadow-sm flex items-center justify-center group-hover:bg-foreground/[0.08] transition-colors">

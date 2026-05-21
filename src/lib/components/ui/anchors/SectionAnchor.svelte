@@ -30,7 +30,7 @@
 >
     <span
         class="font-mono {labelColor} uppercase tracking-[0.3em]"
-        style="font-size: clamp(8px, 0.8cqi, 12px); margin-bottom: max(0.5rem, 0.8cqi);"
+        style="font-size: clamp(11px, 0.8cqi, 13px); margin-bottom: max(0.5rem, 0.8cqi);"
     >
         {label}
     </span>
@@ -44,7 +44,7 @@
 
     <p
         class="text-muted-foreground font-light leading-relaxed"
-        style="font-size: clamp(0.7rem, 1cqi, 0.875rem); max-width: {align === 'center' ? '320px' : maxDescWidth};"
+        style="font-size: clamp(0.85rem, 1cqi, 0.95rem); max-width: {align === 'center' ? '320px' : maxDescWidth};"
     >
         {@html description}
     </p>

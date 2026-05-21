@@ -172,7 +172,7 @@
                         class="text-muted-foreground group-hover/card:text-foreground transition-colors"
                     />
                     <span
-                        class="text-[9px] 2xl:text-[10px] font-mono uppercase tracking-widest font-bold"
+                        class="text-[10px] 2xl:text-[11px] font-mono uppercase tracking-widest font-bold"
                         >Global Rank</span
                     >
                 </div>
@@ -185,7 +185,7 @@
                 </div>
                 {#if stats.reputation}
                     <div
-                        class="text-[9px] text-foreground/80 mt-2 font-mono relative z-10 bg-foreground/10 self-start px-2 py-0.5 rounded-sm"
+                        class="text-[10px] text-foreground/80 mt-2 font-mono relative z-10 bg-foreground/10 self-start px-2 py-0.5 rounded-sm"
                     >
                         +{stats.reputation} Reputation
                     </div>
@@ -207,7 +207,7 @@
                             : "text-muted-foreground"}
                     />
                     <span
-                        class="text-[9px] 2xl:text-[10px] font-mono uppercase tracking-widest font-bold"
+                        class="text-[10px] 2xl:text-[11px] font-mono uppercase tracking-widest font-bold"
                         >Streak</span
                     >
                 </div>
@@ -224,7 +224,7 @@
                 </div>
                 {#if stats.activeDays}
                     <div
-                        class="text-[9px] text-muted-foreground mt-2 font-mono relative z-10"
+                        class="text-[10px] text-muted-foreground mt-2 font-mono relative z-10"
                     >
                         {stats.activeDays} Active Days
                     </div>
@@ -286,7 +286,7 @@
                 {#each difficulties as d}
                     <div class="flex flex-col items-center">
                         <span
-                            class="text-[9px] 2xl:text-[10px] font-mono text-muted-foreground uppercase tracking-widest mb-1"
+                            class="text-[10px] sm:text-[11px] font-mono text-muted-foreground uppercase tracking-widest mb-1"
                             >{d.label}</span
                         >
                         <span
@@ -314,7 +314,7 @@
 
             <div class="flex items-center gap-2">
                 <span
-                    class="text-[9px] 2xl:text-[10px] font-mono tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-x-2 group-hover:translate-x-0"
+                    class="text-[10px] sm:text-[11px] font-mono tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-x-2 group-hover:translate-x-0"
                     >View Profile</span
                 >
             </div>

@@ -79,14 +79,14 @@
                             <span class="text-[16px] sm:text-[18px] font-black text-foreground leading-tight tracking-tight">
                                 {resultsData.achievement.title}
                             </span>
-                            <span class="text-[9px] sm:text-[10px] font-mono text-primary uppercase tracking-[0.2em] mt-0.5">
+                            <span class="text-[11px] sm:text-[12px] font-mono text-primary uppercase tracking-[0.2em] mt-0.5">
                                 {resultsData.achievement.subtitle}
                             </span>
                         </div>
                     </div>
 
                     <!-- Mobile Description -->
-                    <p class="text-[0.85rem] sm:text-[0.95rem] leading-[1.7] text-muted-foreground font-light">
+                    <p class="text-[0.95rem] sm:text-[1rem] leading-[1.7] text-muted-foreground font-light">
                         {@html resultsData.achievement.description}
                     </p>
                 </div>
@@ -112,10 +112,10 @@
                                 <span class="text-2xl sm:text-3xl font-black font-mono leading-none drop-shadow-[0_0_15px_currentColor] mb-1.5" style="color: {m.color}">
                                     {m.value}
                                 </span>
-                                <span class="text-[9px] sm:text-[10px] font-bold text-foreground uppercase tracking-[0.1em] leading-tight mb-1">
+                                <span class="text-[11px] sm:text-[12px] font-bold text-foreground uppercase tracking-[0.1em] leading-tight mb-1">
                                     {m.label}
                                 </span>
-                                <p class="text-[8px] sm:text-[9.5px] font-mono text-muted-foreground leading-snug px-1">
+                                <p class="text-[10px] sm:text-[11px] font-mono text-muted-foreground leading-relaxed px-1">
                                     {@html m.description}
                                 </p>
                             </div>

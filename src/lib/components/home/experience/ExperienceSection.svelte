@@ -126,11 +126,11 @@
                             <!-- Content Details -->
                             <div class="flex flex-col pt-1 flex-1">
                                 <div class="flex items-center gap-2 mb-1.5">
-                                    <span class="font-mono text-[10px] font-bold tracking-[0.15em] uppercase" style="color: {m.color}">{m.year}</span>
-                                    <span class="text-muted-foreground/30 text-[10px] font-light">/</span>
-                                    <span class="text-[12px] font-bold text-foreground/90 group-hover/node:text-foreground transition-colors duration-300 tracking-tight">{m.label}</span>
+                                    <span class="font-mono text-[11px] font-bold tracking-wider uppercase" style="color: {m.color}">{m.year}</span>
+                                    <span class="text-muted-foreground/30 text-[11px] font-light">/</span>
+                                    <span class="text-[13px] font-bold text-foreground/90 group-hover/node:text-foreground transition-colors duration-300 tracking-tight">{m.label}</span>
                                 </div>
-                                <span class="text-[10px] text-muted-foreground font-mono leading-relaxed transition-colors group-hover/node:text-foreground/70">{m.role}</span>
+                                <span class="text-[11px] text-muted-foreground font-mono leading-relaxed transition-colors group-hover/node:text-foreground/70">{m.role}</span>
                             </div>
                         </div>
                     {/each}

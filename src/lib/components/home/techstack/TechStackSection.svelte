@@ -99,7 +99,7 @@
                 class="w-full p-6 rounded-[1.5rem] bg-card/80 backdrop-blur-xl border border-border shadow-xl"
             >
                 <div
-                    class="text-[10px] font-mono text-primary uppercase tracking-[0.2em] mb-3 block"
+                    class="text-[11px] font-mono text-primary uppercase tracking-[0.2em] mb-3 block"
                 >
                     {techstackData.rightAnchor.label}
                 </div>
@@ -126,14 +126,14 @@
                                 />
                             </div>
                             <span
-                                class="text-[13px] font-bold text-foreground tracking-wide"
+                                class="text-[14px] font-bold text-foreground tracking-wide"
                                 >{cat.name}</span
                             >
                         </div>
                         <div class="flex flex-wrap gap-1.5 relative z-10">
                             {#each cat.skills as skill}
                                 <div
-                                    class="flex items-center gap-1.5 px-2 py-1 rounded-md border border-border bg-muted/50 text-[10px] font-mono text-muted-foreground group/skill"
+                                    class="flex items-center gap-1.5 px-2 py-1.5 rounded-md border border-border bg-muted/50 text-[11px] font-mono text-muted-foreground group/skill"
                                 >
                                     <img
                                         src={skill.icon}
