@@ -82,7 +82,6 @@
         description={content.introParagraph}
         labelColor="text-primary/80"
         align={align}
-        headingTag={align === 'center' ? 'div' : 'h2'}
     />
 {/snippet}
 

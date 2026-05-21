@@ -135,7 +135,7 @@
             activeSlide = 0;
             carouselEl.style.scrollBehavior = "smooth";
         }
-        
+
         // Reset the global store so the 3D model returns to the center
         carouselSwipeFraction.set(0);
     }
@@ -213,6 +213,31 @@
         if (hintTimer) clearTimeout(hintTimer);
         if (observer) observer.disconnect();
     });
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    function handleTouchStart(e: TouchEvent) {
+        touchStartX = e.changedTouches[0].screenX;
+    }
+
+    function handleTouchEnd(e: TouchEvent) {
+        touchEndX = e.changedTouches[0].screenX;
+        const dx = touchStartX - touchEndX;
+
+        // If they just tapped, don't do anything
+        if (Math.abs(dx) < 40) return;
+
+        // Only override if they swipe against the boundaries (wrong direction)
+        // This creates the seamless looping effect without fighting native scroll
+        if (activeSlide === 0 && dx < -40) {
+            // Swiped right while at the left edge
+            goToSlide(1);
+        } else if (activeSlide === 1 && dx > 40) {
+            // Swiped left while at the right edge
+            goToSlide(0);
+        }
+    }
 </script>
 
 <div
@@ -228,7 +253,9 @@
         <div
             bind:this={carouselEl}
             onscroll={onScroll}
-            class="hide-scroll flex w-full h-[100dvh] overflow-x-auto snap-x snap-mandatory pointer-events-auto"
+            ontouchstart={handleTouchStart}
+            ontouchend={handleTouchEnd}
+            class="hide-scroll flex w-full h-[100dvh] overflow-x-auto snap-x snap-mandatory pointer-events-auto overscroll-x-none"
             style="scroll-behavior: smooth;"
         >
             {#if layout === "left"}
@@ -239,7 +266,7 @@
                 >
                     <div class="mx-4 w-auto pointer-events-auto relative">
                         <div
-                            class="flip-card relative overflow-hidden rounded-3xl p-6 bg-[hsl(var(--glass-bg))] backdrop-blur-[var(--glass-blur)] border border-[hsl(var(--glass-border))] border-t-[hsl(var(--glass-highlight))] shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
+                            class="flip-card card-glass p-6 w-full"
                         >
                             <div class="relative z-10">
                                 <div class="flex items-center gap-2 mb-2">
@@ -319,7 +346,7 @@
                 >
                     <div class="mx-4 w-auto pointer-events-auto relative">
                         <div
-                            class="flip-card relative overflow-hidden rounded-3xl p-6 bg-[hsl(var(--glass-bg))] backdrop-blur-[var(--glass-blur)] border border-[hsl(var(--glass-border))] border-t-[hsl(var(--glass-highlight))] shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
+                            class="flip-card card-glass p-6 w-full"
                         >
                             <div class="relative z-10 text-right">
                                 <div

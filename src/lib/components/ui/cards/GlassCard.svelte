@@ -49,7 +49,7 @@
             bg: "bg-card/65",
             blur: "backdrop-blur-2xl",
             shadow: "shadow-[0_8px_32px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.07)]",
-            shadowHover: "hover:shadow-[0_12px_40px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.11)]",
+            shadowHover: "hover:shadow-[0_12px_40px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.11)] hover:-translate-y-1 hover:scale-[1.01]",
         },
         compact: {
             rounded: "rounded-2xl",
@@ -57,7 +57,7 @@
             bg: "bg-card/55",
             blur: "backdrop-blur-xl",
             shadow: "shadow-[0_4px_16px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.05)]",
-            shadowHover: "hover:shadow-[0_6px_22px_rgba(0,0,0,0.14),inset_0_1px_0_rgba(255,255,255,0.09)]",
+            shadowHover: "hover:shadow-[0_6px_22px_rgba(0,0,0,0.14),inset_0_1px_0_rgba(255,255,255,0.09)] hover:-translate-y-0.5 hover:scale-[1.02]",
         },
         inset: {
             rounded: "rounded-xl",

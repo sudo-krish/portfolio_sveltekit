@@ -216,14 +216,14 @@
                 <!-- Stars -->
                 <GlassCard
                     variant="inset"
-                    class="flex flex-col justify-center p-3 2xl:p-4 group/stars hover:border-[#eab308]/20 transition-colors"
+                    class="flex flex-col justify-center p-3 2xl:p-4 group/stars hover:border-warning/30 transition-colors"
                 >
                     <div
                         class="flex items-center gap-1.5 text-muted-foreground mb-2 group-hover/stars:text-foreground transition-colors relative z-10"
                     >
                         <Star
                             size={12}
-                            class="group-hover/stars:fill-[#eab308]/20"
+                            class="group-hover/stars:fill-warning/30 group-hover/stars:text-warning transition-colors"
                         />
                         <span
                             class="text-[9px] font-mono uppercase tracking-widest"

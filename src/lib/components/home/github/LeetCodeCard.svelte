@@ -51,19 +51,19 @@
         {
             label: "Easy",
             key: "easySolved",
-            color: "#2cbb5d",
+            color: "hsl(var(--success))",
             totalKey: "totalEasy",
         },
         {
             label: "Medium",
             key: "mediumSolved",
-            color: "#ffc01e",
+            color: "hsl(var(--warning))",
             totalKey: "totalMedium",
         },
         {
             label: "Hard",
             key: "hardSolved",
-            color: "#ef4743",
+            color: "hsl(var(--destructive))",
             totalKey: "totalHard",
         },
     ];
@@ -262,19 +262,19 @@
                 class="w-full h-1.5 2xl:h-2 bg-foreground/5 rounded-full overflow-hidden mb-5 flex relative z-10 shadow-inner"
             >
                 <div
-                    class="h-full bg-foreground shadow-[0_0_10px_hsl(var(--foreground)/0.3)]"
+                    class="h-full bg-success shadow-[0_0_10px_hsl(var(--success)/0.4)]"
                     style="width: {stats.totalSolved
                         ? (stats.easySolved / stats.totalSolved) * 100
                         : 0}%"
                 ></div>
                 <div
-                    class="h-full bg-muted-foreground shadow-[0_0_10px_hsl(var(--muted-foreground)/0.3)]"
+                    class="h-full bg-warning shadow-[0_0_10px_hsl(var(--warning)/0.4)]"
                     style="width: {stats.totalSolved
                         ? (stats.mediumSolved / stats.totalSolved) * 100
                         : 0}%"
                 ></div>
                 <div
-                    class="h-full bg-destructive shadow-[0_0_10px_#ef4743]"
+                    class="h-full bg-destructive shadow-[0_0_10px_hsl(var(--destructive)/0.4)]"
                     style="width: {stats.totalSolved
                         ? (stats.hardSolved / stats.totalSolved) * 100
                         : 0}%"

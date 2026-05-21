@@ -253,7 +253,6 @@
                     description={resultsData.rightAnchor.description}
                     labelColor="text-muted-foreground/80"
                     align="center"
-                    headingTag="div"
                 />
 
                 <div
