@@ -56,6 +56,7 @@
                 rotationY: index === 1 ? -180 : 0,
                 duration: 0.65,
                 ease: "power4.inOut",
+                force3D: true,
                 onComplete: () => {
                     isTransitioning = false;
                     if (hintVisible) hintVisible = false;
@@ -265,7 +266,7 @@
                 style="pointer-events: {activeSlide === 0 ? 'auto' : 'none'};"
             >
                 <div class="mx-4 w-auto relative pointer-events-auto">
-                    <div class="flip-card card-glass p-6 w-full">
+                    <div class="flip-card bg-card/95 border border-foreground/10 rounded-[1.5rem] shadow-[0_20px_40px_rgba(0,0,0,0.5)] p-6 w-full">
                         <div class="relative z-10 text-center">
                             <div class="flex items-center justify-center gap-2 mb-2">
                                 <div
@@ -308,7 +309,7 @@
             <div
                 bind:this={backSlideEl}
                 use:swipeSection={false}
-                class="slide-back absolute inset-0 w-full h-full overflow-y-auto overscroll-y-contain hide-scroll block z-20 bg-background/95 backdrop-blur-md"
+                class="slide-back absolute inset-0 w-full h-full overflow-y-auto overscroll-y-contain hide-scroll block z-20 bg-background"
                 style="pointer-events: {activeSlide === 1 ? 'auto' : 'none'};"
             >
                 <div class="min-h-[101%] pb-32">

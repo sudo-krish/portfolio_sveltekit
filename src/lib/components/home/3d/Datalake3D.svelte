@@ -113,7 +113,7 @@
 </script>
 
 <T.Mesh rotation.x={-Math.PI / 2}>
-  <T.PlaneGeometry args={[18, 18, 200, 200]} />
+  <T.PlaneGeometry args={[18, 18, typeof window !== 'undefined' && window.innerWidth < 1024 ? 80 : 150, typeof window !== 'undefined' && window.innerWidth < 1024 ? 80 : 150]} />
   <T.ShaderMaterial
     {vertexShader}
     {fragmentShader}

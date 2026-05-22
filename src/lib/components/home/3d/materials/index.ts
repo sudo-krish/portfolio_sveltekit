@@ -17,16 +17,19 @@ export const glassMaterial = new MeshStandardMaterial({
 
 
 
+const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
+
 // --------------------------------------------------------
 // 2. WATER DROPLET MATERIAL (For Hero3D only)
-//    Kept as MeshPhysicalMaterial — only 1 instance,
-//    so the transmission cost is acceptable for the hero.
+//    Optimized for mobile by replacing expensive transmission 
+//    with standard transparency.
 // --------------------------------------------------------
 export const waterDropletMaterial = new MeshPhysicalMaterial({
   color: 0x0ea5e9,
-  metalness: 0.15,
+  metalness: isMobile ? 0.6 : 0.15,
   roughness: 0.05,
-  transmission: 0.92,
+  transmission: isMobile ? 0 : 0.92, // Transmission kills mobile GPUs
+  opacity: isMobile ? 0.75 : 1,
   thickness: 1.5,
   ior: 1.33,
   clearcoat: 1.0,
@@ -44,24 +47,24 @@ theme.subscribe((t) => {
     glassMaterial.metalness = 0.8;
     glassMaterial.roughness = 0.1;
 
-
     // Bright water
     waterDropletMaterial.color.set('#0ea5e9');
-    waterDropletMaterial.metalness = 0.15;
+    waterDropletMaterial.metalness = isMobile ? 0.6 : 0.15;
     waterDropletMaterial.roughness = 0.05;
-    waterDropletMaterial.transmission = 0.92;
+    waterDropletMaterial.transmission = isMobile ? 0 : 0.92;
+    waterDropletMaterial.opacity = isMobile ? 0.75 : 1;
   } else {
     // Light glass on dark background — elegant contrast
     glassMaterial.color.set('#e8e8ed');
     glassMaterial.metalness = 0.9;
     glassMaterial.roughness = 0.06;
 
-
     // Deeper water
     waterDropletMaterial.color.set('#0369a1');
-    waterDropletMaterial.metalness = 0.5;
+    waterDropletMaterial.metalness = isMobile ? 0.8 : 0.5;
     waterDropletMaterial.roughness = 0.1;
-    waterDropletMaterial.transmission = 0.85;
+    waterDropletMaterial.transmission = isMobile ? 0 : 0.85;
+    waterDropletMaterial.opacity = isMobile ? 0.8 : 1;
   }
 
   glassMaterial.needsUpdate = true;
