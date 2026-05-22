@@ -225,10 +225,9 @@
             </div>
         </div>
 
-        <!-- CENTER BOTTOM: CTA Dock -->
+        <!-- BOTTOM LEFT: CTA Dock -->
         <div
-            class="absolute left-1/2 -translate-x-1/2 z-40 pointer-events-auto flex justify-center"
-            style="bottom: 2cqi; max-width: 20cqi;"
+            class="absolute left-[3cqi] bottom-[2cqi] z-40 pointer-events-auto flex justify-start"
         >
             <div
                 class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]"

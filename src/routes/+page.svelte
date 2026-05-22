@@ -112,8 +112,13 @@
             return true;
 
           const scroller = target.closest(
-            ".overflow-y-auto, .overflow-y-scroll",
+            ".overflow-y-auto, .overflow-y-scroll, .slide-back",
           ) as HTMLElement;
+          
+          // If we are inside a content slide, always block the global observer,
+          // even if the content is short and doesn't need to scroll.
+          if (scroller && scroller.classList.contains("slide-back")) return true;
+
           return !!(scroller && scroller.scrollHeight > scroller.clientHeight);
         }
 
@@ -400,13 +405,11 @@
     height: 100vh; /* Fallback */
     width: 100%;
 
-    /* VERY IMPORTANT: Keep overflow-y: auto so GSAP can scroll it! */
+    /* Keep overflow-y: auto for desktop so wheel observer works or user can scroll if they want, 
+       but on mobile we MUST hide it to enforce strict JS gesture navigation */
     overflow-y: auto;
-
-    /* REMOVED scroll-snap-type and smooth behavior so they don't fight GSAP */
     position: relative;
     z-index: 10;
-
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
@@ -420,7 +423,6 @@
     height: 100dvh;
     height: 100vh;
     width: 100%;
-    /* REMOVED scroll-snap-align and stop. GSAP handles the locking entirely */
     position: relative;
     display: flex;
     flex-direction: column;
@@ -429,6 +431,13 @@
     padding-top: 5rem; /* Reserve space for the floating navbar */
     padding-bottom: 2rem;
     box-sizing: border-box;
+  }
+
+  @media (max-width: 1023px) {
+    .snap-container {
+      overflow-y: hidden; /* CRITICAL: Prevent native vertical scroll on mobile */
+      touch-action: none; /* Prevent any browser pull-to-refresh or panning */
+    }
   }
 
   .fixed-canvas {

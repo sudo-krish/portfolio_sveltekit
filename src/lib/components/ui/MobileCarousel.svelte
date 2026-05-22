@@ -25,89 +25,181 @@
         accentColor?: string;
     }>();
 
-    let carouselEl = $state<HTMLDivElement | null>(null);
     let wrapperEl = $state<HTMLDivElement | null>(null);
-    let activeSlide = $state(0);
+    let flipperEl = $state<HTMLDivElement | null>(null);
+    let backSlideEl = $state<HTMLDivElement | null>(null);
+    let activeSlide = $state(0); // 0 = 3D, 1 = Content
     let hintVisible = $state(true);
     let observer: IntersectionObserver;
     let isCurrentlyVisible = $state(false);
+    let isTransitioning = $state(false);
 
-    // CRITICAL FIX: We must reset the store to 0 so consecutive swipes don't get ignored!
     function triggerSectionChange(dir: number) {
+        if (isTransitioning) return;
         scrollDirection.set(dir);
         setTimeout(() => {
             scrollDirection.set(0);
         }, 100);
     }
 
+    function goToSlide(index: number) {
+        if (activeSlide === index || isTransitioning) return;
+        isTransitioning = true;
+        activeSlide = index;
+        
+        if (index === 1 && backSlideEl) {
+            backSlideEl.scrollTop = 0;
+        }
+
+        if (flipperEl) {
+            gsap.to(flipperEl, {
+                rotationY: index === 1 ? -180 : 0,
+                duration: 0.65,
+                ease: "power4.inOut",
+                onComplete: () => {
+                    isTransitioning = false;
+                    if (hintVisible) hintVisible = false;
+                }
+            });
+        } else {
+            isTransitioning = false;
+        }
+
+        // Reset the global store so the 3D model returns to the center or sides appropriately
+        if (index === 0) {
+            carouselSwipeFraction.set(0);
+        }
+    }
+
+    function resetTo3D() {
+        if (activeSlide !== 0 && !isTransitioning) {
+            activeSlide = 0;
+            if (flipperEl) {
+                gsap.set(flipperEl, { rotationY: 0 });
+            }
+            carouselSwipeFraction.set(0);
+        }
+    }
+
     /**
-     * Svelte Action applied to BOTH slides.
-     * It strictly listens to boundaries without blocking native scroll.
+     * Custom Gesture Handler
      */
     function swipeSection(node: HTMLElement, is3D: boolean) {
-        let startY = 0,
-            startX = 0;
+        let startY = 0, startX = 0;
+        let hasMoved = false;
+        let startAtTop = false;
+        let startAtBottom = false;
 
         function onStart(e: TouchEvent) {
+            if (isTransitioning) return;
             startX = e.touches[0].clientX;
             startY = e.touches[0].clientY;
+            hasMoved = false;
+            
+            if (!is3D) {
+                const maxScroll = node.scrollHeight - node.clientHeight;
+                startAtTop = node.scrollTop <= 2;
+                startAtBottom = node.scrollTop >= maxScroll - 2;
+            }
+        }
+
+        function onMove(e: TouchEvent) {
+            if (isTransitioning) {
+                e.preventDefault();
+                return;
+            }
+            hasMoved = true;
+            // On 3D view, prevent native scrolling entirely
+            if (is3D && e.cancelable) {
+                e.preventDefault();
+            }
         }
 
         function onEnd(e: TouchEvent) {
+            if (isTransitioning || !hasMoved) return;
             const dx = e.changedTouches[0].clientX - startX;
             const dy = startY - e.changedTouches[0].clientY; // Positive = Swiped UP
 
-            if (Math.abs(dx) > Math.abs(dy)) return; // Ignore horizontal swipes
+            // Horizontal Swipe
+            if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+                if (is3D) {
+                    goToSlide(1); // Any horizontal swipe on 3D goes to content
+                } else {
+                    if (dx > 50) goToSlide(0); // Swiped Right -> back to 3D
+                }
+                return;
+            }
 
+            // Vertical Swipe
             if (Math.abs(dy) > 50) {
                 if (is3D) {
-                    triggerSectionChange(dy > 0 ? 1 : -1);
+                    if (dy > 0) { // Swiped UP (scroll down intent)
+                        goToSlide(1); 
+                    } else { // Swiped DOWN (scroll up intent)
+                        triggerSectionChange(-1);
+                    }
                 } else {
-                    const atTop = node.scrollTop <= 2;
-                    const maxScroll = node.scrollHeight - node.clientHeight;
-                    const atBottom = node.scrollTop >= maxScroll - 2;
-
-                    if (atTop && dy < -50) triggerSectionChange(-1);
-                    else if (atBottom && dy > 50) triggerSectionChange(1);
+                    // Only trigger if they STARTED the swipe at the boundary.
+                    // This prevents a fast scrolling swipe from accidentally jumping sections.
+                    // We also require a very deliberate 120px pull to prevent accidental triggers.
+                    if (startAtTop && dy < -120) goToSlide(0);
+                    else if (startAtBottom && dy > 120) triggerSectionChange(1);
                 }
             }
         }
 
+        let wheelTimeout: ReturnType<typeof setTimeout>;
         function onWheel(e: WheelEvent) {
+            if (isTransitioning) {
+                e.preventDefault();
+                return;
+            }
+            
+            if (is3D) {
+                if (e.cancelable) e.preventDefault();
+                if (e.deltaY > 10) {
+                    clearTimeout(wheelTimeout);
+                    wheelTimeout = setTimeout(() => goToSlide(1), 50);
+                } else if (e.deltaY < -10) {
+                    clearTimeout(wheelTimeout);
+                    wheelTimeout = setTimeout(() => triggerSectionChange(-1), 50);
+                }
+                return;
+            }
+
             if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
 
-            if (is3D) {
-                if (Math.abs(e.deltaY) > 10)
-                    triggerSectionChange(e.deltaY > 0 ? 1 : -1);
-            } else {
-                const atTop = node.scrollTop <= 2;
-                const maxScroll = node.scrollHeight - node.clientHeight;
-                const atBottom = node.scrollTop >= maxScroll - 2;
+            const atTop = node.scrollTop <= 2;
+            const maxScroll = node.scrollHeight - node.clientHeight;
+            const atBottom = node.scrollTop >= maxScroll - 2;
 
-                if (atTop && e.deltaY < -10) triggerSectionChange(-1);
-                else if (atBottom && e.deltaY > 10) triggerSectionChange(1);
+            if (atTop && e.deltaY < -10) {
+                clearTimeout(wheelTimeout);
+                wheelTimeout = setTimeout(() => goToSlide(0), 50);
+            } else if (atBottom && e.deltaY > 10) {
+                clearTimeout(wheelTimeout);
+                wheelTimeout = setTimeout(() => triggerSectionChange(1), 50);
             }
         }
 
         function onNativeScroll() {
-            if (is3D) return;
-            const maxScroll = node.scrollHeight - node.clientHeight;
-
-            // Detect mobile rubber-band overscroll
-            if (node.scrollTop < -30) triggerSectionChange(-1);
-            else if (node.scrollTop > maxScroll + 30 && maxScroll > 0)
-                triggerSectionChange(1);
+            // We no longer trigger section changes purely on native scroll positions!
+            // iOS rubber banding or fast scrolling would accidentally trigger jumps.
+            // The boundary jumps are now strictly enforced by intentional swipes (onEnd)
+            // or explicit wheel events.
         }
 
-        // All passive: true guarantees 100% native scrolling isn't blocked
-        node.addEventListener("touchstart", onStart, { passive: true });
-        node.addEventListener("touchend", onEnd, { passive: true });
-        node.addEventListener("wheel", onWheel, { passive: true });
+        // Must be passive: false to allow e.preventDefault()
+        node.addEventListener("touchstart", onStart, { passive: false });
+        node.addEventListener("touchmove", onMove, { passive: false });
+        node.addEventListener("touchend", onEnd, { passive: false });
+        node.addEventListener("wheel", onWheel, { passive: false });
         node.addEventListener("scroll", onNativeScroll, { passive: true });
 
         return {
             destroy() {
                 node.removeEventListener("touchstart", onStart);
+                node.removeEventListener("touchmove", onMove);
                 node.removeEventListener("touchend", onEnd);
                 node.removeEventListener("wheel", onWheel);
                 node.removeEventListener("scroll", onNativeScroll);
@@ -115,61 +207,10 @@
         };
     }
 
-    function goToSlide(index: number) {
-        if (!carouselEl) return;
-        const slideWidth = carouselEl.clientWidth;
-        carouselEl.scrollTo({ left: slideWidth * index, behavior: "smooth" });
-    }
-
-    function resetTo3D() {
-        if (!carouselEl) return;
-
-        if (layout === "right") {
-            carouselEl.style.scrollBehavior = "auto";
-            carouselEl.scrollLeft = carouselEl.clientWidth;
-            activeSlide = 1;
-            carouselEl.style.scrollBehavior = "smooth";
-        } else {
-            carouselEl.style.scrollBehavior = "auto";
-            carouselEl.scrollLeft = 0;
-            activeSlide = 0;
-            carouselEl.style.scrollBehavior = "smooth";
-        }
-
-        // Reset the global store so the 3D model returns to the center
-        carouselSwipeFraction.set(0);
-    }
-
-    function onScroll() {
-        if (!carouselEl) return;
-
-        const slideWidth = carouselEl.clientWidth;
-        const scrollPos = carouselEl.scrollLeft;
-
-        const newSlide = Math.round(scrollPos / slideWidth);
-        if (newSlide !== activeSlide) {
-            activeSlide = newSlide;
-            if (hintVisible) hintVisible = false;
-        }
-
-        if (!isCurrentlyVisible) return;
-
-        let scrollPercentage = scrollPos / slideWidth;
-        scrollPercentage = Math.max(0, Math.min(scrollPercentage, 1));
-
-        const SWIPE_OFFSET = 10;
-        const actual3DOffset =
-            layout === "left"
-                ? -(scrollPercentage * SWIPE_OFFSET)
-                : (1 - scrollPercentage) * SWIPE_OFFSET;
-
-        carouselSwipeFraction.set(actual3DOffset);
-    }
-
     let hintTimer: ReturnType<typeof setTimeout>;
 
     onMount(() => {
-        requestAnimationFrame(() => resetTo3D());
+        resetTo3D();
 
         observer = new IntersectionObserver(
             (entries) => {
@@ -183,27 +224,18 @@
 
         if (wrapperEl) observer.observe(wrapperEl);
 
-        if (wrapperEl) {
-            const flipAngle = layout === "left" ? -12 : 12;
-            gsap.to(wrapperEl.querySelector(".flip-card") || ".flip-card", {
-                rotationY: flipAngle,
-                transformPerspective: 1200,
-                transformOrigin:
-                    layout === "left" ? "right center" : "left center",
-                duration: 0.6,
-                ease: "power2.out",
-                delay: 1.5,
-                onComplete: () => {
-                    gsap.to(
-                        wrapperEl?.querySelector(".flip-card") || ".flip-card",
-                        {
-                            rotationY: 0,
-                            duration: 0.8,
-                            ease: "elastic.out(1, 0.5)",
-                        },
-                    );
-                },
-            });
+        // Initial entry flip animation
+        if (flipperEl) {
+            const initialAngle = layout === "left" ? -12 : 12;
+            gsap.fromTo(flipperEl, 
+                { rotationY: initialAngle },
+                {
+                    rotationY: 0,
+                    duration: 1.2,
+                    ease: "elastic.out(1, 0.5)",
+                    delay: 1.0,
+                }
+            );
         }
 
         hintTimer = setTimeout(() => (hintVisible = false), 6000);
@@ -213,260 +245,103 @@
         if (hintTimer) clearTimeout(hintTimer);
         if (observer) observer.disconnect();
     });
-
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    function handleTouchStart(e: TouchEvent) {
-        touchStartX = e.changedTouches[0].screenX;
-    }
-
-    function handleTouchEnd(e: TouchEvent) {
-        touchEndX = e.changedTouches[0].screenX;
-        const dx = touchStartX - touchEndX;
-
-        // If they just tapped, don't do anything
-        if (Math.abs(dx) < 40) return;
-
-        // Only override if they swipe against the boundaries (wrong direction)
-        // This creates the seamless looping effect without fighting native scroll
-        if (activeSlide === 0 && dx < -40) {
-            // Swiped right while at the left edge
-            goToSlide(1);
-        } else if (activeSlide === 1 && dx > 40) {
-            // Swiped left while at the right edge
-            goToSlide(0);
-        }
-    }
 </script>
 
-<div
-    bind:this={wrapperEl}
-    class="relative w-full h-[100dvh] overflow-hidden z-20"
->
+<div bind:this={wrapperEl} class="relative w-full h-[100dvh] overflow-hidden z-20">
     <div class="hidden lg:block w-full h-[100dvh]">
         <!-- svelte-ignore slot_element_deprecated -->
         <slot name="content-pc" />
     </div>
 
-    <div class="lg:hidden w-full h-[100dvh] relative">
-        <div
-            bind:this={carouselEl}
-            onscroll={onScroll}
-            ontouchstart={handleTouchStart}
-            ontouchend={handleTouchEnd}
-            class="hide-scroll flex w-full h-[100dvh] overflow-x-auto snap-x snap-mandatory pointer-events-auto overscroll-x-none"
-            style="scroll-behavior: smooth;"
-        >
-            {#if layout === "left"}
-                <!-- 3D SLIDE -->
-                <div
-                    use:swipeSection={true}
-                    class="flex-none w-full h-full snap-center relative pointer-events-none flex flex-col justify-end pb-28"
-                >
-                    <div class="mx-4 w-auto pointer-events-auto relative">
-                        <div
-                            class="flip-card card-glass p-6 w-full"
-                        >
-                            <div class="relative z-10">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <div
-                                        class="w-1.5 h-1.5 rounded-full animate-pulse shadow-[0_0_8px_currentColor]"
-                                        style="background-color: {accentColor}; color: {accentColor};"
-                                    ></div>
-                                    <span
-                                        class="text-[9px] font-mono uppercase tracking-[0.2em] font-bold text-muted-foreground"
-                                        >Interactive</span
-                                    >
-                                </div>
+    <!-- MOBILE STACKED FLIP LAYOUT -->
+    <div class="lg:hidden w-full h-[100dvh] relative perspective-container">
+        
+        <div bind:this={flipperEl} class="flipper w-full h-full relative">
+            
+            <!-- 3D SLIDE (Front) -->
+            <div
+                use:swipeSection={true}
+                class="slide-front absolute inset-0 w-full h-full flex flex-col justify-end pb-28 z-10"
+                style="pointer-events: {activeSlide === 0 ? 'auto' : 'none'};"
+            >
+                <div class="mx-4 w-auto relative pointer-events-auto">
+                    <div class="flip-card card-glass p-6 w-full">
+                        <div class="relative z-10 text-center">
+                            <div class="flex items-center justify-center gap-2 mb-2">
                                 <div
-                                    class="text-3xl font-black text-foreground tracking-tighter leading-tight drop-shadow-sm font-heading"
-                                >
-                                    {sectionTitle}
-                                </div>
-                                <p
-                                    class="text-[13px] font-light text-muted-foreground mt-1 mb-5"
-                                >
-                                    {sectionDescription}
-                                </p>
-                                <button
-                                    type="button"
-                                    onclick={() => goToSlide(1)}
-                                    aria-label="View specifications"
-                                    class="w-full mt-2 flex flex-col items-center justify-center cursor-pointer group hover:bg-transparent bg-transparent border-none outline-none p-2"
-                                >
-                                    <span
-                                        class="font-mono text-[9px] font-bold uppercase tracking-[0.3em] text-muted-foreground mb-2 transition-colors group-hover:text-foreground"
-                                        >Swipe to turn page</span
-                                    >
-                                    <div
-                                        class="relative w-20 h-10 flex items-center justify-center overflow-hidden rounded-full bg-muted border border-border shadow-sm"
-                                    >
-                                        <div
-                                            class="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-foreground/20 to-transparent swipe-track-left"
-                                        ></div>
-                                        <ChevronRight
-                                            size={18}
-                                            class="text-muted-foreground group-hover:text-foreground relative z-10 animate-pulse-fast"
-                                        />
-                                    </div>
-                                </button>
+                                    class="w-1.5 h-1.5 rounded-full animate-pulse shadow-[0_0_8px_currentColor]"
+                                    style="background-color: {accentColor}; color: {accentColor};"
+                                ></div>
+                                <span class="text-[9px] font-mono uppercase tracking-[0.2em] font-bold text-muted-foreground">
+                                    Interactive
+                                </span>
                             </div>
+                            <div class="text-3xl font-black text-foreground tracking-tighter leading-tight drop-shadow-sm font-heading">
+                                {sectionTitle}
+                            </div>
+                            <p class="text-[13px] font-light text-muted-foreground mt-1 mb-5">
+                                {sectionDescription}
+                            </p>
+                            <button
+                                type="button"
+                                onclick={() => goToSlide(1)}
+                                aria-label="View specifications"
+                                class="w-full mt-2 flex flex-col items-center justify-center cursor-pointer group hover:bg-transparent bg-transparent border-none outline-none p-2"
+                            >
+                                <span class="font-mono text-[9px] font-bold uppercase tracking-[0.3em] text-muted-foreground mb-2 transition-colors group-hover:text-foreground">
+                                    Tap or swipe down to read
+                                </span>
+                                <div class="relative w-20 h-10 flex items-center justify-center overflow-hidden rounded-full bg-muted border border-border shadow-sm">
+                                    <div class="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-foreground/20 to-transparent swipe-track-down"></div>
+                                    <ChevronDown
+                                        size={18}
+                                        class="text-muted-foreground group-hover:text-foreground relative z-10 animate-pulse-fast"
+                                    />
+                                </div>
+                            </button>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- SPECS SLIDE: flex-none ensures Flexbox strictly calculates its height boundaries -->
-                <div
-                    use:swipeSection={false}
-                    class="flex-none w-full h-full snap-center relative z-20 pointer-events-auto overflow-y-auto overscroll-y-contain block"
-                >
-                    <!-- Ensure internal content is tall enough to register bounds -->
-                    <div class="min-h-[101%] pb-32">
-                        <!-- svelte-ignore slot_element_deprecated -->
-                        <slot name="content-mobile" />
-                    </div>
+            <!-- SPECS SLIDE (Back) -->
+            <div
+                bind:this={backSlideEl}
+                use:swipeSection={false}
+                class="slide-back absolute inset-0 w-full h-full overflow-y-auto overscroll-y-contain hide-scroll block z-20 bg-background/95 backdrop-blur-md"
+                style="pointer-events: {activeSlide === 1 ? 'auto' : 'none'};"
+            >
+                <div class="min-h-[101%] pb-32">
+                    <!-- svelte-ignore slot_element_deprecated -->
+                    <slot name="content-mobile" />
                 </div>
-            {:else}
-                <!-- SPECS SLIDE -->
-                <div
-                    use:swipeSection={false}
-                    class="flex-none w-full h-full snap-center relative z-20 pointer-events-auto overflow-y-auto overscroll-y-contain block"
-                >
-                    <div class="min-h-[101%] pb-32">
-                        <!-- svelte-ignore slot_element_deprecated -->
-                        <slot name="content-mobile" />
-                    </div>
-                </div>
+            </div>
 
-                <!-- 3D SLIDE -->
-                <div
-                    use:swipeSection={true}
-                    class="flex-none w-full h-full snap-center relative pointer-events-none flex flex-col justify-end pb-28"
-                >
-                    <div class="mx-4 w-auto pointer-events-auto relative">
-                        <div
-                            class="flip-card card-glass p-6 w-full"
-                        >
-                            <div class="relative z-10 text-right">
-                                <div
-                                    class="flex items-center justify-end gap-2 mb-2"
-                                >
-                                    <span
-                                        class="text-[9px] font-mono uppercase tracking-[0.2em] font-bold text-muted-foreground"
-                                        >Interactive</span
-                                    >
-                                    <div
-                                        class="w-1.5 h-1.5 rounded-full animate-pulse shadow-[0_0_8px_currentColor]"
-                                        style="background-color: {accentColor}; color: {accentColor};"
-                                    ></div>
-                                </div>
-                                <div
-                                    class="text-3xl font-black text-foreground tracking-tighter leading-tight drop-shadow-sm font-heading"
-                                >
-                                    {sectionTitle}
-                                </div>
-                                <p
-                                    class="text-[13px] font-light text-muted-foreground mt-1 mb-5"
-                                >
-                                    {sectionDescription}
-                                </p>
-                                <button
-                                    type="button"
-                                    onclick={() => goToSlide(0)}
-                                    aria-label="View 3D model"
-                                    class="w-full mt-2 flex flex-col items-center justify-center cursor-pointer group hover:bg-transparent bg-transparent border-none outline-none p-2"
-                                >
-                                    <span
-                                        class="font-mono text-[9px] font-bold uppercase tracking-[0.3em] text-muted-foreground mb-2 transition-colors group-hover:text-foreground"
-                                        >Swipe to turn page</span
-                                    >
-                                    <div
-                                        class="relative w-20 h-10 flex items-center justify-center overflow-hidden rounded-full bg-foreground/5 border border-foreground/10 shadow-[inset_0_1px_4px_rgba(0,0,0,0.5)]"
-                                    >
-                                        <div
-                                            class="absolute inset-0 w-[200%] h-full bg-gradient-to-l from-transparent via-foreground/20 to-transparent swipe-track-right"
-                                        ></div>
-                                        <ChevronLeft
-                                            size={18}
-                                            class="text-foreground/80 group-hover:text-foreground relative z-10 animate-pulse-fast"
-                                        />
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {/if}
         </div>
 
         <!-- Pagination Indicator -->
-        <div
-            class="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 pointer-events-auto w-[90vw] max-w-[380px]"
-        >
-            <div
-                class="relative flex items-center p-1.5 rounded-2xl bg-card border border-border shadow-lg gap-1"
-            >
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 pointer-events-auto w-[90vw] max-w-[380px]">
+            <div class="relative flex items-center p-1.5 rounded-2xl bg-card border border-border shadow-lg gap-1">
                 <div class="relative flex items-center flex-1 min-w-0">
                     <div
                         class="absolute top-0 bottom-0 w-1/2 bg-muted rounded-xl transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-sm"
-                        style="transform: translateX({activeSlide === 0
-                            ? '0'
-                            : '100%'});"
+                        style="transform: translateX({activeSlide === 0 ? '0' : '100%'});"
                     ></div>
                     <button
                         type="button"
                         onclick={() => goToSlide(0)}
-                        class="relative z-10 flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl transition-colors duration-300 {activeSlide ===
-                        0
-                            ? 'text-foreground font-bold'
-                            : 'text-muted-foreground'}"
+                        class="relative z-10 flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl transition-colors duration-300 {activeSlide === 0 ? 'text-foreground font-bold' : 'text-muted-foreground'}"
                     >
-                        {#if layout === "left"}<Eye
-                                size={16}
-                                class={activeSlide === 0
-                                    ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
-                                    : ""}
-                            /><span
-                                class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate"
-                                >3D Model</span
-                            >
-                        {:else}<FileText
-                                size={16}
-                                class={activeSlide === 0
-                                    ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
-                                    : ""}
-                            /><span
-                                class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate"
-                                >Specs</span
-                            >{/if}
+                        <Eye size={16} class={activeSlide === 0 ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" : ""} />
+                        <span class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate">3D Model</span>
                     </button>
                     <button
                         type="button"
                         onclick={() => goToSlide(1)}
-                        class="relative z-10 flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl transition-colors duration-300 {activeSlide ===
-                        1
-                            ? 'text-foreground font-bold'
-                            : 'text-muted-foreground'}"
+                        class="relative z-10 flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl transition-colors duration-300 {activeSlide === 1 ? 'text-foreground font-bold' : 'text-muted-foreground'}"
                     >
-                        {#if layout === "left"}<FileText
-                                size={16}
-                                class={activeSlide === 1
-                                    ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
-                                    : ""}
-                            /><span
-                                class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate"
-                                >Specs</span
-                            >
-                        {:else}<Eye
-                                size={16}
-                                class={activeSlide === 1
-                                    ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
-                                    : ""}
-                            /><span
-                                class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate"
-                                >3D Model</span
-                            >{/if}
+                        <FileText size={16} class={activeSlide === 1 ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" : ""} />
+                        <span class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate">Specs</span>
                     </button>
                 </div>
                 <div class="w-px h-8 bg-border/50 mx-1 shrink-0"></div>
@@ -476,15 +351,13 @@
                         onclick={() => triggerSectionChange(-1)}
                         aria-label="Previous Section"
                         class="w-10 h-10 rounded-xl flex items-center justify-center bg-transparent hover:bg-muted text-foreground transition-colors active:scale-95"
-                        ><ChevronUp size={20} /></button
-                    >
+                    ><ChevronUp size={20} /></button>
                     <button
                         type="button"
                         onclick={() => triggerSectionChange(1)}
                         aria-label="Next Section"
                         class="w-10 h-10 rounded-xl flex items-center justify-center bg-transparent hover:bg-muted text-foreground transition-colors active:scale-95"
-                        ><ChevronDown size={20} /></button
-                    >
+                    ><ChevronDown size={20} /></button>
                 </div>
             </div>
         </div>
@@ -501,31 +374,33 @@
     .hide-scroll::-webkit-scrollbar {
         display: none;
     }
-    .flip-card {
+    
+    /* 3D Flip Styles */
+    .perspective-container {
+        perspective: 1500px;
+    }
+    .flipper {
+        transform-style: preserve-3d;
         will-change: transform;
     }
-    .swipe-track-left {
-        transform: translateX(-100%);
-        animation: swipeLightLeft 2.5s infinite ease-in-out;
+    .slide-front {
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        touch-action: none;
     }
-    .swipe-track-right {
-        transform: translateX(50%);
-        animation: swipeLightRight 2.5s infinite ease-in-out;
+    .slide-back {
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        transform: rotateY(180deg);
+        touch-action: pan-y;
     }
-    @keyframes swipeLightLeft {
-        0% {
-            transform: translateX(-100%);
-        }
-        100% {
-            transform: translateX(50%);
-        }
+    
+    .swipe-track-down {
+        transform: translateY(-100%);
+        animation: swipeLightDown 2.5s infinite ease-in-out;
     }
-    @keyframes swipeLightRight {
-        0% {
-            transform: translateX(50%);
-        }
-        100% {
-            transform: translateX(-100%);
-        }
+    @keyframes swipeLightDown {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100%); }
     }
 </style>
