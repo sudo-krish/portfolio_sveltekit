@@ -6,12 +6,18 @@ import { dev } from '$app/environment';
 import { env } from '$env/dynamic/public';
 import * as Sentry from '@sentry/sveltekit';
 
-Sentry.init({
-  dsn: env.PUBLIC_SENTRY_DSN || "",
-  tracesSampleRate: 1.0,
-});
+const dsn = env.PUBLIC_SENTRY_DSN;
 
-export const handleError = Sentry.handleErrorWithSentry();
+if (dsn) {
+  Sentry.init({
+    dsn,
+    tracesSampleRate: 1.0,
+  });
+}
+
+export const handleError = dsn 
+  ? Sentry.handleErrorWithSentry()
+  : async ({ error }: { error: unknown }) => { console.error(error); };
 
 const customHandle: Handle = async ({ event, resolve }) => {
 	const response = await resolve(event);
@@ -71,4 +77,6 @@ const customHandle: Handle = async ({ event, resolve }) => {
 	return response;
 };
 
-export const handle = sequence(Sentry.sentryHandle(), customHandle);
+export const handle = dsn 
+  ? sequence(Sentry.sentryHandle(), customHandle)
+  : customHandle;
