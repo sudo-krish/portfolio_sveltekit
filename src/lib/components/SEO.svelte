@@ -75,6 +75,7 @@
       };
 
   $: schemaString = JSON.stringify(schema);
+  $: schemaHtml = `<scr` + `ipt type="application/ld+json">${schemaString}</scr` + `ipt>`;
 </script>
 
 <svelte:head>
@@ -160,7 +161,5 @@
   <meta name="AI-keywords" content={keywords} />
   
   <!-- JSON-LD Structured Data -->
-  <script type="application/ld+json">
-    {@html schemaString}
-  </script>
+  {@html schemaHtml}
 </svelte:head>
