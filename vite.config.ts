@@ -1,9 +1,37 @@
-// vite.config.ts
 import { sveltekit } from '@sveltejs/kit/vite';
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
+import { VitePWA } from 'vite-plugin-pwa';
+import { sentrySvelteKit } from '@sentry/sveltekit';
 
 export default defineConfig({
-	plugins: [sveltekit()],
+	plugins: [
+		sentrySvelteKit({
+			sourceMapsUploadOptions: {
+				org: "your-org",
+				project: "your-project",
+				authToken: process.env.SENTRY_AUTH_TOKEN,
+			}
+		}),
+		sveltekit(),
+		VitePWA({
+			registerType: 'autoUpdate',
+			manifest: {
+				name: 'Krishnananda Portfolio',
+				short_name: 'Krishnananda',
+				description: 'Interactive 3D Portfolio',
+				theme_color: '#000000',
+				background_color: '#000000',
+				display: 'standalone',
+				icons: [] // Needs icons in static folder for full PWA
+			}
+		})
+	],
+
+	test: {
+		include: ['src/**/*.{test,spec}.{js,ts}'],
+		environment: 'jsdom',
+		setupFiles: ['./vitest-setup.ts']
+	},
 
 	server: {
 		// Optional: Enable HTTPS for local development

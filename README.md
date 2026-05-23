@@ -1,49 +1,52 @@
-# sv
+# Krishnana's 3D Interactive Portfolio
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A modern, high-performance, and immersive 3D portfolio built with SvelteKit 5, Threlte, Three.js, GSAP, and Tailwind CSS v4.
 
-## Creating a project
+## 🚀 Tech Stack
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **Framework**: [SvelteKit 5](https://svelte.dev/)
+- **3D Rendering**: [Three.js](https://threejs.org/) + [Threlte](https://threlte.xyz/)
+- **Animations**: [GSAP](https://gsap.com/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Deployment**: Cloudflare Pages
 
-```sh
-# create a new project in the current directory
-npx sv create
+## 🏗 Architecture & Navigation
 
-# create a new project in my-app
-npx sv create my-app
-```
+This project utilizes a highly customized **GSAP ScrollTrigger** architecture that locks the native scroll on desktop to trigger seamless 3D scene transitions, while allowing native vertical scrolling on mobile with parallax overlays.
 
-## Developing
+For a deep dive into how the 3D scene integrates with DOM elements, please see [ARCHITECTURE.md](./ARCHITECTURE.md).
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## 🛠 Local Setup
 
-```sh
-npm run dev
+1. **Clone the repository**:
+   ```bash
+   git clone <repo-url>
+   cd portfolio_sveltekit
+   ```
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-## Building
+3. **Run the development server**:
+   ```bash
+   npm run dev
+   # To test on your local network (e.g. from your phone):
+   npm run dev -- --host
+   ```
 
-To create a production version of your app:
+## 📦 Deployment
 
-```sh
+This project uses `@sveltejs/adapter-cloudflare` and is deployed to Cloudflare Pages.
+
+To deploy manually via Wrangler:
+```bash
 npm run build
+npx wrangler pages deploy .svelte-kit/cloudflare --project-name=krishnanandanil-portfolio --branch=main
 ```
 
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
-
-
-npm i -D wrangler@latest
-
-npx wrangler login --no-browser
-
-npx wrangler pages deploy .svelte-kit/cloudflare --project-name=krishnanandanil-portfolio --branch=main
-
-## To test in local network 
-
-npm run dev -- --host
+## 🧪 Testing (Coming Soon)
+- **Unit Testing**: Vitest
+- **E2E Testing**: Playwright
+- **CI/CD**: GitHub Actions (Linting, Lighthouse CI, Type Checking)

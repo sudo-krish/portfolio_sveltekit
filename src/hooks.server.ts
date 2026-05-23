@@ -1,9 +1,18 @@
 // src/hooks.server.ts
 
 import type { Handle } from '@sveltejs/kit';
+import { sequence } from '@sveltejs/kit/hooks';
 import { dev } from '$app/environment';
+import * as Sentry from '@sentry/sveltekit';
 
-export const handle: Handle = async ({ event, resolve }) => {
+Sentry.init({
+  dsn: process.env.PUBLIC_SENTRY_DSN || "",
+  tracesSampleRate: 1.0,
+});
+
+export const handleError = Sentry.handleErrorWithSentry();
+
+const customHandle: Handle = async ({ event, resolve }) => {
 	const response = await resolve(event);
 
 	// ============================================
@@ -60,3 +69,5 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	return response;
 };
+
+export const handle = sequence(Sentry.sentryHandle(), customHandle);
