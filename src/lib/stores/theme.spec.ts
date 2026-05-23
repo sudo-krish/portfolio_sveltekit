@@ -2,19 +2,18 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { get } from 'svelte/store';
 import { theme } from './theme';
 
+vi.mock('$app/environment', () => ({
+    browser: true
+}));
+
 // Mock localStorage and document for jsdom environment if needed
 beforeEach(() => {
+    const store: Record<string, string> = {};
     vi.stubGlobal('localStorage', {
-        getItem: vi.fn(),
-        setItem: vi.fn(),
-    });
-    vi.stubGlobal('document', {
-        documentElement: {
-            classList: {
-                toggle: vi.fn(),
-                remove: vi.fn(),
-            }
-        }
+        getItem: vi.fn((key: string) => store[key] || null),
+        setItem: vi.fn((key: string, value: string) => {
+            store[key] = value;
+        }),
     });
 });
 
@@ -25,6 +24,7 @@ describe('theme store', () => {
     });
 
     it('should toggle theme', () => {
+        theme.init();
         const initialTheme = get(theme);
         theme.toggle();
         const newTheme = get(theme);
