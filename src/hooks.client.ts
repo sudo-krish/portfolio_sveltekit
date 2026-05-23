@@ -1,7 +1,8 @@
 import * as Sentry from '@sentry/sveltekit';
+import { env } from '$env/dynamic/public';
 
 Sentry.init({
-  dsn: process.env.PUBLIC_SENTRY_DSN || "",
+  dsn: env.PUBLIC_SENTRY_DSN || "",
   tracesSampleRate: 1.0,
 });
 

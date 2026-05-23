@@ -3,10 +3,11 @@
 import type { Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { dev } from '$app/environment';
+import { env } from '$env/dynamic/public';
 import * as Sentry from '@sentry/sveltekit';
 
 Sentry.init({
-  dsn: process.env.PUBLIC_SENTRY_DSN || "",
+  dsn: env.PUBLIC_SENTRY_DSN || "",
   tracesSampleRate: 1.0,
 });
 
