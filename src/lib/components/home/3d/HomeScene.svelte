@@ -280,7 +280,7 @@
           let sy = mapR(rawProgress, 1.8, 1.9, COMPACT_SCALE * 1.6, 0, easeInOutCubic);
           
           // X/Z spread out into a wide puddle, then fade to 0
-          let sxz = 0;
+          let sxz: number;
           if (rawProgress < 1.9) {
             sxz = mapR(rawProgress, 1.8, 1.9, COMPACT_SCALE * 0.75, COMPACT_SCALE * 2.5, easeInOutCubic);
           } else {

@@ -160,6 +160,7 @@
   <meta name="AI-keywords" content={keywords} />
   
   <!-- JSON-LD Structured Data -->
-  <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-  {@html `<script type="application/ld+json">${schemaString}</script>`}
+  <script type="application/ld+json">
+    {@html schemaString}
+  </script>
 </svelte:head>

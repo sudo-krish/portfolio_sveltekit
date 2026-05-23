@@ -102,7 +102,9 @@
                 trackElement.style.cursor = "grabbing";
                 try {
                     containerElement.setPointerCapture(e.pointerId);
-                } catch {}
+                } catch {
+                    // ignore
+                }
             }
 
             if (e.cancelable) e.preventDefault();
@@ -123,7 +125,9 @@
             if (containerElement.hasPointerCapture(e.pointerId)) {
                 containerElement.releasePointerCapture(e.pointerId);
             }
-        } catch (err) {}
+        } catch (err) {
+            // ignore
+        }
     }
 
     onMount(() => {

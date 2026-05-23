@@ -321,11 +321,12 @@
   const cleanedSchema = cleanObject(rawSchema);
   const hasMinimalContent = cleanedSchema && Object.keys(cleanedSchema).length > 2;
   
-  const jsonLdScript = hasMinimalContent 
-    ? `<script type="application/ld+json">${JSON.stringify(cleanedSchema)}<\/script>`
-    : '';
 </script>
 
 <svelte:head>
-  {@html jsonLdScript}
+  {#if hasMinimalContent}
+    <script type="application/ld+json">
+      {@html JSON.stringify(cleanedSchema)}
+    </script>
+  {/if}
 </svelte:head>

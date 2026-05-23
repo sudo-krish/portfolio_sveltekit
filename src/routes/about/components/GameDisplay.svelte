@@ -22,6 +22,7 @@
                 enemyHp = Math.max(10, enemyHp - lastDamageAmount); // Keeps at least 10 HP so it never fully dies
             }
         }
+        // eslint-disable-next-line no-useless-assignment
         prevAttacking = isPlayerAttacking;
     }
 </script>

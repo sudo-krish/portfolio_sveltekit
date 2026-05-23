@@ -1,5 +1,5 @@
 // src/app.d.ts
-import type { PlatformProxy } from 'wrangler';
+// Removed PlatformProxy
 
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces

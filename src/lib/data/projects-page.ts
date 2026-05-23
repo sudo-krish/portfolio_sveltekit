@@ -1,6 +1,5 @@
 // src/lib/data/projects-page.ts
 // Page-level content for /projects — all visible text and SEO metadata.
-import { getGitHubProjectsCached } from '$lib/services/github';
 
 export const projectsPageContent = {
     seo: {

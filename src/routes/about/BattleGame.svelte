@@ -35,7 +35,7 @@
     let muted = false;
 
     let currentNodeId = "start";
-    $: currentNode = dialogueScript[currentNodeId];
+    $: currentNode = dialogueScript[currentNodeId] || { speaker: "System", text: displayedText };
 
     let displayedText = "";
     let isTyping = false;
@@ -149,7 +149,7 @@
             battleState = "captured";
             displayedText =
                 "Gotcha! SUDO KRISH was caught! Connect via the multiplayer options below.";
-            currentNode = { speaker: "System", text: displayedText };
+            currentNodeId = "__captured__";
             startTyping(displayedText);
         }, 3500);
     }

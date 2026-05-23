@@ -57,7 +57,7 @@ export const GET: RequestHandler = async ({ platform, fetch, setHeaders }) => {
                 const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
                 const diffDays = Math.floor(diffHrs / 24);
 
-                let timeStr = "";
+                let timeStr: string;
                 if (diffDays > 0) timeStr = `${diffDays}d`;
                 else if (diffHrs > 0) timeStr = `${diffHrs}h`;
                 else timeStr = `${Math.floor(diffMs / (1000 * 60))}m`;

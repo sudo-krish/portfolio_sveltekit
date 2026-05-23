@@ -28,8 +28,7 @@
     };
 </script>
 
-<!-- svelte-ignore a11y_no_static_element_interactions -->
-<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- Navigation -->
 <nav 
     aria-label="Section navigation"
     class="flex fixed left-2 lg:left-3 top-1/2 -translate-y-1/2 z-[100] group/nav"
