@@ -34,7 +34,7 @@
         <div class="w-full relative z-10 mb-8 flex flex-col gap-6">
             <div class="hero-type flex items-center justify-between w-full">
                 <div
-                    class="flex items-center gap-3 bg-foreground/[0.03] border border-foreground/5 rounded-full pl-1 pr-4 py-1 backdrop-blur-md shrink-0"
+                    class="flex items-center gap-3 bg-foreground/[0.03] border border-foreground/[0.08] rounded-full pl-1 pr-4 py-1 backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.2)] shrink-0"
                 >
                     <div
                         class="h-6 w-6 rounded-full bg-foreground/10 flex items-center justify-center"
@@ -52,10 +52,10 @@
                     class="flex items-center gap-2 bg-foreground/5 border border-foreground/10 rounded-full px-3 py-1.5 backdrop-blur-md shadow-[0_0_15px_hsl(var(--foreground)/0.1)] shrink-0"
                 >
                     <div
-                        class="w-1.5 h-1.5 rounded-full bg-foreground animate-pulse shadow-[0_0_8px_currentColor]"
+                        class="w-1.5 h-1.5 rounded-full bg-foreground animate-pulse shadow-[0_0_10px_currentColor]"
                     ></div>
                     <span
-                        class="font-mono text-[9px] uppercase tracking-widest text-accent font-bold pt-px"
+                        class="font-mono text-[9px] uppercase tracking-widest text-foreground/70 font-bold pt-px"
                         >{metaLabelMobile}</span
                     >
                 </div>
@@ -66,11 +66,11 @@
                 role="presentation"
             >
                 <span
-                    class="hero-type text-center font-black text-[clamp(3.5rem,17vw,6rem)] leading-[0.78] tracking-[-0.04em] text-foreground/95 mix-blend-plus-lighter w-full block"
+                    class="hero-type text-center font-black text-[clamp(3.5rem,17vw,6rem)] leading-[0.78] tracking-[-0.04em] text-foreground/72 w-full block"
                     >{prefix}</span
                 >
                 <span
-                    class="hero-type text-center font-black text-[clamp(3.5rem,17vw,6rem)] leading-[0.78] tracking-[-0.04em] w-full block"
+                    class="hero-type text-center font-black text-[clamp(3.5rem,17vw,6rem)] leading-[0.78] tracking-[-0.04em] text-foreground w-full block"
                     >{suffix}</span
                 >
             </div>
@@ -250,7 +250,7 @@
                     >
                         <FileText
                             size={18}
-                            class="text-primary drop-shadow-[0_0_8px_currentColor]"
+                            class="text-foreground/80"
                         />
                     </a>
                 </div>

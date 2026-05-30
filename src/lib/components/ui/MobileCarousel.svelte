@@ -52,16 +52,30 @@
         }
 
         if (flipperEl) {
-            gsap.to(flipperEl, {
-                rotationY: index === 1 ? -180 : 0,
-                duration: 0.65,
-                ease: "power4.inOut",
-                force3D: true,
+            const tl = gsap.timeline({
                 onComplete: () => {
                     isTransitioning = false;
                     if (hintVisible) hintVisible = false;
                 }
             });
+
+            // Premium smooth flip with zoom out/in effect
+            tl.to(flipperEl, {
+                scale: 0.92,
+                duration: 0.3,
+                ease: "power2.out"
+            }, 0)
+            .to(flipperEl, {
+                rotationY: index === 1 ? -180 : 0,
+                duration: 0.7,
+                ease: "power3.inOut",
+                force3D: true
+            }, 0.1)
+            .to(flipperEl, {
+                scale: 1,
+                duration: 0.3,
+                ease: "power2.out"
+            }, 0.6);
         } else {
             isTransitioning = false;
         }
@@ -76,7 +90,7 @@
         if (activeSlide !== 0 && !isTransitioning) {
             activeSlide = 0;
             if (flipperEl) {
-                gsap.set(flipperEl, { rotationY: 0 });
+                gsap.set(flipperEl, { rotationY: 0, scale: 1 });
             }
             carouselSwipeFraction.set(0);
         }
@@ -142,9 +156,9 @@
                 } else {
                     // Only trigger if they STARTED the swipe at the boundary.
                     // This prevents a fast scrolling swipe from accidentally jumping sections.
-                    // We also require a very deliberate 120px pull to prevent accidental triggers.
-                    if (startAtTop && dy < -120) goToSlide(0);
-                    else if (startAtBottom && dy > 120) triggerSectionChange(1);
+                    // Lowered threshold to 80px for better responsiveness.
+                    if (startAtTop && dy < -80) goToSlide(0);
+                    else if (startAtBottom && dy > 80) triggerSectionChange(1);
                 }
             }
         }
@@ -229,12 +243,13 @@
         if (flipperEl) {
             const initialAngle = layout === "left" ? -12 : 12;
             gsap.fromTo(flipperEl, 
-                { rotationY: initialAngle },
+                { rotationY: initialAngle, scale: 0.95 },
                 {
                     rotationY: 0,
+                    scale: 1,
                     duration: 1.2,
-                    ease: "elastic.out(1, 0.5)",
-                    delay: 1.0,
+                    ease: "elastic.out(1, 0.6)",
+                    delay: 0.8,
                 }
             );
         }
