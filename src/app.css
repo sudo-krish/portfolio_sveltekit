@@ -404,6 +404,12 @@ pre code {
   color: hsl(var(--foreground));
 }
 
+/* Native Browser Surface Theming */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--primary) / 0.4) transparent;
+}
+
 :focus-visible {
   outline: 2px solid hsl(var(--ring));
   outline-offset: 2px;
@@ -411,19 +417,30 @@ pre code {
 }
 
 ::selection {
-  background: hsl(var(--primary) / 0.25);
+  background: hsl(var(--primary) / 0.28);
   color: hsl(var(--foreground));
 }
 
-@media (prefers-reduced-motion: reduce) {
+input,
+textarea,
+[contenteditable="true"] {
+  caret-color: hsl(var(--primary));
+}
 
+@media (prefers-reduced-motion: reduce) {
+  /* Intentional alternative that preserves state change and feedback without disorienting motion */
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: 0.15s !important;
     scroll-behavior: auto !important;
+  }
+
+  .flipper,
+  .swipe-track-down {
+    transform: none !important;
+    animation: none !important;
   }
 }
 

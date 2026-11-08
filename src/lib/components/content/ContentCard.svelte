@@ -51,6 +51,12 @@
            hover:border-primary/45
            transition-all duration-300 hover:-translate-y-0.5 no-underline"
 >
+    <!-- Blueprint Corner Registration Marks -->
+    <div class="pointer-events-none absolute top-2 left-2 w-2 h-2 border-t border-l border-primary/40 opacity-70"></div>
+    <div class="pointer-events-none absolute bottom-2 right-2 w-2 h-2 border-b border-r border-primary/40 opacity-70"></div>
+
+    <!-- Top Specular Hairline -->
+    <div class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/35 to-transparent"></div>
     <div class="relative z-10 p-5 sm:p-6 flex flex-col gap-3 flex-1">
         <!-- Title leads first (No eyebrow above heading, never truncated) -->
         <h3 class="text-[1.08rem] sm:text-lg font-heading font-bold text-foreground tracking-tight leading-snug

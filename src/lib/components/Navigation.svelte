@@ -7,9 +7,11 @@
     Code,
     FileText,
     ChevronDown,
+    Command,
   } from "lucide-svelte";
   import { onMount } from "svelte";
   import { page } from "$app/stores";
+  import { openCommandPalette } from "$lib/stores/command-palette";
   import ThemeToggle from "$lib/components/ThemeToggle.svelte";
 
   let hoveredItem = $state<string | null>(null);
@@ -109,7 +111,7 @@
     onclick={() => (isPinnedMobile = !isPinnedMobile)}
     aria-label="Toggle navigation bar"
     aria-expanded={isVisible}
-    class="group relative flex items-center gap-2 px-3.5 py-1 rounded-b-xl bg-card/90 backdrop-blur-xl border-x border-b border-border/80 shadow-2xs transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer
+    class="group relative flex items-center gap-2 px-3.5 py-1.5 sm:py-1 min-h-[44px] sm:min-h-0 before:absolute before:-inset-2 before:content-[''] rounded-b-xl bg-card/90 backdrop-blur-xl border-x border-b border-border/80 shadow-2xs transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer
            {isVisible
       ? '-translate-y-full opacity-0 pointer-events-none'
       : 'translate-y-0 opacity-95 hover:opacity-100 hover:border-primary/50'}"
@@ -235,10 +237,30 @@
       {/each}
     </nav>
 
-    <!-- RIGHT: Theme Toggle -->
+    <!-- RIGHT: HUD / Command Palette & Theme Toggle -->
     <div
-      class="relative z-10 flex items-center shrink-0 pl-1 sm:pl-2.5 pr-0.5 sm:pr-1 ml-1 sm:ml-0"
+      class="relative z-10 flex items-center gap-1.5 shrink-0 pl-1 sm:pl-2.5 pr-0.5 sm:pr-1 ml-1 sm:ml-0"
     >
+      <button
+        type="button"
+        onclick={openCommandPalette}
+        aria-label="Open Command HUD (Press ⌘K or Ctrl+K)"
+        class="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-muted/55 border border-border/75 hover:border-primary/45 hover:bg-primary/10 text-muted-foreground hover:text-foreground transition-all duration-200 active:scale-95 cursor-pointer shrink-0"
+      >
+        <Command size={12} class="text-primary" />
+        <span class="font-mono text-[10px] font-bold uppercase tracking-wider">HUD</span>
+        <kbd class="font-mono text-[9px] px-1 py-0.2 rounded bg-background/80 border border-border/60 text-muted-foreground/80">⌘K</kbd>
+      </button>
+
+      <button
+        type="button"
+        onclick={openCommandPalette}
+        aria-label="Open Command HUD"
+        class="sm:hidden flex items-center justify-center w-8 h-8 rounded-xl bg-muted/55 border border-border/75 hover:border-primary/45 hover:bg-primary/10 text-muted-foreground hover:text-foreground transition-colors active:scale-95 cursor-pointer shrink-0"
+      >
+        <Command size={14} class="text-primary" />
+      </button>
+
       <div
         class="p-1 rounded-xl bg-muted/55 border border-border/75 hover:border-primary/45 hover:bg-primary/10 transition-colors active:scale-95 cursor-pointer shrink-0"
       >

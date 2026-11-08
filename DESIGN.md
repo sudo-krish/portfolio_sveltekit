@@ -48,6 +48,12 @@ typography:
     fontWeight: 700
     lineHeight: 1.2
     letterSpacing: "0.14em"
+  arcade:
+    fontFamily: "VT323, monospace"
+    fontSize: "1rem"
+    fontWeight: 400
+    lineHeight: 1.2
+    letterSpacing: "0.05em"
 rounded:
   sm: "6px"
   md: "8px"

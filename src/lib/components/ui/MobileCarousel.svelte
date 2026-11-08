@@ -424,13 +424,13 @@
                         type="button"
                         onclick={() => triggerSectionChange(-1)}
                         aria-label="Previous Section"
-                        class="w-8 h-8 rounded-lg flex items-center justify-center bg-transparent hover:bg-muted text-foreground transition-colors active:scale-95 cursor-pointer"
+                        class="w-9 h-9 min-h-[44px] min-w-[36px] relative before:absolute before:-inset-1 rounded-lg flex items-center justify-center bg-transparent hover:bg-muted text-foreground transition-colors active:scale-95 cursor-pointer"
                     ><ChevronUp size={18} /></button>
                     <button
                         type="button"
                         onclick={() => triggerSectionChange(1)}
                         aria-label="Next Section"
-                        class="w-8 h-8 rounded-lg flex items-center justify-center bg-transparent hover:bg-muted text-foreground transition-colors active:scale-95 cursor-pointer"
+                        class="w-9 h-9 min-h-[44px] min-w-[36px] relative before:absolute before:-inset-1 rounded-lg flex items-center justify-center bg-transparent hover:bg-muted text-foreground transition-colors active:scale-95 cursor-pointer"
                     ><ChevronDown size={18} /></button>
                 </div>
             </div>

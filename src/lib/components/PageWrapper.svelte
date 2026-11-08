@@ -1,6 +1,7 @@
 <!-- PageWrapper.svelte -->
 <script lang="ts">
   import Navigation from "$lib/components/Navigation.svelte";
+  import CommandPalette from "$lib/components/ui/CommandPalette.svelte";
   import SplashScreen from "$lib/components/SplashScreen.svelte";
   import { splashComplete } from "$lib/stores/splash";
   import { onMount } from "svelte";
@@ -51,6 +52,7 @@
 {#if contentReady}
   <div class="content-wrapper" class:loaded={contentReady}>
     <Navigation />
+    <CommandPalette />
 
     <slot />
   </div>
