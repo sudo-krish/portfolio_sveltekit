@@ -24,9 +24,8 @@ export const codingStatsData = {
   },
   ui: {
     carousel: {
-      sectionTitle: 'Engineering Metrics',
-      sectionDescription:
-        'Real-time activity across algorithmic problem solving and open-source systems architecture',
+      sectionTitle: 'Systems Telemetry',
+      sectionDescription: 'Algorithmic rigor & production code across open-source repositories',
       accentColor: 'hsl(var(--primary))',
     },
     cta: {

@@ -176,7 +176,7 @@
                 <Sparkles size={13} class="text-primary" />
                 <span
                     class="text-[11px] font-mono font-semibold tracking-[0.2em] uppercase text-primary"
-                    >Architectural Specification // {content.id}</span
+                    >System Architecture · {content.id}</span
                 >
             </div>
 

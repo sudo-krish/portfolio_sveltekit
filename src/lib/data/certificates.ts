@@ -15,12 +15,12 @@ export const certificatesData = {
   },
   ui: {
     carousel: {
-      sectionTitle: 'Credentials',
-      sectionDescription: 'AWS certified & published',
+      sectionTitle: 'Credentials & Mastery',
+      sectionDescription: 'AWS Solution Architect & distributed computing credentials',
       accentColor: 'hsl(var(--primary))',
     },
     cta: {
-      label: 'Explore Badges',
+      label: 'Explore Credentials',
       href: '/credentials',
     },
   },

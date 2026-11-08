@@ -434,6 +434,10 @@
       overflow-y: hidden; /* CRITICAL: Prevent native vertical scroll on mobile */
       touch-action: none; /* Prevent any browser pull-to-refresh or panning */
     }
+    .snap-section {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
   }
 
   .fixed-canvas {

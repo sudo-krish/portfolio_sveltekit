@@ -29,8 +29,8 @@ export const datalakeData = {
   ],
   ui: {
     carousel: {
-      sectionTitle: 'Data Lake',
-      sectionDescription: 'Explore the storage architecture',
+      sectionTitle: 'Storage Lake',
+      sectionDescription: 'Tiered ACID storage & unified metadata governance',
       accentColor: 'hsl(var(--primary))', // Emerald
     },
     cta: {

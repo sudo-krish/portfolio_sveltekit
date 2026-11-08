@@ -234,7 +234,9 @@
     layout="right"
     sectionTitle={certificatesData.ui.carousel.sectionTitle}
     sectionDescription={certificatesData.ui.carousel.sectionDescription}
-    accentColor={certificatesData.ui.carousel.accentColor}
+    accentColor="hsl(38 92% 50%)"
+    modelLabel="AWS Vault"
+    briefLabel="Certifications"
 >
     <!-- DESKTOP -->
     <svelte:fragment slot="content-pc">
@@ -253,7 +255,8 @@
                     label={certificatesData.leftAnchor.label}
                     title={certificatesData.leftAnchor.title}
                     description={certificatesData.leftAnchor.description}
-                    labelColor="text-muted-foreground/80"
+                    labelColor="text-amber-400/90"
+                    accentColor="hsl(38 92% 50%)"
                     align="left"
                 />
             </div>
@@ -300,7 +303,8 @@
                     label={certificatesData.leftAnchor.label}
                     title={certificatesData.leftAnchor.title}
                     description={certificatesData.leftAnchor.description}
-                    labelColor="text-primary/80"
+                    labelColor="text-amber-400/90"
+                    accentColor="hsl(38 92% 50%)"
                     align="left"
                 />
 

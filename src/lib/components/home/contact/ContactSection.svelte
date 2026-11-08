@@ -77,10 +77,11 @@
 
 {#snippet contactAnchor(align: "left" | "center" | "right")}
     <SectionAnchor
-        label="Get in Touch"
-        title="Let's start a conversation."
+        label="Direct Dispatch"
+        title="Let's build scalable systems."
         description={content.introParagraph}
-        labelColor="text-primary/80"
+        labelColor="text-primary/90"
+        accentColor="hsl(192 91% 48%)"
         align={align}
     />
 {/snippet}
@@ -199,7 +200,14 @@
 
 <!-- ═══════════════════ LAYOUT ═══════════════════ -->
 
-<MobileCarousel layout="left" sectionTitle="Contact" sectionDescription="Let's build something together" accentColor="hsl(var(--primary))">
+<MobileCarousel
+    layout="left"
+    sectionTitle="Direct Dispatch"
+    sectionDescription="Executive consulting, cloud architecture & systems collaboration"
+    accentColor="hsl(192 91% 48%)"
+    modelLabel="Terminal Beacon"
+    briefLabel="Dispatch Message"
+>
     <!-- DESKTOP / TABLET -->
     <svelte:fragment slot="content-pc">
         <GlowAccent color="hsl(var(--primary))" position="top-1/3 right-[10%]" size={600} />

@@ -101,12 +101,12 @@
 
     /* Blockquotes */
     .prose-content :global(blockquote) {
-        border-left: 3px solid hsl(var(--primary) / 0.5);
-        padding: 0.5rem 1rem;
-        margin: 1rem 0;
-        background: hsl(var(--muted) / 0.3);
-        border-radius: 0 0.5rem 0.5rem 0;
-        color: hsl(var(--foreground) / 0.7);
+        border-left: 1px solid hsl(var(--primary) / 0.7);
+        padding: 0.65rem 1.15rem;
+        margin: 1.25rem 0;
+        background: hsl(var(--muted) / 0.35);
+        border-radius: 0 0.75rem 0.75rem 0;
+        color: hsl(var(--foreground) / 0.8);
         font-style: italic;
     }
 

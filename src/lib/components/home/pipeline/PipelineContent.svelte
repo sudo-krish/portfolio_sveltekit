@@ -17,40 +17,53 @@
   let scrollHint: HTMLElement;
 
   onMount(() => {
-    let ctx = gsap.context(() => {
-      // Left Anchor Animation (Desktop)
-      if (leftPanel) {
-        gsap.fromTo(
-          leftPanel.children,
-          { x: -30, opacity: 0 },
-          {
-            x: 0,
-            opacity: 1,
-            duration: 1.0,
-            stagger: 0.15,
-            ease: "power3.out",
-            delay: 0.2,
-          },
-        );
-      }
-
-      // Right Content Panel Animation (Desktop)
-      if (rightPanel) {
-        gsap.fromTo(
-          rightPanel.children,
-          { y: 30, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1.2,
-            stagger: 0.2,
-            ease: "power3.out",
-            delay: 0.1,
-          },
-        );
-      }
-    });
-    return () => ctx.revert();
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let ctx = gsap.context(() => {});
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            ctx.add(() => {
+              if (leftPanel) {
+                gsap.fromTo(
+                  leftPanel.children,
+                  { x: -24, opacity: 0 },
+                  {
+                    x: 0,
+                    opacity: 1,
+                    duration: 0.75,
+                    stagger: 0.1,
+                    ease: "expo.out",
+                    clearProps: "transform,opacity",
+                  },
+                );
+              }
+              if (rightPanel) {
+                gsap.fromTo(
+                  rightPanel.children,
+                  { y: 24, opacity: 0 },
+                  {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.85,
+                    stagger: 0.12,
+                    ease: "expo.out",
+                    delay: 0.06,
+                    clearProps: "transform,opacity",
+                  },
+                );
+              }
+            });
+          }
+        });
+      },
+      { threshold: 0.25 },
+    );
+    if (leftPanel) observer.observe(leftPanel);
+    return () => {
+      observer.disconnect();
+      ctx.revert();
+    };
   });
 </script>
 
@@ -59,7 +72,8 @@
     label={pipelineData.leftAnchor.label}
     title={pipelineData.leftAnchor.title}
     description={pipelineData.leftAnchor.description}
-    labelColor="text-primary/80"
+    labelColor="text-amber-400/90"
+    accentColor="hsl(38 92% 50%)"
     align={align}
   />
 {/snippet}
@@ -67,48 +81,59 @@
 {#snippet pipelineCard()}
   <SectionCard
     badge={pipelineData.header.badge}
-    subtitle="System Architecture"
+    subtitle="Streaming Ingestion"
     Icon={Database}
-    iconHoverColor="text-primary"
-    accentColor="hsl(var(--primary))"
+    iconHoverColor="text-amber-400"
+    accentColor="hsl(38 92% 50%)"
     shortDescription={pipelineData.content.shortDescription}
     detailedPhilosophy={pipelineData.content.detailedPhilosophy}
     metrics={[
-      { label: "Events", value: "50", unit: "M+/day" },
-      { label: "Delivery", value: "99.9", unit: "%" },
+      { label: "Throughput", value: "50", unit: "M+/day" },
+      { label: "Delivery SLA", value: "99.9", unit: "%" },
     ]}
   />
 {/snippet}
 
 {#snippet marquee(isMobile: boolean)}
-  {#if isMobile}
-    <div
-      class="w-full relative overflow-hidden mask-edges-fade opacity-95"
-    >
-      <InfiniteMarquee
-        items={pipelineData.techStack}
-        baseSpeed={0.5}
-        direction="left"
-      />
+  <div class="w-full flex flex-col gap-1.5 pt-0.5">
+    <div class="w-full flex items-center justify-between text-[10px] font-mono uppercase tracking-[0.16em] text-amber-400/90 px-1">
+      <div class="flex items-center gap-1.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+        <span>Distributed CDC Conduits</span>
+      </div>
+      <span class="font-mono tabular-nums text-muted-foreground/80">&lt; 50ms latency</span>
     </div>
-  {:else}
-    <div
-      class="w-full relative overflow-hidden mask-edges-fade opacity-85 hover:opacity-100 transition-opacity duration-500"
-    >
-      <InfiniteMarquee
-        items={pipelineData.techStack}
-        baseSpeed={0.6}
-        direction="left"
-      />
-    </div>
-  {/if}
+    {#if isMobile}
+      <div
+        class="w-full relative overflow-hidden mask-edges-fade opacity-95"
+      >
+        <InfiniteMarquee
+          items={pipelineData.techStack}
+          baseSpeed={0.5}
+          direction="left"
+        />
+      </div>
+    {:else}
+      <div
+        class="w-full relative overflow-hidden mask-edges-fade opacity-85 hover:opacity-100 transition-opacity duration-500"
+      >
+        <InfiniteMarquee
+          items={pipelineData.techStack}
+          baseSpeed={0.6}
+          direction="left"
+        />
+      </div>
+    {/if}
+  </div>
 {/snippet}
 
 <MobileCarousel
   layout="right"
   sectionTitle={pipelineData.ui.carousel.sectionTitle}
   sectionDescription={pipelineData.ui.carousel.sectionDescription}
-  accentColor={pipelineData.ui.carousel.accentColor}
+  accentColor="hsl(38 92% 50%)"
+  modelLabel="Kafka Conduits"
+  briefLabel="Stream Pipeline"
 >
   <!-- ========================================== -->
   <!-- DESKTOP / TABLET                           -->

@@ -62,8 +62,8 @@ export type HeroContent = {
 
 export const heroContent: HeroContent = {
   identity: {
-    sectionTitle: 'The Data',
-    sectionDescription: 'Explore details about me and a intro about my self',
+    sectionTitle: 'Platform Architecture',
+    sectionDescription: 'High-throughput distributed systems & enterprise cloud platforms',
   },
 
   headline: {
@@ -74,7 +74,7 @@ export const heroContent: HeroContent = {
   },
 
   bioCard: {
-    metaLabel: 'Data Engineering',
+    metaLabel: 'Architecture & Scale',
     metaTitle: 'Krishnanand Anil',
     main: "I've always believed that bad data infrastructure is a silent tax on a company's potential. Over the last 5+ years, I've dedicated myself to building systems that survive the messy, unpredictable reality of production.",
     details:

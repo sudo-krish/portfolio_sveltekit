@@ -48,8 +48,8 @@ export const experienceData = {
   ],
   ui: {
     carousel: {
-      sectionTitle: 'Experience',
-      sectionDescription: 'View my career journey',
+      sectionTitle: 'Career Trajectory',
+      sectionDescription: '5+ years engineering high-scale production data systems',
       accentColor: 'hsl(var(--primary))', // Blue
     },
     cta: {

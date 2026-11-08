@@ -3,7 +3,7 @@
     import GlassCard from "./GlassCard.svelte";
 
     let {
-        badge,
+        badge = "",
         subtitle,
         Icon,
         iconHoverColor = "text-primary",
@@ -12,7 +12,7 @@
         detailedPhilosophy,
         metrics = [],
     } = $props<{
-        badge: string;
+        badge?: string;
         subtitle: string;
         Icon: any;
         iconHoverColor?: string;
@@ -29,14 +29,13 @@
     <div class="flex flex-wrap items-center justify-between gap-y-2.5 gap-x-4 w-full">
         <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
             <div
-                class="flex items-center justify-center rounded-lg
-                       bg-muted/70 border border-border/80
-                       transition-colors duration-300 shrink-0"
-                style="width: max(2.1rem, 2.35cqi); height: max(2.1rem, 2.35cqi);"
+                class="flex items-center justify-center rounded-lg border transition-all duration-300 shrink-0 shadow-2xs"
+                style="width: max(2.1rem, 2.35cqi); height: max(2.1rem, 2.35cqi); background-color: color-mix(in srgb, {accentColor} 12%, hsl(var(--card))); border-color: color-mix(in srgb, {accentColor} 32%, hsl(var(--border)));"
             >
                 <Icon
                     size={17}
-                    class="text-primary {iconHoverColor} transition-colors duration-300"
+                    style="color: {accentColor};"
+                    class="transition-transform duration-300 group-hover:scale-110"
                 />
             </div>
             <h3 class="text-[1.05rem] sm:text-[clamp(1.05rem,1.35vw,1.22rem)] font-heading font-bold text-foreground tracking-tight leading-snug">
@@ -64,7 +63,7 @@
                     </div>
                 {/each}
             </div>
-        {:else}
+        {:else if badge}
             <span
                 class="font-mono text-[10px] tracking-[0.14em] uppercase font-semibold px-2.5 py-1 rounded-md bg-muted/60 border border-border/70 leading-tight"
                 style="color: var(--_accent);"
@@ -75,24 +74,16 @@
     </div>
 
     <!-- Primary Architectural Statement -->
-    <div class="border-t border-border/70 mt-3.5 pt-3.5">
+    <div class="border-t mt-3.5 pt-3.5" style="border-color: color-mix(in srgb, {accentColor} 22%, hsl(var(--border) / 0.7));">
         <p class="text-[1rem] sm:text-[clamp(1.06rem,1.65vw,1.45rem)] leading-[1.45] sm:leading-[1.38] text-foreground font-medium tracking-tight mb-0">
             {@html shortDescription}
         </p>
     </div>
 
-    <!-- Specification Ledger Footer (Flat hairline division — zero nested cards) -->
-    <div class="border-t border-border/50 mt-3.5 pt-3 flex flex-col gap-2">
+    <!-- Engineering Philosophy Ledger (Clean hairline division — zero repetitive spec clutter) -->
+    <div class="border-t border-border/60 mt-3.5 pt-3">
         <p class="text-[0.86rem] sm:text-[clamp(0.84rem,0.95vw,0.95rem)] leading-[1.68] text-muted-foreground mb-0">
             {detailedPhilosophy}
         </p>
-        {#if metrics.length > 0}
-            <div class="flex items-center justify-between gap-2 pt-1">
-                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground/85 leading-snug">
-                    SPEC // {badge}
-                </span>
-                <span class="h-1.5 w-1.5 rounded-full shrink-0" style="background: var(--_accent);"></span>
-            </div>
-        {/if}
     </div>
 </GlassCard>

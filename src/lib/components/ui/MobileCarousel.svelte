@@ -2,35 +2,42 @@
 <script lang="ts">
     import { onMount, onDestroy } from "svelte";
     import {
-        Eye,
+        Layers,
         FileText,
         ChevronUp,
         ChevronDown,
+        ArrowRight,
     } from "lucide-svelte";
     import { carouselSwipeFraction } from "$lib/stores/carousel-store";
-    import { scrollDirection } from "$lib/stores/scroll-store";
+    import { scrollDirection, activeSectionIndex } from "$lib/stores/scroll-store";
     import gsap from "gsap";
 
     let {
         layout = "left",
-        sectionTitle = "Data Feature",
-        sectionDescription = "Interact with the 3D model",
+        sectionTitle = "Platform Architecture",
+        sectionDescription = "Interact with the 3D pipeline simulation",
         accentColor = "hsl(var(--primary))",
+        modelLabel = "Architecture",
+        briefLabel = "Executive Brief",
     } = $props<{
         layout?: "left" | "right";
         sectionTitle?: string;
         sectionDescription?: string;
         accentColor?: string;
+        modelLabel?: string;
+        briefLabel?: string;
     }>();
 
     let wrapperEl = $state<HTMLDivElement | null>(null);
     let flipperEl = $state<HTMLDivElement | null>(null);
     let backSlideEl = $state<HTMLDivElement | null>(null);
-    let activeSlide = $state(0); // 0 = 3D, 1 = Content
+    let activeSlide = $state(0); // 0 = 3D Architecture, 1 = Executive Brief
     let hintVisible = $state(true);
     let observer: IntersectionObserver;
     let isCurrentlyVisible = $state(false);
     let isTransitioning = $state(false);
+
+    let sectionStep = $derived(String(($activeSectionIndex ?? 0) + 1).padStart(2, "0"));
 
     function triggerSectionChange(dir: number) {
         if (isTransitioning) return;
@@ -47,6 +54,27 @@
         
         if (index === 1 && backSlideEl) {
             backSlideEl.scrollTop = 0;
+            const targets = backSlideEl.querySelectorAll(
+                ".mobile-spec-stage > * > * > *, .mobile-spec-stage > * > *",
+            );
+            if (
+                targets.length > 0 &&
+                !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            ) {
+                gsap.fromTo(
+                    targets,
+                    { y: 16, opacity: 0 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        duration: 0.55,
+                        stagger: 0.05,
+                        ease: "expo.out",
+                        delay: 0.22,
+                        clearProps: "transform,opacity",
+                    },
+                );
+            }
         }
 
         if (flipperEl) {
@@ -57,23 +85,23 @@
                 }
             });
 
-            // Smooth flip with subtle zoom out/in effect
+            // Smooth flip with subtle scale transition
             tl.to(flipperEl, {
-                scale: 0.92,
-                duration: 0.3,
+                scale: 0.94,
+                duration: 0.25,
                 ease: "power2.out"
             }, 0)
             .to(flipperEl, {
                 rotationY: index === 1 ? -180 : 0,
-                duration: 0.7,
+                duration: 0.65,
                 ease: "power3.inOut",
                 force3D: true
-            }, 0.1)
+            }, 0.08)
             .to(flipperEl, {
                 scale: 1,
-                duration: 0.3,
+                duration: 0.25,
                 ease: "power2.out"
-            }, 0.6);
+            }, 0.55);
         } else {
             isTransitioning = false;
         }
@@ -226,15 +254,15 @@
 
         // Initial entry flip animation
         if (flipperEl) {
-            const initialAngle = layout === "left" ? -12 : 12;
+            const initialAngle = layout === "left" ? -10 : 10;
             gsap.fromTo(flipperEl, 
-                { rotationY: initialAngle, scale: 0.95 },
+                { rotationY: initialAngle, scale: 0.96 },
                 {
                     rotationY: 0,
                     scale: 1,
-                    duration: 1.2,
-                    ease: "elastic.out(1, 0.6)",
-                    delay: 0.8,
+                    duration: 1.0,
+                    ease: "expo.out",
+                    delay: 0.5,
                 }
             );
         }
@@ -262,38 +290,64 @@
             <!-- 3D SLIDE (Front) -->
             <div
                 use:swipeSection={true}
-                class="slide-front absolute inset-0 w-full h-full flex flex-col justify-end pb-28 z-10"
+                class="slide-front absolute inset-0 w-full h-full flex flex-col justify-end pb-24 z-10"
                 style="pointer-events: {activeSlide === 0 ? 'auto' : 'none'};"
             >
-                <div class="mx-4 sm:mx-auto sm:w-full sm:max-w-md w-auto relative pointer-events-auto">
-                    <div class="flip-card bg-card/95 border border-border/80 rounded-2xl shadow-[var(--shadow-xl)] p-5 w-full">
-                        <div class="relative z-10 text-center">
-                            <div class="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight leading-tight font-heading">
+                <div class="mx-3.5 sm:mx-auto sm:w-full sm:max-w-md w-auto relative pointer-events-auto">
+                    <div class="flip-card relative overflow-hidden bg-card/90 backdrop-blur-2xl border border-border/85 rounded-2xl shadow-[var(--shadow-xl)] p-4 sm:p-5 w-full">
+                        <!-- Blueprint Crosshair / Registration Corner Marks -->
+                        <div class="pointer-events-none absolute top-2 left-2 w-2 h-2 border-t border-l" style="border-color: {accentColor}; opacity: 0.6;"></div>
+                        <div class="pointer-events-none absolute bottom-2 right-2 w-2 h-2 border-b border-r" style="border-color: {accentColor}; opacity: 0.6;"></div>
+
+                        <!-- Top Specular Hairline -->
+                        <div
+                            class="pointer-events-none absolute inset-x-0 top-0 h-px opacity-90"
+                            style="background: linear-gradient(90deg, transparent, {accentColor}, transparent);"
+                        ></div>
+                        <!-- Left Vertical Specification Rule -->
+                        <div
+                            class="pointer-events-none absolute inset-y-3 left-0 w-[2px] rounded-r-full opacity-80"
+                            style="background-color: {accentColor};"
+                        ></div>
+
+                        <div class="relative z-10 flex flex-col items-start text-left pl-1.5">
+                            <!-- Stage Index (Clean, zero clutter, no fake pulse badge) -->
+                            <div class="w-full flex items-center justify-between gap-2 mb-1">
+                                <span class="font-mono text-[9.5px] font-bold uppercase tracking-[0.2em]" style="color: {accentColor};">
+                                    Stage {sectionStep} // 11
+                                </span>
+                            </div>
+
+                            <!-- Headline -->
+                            <div class="text-[1.18rem] sm:text-[1.32rem] font-extrabold text-foreground tracking-tight leading-tight font-heading">
                                 {sectionTitle}
                             </div>
-                            <p class="text-[13px] font-normal text-muted-foreground mt-1.5 mb-4">
+
+                            <!-- Description -->
+                            <p class="text-[12px] sm:text-[13px] font-normal text-muted-foreground mt-1 mb-3 leading-snug">
                                 {sectionDescription}
                             </p>
+
+                            <!-- Section-Specific Action Trigger Button -->
                             <button
                                 type="button"
                                 onclick={() => goToSlide(1)}
-                                aria-label="View specifications"
-                                class="w-full pt-3 border-t border-border/60 flex items-center justify-between cursor-pointer group hover:bg-transparent bg-transparent outline-none"
+                                aria-label="Explore {briefLabel}"
+                                class="w-full pt-3 border-t border-border/70 flex items-center justify-between cursor-pointer group hover:bg-transparent bg-transparent outline-none active:scale-[0.99] transition-transform"
                             >
                                 <div class="flex items-center gap-2">
-                                    <div
-                                        class="w-1.5 h-1.5 rounded-full animate-pulse"
-                                        style="background-color: {accentColor};"
-                                    ></div>
-                                    <span class="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground transition-colors group-hover:text-foreground">
-                                        Tap or swipe for specs
+                                    <span class="w-3.5 h-px group-hover:w-5 transition-all duration-300" style="background-color: {accentColor}; opacity: 0.85;"></span>
+                                    <span class="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-foreground/90 transition-colors group-hover:text-foreground">
+                                        {briefLabel}
                                     </span>
                                 </div>
-                                <div class="relative w-11 h-8 flex items-center justify-center overflow-hidden rounded-lg bg-muted border border-border/80 shadow-2xs">
-                                    <div class="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent swipe-track-down"></div>
-                                    <ChevronDown
-                                        size={16}
-                                        class="text-primary relative z-10"
+                                <div class="relative px-2.5 h-7 flex items-center justify-center gap-1.5 overflow-hidden rounded-lg border shadow-2xs group-hover:brightness-110 transition-all" style="background-color: color-mix(in srgb, {accentColor} 14%, transparent); border-color: color-mix(in srgb, {accentColor} 40%, transparent);">
+                                    <div class="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent swipe-track-down"></div>
+                                    <span class="font-mono text-[9px] font-bold uppercase tracking-wider relative z-10" style="color: {accentColor};">Open</span>
+                                    <ArrowRight
+                                        size={12}
+                                        class="relative z-10 group-hover:translate-x-0.5 transition-transform"
+                                        style="color: {accentColor};"
                                     />
                                 </div>
                             </button>
@@ -306,10 +360,29 @@
             <div
                 bind:this={backSlideEl}
                 use:swipeSection={false}
-                class="slide-back absolute inset-0 w-full h-full overflow-y-auto overscroll-y-contain hide-scroll block z-20 bg-background"
-                style="pointer-events: {activeSlide === 1 ? 'auto' : 'none'};"
+                class="slide-back absolute inset-0 w-full h-full overflow-y-auto overscroll-y-contain hide-scroll block z-20 bg-background/95"
+                style="pointer-events: {activeSlide === 1 ? 'auto' : 'none'}; background-image: radial-gradient(circle at 85% 8%, hsl(var(--primary) / 0.08), transparent 52%);"
             >
-                <div class="min-h-[101%] pb-32">
+                <div class="mobile-spec-stage min-h-[101%] pb-32 relative">
+                    <!-- Quick Return-to-Architecture Header Strip -->
+                    <div class="max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-6 -mb-14 relative z-30 flex items-center justify-between pointer-events-auto">
+                        <button
+                            type="button"
+                            onclick={() => goToSlide(0)}
+                            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-card/90 backdrop-blur-md border border-border/80 text-muted-foreground hover:border-primary/45 transition-all duration-300 shadow-2xs cursor-pointer active:scale-95"
+                        >
+                            <Layers size={13} style="color: {accentColor};" />
+                            <span class="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-foreground">
+                                Return to {modelLabel}
+                            </span>
+                        </button>
+                        <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-card/80 border border-border/70 shadow-2xs">
+                            <span class="font-mono text-[9px] font-bold uppercase tracking-[0.18em]" style="color: {accentColor};">
+                                Stage {sectionStep} // 11
+                            </span>
+                        </div>
+                    </div>
+
                     <!-- svelte-ignore slot_element_deprecated -->
                     <slot name="content-mobile" />
                 </div>
@@ -317,45 +390,48 @@
 
         </div>
 
-        <!-- Pagination Indicator -->
-        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 pointer-events-auto w-[90vw] max-w-[380px]">
-            <div class="relative flex items-center p-1.5 rounded-2xl bg-card/95 backdrop-blur-xl border border-border shadow-lg gap-1">
+        <!-- Pagination Indicator & Contextual Section Tabs -->
+        <div
+            class="absolute left-1/2 -translate-x-1/2 z-40 pointer-events-auto w-[92vw] max-w-[380px]"
+            style="bottom: max(1.25rem, env(safe-area-inset-bottom));"
+        >
+            <div class="relative flex items-center p-1 rounded-2xl bg-card/92 backdrop-blur-2xl border border-border/80 shadow-[var(--shadow-xl)] gap-1">
                 <div class="relative flex items-center flex-1 min-w-0">
                     <div
-                        class="absolute top-0 bottom-0 w-1/2 bg-muted rounded-xl transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] shadow-sm"
+                        class="absolute top-0 bottom-0 w-1/2 bg-muted/90 rounded-xl transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-xs border border-border/60"
                         style="transform: translateX({activeSlide === 0 ? '0' : '100%'});"
                     ></div>
                     <button
                         type="button"
                         onclick={() => goToSlide(0)}
-                        class="relative z-10 flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl transition-colors duration-300 cursor-pointer {activeSlide === 0 ? 'text-foreground font-bold' : 'text-muted-foreground'}"
+                        class="relative z-10 flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl transition-colors duration-300 cursor-pointer {activeSlide === 0 ? 'text-foreground font-bold' : 'text-muted-foreground hover:text-foreground'}"
                     >
-                        <Eye size={16} class={activeSlide === 0 ? "text-primary" : ""} />
-                        <span class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest whitespace-nowrap">3D Model</span>
+                        <Layers size={14} class="shrink-0" style={activeSlide === 0 ? `color: ${accentColor}` : ""} />
+                        <span class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider whitespace-nowrap truncate">{modelLabel}</span>
                     </button>
                     <button
                         type="button"
                         onclick={() => goToSlide(1)}
-                        class="relative z-10 flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl transition-colors duration-300 cursor-pointer {activeSlide === 1 ? 'text-foreground font-bold' : 'text-muted-foreground'}"
+                        class="relative z-10 flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl transition-colors duration-300 cursor-pointer {activeSlide === 1 ? 'text-foreground font-bold' : 'text-muted-foreground hover:text-foreground'}"
                     >
-                        <FileText size={16} class={activeSlide === 1 ? "text-primary" : ""} />
-                        <span class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest whitespace-nowrap">Specs</span>
+                        <FileText size={14} class="shrink-0" style={activeSlide === 1 ? `color: ${accentColor}` : ""} />
+                        <span class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider whitespace-nowrap truncate">{briefLabel}</span>
                     </button>
                 </div>
-                <div class="w-px h-8 bg-border/50 mx-1 shrink-0"></div>
-                <div class="flex items-center gap-1 shrink-0">
+                <div class="w-px h-6 bg-border/60 mx-0.5 shrink-0"></div>
+                <div class="flex items-center gap-0.5 shrink-0">
                     <button
                         type="button"
                         onclick={() => triggerSectionChange(-1)}
                         aria-label="Previous Section"
-                        class="w-10 h-10 rounded-xl flex items-center justify-center bg-transparent hover:bg-muted text-foreground transition-colors active:scale-95 cursor-pointer"
-                    ><ChevronUp size={20} /></button>
+                        class="w-8 h-8 rounded-lg flex items-center justify-center bg-transparent hover:bg-muted text-foreground transition-colors active:scale-95 cursor-pointer"
+                    ><ChevronUp size={18} /></button>
                     <button
                         type="button"
                         onclick={() => triggerSectionChange(1)}
                         aria-label="Next Section"
-                        class="w-10 h-10 rounded-xl flex items-center justify-center bg-transparent hover:bg-muted text-foreground transition-colors active:scale-95 cursor-pointer"
-                    ><ChevronDown size={20} /></button>
+                        class="w-8 h-8 rounded-lg flex items-center justify-center bg-transparent hover:bg-muted text-foreground transition-colors active:scale-95 cursor-pointer"
+                    ><ChevronDown size={18} /></button>
                 </div>
             </div>
         </div>

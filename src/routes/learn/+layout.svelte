@@ -145,7 +145,7 @@
                                     onclick={() => toggleFolder(category)}
                                 >
                                     <Folder size={14} />
-                                    <span class="text-sm truncate"
+                                    <span class="text-sm break-words leading-tight"
                                         >{category}</span
                                     >
                                     <span
@@ -175,7 +175,7 @@
                                                 size={12}
                                                 class="shrink-0 mt-0.5 opacity-40 group-hover:opacity-100"
                                             />
-                                            <span class="truncate"
+                                            <span class="break-words leading-tight"
                                                 >{item.title}</span
                                             >
                                         </a>

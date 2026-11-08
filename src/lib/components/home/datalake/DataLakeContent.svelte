@@ -17,65 +17,53 @@
   let scrollHint: HTMLElement;
 
   onMount(() => {
-    let ctx = gsap.context(() => {
-      // Right Anchor Animation (Desktop)
-      if (rightPanel) {
-        gsap.fromTo(
-          rightPanel.children,
-          { x: 30, opacity: 0 },
-          {
-            x: 0,
-            opacity: 1,
-            duration: 1.0,
-            stagger: 0.15,
-            ease: "power3.out",
-            delay: 0.2,
-          },
-        );
-      }
-
-      // Left Content Panel Animation (Desktop)
-      if (leftPanel) {
-        gsap.fromTo(
-          leftPanel.children,
-          { y: 30, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1.2,
-            stagger: 0.2,
-            ease: "power3.out",
-            delay: 0.1,
-          },
-        );
-      }
-
-      // Scroll Hint Animation
-      if (scrollHint) {
-        gsap.fromTo(
-          scrollHint,
-          { opacity: 0, y: -10 },
-          { opacity: 1, y: 0, duration: 1.5, ease: "power2.out", delay: 1.0 },
-        );
-      }
-
-      // Mobile Animation
-      if (mobilePanel) {
-        gsap.fromTo(
-          mobilePanel.children,
-          { y: 30, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1.0,
-            stagger: 0.15,
-            ease: "power3.out",
-            delay: 0.1,
-          },
-        );
-      }
-    });
-    return () => ctx.revert();
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let ctx = gsap.context(() => {});
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            ctx.add(() => {
+              if (rightPanel) {
+                gsap.fromTo(
+                  rightPanel.children,
+                  { x: 24, opacity: 0 },
+                  {
+                    x: 0,
+                    opacity: 1,
+                    duration: 0.75,
+                    stagger: 0.1,
+                    ease: "expo.out",
+                    clearProps: "transform,opacity",
+                  },
+                );
+              }
+              if (leftPanel) {
+                gsap.fromTo(
+                  leftPanel.children,
+                  { y: 24, opacity: 0 },
+                  {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.85,
+                    stagger: 0.12,
+                    ease: "expo.out",
+                    delay: 0.06,
+                    clearProps: "transform,opacity",
+                  },
+                );
+              }
+            });
+          }
+        });
+      },
+      { threshold: 0.25 },
+    );
+    if (leftPanel) observer.observe(leftPanel);
+    return () => {
+      observer.disconnect();
+      ctx.revert();
+    };
   });
 </script>
 
@@ -84,7 +72,8 @@
     label={datalakeData.rightAnchor.label}
     title={datalakeData.rightAnchor.title}
     description={datalakeData.rightAnchor.description}
-    labelColor="text-primary/80"
+    labelColor="text-emerald-400/90"
+    accentColor="hsl(160 84% 39%)"
     align={align}
   />
 {/snippet}
@@ -92,32 +81,49 @@
 {#snippet datalakeCard()}
   <SectionCard
     badge={datalakeData.header.badge}
-    subtitle="Storage Architecture"
+    subtitle="Medallion Lake Architecture"
     Icon={HardDrive}
-    iconHoverColor="text-primary"
-    accentColor="hsl(var(--primary))"
+    iconHoverColor="text-emerald-400"
+    accentColor="hsl(160 84% 39%)"
     shortDescription={datalakeData.content.shortDescription}
     detailedPhilosophy={datalakeData.content.detailedPhilosophy}
     metrics={[
-      { label: "Zones", value: "3", unit: "Tier ACID" },
-      { label: "Cost Saved", value: "60", unit: "%" },
+      { label: "ACID Zones", value: "3", unit: "Tiers" },
+      { label: "S3 Cost Cut", value: "60", unit: "%" },
     ]}
   />
 {/snippet}
 
 {#snippet storageGrid()}
-  <FeatureGrid
-    items={datalakeData.storageNodes}
-    accent="hsl(var(--primary))"
-    textHoverClass="group-hover:text-primary"
-  />
+  <div class="w-full flex flex-col gap-1.5">
+    <div class="w-full flex items-center justify-between text-[10px] font-mono uppercase tracking-[0.16em] px-1 text-emerald-400/90">
+      <div class="flex items-center gap-1.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>Storage & Governance Nodes</span>
+      </div>
+      <div class="flex items-center gap-1.5 text-muted-foreground/80 font-mono text-[9px]">
+        <span class="text-amber-400/90 font-bold">Bronze</span>
+        <span>→</span>
+        <span class="text-slate-300 font-bold">Silver</span>
+        <span>→</span>
+        <span class="text-yellow-400 font-bold">Gold</span>
+      </div>
+    </div>
+    <FeatureGrid
+      items={datalakeData.storageNodes}
+      accent="hsl(160 84% 39%)"
+      textHoverClass="group-hover:text-emerald-400"
+    />
+  </div>
 {/snippet}
 
 <MobileCarousel
   layout="left"
   sectionTitle={datalakeData.ui.carousel.sectionTitle}
   sectionDescription={datalakeData.ui.carousel.sectionDescription}
-  accentColor={datalakeData.ui.carousel.accentColor}
+  accentColor="hsl(160 84% 39%)"
+  modelLabel="Hydrological Lake"
+  briefLabel="Storage & Governance"
 >
   <!-- ========================================== -->
   <!-- DESKTOP / TABLET                           -->
