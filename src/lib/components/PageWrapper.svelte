@@ -8,7 +8,6 @@
   import { theme } from "$lib/stores/theme";
 
   let showSplash = false;
-  let contentReady = false;
 
   onMount(() => {
     theme.init();
@@ -24,16 +23,11 @@
       // Subscribe to splash completion
       const unsubscribe = splashComplete.subscribe((value) => {
         if (value) {
-          // ✅ Content only becomes ready AFTER splash completes
-          contentReady = true;
+          showSplash = false;
         }
       });
 
       return unsubscribe;
-    } else {
-      // Not homepage or already visited - load immediately
-      showSplash = false;
-      contentReady = true;
     }
   });
 </script>
@@ -44,17 +38,15 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 </svelte:head>
 
-{#if showSplash && !contentReady}
+{#if showSplash}
   <SplashScreen />
 {/if}
 
-{#if contentReady}
-  <div class="content-wrapper" class:loaded={contentReady}>
-    <Navigation />
+<div class="content-wrapper loaded">
+  <Navigation />
 
-    <slot />
-  </div>
-{/if}
+  <slot />
+</div>
 
 <style>
   .content-wrapper {

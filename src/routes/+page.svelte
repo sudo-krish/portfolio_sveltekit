@@ -272,17 +272,21 @@
   });
 
   onDestroy(() => {
-    if (typeof document !== "undefined") {
-      document.documentElement.style.overflow = "";
-      document.body.style.overflow = "";
-    }
-    if (observer) observer.kill();
-    if (typeof window !== "undefined" && keydownHandler) {
-      window.removeEventListener("keydown", keydownHandler);
+    if (browser) {
+      if (typeof document !== "undefined") {
+        document.documentElement.style.overflow = "";
+        document.body.style.overflow = "";
+      }
+      if (observer) observer.kill();
+      if (typeof window !== "undefined" && keydownHandler) {
+        window.removeEventListener("keydown", keydownHandler);
+      }
+      if (typeof window !== "undefined") {
+        ScrollTrigger.defaults({ scroller: window });
+      }
+      ScrollTrigger.getAll().forEach((t) => t.kill());
     }
     unsubscribers.forEach(u => u());
-    ScrollTrigger.defaults({ scroller: window });
-    ScrollTrigger.getAll().forEach((t) => t.kill());
   });
 </script>
 

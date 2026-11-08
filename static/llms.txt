@@ -1,60 +1,45 @@
-# Krishnanand Anil - Senior Data Engineer
+# Krishnanand Anil - Senior Data Engineer & Cloud Architect
 
-> Senior Data Engineer with 5+ years of experience specializing in real-time data pipelines, AWS Cloud services, and enterprise-grade data solutions. Expert in building scalable CDC pipelines processing 50M+ events daily, data warehouses with sub-second query performance, and AI-ready analytics platforms. Currently leading data engineering initiatives at DTDC Express Limited.
+> Senior Data Engineer with 5+ years of experience specializing in real-time streaming architectures, AWS cloud platforms, Apache Kafka CDC pipelines, and enterprise data warehouses. Expert in processing 50M+ events daily, reducing pipeline latency by 96%, and architecting sub-second analytical serving systems.
 
-Senior Data Engineer architecting real-time streaming systems, data warehouses, and AI-ready analytics platforms. Proven track record of improving data accuracy from 60% to 98%, reducing latency by 99%, and cutting manual reporting efforts by 80%. Specializes in Apache Kafka, AWS Cloud, Python, and modern data stack technologies.
+Krishnanand Anil is a Bengaluru-based Senior Data Engineer and Cloud Architect with a proven track record of reducing data pipeline runtimes from 4 hours to 10 minutes (96% drop), scaling financial ingestion to 5M+ daily records with 99.9% uptime, and improving cloud cost efficiency by 60%. Core expertise spans Apache Kafka, Apache Spark, AWS (Lambda, Glue, EMR, Redshift, S3), Delta Lake/Iceberg medallion lakehouses, Python, and Snowflake.
 
-## About
+## Core Dossiers
 
-- [Home](https://krishnanandanil.com): Portfolio homepage with overview and featured work
-- [About Me](https://krishnanandanil.com/about): Professional background, skills, and experience details
-- [Contact](https://krishnanandanil.com/contact): Get in touch for opportunities and collaborations
+- [Home](https://krishnanandanil.com): Interactive 3D data pipeline architecture simulation and portfolio overview
+- [Experience](https://krishnanandanil.com/experience): Production career history at Yethi Consulting and Cognizant
+- [Projects](https://krishnanandanil.com/projects): Production-grade data platform case studies and architecture breakdowns
+- [Articles](https://krishnanandanil.com/articles): Technical publications on Kafka, Spark, lakehouses, and distributed systems
+- [Credentials](https://krishnanandanil.com/credentials): AWS Solutions Architect, Cloud Practitioner, and Databricks certifications
+- [Learning Curriculum](https://krishnanandanil.com/learn): Structured data engineering learning modules and system patterns
+- [LeetCode Metrics](https://krishnanandanil.com/leetcode): Algorithmic telemetry, time complexity, and data structures
+- [Tech Stack](https://krishnanandanil.com/tech-stack): Infrastructure topology and cluster technologies
+- [Production Impact](https://krishnanandanil.com/impact): Verified enterprise metrics, SLA achievements, and cost reductions
+- [About](https://krishnanandanil.com/about): Atelier philosophy, professional background, and interactive terminal
+- [Contact](https://krishnanandanil.com/contact): Direct message dispatch and collaboration channels
 
-## Featured Projects
+## Featured Engineering Projects
 
-- [Real-Time Tracking Data Platform](https://krishnanandanil.com/projects/realtime-tracking-platform): Event-driven streaming pipeline processing 50M+ tracking events daily with sub-second latency
-- [Enterprise Data Warehouse](https://krishnanandanil.com/projects/enterprise-data-warehouse): Unified Finance & Business analytics with automated ETL/ELT workflows reducing manual reporting by 80%
-- [AI-Ready Analytics Platform](https://krishnanandanil.com/projects/ai-analytics-platform): GenAI-powered analytics with vector search and natural language querying, reducing time-to-insight by 70%
-- [Real-Time CDC Pipeline](https://krishnanandanil.com/projects/realtime-cdc-pipeline): Production CDC pipeline using Kafka, Debezium, and custom Python consumers handling 100K+ events per minute
+- [Real-Time CDC Pipeline](https://krishnanandanil.com/projects/realtime-cdc-pipeline): Production CDC streaming pipeline using Kafka, Debezium, and custom Python consumers processing 50M+ events daily (<50ms latency)
+- [Enterprise Data Warehouse](https://krishnanandanil.com/projects/enterprise-data-warehouse): Unified OLAP matrix with automated ETL/ELT workflows cutting query times to 0.24s
+- [Hydrological Data Lakehouse](https://krishnanandanil.com/projects/medallion-data-lake): Medallion architecture (Bronze -> Silver -> Gold) processing 5TB+ monthly with ACID compliance
+- [AI-Ready Analytics Platform](https://krishnanandanil.com/projects/ai-analytics-platform): GenAI-powered analytics foundation with vector embeddings and semantic search
 
-## All Projects
+## Technical Publications & Articles
 
-- [Medallion Data Lake Architecture](https://krishnanandanil.com/projects/medallion-data-lake): Multi-zone data lake with bronze, silver, and gold zones processing 5TB+ monthly
-- [Projects Listing](https://krishnanandanil.com/projects): Complete portfolio of data engineering projects
+- [Building Production-Grade Real-Time CDC Pipelines](https://krishnanandanil.com/articles/realtime-cdc-patterns-kafka-debezium): Architecture patterns and tradeoffs from processing 50M+ events daily
+- [Optimizing Apache Spark Jobs for Production](https://krishnanandanil.com/articles/optimizing-apache-spark-performance): Tuning Spark executor configurations, memory fraction, and shuffle partitions
+- [Amazon Redshift Dimensional Modeling Guide](https://krishnanandanil.com/articles/amazon-redshift-optimization-guide): Distribution styles, sort keys, and query compilation optimizations
 
-## Technical Writing
+## Verified Production Impact Metrics
 
-- [Building Production-Grade Real-Time CDC Pipelines](https://krishnanandanil.com/blog/realtime-cdc-patterns-kafka-debezium): Architecture patterns and lessons learned from processing 50M+ events daily
-- [Optimizing Apache Spark Jobs for Production](https://krishnanandanil.com/blog/optimizing-apache-spark-performance): Comprehensive guide to tuning Spark configurations for 40% performance improvement
-- [Amazon Redshift Optimization Guide](https://krishnanandanil.com/blog/amazon-redshift-optimization-guide): Best practices for improving query accuracy from 60% to 98%
-- [Blog Listing](https://krishnanandanil.com/blog): Technical articles on data engineering, AWS, and big data
+- **96% Runtime Reduction**: Re-engineered core batch ETL from 4 hours down to 10 minutes.
+- **50M+ Daily Events**: Real-time event streaming pipeline with zero data loss and automated DLQ replay.
+- **60% Cloud Cost Reduction**: Optimized AWS serverless compute, partition pruning, and spot instance scheduling.
+- **99.9% Pipeline Availability**: Enterprise SLA adherence across mission-critical financial reporting feeds.
 
-## Professional Experience
+## Contact & Professional Channels
 
-- [DTDC Express Limited](https://www.dtdc.in/): Current - Senior Data Engineer leading real-time data initiatives processing 50M+ events daily
-- [Quantiphi Analytics Solutions](https://www.quantiphi.com/): Senior Data Engineer (Feb 2024 - Nov 2024) building high-performance data pipelines
-- [Cognizant Technology Solutions](https://www.cognizant.com/): Associate (Aug 2020 - Feb 2024) designing medallion architecture and multi-tenant systems
-
-## Technical Skills
-
-Real-Time CDC Pipelines (50M+ events/day), Apache Kafka & Debezium, AWS Cloud Architecture (Lambda, Glue, EMR, Redshift, Kinesis, S3), Amazon Redshift Optimization, Python & Go Development, Data Warehouse Design, Vector Databases & AI Analytics, Kubernetes & Docker, Apache Airflow, DBT, PySpark, Data Modeling, ETL/ELT, GraphQL APIs, PostgreSQL, MongoDB, Terraform, CI/CD
-
-## Key Achievements
-
-Reduced data latency by 99% (3 hours → seconds) with real-time CDC pipelines. Improved report accuracy from 60% to 98% through advanced validation. Cut manual reporting effort by 80% with automated ETL workflows. Reduced time-to-insight by 70% with AI-ready analytics platform. Built systems processing 50M+ tracking events daily. Achieved 20% efficiency improvement through CI/CD automation.
-
-## Contact & Connect
-
-- [Email](mailto:krishnanandpanil@gmail.com): krishnanandpanil@gmail.com
-- [LinkedIn](https://www.linkedin.com/in/krishnanand-anil/): Professional networking and career updates
-- [GitHub](https://github.com/sudo-krish): Open source contributions and code samples
-- [Schedule Meeting](https://calendly.com/krishnanandpanil): Book a 30-minute consultation call
-
-## Optional
-
-- [Resume](https://drive.google.com/file/d/1-HcNEDahb4LZHz2QR1g_hNq4_Pk3mkVw/view?usp=drive_link): Download complete professional resume
-- [Instagram](https://www.instagram.com/krish12397/): Personal updates and behind-the-scenes
-- [Research Paper - SCARA Robotic Arm](https://iopscience.iop.org/article/10.1088/1742-6596/2070/1/012207): Published in IOP Journal of Physics (2021)
-- [Research Paper - Vehicular Emissions](https://www.psychosocial.com/article/PR201924/19539/): Published in Int. Journal of Psychosocial Rehabilitation (2020)
-- [Education](https://www.bitmesra.ac.in/): B.Tech in Computer Science, Birla Institute of Technology (2019)
-- [AWS Certified Solutions Architect](https://aws.amazon.com/certification/certified-solutions-architect-associate/): Amazon Web Services certification
+- Email: krishnanand.anil2010@gmail.com
+- LinkedIn: https://www.linkedin.com/in/krishnanand-anil/
+- GitHub: https://github.com/sudo-krish

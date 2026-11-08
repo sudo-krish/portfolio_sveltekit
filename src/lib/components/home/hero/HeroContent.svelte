@@ -56,10 +56,7 @@
 {#snippet heroHeader(isMobile: boolean)}
     {#if isMobile}
         <div class="w-full relative z-10 flex flex-col gap-3.5">
-            <div
-                class="flex flex-col items-start w-full max-w-full relative"
-                role="presentation"
-            >
+            <h1 class="flex flex-col items-start w-full max-w-full relative m-0">
                 <span
                     class="hero-type text-left font-heading font-extrabold text-[clamp(2.75rem,12vw,4.25rem)] leading-[0.88] tracking-[-0.035em] text-muted-foreground w-full block"
                     >{prefix}</span
@@ -68,7 +65,7 @@
                     class="hero-type text-left font-heading font-extrabold text-[clamp(2.75rem,12vw,4.25rem)] leading-[0.88] tracking-[-0.035em] text-foreground w-full block"
                     >{suffix}</span
                 >
-            </div>
+            </h1>
 
             <!-- Architectural Identity Ledger Bar (placed below heading — no eyebrow above heading) -->
             <div class="hero-type flex flex-wrap items-center justify-between gap-2 w-full pt-2.5 border-t border-border/70">
@@ -96,7 +93,7 @@
         </div>
     {:else}
         <div class="relative z-10 w-full flex flex-col justify-center">
-            <div class="flex flex-col" role="presentation">
+            <h1 class="flex flex-col m-0">
                 <span
                     class="hero-type block font-heading font-extrabold leading-[0.86] tracking-[-0.035em] text-[clamp(3.75rem,5.6vw,5.75rem)] text-muted-foreground"
                     >{prefix}</span
@@ -105,7 +102,7 @@
                     class="hero-type block font-heading font-extrabold leading-[0.86] tracking-[-0.035em] text-[clamp(3.75rem,5.6vw,5.75rem)] text-foreground"
                     >{suffix}</span
                 >
-            </div>
+            </h1>
 
             <!-- Architectural Identity & Status Bar (below primary display title) -->
             <div

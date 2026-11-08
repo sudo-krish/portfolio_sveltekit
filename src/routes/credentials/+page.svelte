@@ -5,4 +5,4 @@
     const content = credentialsSectionContent;
 </script>
 
-<SectionPage {content} accentColor="hsl(var(--primary))" />
+<SectionPage {content} accentColor="hsl(38 92% 50%)" />

@@ -55,6 +55,7 @@ export const GET: RequestHandler = async ({ fetch }) => {
     { path: '/projects', priority: '0.9', changefreq: 'weekly' },
     { path: '/articles', priority: '0.9', changefreq: 'weekly' },
     { path: '/learn', priority: '0.9', changefreq: 'weekly' },
+    { path: '/leetcode', priority: '0.8', changefreq: 'weekly' },
     { path: '/about', priority: '0.8', changefreq: 'monthly' },
   ];
 

@@ -1,7 +1,9 @@
 <!-- src/lib/components/home/3d/HomeScene.svelte -->
 <script lang="ts">
   import { T, useThrelte } from "@threlte/core";
-  import { Environment, Float } from "@threlte/extras";
+  import { Float } from "@threlte/extras";
+  import { HDRLoader } from "three/examples/jsm/loaders/HDRLoader.js";
+  import { EquirectangularReflectionMapping, type DataTexture } from "three";
   import gsap from "gsap";
   import { onMount } from "svelte";
   import { carouselSwipeFraction } from "$lib/stores/carousel-store";
@@ -37,6 +39,9 @@
   let isMobile = typeof window !== "undefined" ? window.innerWidth < 1024 : false;
   let cameraZ = isMobile ? 14 : 10;
   let cameraFov = isMobile ? 40 : 35;
+
+  const { scene, invalidate } = useThrelte();
+  let envTexture: DataTexture | null = null;
 
   let scrollY_target = 0;
   let scrollY_current = 0;
@@ -532,19 +537,37 @@
       });
     }
 
+    // Load HDR environment map using HDRLoader (Three.js modern standard)
+    const hdrLoader = new HDRLoader();
+    hdrLoader.load(
+      "/hdri/abandoned_parking_1k.hdr",
+      (texture) => {
+        texture.mapping = EquirectangularReflectionMapping;
+        scene.environment = texture;
+        envTexture = texture;
+        invalidate();
+      },
+      undefined,
+      (err) => {
+        console.error("Failed to load HDR environment texture:", err);
+      }
+    );
+
     gsap.ticker.add(tick);
 
     return () => {
       window.removeEventListener("resize", updateLayout);
       gsap.ticker.remove(tick);
       unsubFraction();
+      if (envTexture) {
+        if (scene.environment === envTexture) {
+          scene.environment = null;
+        }
+        envTexture.dispose();
+      }
     };
   });
 </script>
-
-<Environment
-  url="/hdri/abandoned_parking_1k.hdr"
-/>
 
 <T.PerspectiveCamera bind:ref={cameraRef} makeDefault position={[0, 0, cameraZ]} fov={cameraFov}>
   <T.DirectionalLight

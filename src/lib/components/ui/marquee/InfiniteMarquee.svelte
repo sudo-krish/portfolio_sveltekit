@@ -134,7 +134,9 @@
     });
 
     onDestroy(() => {
-        cancelAnimationFrame(animationFrameId);
+        if (typeof cancelAnimationFrame !== "undefined" && animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+        }
     });
 </script>
 

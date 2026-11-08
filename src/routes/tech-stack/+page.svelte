@@ -5,4 +5,4 @@
     const content = techstackSectionContent;
 </script>
 
-<SectionPage {content} accentColor="#06b6d4" />
+<SectionPage {content} accentColor="hsl(173 80% 40%)" />

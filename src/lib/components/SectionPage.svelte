@@ -111,7 +111,9 @@
         if (typeof document !== "undefined") {
             document.body.style.overflow = "";
         }
-        ScrollTrigger.defaults({ scroller: window });
+        if (typeof window !== "undefined") {
+            ScrollTrigger.defaults({ scroller: window });
+        }
         ctx?.revert();
     });
 
@@ -216,13 +218,20 @@
                 class="bento-grid grid grid-cols-12 gap-4 lg:gap-5"
                 style="grid-auto-rows: minmax(175px, auto);"
             >
-                {#each content.highlights as h, i}
+                {#each content.highlights as h, i (h.label)}
                     <div
                         class="bento-card group relative overflow-hidden rounded-2xl border border-border/80 bg-card/85 p-6 sm:p-7 flex flex-col justify-between hover:border-primary/45 shadow-[var(--shadow-sm)] transition-all duration-300 {getBentoClass(
                             i,
                             content.highlights.length,
                         )}"
                     >
+                        <!-- Blueprint Corner Registration Marks -->
+                        <div class="pointer-events-none absolute top-2 left-2 w-2 h-2 border-t border-l opacity-60" style="border-color: {accentColor};"></div>
+                        <div class="pointer-events-none absolute bottom-2 right-2 w-2 h-2 border-b border-r opacity-60" style="border-color: {accentColor};"></div>
+
+                        <!-- Top Specular Hairline -->
+                        <div class="pointer-events-none absolute inset-x-0 top-0 h-px" style="background: linear-gradient(90deg, transparent, {accentColor}, transparent); opacity: 0.8;"></div>
+
                         <div class="relative z-10">
                             <h3
                                 class="text-sm font-heading font-bold text-foreground mb-1"
@@ -239,12 +248,13 @@
                             class="relative z-10 flex items-end justify-between mt-5 pt-4 border-t border-border/60"
                         >
                             <span
-                                class="font-mono tabular-nums font-bold tracking-tight break-words max-w-full leading-none text-primary {h
+                                class="font-mono tabular-nums font-bold tracking-tight break-words max-w-full leading-none {h
                                     .value.length > 8
                                     ? 'text-2xl sm:text-4xl'
                                     : h.value.length > 5
                                       ? 'text-3xl sm:text-5xl'
                                       : 'text-4xl sm:text-6xl'}"
+                                style="color: {accentColor};"
                                 >{h.value}</span
                             >
 
