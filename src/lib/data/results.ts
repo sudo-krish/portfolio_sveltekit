@@ -64,7 +64,8 @@ export const resultsData = {
   ui: {
     carousel: {
       sectionTitle: 'Verified Business Impact',
-      sectionDescription: 'Production SLAs, 96% pipeline latency reduction & 60% cloud cost savings',
+      sectionDescription:
+        'Production SLAs, 96% pipeline latency reduction & 60% cloud cost savings',
       accentColor: 'hsl(var(--primary))', // Purple
     },
     cta: {

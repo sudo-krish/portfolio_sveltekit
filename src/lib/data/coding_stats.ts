@@ -25,8 +25,7 @@ export const codingStatsData = {
   ui: {
     carousel: {
       sectionTitle: 'Systems Telemetry',
-      sectionDescription:
-        'Algorithmic rigor & production code across open-source repositories',
+      sectionDescription: 'Algorithmic rigor & production code across open-source repositories',
       accentColor: 'hsl(var(--primary))',
     },
     cta: {
