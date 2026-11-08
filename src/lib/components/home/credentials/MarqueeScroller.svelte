@@ -227,7 +227,7 @@
             {#each loopItems as item}
                 <GlassCard
                     variant="compact"
-                    accent={item.color}
+                    accent="hsl(var(--primary))"
                     onclick={(e) => {
                         // Only trigger select if we haven't dragged significantly
                         if (dragDistance < 5) {
@@ -236,39 +236,38 @@
                             e.preventDefault();
                         }
                     }}
-                    class="group w-max shrink-0 transition-all duration-500"
-                    style="min-height: 5cqi;"
+                    class="group w-max shrink-0 transition-all duration-300"
+                    style="min-height: 4.8cqi;"
                 >
-                    <div class="flex items-center" style="gap: 1cqi;">
-                        <!-- Taller, Cleaner Icon Box -->
+                    <div class="flex items-center" style="gap: 0.85cqi;">
+                        <!-- Architectural Icon Box -->
                         <div
-                            class="w-14 h-14 shrink-0 flex items-center justify-center rounded-2xl transition-all duration-300 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] bg-foreground/[0.03] border border-foreground/[0.05] group-hover:scale-110"
-                            style="color: {item.color};"
+                            class="w-12 h-12 shrink-0 flex items-center justify-center rounded-xl transition-all duration-300 bg-muted/80 border border-border/80 text-primary group-hover:bg-primary/15 group-hover:border-primary/45"
                         >
-                            <svelte:component this={getIcon(item.id)} size={24} />
+                            <svelte:component this={getIcon(item.id)} size={20} />
                         </div>
 
                         <!-- Clean Typography -->
-                        <div class="flex flex-col" style="max-width: 26cqi;">
+                        <div class="flex flex-col" style="max-width: 28cqi;">
                             <span
-                                class="font-bold tracking-wide text-foreground/90 group-hover:text-foreground transition-colors duration-300 truncate"
-                                style="font-size: clamp(10px, 0.9cqi, 15px);"
+                                class="font-heading font-bold tracking-tight text-foreground leading-snug line-clamp-2"
+                                style="font-size: clamp(11px, 0.9cqi, 14.5px);"
                             >
                                 {item.name}
                             </span>
-                            <div class="flex items-center" style="gap: 0.4cqi; margin-top: 0.3cqi;">
+                            <div class="flex items-center" style="gap: 0.4cqi; margin-top: 0.25cqi;">
                                 <span
-                                    class="font-mono text-foreground/50 group-hover:text-foreground/70 transition-colors duration-300 uppercase tracking-widest truncate"
-                                    style="font-size: clamp(8px, 0.7cqi, 11px);"
+                                    class="font-mono text-primary font-semibold uppercase tracking-wider truncate"
+                                    style="font-size: clamp(8.5px, 0.68cqi, 11px);"
                                 >
                                     {item.issuer}
                                 </span>
                                 <span
-                                    class="w-1 h-1 rounded-full bg-foreground/20 shrink-0"
+                                    class="w-1 h-1 rounded-full bg-border shrink-0"
                                 ></span>
                                 <span
-                                    class="font-mono text-foreground/40 group-hover:text-foreground/60 transition-colors duration-300 whitespace-nowrap"
-                                    style="font-size: clamp(8px, 0.7cqi, 11px);"
+                                    class="font-mono tabular-nums text-muted-foreground whitespace-nowrap"
+                                    style="font-size: clamp(8.5px, 0.68cqi, 11px);"
                                 >
                                     {item.date}
                                 </span>

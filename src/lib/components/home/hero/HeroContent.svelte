@@ -31,155 +31,103 @@
 
 {#snippet heroHeader(isMobile: boolean)}
     {#if isMobile}
-        <div class="w-full relative z-10 mb-8 flex flex-col gap-6">
-            <div class="hero-type flex items-center justify-between w-full">
-                <div
-                    class="flex items-center gap-3 bg-foreground/[0.03] border border-foreground/[0.08] rounded-full pl-1 pr-4 py-1 backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.2)] shrink-0"
-                >
-                    <div
-                        class="h-6 w-6 rounded-full bg-foreground/10 flex items-center justify-center"
-                    >
-                        <div
-                            class="h-1 w-2.5 bg-foreground/60 rounded-full"
-                        ></div>
-                    </div>
-                    <span
-                        class="font-mono text-[9px] font-bold tracking-[0.25em] text-foreground/70 uppercase pt-px"
-                        >{personal.name}</span
-                    >
-                </div>
-                <div
-                    class="flex items-center gap-2 bg-foreground/5 border border-foreground/10 rounded-full px-3 py-1.5 backdrop-blur-md shadow-[0_0_15px_hsl(var(--foreground)/0.1)] shrink-0"
-                >
-                    <div
-                        class="w-1.5 h-1.5 rounded-full bg-foreground animate-pulse shadow-[0_0_10px_currentColor]"
-                    ></div>
-                    <span
-                        class="font-mono text-[9px] uppercase tracking-widest text-foreground/70 font-bold pt-px"
-                        >{metaLabelMobile}</span
-                    >
-                </div>
-            </div>
-
+        <div class="w-full relative z-10 flex flex-col gap-3.5">
             <div
-                class="flex flex-col items-center w-full max-w-full relative mt-4 mb-2"
+                class="flex flex-col items-start w-full max-w-full relative"
                 role="presentation"
             >
                 <span
-                    class="hero-type text-center font-black text-[clamp(3.5rem,17vw,6rem)] leading-[0.78] tracking-[-0.04em] text-foreground/72 w-full block"
+                    class="hero-type text-left font-heading font-extrabold text-[clamp(2.75rem,12vw,4.25rem)] leading-[0.88] tracking-[-0.035em] text-muted-foreground w-full block"
                     >{prefix}</span
                 >
                 <span
-                    class="hero-type text-center font-black text-[clamp(3.5rem,17vw,6rem)] leading-[0.78] tracking-[-0.04em] text-foreground w-full block"
+                    class="hero-type text-left font-heading font-extrabold text-[clamp(2.75rem,12vw,4.25rem)] leading-[0.88] tracking-[-0.035em] text-foreground w-full block"
                     >{suffix}</span
                 >
             </div>
 
-            <div
-                class="hero-type flex flex-col w-full gap-3 mt-6 pointer-events-auto relative z-50 px-2"
-            >
-                <a href="/projects" class="btn-hero-nav-mobile group"
-                    ><span class="hero-index-mobile">01</span><span class="flex-1 text-left">Explore Projects</span><span class="text-muted-foreground/30 group-active:text-primary transition-colors">&rarr;</span></a
-                >
-                <a href="/learn" class="btn-hero-nav-mobile group"
-                    ><span class="hero-index-mobile">02</span><span class="flex-1 text-left">Learn Concepts</span><span class="text-muted-foreground/30 group-active:text-primary transition-colors">&rarr;</span></a
-                >
-                <a href="/articles" class="btn-hero-nav-mobile group"
-                    ><span class="hero-index-mobile">03</span><span class="flex-1 text-left">Read Articles</span><span class="text-muted-foreground/30 group-active:text-primary transition-colors">&rarr;</span></a
-                >
-                <a href="/experience" class="btn-hero-nav-mobile group"
-                    ><span class="hero-index-mobile">04</span><span class="flex-1 text-left">View Experience</span><span class="text-muted-foreground/30 group-active:text-primary transition-colors">&rarr;</span></a
-                >
-            </div>
-        </div>
-    {:else}
-        <div class="relative z-10 w-full flex flex-col justify-center">
-            <div
-                class="hero-type flex items-center"
-                style="gap: 1.2cqi; margin-bottom: 1.5cqi; padding-left: 0.2cqi;"
-            >
+            <!-- Architectural Identity Ledger Bar (placed below heading — no eyebrow above heading) -->
+            <div class="hero-type flex flex-wrap items-center justify-between gap-2 w-full pt-2.5 border-t border-border/70">
                 <div
-                    class="flex items-center bg-foreground/[0.03] border border-foreground/[0.08] rounded-full backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.2)]"
-                    style="gap: 0.6cqi; padding: 0.5cqi 1cqi 0.5cqi 0.3cqi;"
+                    class="flex items-center gap-2 bg-card/85 border border-border/80 rounded-lg px-3 py-1.5 shadow-2xs shrink-0"
                 >
-                    <div
-                        class="rounded-full bg-foreground/10 flex items-center justify-center"
-                        style="width: 1.2cqi; height: 1.2cqi;"
-                    >
-                        <div
-                            class="h-1 w-2.5 bg-foreground/60 rounded-full"
-                        ></div>
-                    </div>
+                    <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                     <span
-                        class="font-mono font-bold tracking-[0.3em] text-foreground/70 uppercase"
-                        style="font-size: clamp(8px, 0.7cqi, 10px);"
+                        class="font-mono text-[10px] font-bold tracking-[0.16em] text-foreground uppercase"
                         >{personal.name}</span
                     >
                 </div>
                 <div
-                    class="flex items-center bg-foreground/5 border border-foreground/10 rounded-full backdrop-blur-md shadow-[0_0_15px_hsl(var(--foreground)/0.1)]"
-                    style="gap: 0.5cqi; padding: 0.5cqi 0.8cqi;"
+                    class="flex items-center gap-2 bg-card/85 border border-border/80 rounded-lg px-3 py-1.5 shadow-2xs shrink-0"
                 >
                     <div
-                        class="w-1.5 h-1.5 rounded-full bg-foreground animate-pulse shadow-[0_0_10px_currentColor]"
+                        class="w-1.5 h-1.5 rounded-full bg-success"
                     ></div>
                     <span
-                        class="font-mono uppercase tracking-[0.25em] text-foreground/70 font-bold"
-                        style="font-size: clamp(7px, 0.6cqi, 9px);"
+                        class="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground font-semibold"
+                        >{metaLabelMobile}</span
+                    >
+                </div>
+            </div>
+        </div>
+    {:else}
+        <div class="relative z-10 w-full flex flex-col justify-center">
+            <div class="flex flex-col" role="presentation">
+                <span
+                    class="hero-type block font-heading font-extrabold leading-[0.86] tracking-[-0.035em] text-[clamp(3.75rem,5.6vw,5.75rem)] text-muted-foreground"
+                    >{prefix}</span
+                >
+                <span
+                    class="hero-type block font-heading font-extrabold leading-[0.86] tracking-[-0.035em] text-[clamp(3.75rem,5.6vw,5.75rem)] text-foreground"
+                    >{suffix}</span
+                >
+            </div>
+
+            <!-- Architectural Identity & Status Bar (below primary display title) -->
+            <div
+                class="hero-type flex items-center border-t border-border/70"
+                style="gap: 0.85cqi; margin-top: 1.35cqi; padding-top: 1.1cqi;"
+            >
+                <div
+                    class="flex items-center bg-card/85 border border-border/80 rounded-lg backdrop-blur-md shadow-xs"
+                    style="gap: 0.55cqi; padding: 0.42cqi 0.9cqi;"
+                >
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                    <span
+                        class="font-mono font-bold tracking-[0.2em] text-foreground uppercase"
+                        style="font-size: clamp(9px, 0.72cqi, 11px);"
+                        >{personal.name}</span
+                    >
+                </div>
+                <div
+                    class="flex items-center bg-card/85 border border-border/80 rounded-lg backdrop-blur-md shadow-xs"
+                    style="gap: 0.5cqi; padding: 0.42cqi 0.85cqi;"
+                >
+                    <div
+                        class="w-1.5 h-1.5 rounded-full bg-success animate-pulse"
+                    ></div>
+                    <span
+                        class="font-mono uppercase tracking-[0.18em] text-muted-foreground font-semibold"
+                        style="font-size: clamp(8px, 0.68cqi, 10px);"
                         >{metaLabelDesktop}</span
                     >
                 </div>
             </div>
 
-            <div class="flex flex-col" role="presentation">
-                <span
-                    class="hero-type block font-black leading-[0.82] tracking-[-0.04em] text-[clamp(4.5rem,7vw,8.5rem)] text-foreground/72"
-                    >{prefix}</span
-                >
-                <span
-                    class="hero-type block font-black leading-[0.82] tracking-[-0.04em] text-[clamp(4.5rem,7vw,8.5rem)] text-foreground"
-                    >{suffix}</span
-                >
-            </div>
-
-            <div
-                class="hero-type w-full max-w-[95%] flex flex-wrap items-center gap-2.5 mt-5 mb-1.5 pointer-events-auto"
-            >
-                <a href="/projects" class="btn-hero-nav"
-                    ><span class="hero-index">01</span><span
-                        >Explore Projects</span
-                    ></a
-                >
-                <a href="/learn" class="btn-hero-nav"
-                    ><span class="hero-index">02</span><span
-                        >Learn Concepts</span
-                    ></a
-                >
-                <a href="/articles" class="btn-hero-nav"
-                    ><span class="hero-index">03</span><span>Read Articles</span
-                    ></a
-                >
-                <a href="/experience" class="btn-hero-nav"
-                    ><span class="hero-index">04</span><span
-                        >View Experience</span
-                    ></a
-                >
-            </div>
-
             <div
                 class="hero-type w-full max-w-[95%] pointer-events-auto flex items-center"
-                style="margin-top: 2cqi; gap: 1cqi;"
+                style="margin-top: 1.8cqi; gap: 0.9cqi;"
             >
                 <div
-                    class="flex items-center border border-foreground/10 bg-foreground/[0.03] shadow-[0_8px_16px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.15)] backdrop-blur-md rounded-xl shrink-0"
-                    style="gap: 0.5cqi; padding: 0.4cqi 0.8cqi;"
+                    class="flex items-center border border-border/80 bg-card/85 shadow-xs backdrop-blur-md rounded-xl shrink-0"
+                    style="gap: 0.5cqi; padding: 0.45cqi 0.85cqi;"
                 >
                     <Cpu
-                        size={16}
-                        class="text-primary drop-shadow-[0_0_8px_hsl(var(--primary)/0.6)]"
+                        size={15}
+                        class="text-primary"
                     />
                     <span
-                        class="font-mono text-foreground/90 tracking-[0.2em] uppercase font-bold"
+                        class="font-mono text-foreground tracking-[0.18em] uppercase font-bold"
                         style="font-size: clamp(8px, 0.7cqi, 10px);"
                         >{payloadLabel}</span
                     >
@@ -199,10 +147,14 @@
         Icon={TerminalSquare}
         shortDescription={heroContent.bioCard.main}
         detailedPhilosophy={heroContent.bioCard.details}
+        metrics={[
+            { label: "Throughput", value: "50", unit: "M+/day" },
+            { label: "Pipeline SLA", value: "99.9", unit: "%" },
+        ]}
     />
     {#if isMobile}
         <div
-            class="hero-type relative w-[100vw] z-20 mb-10 -ml-4 pointer-events-auto"
+            class="hero-type relative w-full z-20 overflow-hidden pointer-events-auto"
         >
             <InfiniteMarquee items={techStack} />
         </div>
@@ -213,7 +165,7 @@
     {#if isMobile}
         <div class="action-dock w-full relative z-30 pointer-events-auto">
             <div
-                class="w-full flex items-stretch justify-between gap-2 p-1.5 bg-card/90 backdrop-blur-2xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.15)]"
+                class="w-full flex items-stretch justify-between gap-2 p-1.5 bg-card/90 backdrop-blur-xl rounded-2xl border border-border/80 shadow-[var(--shadow-lg)]"
             >
                 <PillButton
                     href="#pipeline"
@@ -222,35 +174,35 @@
                     accentColor="primary"
                 />
                 <div
-                    class="flex items-center gap-1 px-1.5 bg-foreground/5 rounded-xl border border-foreground/5"
+                    class="flex items-center gap-1 px-1.5 bg-muted/60 rounded-xl border border-border/70"
                 >
                     <a
-                        class="inline-flex items-center justify-center whitespace-nowrap w-11 h-11 p-0 rounded-lg hover:bg-foreground/10 transition-colors"
+                        class="inline-flex items-center justify-center whitespace-nowrap w-11 h-11 p-0 rounded-lg hover:bg-primary/10 transition-colors"
                         href={links.github}
                         target="_blank"
                         aria-label="GitHub Profile"
                     >
-                        <Github size={18} class="text-foreground/80" />
+                        <Github size={18} class="text-foreground" />
                     </a>
-                    <div class="w-[1px] h-5 bg-foreground/10"></div>
+                    <div class="w-px h-5 bg-border/80"></div>
                     <a
-                        class="inline-flex items-center justify-center whitespace-nowrap w-11 h-11 p-0 rounded-lg hover:bg-foreground/10 transition-colors"
+                        class="inline-flex items-center justify-center whitespace-nowrap w-11 h-11 p-0 rounded-lg hover:bg-primary/10 transition-colors"
                         href={links.linkedin}
                         target="_blank"
                         aria-label="LinkedIn Profile"
                     >
-                        <Linkedin size={18} class="text-foreground/80" />
+                        <Linkedin size={18} class="text-foreground" />
                     </a>
-                    <div class="w-[1px] h-5 bg-foreground/10"></div>
+                    <div class="w-px h-5 bg-border/80"></div>
                     <a
-                        class="inline-flex items-center justify-center whitespace-nowrap w-11 h-11 p-0 rounded-lg hover:bg-foreground/10 transition-colors"
+                        class="inline-flex items-center justify-center whitespace-nowrap w-11 h-11 p-0 rounded-lg hover:bg-primary/10 transition-colors"
                         href={links.resume}
                         target="_blank"
                         aria-label="View Resume Document"
                     >
                         <FileText
                             size={18}
-                            class="text-foreground/80"
+                            class="text-foreground"
                         />
                     </a>
                 </div>
@@ -258,8 +210,8 @@
         </div>
     {:else}
         <div
-            class="action-dock flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]"
-            style="gap: 0.6cqi; padding: 0.4cqi;"
+            class="action-dock flex items-stretch bg-card/88 backdrop-blur-xl rounded-2xl border border-border/80 shadow-[var(--shadow-lg)]"
+            style="gap: 0.55cqi; padding: 0.38cqi;"
         >
             <PillButton
                 href="#pipeline"
@@ -268,41 +220,41 @@
                 accentColor="primary"
             />
             <div
-                class="flex items-center bg-foreground/5 rounded-[1.2rem]"
+                class="flex items-center bg-muted/55 border border-border/70 rounded-xl"
                 style="gap: 0.3cqi; padding: 0 0.4cqi;"
             >
                 <a
-                    class="inline-flex items-center justify-center whitespace-nowrap p-0 rounded-xl hover:bg-foreground/10 transition-colors"
+                    class="inline-flex items-center justify-center whitespace-nowrap p-0 rounded-lg hover:bg-primary/10 transition-colors"
                     style="width: 2.5cqi; height: 2.5cqi;"
                     href={links.github}
                     target="_blank"
                     aria-label="GitHub Profile"
                 >
-                    <Github size={20} class="text-foreground/80" />
+                    <Github size={18} class="text-foreground" />
                 </a>
-                <div class="w-[1px] h-6 bg-foreground/10"></div>
+                <div class="w-px h-5 bg-border/80"></div>
                 <a
-                    class="inline-flex items-center justify-center whitespace-nowrap p-0 rounded-xl hover:bg-foreground/10 transition-colors"
+                    class="inline-flex items-center justify-center whitespace-nowrap p-0 rounded-lg hover:bg-primary/10 transition-colors"
                     style="width: 2.5cqi; height: 2.5cqi;"
                     href={links.linkedin}
                     target="_blank"
                     aria-label="LinkedIn Profile"
                 >
-                    <Linkedin size={20} class="text-foreground/80" />
+                    <Linkedin size={18} class="text-foreground" />
                 </a>
-                <div class="w-[1px] h-6 bg-foreground/10"></div>
+                <div class="w-px h-5 bg-border/80"></div>
                 <a
-                    class="inline-flex items-center justify-center whitespace-nowrap rounded-xl hover:bg-foreground/10 font-mono uppercase tracking-widest text-primary transition-colors"
-                    style="height: 2.5cqi; padding: 0 0.8cqi; font-size: clamp(8px, 0.7cqi, 11px);"
+                    class="inline-flex items-center justify-center whitespace-nowrap rounded-lg hover:bg-primary/10 font-mono uppercase tracking-wider text-primary transition-colors"
+                    style="height: 2.5cqi; padding: 0 0.8cqi; font-size: clamp(9px, 0.72cqi, 11px);"
                     href={links.resume}
                     target="_blank"
                 >
                     <FileText
-                        size={20}
-                        class="text-foreground/80"
+                        size={17}
+                        class="text-primary"
                         aria-label="View Resume Document"
                     />
-                    <span class="text-foreground/80 pl-1">Resume</span>
+                    <span class="text-foreground font-semibold pl-1.5">Resume</span>
                 </a>
             </div>
         </div>
@@ -350,9 +302,9 @@
             class="w-full relative z-20 pointer-events-auto"
         >
             <div
-                class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-lg mx-auto px-5 pt-16 pb-16 relative"
+                class="flex flex-col items-start justify-start w-full min-h-[100dvh] max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-12 relative"
             >
-                <div class="w-full flex flex-col items-center relative z-10" style="gap: 2rem;">
+                <div class="w-full flex flex-col items-start relative z-10 gap-4 sm:gap-5">
                     {@render heroHeader(true)}
                     {@render heroBioCard(true)}
                     {@render heroActionDock(true)}
@@ -361,123 +313,3 @@
         </div>
     </svelte:fragment>
 </MobileCarousel>
-
-<style>
-    .btn-hero-nav {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.7rem;
-        padding: 0.78rem 1rem;
-        border-radius: 9999px;
-        border: 1px solid hsl(var(--foreground) / 0.08);
-        background: linear-gradient(
-            180deg,
-            hsl(var(--foreground) / 0.045),
-            hsl(var(--foreground) / 0.025)
-        );
-        color: hsl(var(--foreground) / 0.78);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        box-shadow:
-            0 8px 24px rgba(0, 0, 0, 0.18),
-            inset 0 1px 0 rgba(255, 255, 255, 0.04);
-        font-size: 0.92rem;
-        font-weight: 520;
-        letter-spacing: -0.01em;
-        transition:
-            transform 180ms ease,
-            border-color 180ms ease,
-            background 180ms ease,
-            color 180ms ease,
-            box-shadow 180ms ease;
-    }
-
-    .btn-hero-nav:hover {
-        transform: translateY(-1px);
-        color: hsl(var(--foreground) / 0.96);
-        border-color: hsl(var(--primary) / 0.28);
-        background: linear-gradient(
-            180deg,
-            hsl(var(--foreground) / 0.07),
-            hsl(var(--foreground) / 0.035)
-        );
-        box-shadow:
-            0 12px 30px rgba(0, 0, 0, 0.22),
-            0 0 0 1px hsl(var(--primary) / 0.08) inset;
-    }
-
-    .btn-hero-nav:active {
-        transform: translateY(0);
-    }
-
-    .hero-index {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 1.9rem;
-        height: 1.9rem;
-        padding: 0 0.45rem;
-        border-radius: 9999px;
-        background: hsl(var(--foreground) / 0.06);
-        border: 1px solid hsl(var(--foreground) / 0.08);
-        color: hsl(var(--primary) / 0.9);
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-            monospace;
-    }
-
-    .btn-hero-nav:hover .hero-index {
-        background: hsl(var(--primary) / 0.12);
-        border-color: hsl(var(--primary) / 0.2);
-        color: hsl(var(--primary));
-    }
-
-    .btn-hero-nav-mobile {
-        display: flex;
-        align-items: center;
-        width: 100%;
-        gap: 1rem;
-        padding: 0.85rem 1.25rem;
-        border-radius: 1.25rem;
-        border: 1px solid hsl(var(--foreground) / 0.08);
-        background: linear-gradient(
-            180deg,
-            hsl(var(--foreground) / 0.045),
-            hsl(var(--foreground) / 0.025)
-        );
-        color: hsl(var(--foreground) / 0.85);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        box-shadow:
-            0 8px 24px rgba(0, 0, 0, 0.15),
-            inset 0 1px 0 rgba(255, 255, 255, 0.04);
-        font-size: 0.95rem;
-        font-weight: 500;
-        letter-spacing: -0.01em;
-        transition: all 200ms ease;
-    }
-
-    .btn-hero-nav-mobile:active {
-        transform: scale(0.98);
-        background: hsl(var(--foreground) / 0.08);
-    }
-
-    .hero-index-mobile {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 1.8rem;
-        height: 1.8rem;
-        border-radius: 0.6rem;
-        background: hsl(var(--foreground) / 0.06);
-        border: 1px solid hsl(var(--foreground) / 0.08);
-        color: hsl(var(--primary));
-        font-size: 0.75rem;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-            monospace;
-    }
-</style>

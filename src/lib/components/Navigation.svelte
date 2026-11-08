@@ -12,7 +12,7 @@
   let isIdle = $state(false);
   let idleTimer: ReturnType<typeof setTimeout>;
 
-  const IDLE_TIMEOUT = 2000;
+  const IDLE_TIMEOUT = 8000;
 
   const navItems = [
     { label: "Home", href: "/", icon: Home },
@@ -73,50 +73,44 @@
 
 <!-- FLOATING PREMIUM DOCK -->
 <div
-  class="fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] origin-top pb-4 pt-2
+  class="fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] origin-top top-3 sm:top-5 w-[calc(100%-1.5rem)] max-w-[440px] sm:w-max sm:max-w-none
          {isShrunk
-    ? 'top-2 sm:top-3 scale-[0.85] sm:scale-90 opacity-80 sm:opacity-60 hover:opacity-100'
-    : 'top-4 sm:top-6 scale-100 opacity-100 w-[96%] sm:w-max max-w-[480px] sm:max-w-none'}"
+    ? 'opacity-85 hover:opacity-100'
+    : 'opacity-100'}"
   onmouseenter={() => (isHoveredDock = true)}
   onmouseleave={() => (isHoveredDock = false)}
   role="navigation"
+  aria-label="Primary Navigation"
 >
   <!-- Main Chassis -->
   <div
-    class="card-glass relative flex items-center justify-between sm:justify-center !rounded-full shadow-[0_8px_32px_-4px_rgba(0,0,0,0.2)] border border-[hsl(var(--border)/0.4)] transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] backdrop-blur-xl bg-[hsl(var(--background)/0.5)]
-           {isShrunk ? 'p-1 px-3' : 'p-1.5 sm:p-2'}"
+    class="card-glass relative flex items-center justify-between sm:justify-center !rounded-2xl shadow-[var(--shadow-lg)] border border-border/80 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] backdrop-blur-xl bg-card/85 p-1.5 sm:p-2"
   >
     <!-- LEFT: Personal Brand / Avatar -->
     <a
       href="/"
-      class="relative z-10 flex items-center gap-3 py-1 group shrink-0 active:scale-95 overflow-hidden transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] no-underline
-             {isShrunk
-        ? 'max-w-0 opacity-0 pl-0 pr-0 ml-0 mr-0 border-0'
-        : 'max-w-[150px] opacity-100 pl-1 sm:pl-1.5 pr-2 sm:pr-4 ml-0 mr-2 sm:mr-0'}"
+      class="relative z-10 flex items-center gap-2.5 py-0.5 pl-1 sm:pl-1.5 pr-2 sm:pr-3.5 mr-1 sm:mr-0 group shrink-0 active:scale-95 overflow-hidden transition-all duration-300 no-underline"
       aria-label="Go to home"
     >
       <div
-        class="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-[hsl(var(--border))] group-hover:border-[hsl(var(--primary))] group-hover:shadow-[0_0_15px_hsl(var(--primary)/0.4)] transition-all duration-500 shadow-sm shrink-0"
+        class="relative w-8 h-8 sm:w-9 sm:h-9 rounded-xl overflow-hidden border border-border group-hover:border-primary transition-all duration-300 shadow-xs shrink-0"
       >
-        <div
-          class="absolute inset-0 bg-[hsl(var(--primary)/0.2)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        ></div>
         <img
           src="https://github.com/sudo-krish.png"
           alt="Krishnanand Anil - Senior Data Engineer Profile Avatar"
-          class="relative z-10 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          class="relative z-10 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           fetchpriority="high"
           width="36"
           height="36"
         />
         <div
-          class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[hsl(var(--success))] rounded-full border border-[hsl(var(--background))] z-20 shadow-[0_0_12px_hsl(var(--success))] animate-pulse"
+          class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[hsl(var(--success))] rounded-full border border-[hsl(var(--background))] z-20"
         ></div>
       </div>
 
       <div class="flex-col items-start hidden sm:flex shrink-0">
         <span
-          class="font-mono text-[13px] font-bold tracking-tight text-[hsl(var(--foreground))] transition-colors group-hover:text-[hsl(var(--primary))] whitespace-nowrap"
+          class="font-mono text-[12.5px] font-bold tracking-tight text-foreground transition-colors group-hover:text-primary whitespace-nowrap"
         >
           sudo_krish
         </span>
@@ -125,57 +119,40 @@
 
     <!-- CENTER: Navigation Track -->
     <nav
-      class="relative z-10 flex items-center p-1 rounded-full transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)]
-             {isShrunk
-        ? 'mx-0 bg-transparent shadow-none border-transparent'
-        : 'bg-[hsl(var(--muted)/0.3)] shadow-inner border border-[hsl(var(--border)/0.2)] mx-auto sm:mx-0'}"
+      class="relative z-10 flex items-center p-1 rounded-xl bg-muted/55 border border-border/60 mx-auto sm:mx-0"
       onmouseleave={() => (hoveredItem = null)}
     >
       <!-- Sliding Pill -->
       <div
-        class="absolute top-1 bottom-1 rounded-full bg-[hsl(var(--foreground)/0.12)] border border-[hsl(var(--foreground)/0.15)] shadow-[0_4px_12px_rgba(0,0,0,0.1)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-none
-               {isShrunk
-          ? 'opacity-0 scale-75 w-9'
-          : 'opacity-100 scale-100 w-9 sm:w-[80px]'}"
+        class="absolute top-1 bottom-1 rounded-lg bg-primary/14 border border-primary/35 shadow-2xs transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-none w-10 sm:w-[84px]"
         style="transform: translateX(calc({displayIndex} * 100%));"
       >
         <div
-          class="absolute inset-x-2 top-0 h-px bg-[hsl(var(--glass-highlight))] opacity-50"
+          class="absolute inset-x-2 top-0 h-px bg-[hsl(var(--glass-highlight))] opacity-60"
         ></div>
       </div>
 
       {#each navItems as { label, href, icon: Icon }}
+        {@const isActive = href === "/" ? activePath === "/" : activePath.startsWith(href)}
         <a
           {href}
-          class="relative z-10 h-8 sm:h-9 flex items-center justify-center transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] group rounded-full active:scale-95 no-underline
-                 {isShrunk ? 'w-9 gap-0' : 'w-9 sm:w-[80px] gap-1.5'}"
+          class="relative z-10 h-9 w-10 sm:w-[84px] gap-1.5 flex items-center justify-center transition-colors duration-300 group rounded-lg active:scale-95 no-underline"
           onmouseenter={() => (hoveredItem = href)}
           aria-label="Go to {label}"
-          aria-current={(href === '/' ? activePath === '/' : activePath.startsWith(href)) ? 'page' : undefined}
+          aria-current={isActive ? "page" : undefined}
         >
           <Icon
-            size={isShrunk ? 18 : 16}
-            strokeWidth={(href === "/"
-              ? activePath === "/"
-              : activePath.startsWith(href)) && !isShrunk
-              ? 2.5
-              : 2}
-            class="transition-all duration-500 shrink-0 {(
-              href === '/' ? activePath === '/' : activePath.startsWith(href)
-            )
-              ? 'text-[hsl(var(--primary))] drop-shadow-[0_0_8px_hsl(var(--primary)/0.6)] scale-105'
-              : 'text-[hsl(var(--muted-foreground))] group-hover:text-[hsl(var(--foreground))]/80'}"
+            size={15}
+            strokeWidth={isActive ? 2.4 : 2}
+            class="transition-colors duration-300 shrink-0 {isActive
+              ? 'text-primary'
+              : 'text-muted-foreground group-hover:text-foreground'}"
           />
           <span
-            class="font-sans text-[11.5px] tracking-wide transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] overflow-hidden whitespace-nowrap block
-                   {isShrunk
-              ? 'max-w-0 opacity-0'
-              : 'max-w-[100px] opacity-100 hidden sm:block'}
-                   {(
-              href === '/' ? activePath === '/' : activePath.startsWith(href)
-            )
-              ? 'text-[hsl(var(--foreground))] font-bold tracking-widest'
-              : 'text-[hsl(var(--muted-foreground))] font-semibold group-hover:text-[hsl(var(--foreground))]/90'}"
+            class="font-sans text-[11.5px] tracking-tight transition-colors duration-300 overflow-hidden whitespace-nowrap hidden sm:block
+                   {isActive
+              ? 'text-foreground font-bold'
+              : 'text-muted-foreground font-medium group-hover:text-foreground'}"
           >
             {label}
           </span>
@@ -185,13 +162,10 @@
 
     <!-- RIGHT: Theme Toggle -->
     <div
-      class="relative z-10 flex items-center shrink-0 overflow-hidden transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)]
-             {isShrunk
-        ? 'max-w-0 opacity-0 pl-0 pr-0 ml-0 border-0'
-        : 'max-w-[100px] opacity-100 pl-0.5 sm:pl-3 pr-0.5 sm:pr-1.5 ml-1 sm:ml-0'}"
+      class="relative z-10 flex items-center shrink-0 pl-1 sm:pl-2.5 pr-0.5 sm:pr-1 ml-1 sm:ml-0"
     >
       <div
-        class="p-1 rounded-full bg-[hsl(var(--background)/0.3)] border border-[hsl(var(--border)/0.3)] hover:border-[hsl(var(--foreground)/0.3)] hover:bg-[hsl(var(--foreground)/0.05)] transition-colors active:scale-95 cursor-pointer shrink-0"
+        class="p-1 rounded-xl bg-muted/50 border border-border/70 hover:border-primary/45 hover:bg-primary/10 transition-colors active:scale-95 cursor-pointer shrink-0"
       >
         <ThemeToggle />
       </div>

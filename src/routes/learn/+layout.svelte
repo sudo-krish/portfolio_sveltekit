@@ -14,7 +14,7 @@
     let { data, children } = $props<{ data: LayoutData; children: any }>();
 
     // The data comes from your +layout.server.ts (or page data), assuming you return all items here
-    let items = data.items || [];
+    let items = $derived(data.items || []);
 
     // State for sidebar expansion
     let expandedFolders = $state<Record<string, boolean>>({});
@@ -45,11 +45,29 @@
 </script>
 
 <div
-    class="min-h-screen bg-[#0a0a0c] flex flex-col md:flex-row text-foreground selection:bg-primary/30 font-sans"
+    class="min-h-screen bg-background flex flex-col md:flex-row text-foreground selection:bg-primary/30 font-sans pt-16 md:pt-0"
 >
+    <!-- MOBILE TOP BAR -->
+    <div class="md:hidden flex items-center justify-between px-4 py-3 border-b border-border/40 bg-card/60 backdrop-blur-md">
+        <a
+            href="/"
+            class="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors text-xs font-mono tracking-wider uppercase"
+        >
+            <ArrowLeft size={14} />
+            <span>Home</span>
+        </a>
+        <a
+            href="/learn"
+            class="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider {$page.url.pathname === '/learn' ? 'text-primary font-bold' : 'text-muted-foreground hover:text-foreground'}"
+        >
+            <BookOpen size={14} />
+            <span>All Notes ({items.length})</span>
+        </a>
+    </div>
+
     <!-- LEFT SIDEBAR (Persists across all /learn routes) -->
     <aside
-        class="hidden md:flex flex-col w-72 lg:w-80 h-screen sticky top-0 border-r border-border/10 bg-[#0f0f12] shrink-0 z-20"
+        class="hidden md:flex flex-col w-72 lg:w-80 h-screen sticky top-0 border-r border-border/40 bg-card/40 backdrop-blur-xl shrink-0 z-20"
     >
         <!-- Sidebar Header -->
         <div

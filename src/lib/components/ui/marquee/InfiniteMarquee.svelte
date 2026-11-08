@@ -17,7 +17,7 @@
     }>();
 
     // Quadruple items to ensure we always have enough off-screen to loop safely
-    const loopItems = [...items, ...items, ...items, ...items];
+    let loopItems = $derived([...items, ...items, ...items, ...items]);
 
     let trackElement: HTMLDivElement;
     let containerElement: HTMLDivElement;
@@ -26,7 +26,6 @@
     let isDragging = false;
     let isHovered = false;
     let startX = 0;
-    let currentSpeed = baseSpeed;
     let animationFrameId: number;
 
     function loop() {
@@ -37,7 +36,7 @@
 
         // If not dragging and not hovered, auto-scroll
         if (!isDragging && !isHovered) {
-            currentSpeed = direction === "left" ? baseSpeed : -baseSpeed;
+            const currentSpeed = direction === "left" ? baseSpeed : -baseSpeed;
             position -= currentSpeed;
         }
 
@@ -147,7 +146,7 @@
     aria-label="Technology Marquee"
     tabindex="0"
     style="touch-action: pan-y;"
-    class="relative flex w-full overflow-hidden mask-fade-edges py-20 cursor-grab active:cursor-grabbing focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+    class="relative flex w-full overflow-hidden mask-fade-edges py-3 cursor-grab active:cursor-grabbing focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
     onpointerdown={onPointerDown}
     onpointermove={onPointerMove}
     onpointerup={onPointerUp}
@@ -160,46 +159,35 @@
     <!-- Marquee Track (Now hardware-accelerated via JS translate3d) -->
     <div
         bind:this={trackElement}
-        class="flex w-max shrink-0 gap-5 will-change-transform"
+        class="flex w-max shrink-0 gap-4 will-change-transform"
     >
-        {#each loopItems as tag, i}
-            <!-- 
-               Redesigned Tech Card:
-               Outer container uses heavy glass.
-               Inner container uses solid high-contrast white. 
-            -->
+        {#each loopItems as tag}
             <div
-                class="group relative flex flex-col items-center justify-center gap-3 w-24 h-28
-                       bg-card/60 backdrop-blur-2xl border border-foreground/10 rounded-2xl
-                       transition-colors duration-300 hover:bg-foreground/[0.08] hover:border-foreground/20
-                       select-none shadow-[0_8px_24px_rgba(0,0,0,0.4),0_24px_64px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)]"
+                class="group relative flex flex-col items-center justify-center gap-2.5 w-[88px] h-[100px] sm:w-24 sm:h-28
+                       bg-card/85 backdrop-blur-xl border border-border/80 rounded-xl
+                       transition-colors duration-300 hover:bg-accent/50 hover:border-primary/45
+                       select-none shadow-[var(--shadow-sm)]"
             >
-                <!-- Inner High-Contrast Pedestal -->
-                <!-- We use a nearly solid white/silver background so dark-green logos NEVER get lost -->
+                <!-- Inner High-Contrast Archival Pedestal (consistent in Dark & Light mode so dark SVG logos never vanish) -->
                 <div
-                    class="relative flex items-center justify-center w-[52px] h-[52px] rounded-xl
-                           bg-foreground/90 border border-foreground/40 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1),0_4px_12px_rgba(0,0,0,0.4)]
+                    class="relative flex items-center justify-center w-[50px] h-[50px] rounded-lg
+                           bg-white/95 border border-border/70 shadow-xs
                            transition-transform duration-300 group-hover:scale-105"
                 >
-                    <!-- Small subtle reflection on the top of the pedestal -->
-                    <div
-                        class="absolute inset-x-1 top-1 h-2 bg-gradient-to-b from-foreground to-transparent rounded-t-lg opacity-80 pointer-events-none"
-                    ></div>
-
                     <img
                         src={tag.iconUrl}
                         alt="{tag.name} Data Engineering Architecture Tool"
-                        class="relative w-8 h-8 object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-110 pointer-events-none"
+                        class="relative w-7 h-7 object-contain transition-transform duration-300 group-hover:scale-105 pointer-events-none"
                         loading="lazy"
                         draggable="false"
-                        width="32"
-                        height="32"
+                        width="28"
+                        height="28"
                     />
                 </div>
 
                 <!-- Text Label -->
                 <span
-                    class="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground group-hover:text-foreground transition-colors duration-300 pointer-events-none"
+                    class="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground group-hover:text-foreground transition-colors duration-300 pointer-events-none"
                 >
                     {tag.name}
                 </span>

@@ -91,54 +91,90 @@
 
 {#snippet credentialsGrid(isMobile: boolean)}
     {#if isMobile}
-        <div class="w-full flex flex-col gap-3 relative z-10 mt-4">
-            <!-- Top Meta Bar -->
-            <div class="flex items-center justify-between px-1 w-full mb-1">
-                <div class="flex items-center gap-1.5 text-[9px] text-foreground/30 font-mono uppercase tracking-widest">
-                    <Shield size={10} class="text-muted-foreground" />
-                    <span>Globally Recognized</span>
+        <div class="w-full flex flex-col gap-3.5 relative z-10">
+            <!-- Mobile Overview Specification Card -->
+            <div class="w-full p-5 rounded-2xl bg-card/85 backdrop-blur-xl border border-border/80 shadow-[var(--shadow-sm)] flex flex-col gap-3">
+                <div class="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-border/70">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-lg bg-muted/80 border border-border/80 flex items-center justify-center text-primary shrink-0">
+                            <Shield size={16} />
+                        </div>
+                        <h3 class="text-[16px] font-heading font-bold text-foreground tracking-tight leading-snug">
+                            {certificatesData.overview.title}
+                        </h3>
+                    </div>
+                    <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-muted/60 border border-border/70">
+                        <CheckCircle size={11} class="text-success" />
+                        <span class="text-[9.5px] font-mono font-semibold text-muted-foreground tracking-wider uppercase">Verified</span>
+                    </div>
                 </div>
-                <div class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-foreground/5 border border-foreground/10">
-                    <CheckCircle size={9} class="text-muted-foreground" />
-                    <span class="text-[8px] font-bold text-muted-foreground tracking-widest uppercase">Verified</span>
-                </div>
+                <p class="text-[0.88rem] leading-[1.65] text-muted-foreground mb-0">
+                    {@html certificatesData.overview.description}
+                </p>
             </div>
 
-            <!-- MAIN SCROLLABLE CONTAINER -->
-            <div class="group relative flex flex-col w-full rounded-[1.5rem] bg-gradient-to-br from-foreground/[0.04] to-foreground/[0.01] backdrop-blur-[40px] border border-foreground/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.12)] overflow-hidden">
-                <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-foreground/30 to-transparent opacity-60"></div>
+            <!-- MAIN ACCORDION LEDGER (Zero title truncation on mobile; full light/dark theme support) -->
+            <div class="relative flex flex-col w-full rounded-2xl bg-card/85 backdrop-blur-xl border border-border/80 shadow-[var(--shadow-md)] overflow-hidden">
+                <div class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent opacity-70"></div>
 
-
-                <div class="relative z-10 flex flex-col w-full overflow-y-auto no-scrollbar scroll-smooth p-2">
+                <div class="relative z-10 flex flex-col w-full divide-y divide-border/60 p-1.5 sm:p-2">
                     {#each allItems as item}
-                        <div class="flex flex-col border-b border-foreground/[0.05] last:border-none">
-                            <button type="button" class="flex items-center gap-3 w-full p-3 sm:p-4 hover:bg-foreground/[0.02] rounded-xl transition-colors duration-300 text-left cursor-pointer" onclick={() => toggleAccordion(item.id)}>
-                                <div class="w-10 h-10 shrink-0 flex items-center justify-center rounded-xl border transition-all duration-300" style="background-color: {activeId === item.id ? `${item.color}20` : 'rgba(0,0,0,0.3)'}; border-color: {activeId === item.id ? `${item.color}30` : 'rgba(255,255,255,0.1)'};">
-                                    <svelte:component this={item.icon} size={16} style="color: {activeId === item.id ? item.color : 'rgba(255,255,255,0.4)'};" />
+                        {@const isOpen = activeId === item.id}
+                        <div class="flex flex-col">
+                            <button
+                                type="button"
+                                class="flex items-start gap-3 w-full p-3 sm:p-3.5 hover:bg-muted/40 rounded-xl transition-colors duration-200 text-left cursor-pointer"
+                                onclick={() => toggleAccordion(item.id)}
+                            >
+                                <div
+                                    class="w-9 h-9 shrink-0 flex items-center justify-center rounded-lg border transition-colors duration-200 mt-0.5
+                                           {isOpen ? 'bg-primary/15 border-primary/45 text-primary' : 'bg-muted/70 border-border/80 text-muted-foreground'}"
+                                >
+                                    <svelte:component this={item.icon} size={16} />
                                 </div>
                                 <div class="flex flex-col flex-1 min-w-0 pr-1">
-                                    <span class="text-[13px] sm:text-[14px] font-bold text-foreground/90 truncate leading-tight">{item.name}</span>
-                                    <div class="flex items-center gap-1.5 mt-1">
-                                        <span class="text-[10px] sm:text-[11px] font-mono truncate tracking-wider" style="color: {item.color}e6;">{item.issuer}</span>
-                                        <span class="text-[9px] text-foreground/30">·</span>
-                                        <span class="text-[10px] sm:text-[11px] text-foreground/40 font-medium">{item.date}</span>
+                                    <span class="text-[13.5px] sm:text-[14.5px] font-heading font-bold text-foreground leading-snug break-words">
+                                        {item.name}
+                                    </span>
+                                    <div class="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
+                                        <span class="text-[10.5px] sm:text-[11px] font-mono font-semibold text-primary tracking-wide leading-snug">
+                                            {item.issuer}
+                                        </span>
+                                        <span class="text-[10px] text-border">·</span>
+                                        <span class="text-[10.5px] sm:text-[11px] font-mono tabular-nums text-muted-foreground">
+                                            {item.date}
+                                        </span>
                                     </div>
                                 </div>
-                                <div class="shrink-0 flex items-center justify-center w-5 h-5 rounded-full border transition-transform duration-300" style="transform: {activeId === item.id ? 'rotate(180deg)' : 'rotate(0deg)'}; background-color: {activeId === item.id ? `${item.color}20` : 'rgba(255,255,255,0.05)'}; border-color: {activeId === item.id ? `${item.color}30` : 'rgba(255,255,255,0.05)'}; color: {activeId === item.id ? item.color : 'rgba(255,255,255,0.3)'};">
-                                    <ChevronDown size={10} />
+                                <div
+                                    class="shrink-0 flex items-center justify-center w-6 h-6 rounded-md border transition-all duration-200 mt-0.5
+                                           {isOpen ? 'rotate-180 bg-primary/15 border-primary/40 text-primary' : 'bg-muted/60 border-border/70 text-muted-foreground'}"
+                                >
+                                    <ChevronDown size={12} />
                                 </div>
                             </button>
-                            {#if activeId === item.id}
-                                <div transition:slide={{ duration: 300 }} class="overflow-hidden">
-                                    <div class="pl-14 pr-3 pb-4 pt-1">
-                                        <div class="p-3 rounded-xl bg-card/80 border border-foreground/5 shadow-inner">
-                                            <h4 class="text-[10px] font-mono uppercase tracking-[0.2em] mb-1.5 font-bold" style="color: {item.color};">{item.metaLabel}</h4>
-                                            <p class="text-[11px] sm:text-[12px] leading-relaxed text-foreground/70 font-light">{@html item.impact}</p>
-                                            {#if item.url}
-                                                <div class="mt-3 flex justify-end">
-                                                    <a href={item.url} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border hover:bg-foreground/5 transition-colors" style="border-color: {item.color}40;">
-                                                        <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider" style="color: {item.color};">{item.linkText}</span>
-                                                        <ExternalLink size={10} style="color: {item.color};" />
+                            {#if isOpen}
+                                <div transition:slide={{ duration: 250 }} class="overflow-hidden">
+                                    <div class="pl-3 sm:pl-14 pr-3 pb-3.5 pt-1">
+                                        <div class="p-3.5 rounded-xl bg-muted/45 border border-border/70">
+                                            <p class="text-[12px] sm:text-[12.5px] leading-relaxed text-muted-foreground mb-0">
+                                                {@html item.impact}
+                                            </p>
+                                            {#if item.url && item.url !== "#"}
+                                                <div class="mt-3 pt-2.5 border-t border-border/60 flex items-center justify-between">
+                                                    <span class="text-[9.5px] font-mono uppercase tracking-wider text-muted-foreground">
+                                                        {item.metaLabel}
+                                                    </span>
+                                                    <a
+                                                        href={item.url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-primary/12 border border-primary/35 hover:bg-primary/20 transition-colors"
+                                                    >
+                                                        <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-primary">
+                                                            {item.linkText}
+                                                        </span>
+                                                        <ExternalLink size={11} class="text-primary" />
                                                     </a>
                                                 </div>
                                             {/if}
@@ -152,41 +188,37 @@
             </div>
         </div>
     {:else}
-        <div class="w-full flex flex-col relative z-10" style="gap: 0.5cqi; padding-top: 1cqi;">
-            <!-- OVERVIEW SEO CARD -->
-            <div class="group relative flex flex-col rounded-[2rem] bg-gradient-to-br from-foreground/[0.06] to-foreground/[0.01] backdrop-blur-[60px] border border-foreground/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.12)] overflow-hidden" style="padding: 1.5cqi; margin-bottom: 0.4cqi;">
-                <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-foreground/40 to-transparent opacity-60"></div>
+        <div class="w-full flex flex-col relative z-10" style="gap: 0.65cqi; padding-top: 0.5cqi;">
+            <!-- OVERVIEW SPECIFICATION SHEET -->
+            <div class="group relative flex flex-col rounded-2xl bg-card/85 backdrop-blur-xl border border-border/80 shadow-[var(--shadow-md)] overflow-hidden" style="padding: 1.35cqi; margin-bottom: 0.3cqi;">
+                <div class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent opacity-70"></div>
 
-
-                <div class="relative z-10 flex flex-col" style="gap: 0.8cqi;">
-                    <div class="flex items-center" style="gap: 0.8cqi;">
-                        <div class="flex items-center justify-center w-12 h-12 rounded-2xl bg-card/60 border border-foreground/10 text-muted-foreground">
-                            <Shield size={24} />
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-[clamp(20px,1.8vw,26px)] font-black text-foreground leading-tight tracking-tight">
+                <div class="relative z-10 flex flex-col" style="gap: 0.75cqi;">
+                    <div class="flex items-center justify-between pb-3 border-b border-border/70" style="gap: 0.8cqi;">
+                        <div class="flex items-center" style="gap: 0.75cqi;">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-muted/80 border border-border/80 text-primary shrink-0">
+                                <Shield size={20} />
+                            </div>
+                            <h3 class="text-[clamp(18px,1.5vw,23px)] font-heading font-bold text-foreground leading-tight tracking-tight">
                                 {certificatesData.overview.title}
-                            </span>
-                            <span class="font-mono text-muted-foreground uppercase tracking-[0.2em]" style="font-size: clamp(8px, 0.7cqi, 12px); margin-top: 0.3cqi;">
-                                {certificatesData.overview.subtitle}
-                            </span>
+                            </h3>
                         </div>
+                        <span class="font-mono text-primary uppercase tracking-[0.18em] font-semibold px-2.5 py-1 rounded-md bg-muted/60 border border-border/70 shrink-0" style="font-size: clamp(9px, 0.7cqi, 11px);">
+                            {certificatesData.overview.subtitle}
+                        </span>
                     </div>
-                    <p class="text-[clamp(0.95rem,1vw,1.1rem)] leading-[1.8] text-foreground/70 font-light max-w-[95%]">
+                    <p class="text-[clamp(0.9rem,0.98vw,1.04rem)] leading-[1.7] text-muted-foreground max-w-[96%] mb-0">
                         {@html certificatesData.overview.description}
                     </p>
                 </div>
             </div>
 
             <!-- CERTIFICATES HORIZONTAL DRAG ROW -->
-            <div class="flex flex-col w-full" style="margin-top: 1cqi;">
-                <div class="flex items-center justify-end w-full mb-2 pr-6">
-                    <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-foreground/[0.03] border border-foreground/[0.05]">
-                        <span class="relative flex h-1.5 w-1.5">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-50"></span>
-                            <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
-                        </span>
-                        <span class="text-[9px] font-mono uppercase tracking-[0.15em] text-foreground/40 font-bold">Click cards to view details</span>
+            <div class="flex flex-col w-full" style="margin-top: 0.6cqi;">
+                <div class="flex items-center justify-end w-full mb-1.5 pr-2">
+                    <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-card/80 border border-border/70">
+                        <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
+                        <span class="text-[9px] font-mono uppercase tracking-[0.14em] text-muted-foreground font-semibold">Select any credential for details</span>
                     </div>
                 </div>
                 <DraggableRow title="Verified Certifications" items={certificatesData.list} icon={Award} direction="left" variant="cert" onSelect={(item: any) => openModal(item, "cert")} />
@@ -262,19 +294,20 @@
             class="w-full relative z-20 pointer-events-auto"
         >
             <div
-                class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-lg mx-auto px-5 pt-16 pb-16"
-        style="gap: 2rem;"
+                class="flex flex-col items-start justify-start w-full min-h-[100dvh] max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-12 gap-4 sm:gap-5"
             >
                 <SectionAnchor
                     label={certificatesData.leftAnchor.label}
                     title={certificatesData.leftAnchor.title}
                     description={certificatesData.leftAnchor.description}
-                    labelColor="text-muted-foreground/80"
-                    align="center"
+                    labelColor="text-primary/80"
+                    align="left"
                 />
 
+                {@render credentialsGrid(true)}
+
                 <div
-                    class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.07)] p-1.5 w-max mx-auto"
+                    class="flex items-stretch bg-card/90 backdrop-blur-xl rounded-2xl border border-border/80 shadow-[var(--shadow-md)] p-1.5 w-max"
                 >
                     <PillButton
                         href={certificatesData.ui.cta.href}
@@ -283,8 +316,6 @@
                         accentColor="orange"
                     />
                 </div>
-
-                {@render credentialsGrid(true)}
             </div>
         </div>
     </svelte:fragment>

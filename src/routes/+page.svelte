@@ -123,84 +123,89 @@
         }
 
         // 4. DESKTOP ONLY: GSAP observer for wheel & pointer (no touch)
-        if (window.innerWidth >= 1024) {
-          observer = ScrollTrigger.observe({
-            target: container,
-            type: "wheel,pointer",
-            wheelSpeed: -1,
-            tolerance: 10,
-            preventDefault: true,
-            onUp: (self) => {
-              if (Math.abs(self.deltaX) > Math.abs(self.deltaY)) return;
-              if (isInsideScrollableChild(self)) return;
-              if (!isAnimating) gotoSection(currentIndex + 1);
-            },
-            onDown: (self) => {
-              if (Math.abs(self.deltaX) > Math.abs(self.deltaY)) return;
-              if (isInsideScrollableChild(self)) return;
-              if (!isAnimating) gotoSection(currentIndex - 1);
-            },
-          });
-
-          // 5. DESKTOP ONLY: Touch handling for section snapping (on trackpads/touch laptops)
-          let touchStartY = 0;
-          let touchStartX = 0;
-          let touchAxis: "none" | "h" | "v" = "none";
-          let insideCarousel = false;
-
-          const onTouchStart = (e: TouchEvent) => {
-            const target = e.target as HTMLElement;
-            insideCarousel = !!(target.closest("[data-carousel-touch-zone]") || target.closest('[data-carousel-scroller="true"]'));
-            if (insideCarousel) return;
-
-            touchStartY = e.touches[0].clientY;
-            touchStartX = e.touches[0].clientX;
-            touchAxis = "none";
-          };
-
-          const onTouchMove = (e: TouchEvent) => {
-            if (insideCarousel) return;
-            const cy = e.touches[0].clientY;
-            const cx = e.touches[0].clientX;
-
-            if (touchAxis === "none") {
-              const ax = Math.abs(cx - touchStartX);
-              const ay = Math.abs(cy - touchStartY);
-              if (ax + ay >= 10) touchAxis = ax > ay ? "h" : "v";
-            }
-
-            if (touchAxis === "v") {
-              if (e.cancelable) e.preventDefault();
-            }
-          };
-
-          const onTouchEnd = (e: TouchEvent) => {
-            if (insideCarousel) {
-              insideCarousel = false;
-              return;
-            }
-            if (touchAxis !== "v" || isAnimating) {
-              touchAxis = "none";
-              return;
-            }
-
-            const endY = e.changedTouches[0].clientY;
-            const delta = touchStartY - endY;
-            const TOLERANCE = 40;
-
-            if (Math.abs(delta) >= TOLERANCE) {
-              if (delta > 0) gotoSection(currentIndex + 1);
-              else gotoSection(currentIndex - 1);
-            }
-            touchAxis = "none";
-          };
-
-          container.addEventListener("touchstart", onTouchStart, { passive: true });
-          container.addEventListener("touchmove", onTouchMove, { passive: false });
-          container.addEventListener("touchend", onTouchEnd);
+        observer = ScrollTrigger.observe({
+          target: container,
+          type: "wheel,pointer",
+          wheelSpeed: -1,
+          tolerance: 10,
+          preventDefault: true,
+          onUp: (self) => {
+            if (window.innerWidth < 1024) return;
+            if (Math.abs(self.deltaX) > Math.abs(self.deltaY)) return;
+            if (isInsideScrollableChild(self)) return;
+            if (!isAnimating) gotoSection(currentIndex + 1);
+          },
+          onDown: (self) => {
+            if (window.innerWidth < 1024) return;
+            if (Math.abs(self.deltaX) > Math.abs(self.deltaY)) return;
+            if (isInsideScrollableChild(self)) return;
+            if (!isAnimating) gotoSection(currentIndex - 1);
+          },
+        });
+        if (window.innerWidth < 1024) {
+          observer.disable();
         }
 
-        // 5. Intercept the keyboard keys
+        // 5. DESKTOP ONLY: Touch handling for section snapping (on trackpads/touch laptops)
+        let touchStartY = 0;
+        let touchStartX = 0;
+        let touchAxis: "none" | "h" | "v" = "none";
+        let insideCarousel = false;
+
+        const onTouchStart = (e: TouchEvent) => {
+          if (window.innerWidth < 1024) return;
+          const target = e.target as HTMLElement;
+          insideCarousel = !!(target.closest("[data-carousel-touch-zone]") || target.closest('[data-carousel-scroller="true"]'));
+          if (insideCarousel) return;
+
+          touchStartY = e.touches[0].clientY;
+          touchStartX = e.touches[0].clientX;
+          touchAxis = "none";
+        };
+
+        const onTouchMove = (e: TouchEvent) => {
+          if (window.innerWidth < 1024 || insideCarousel) return;
+          const cy = e.touches[0].clientY;
+          const cx = e.touches[0].clientX;
+
+          if (touchAxis === "none") {
+            const ax = Math.abs(cx - touchStartX);
+            const ay = Math.abs(cy - touchStartY);
+            if (ax + ay >= 10) touchAxis = ax > ay ? "h" : "v";
+          }
+
+          if (touchAxis === "v") {
+            if (e.cancelable) e.preventDefault();
+          }
+        };
+
+        const onTouchEnd = (e: TouchEvent) => {
+          if (window.innerWidth < 1024) return;
+          if (insideCarousel) {
+            insideCarousel = false;
+            return;
+          }
+          if (touchAxis !== "v" || isAnimating) {
+            touchAxis = "none";
+            return;
+          }
+
+          const endY = e.changedTouches[0].clientY;
+          const delta = touchStartY - endY;
+          const TOLERANCE = 40;
+
+          if (Math.abs(delta) >= TOLERANCE) {
+            if (delta > 0) gotoSection(currentIndex + 1);
+            else gotoSection(currentIndex - 1);
+          }
+          touchAxis = "none";
+        };
+
+        container.addEventListener("touchstart", onTouchStart, { passive: true });
+        container.addEventListener("touchmove", onTouchMove, { passive: false });
+        container.addEventListener("touchend", onTouchEnd);
+
+        // 6. Intercept the keyboard keys
         keydownHandler = (e: KeyboardEvent) => {
           if (["ArrowDown", "PageDown", " "].includes(e.key)) {
             e.preventDefault();
@@ -214,8 +219,15 @@
 
         // Refresh and realign on window resize
         ro = new ResizeObserver(() => {
+          if (observer) {
+            if (window.innerWidth >= 1024) observer.enable();
+            else observer.disable();
+          }
           ScrollTrigger.refresh();
-          gotoSection(currentIndex); // Snap back strictly to current section
+          const targetEl = sections[currentIndex];
+          if (targetEl && !isAnimating) {
+            container.scrollTo(0, targetEl.offsetTop);
+          }
         });
         ro.observe(container);
         // Subscribe to global mobile CTA events
@@ -353,46 +365,30 @@
     </div>
   </section>
 
-  <!-- 🔗 CRAWLABLE INTERNAL LINKS — Visible to search engines and LLM crawlers -->
+  <!-- 🔗 CRAWLABLE INTERNAL LINKS — Accessible to search engines, screen readers, and LLM crawlers -->
   <nav
-    aria-label="Site Navigation"
-    class="w-full py-8 px-6 text-center text-xs text-muted-foreground/50 border-t border-border/20"
+    aria-label="Site Directory"
+    class="sr-only"
   >
-    <p class="mb-3 font-medium text-muted-foreground/60">
+    <p>
       Explore Krishnanand Anil's Data Engineering Portfolio
     </p>
-    <div class="flex flex-wrap justify-center gap-x-4 gap-y-2">
-      <a href="/experience" class="hover:text-foreground transition-colors"
-        >Data Engineering Experience</a
-      >
-      <a href="/about" class="hover:text-foreground transition-colors"
-        >About Krishnanand Anil</a
-      >
-      <a href="/credentials" class="hover:text-foreground transition-colors"
-        >AWS Certifications & Credentials</a
-      >
-      <a href="/projects" class="hover:text-foreground transition-colors"
-        >Data Engineering Projects</a
-      >
-      <a href="/articles" class="hover:text-foreground transition-colors"
-        >Technical Articles & Research</a
-      >
-      <a href="/learning-path" class="hover:text-foreground transition-colors"
-        >Learning Path</a
-      >
-    </div>
-    <div class="flex flex-wrap justify-center gap-x-4 gap-y-2 mt-2">
+    <div>
+      <a href="/experience">Data Engineering Experience</a>
+      <a href="/about">About Krishnanand Anil</a>
+      <a href="/credentials">AWS Certifications &amp; Credentials</a>
+      <a href="/projects">Data Engineering Projects</a>
+      <a href="/articles">Technical Articles &amp; Research</a>
+      <a href="/learn">Learning Path</a>
       <a
         href="https://www.linkedin.com/in/krishnanand-anil/"
         rel="noopener noreferrer"
-        target="_blank"
-        class="hover:text-foreground transition-colors">LinkedIn Profile</a
+        target="_blank">LinkedIn Profile</a
       >
       <a
         href="https://github.com/sudo-krish"
         rel="noopener noreferrer"
-        target="_blank"
-        class="hover:text-foreground transition-colors">GitHub Projects</a
+        target="_blank">GitHub Projects</a
       >
     </div>
   </nav>

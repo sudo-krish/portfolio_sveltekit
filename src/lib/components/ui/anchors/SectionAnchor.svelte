@@ -26,25 +26,31 @@
 </script>
 
 <div
-    class="flex flex-col {alignClasses[align]}"
+    class="flex flex-col w-full {alignClasses[align]}"
 >
-    <span
-        class="font-mono {labelColor} uppercase tracking-[0.3em]"
-        style="font-size: clamp(11px, 0.8cqi, 13px); margin-bottom: max(0.5rem, 0.8cqi);"
-    >
-        {label}
-    </span>
-
     <svelte:element this={headingTag || "h2"}
-        class="font-black text-muted-foreground/30 leading-[0.9] tracking-tighter whitespace-pre-line"
-        style="font-size: clamp(2.5rem, 5.5cqi, 4.5rem); margin-bottom: max(0.75rem, 1.2cqi);"
+        class="font-heading font-extrabold text-foreground leading-[0.96] tracking-tight sm:whitespace-pre-line text-balance"
+        style="font-size: clamp(2rem, 4.5cqi, 3.85rem); margin-bottom: max(0.55rem, 0.85cqi);"
     >
-        {title}
+        {title.replace(/\n/g, ' ')}
     </svelte:element>
 
+    <div
+        class="flex items-center gap-2.5"
+        style="margin-bottom: max(0.55rem, 0.8cqi);"
+    >
+        <span class="h-px w-6 bg-primary/50 shrink-0"></span>
+        <span
+            class="font-mono {labelColor} uppercase tracking-[0.2em] font-semibold"
+            style="font-size: clamp(10px, 0.78cqi, 12px);"
+        >
+            {label}
+        </span>
+    </div>
+
     <p
-        class="text-muted-foreground font-light leading-relaxed"
-        style="font-size: clamp(0.85rem, 1cqi, 0.95rem); max-width: {align === 'center' ? '320px' : maxDescWidth};"
+        class="text-muted-foreground font-normal leading-relaxed mb-0 lg:max-w-[var(--desc-max)]"
+        style="font-size: clamp(0.9rem, 1cqi, 0.98rem); --desc-max: {align === 'center' ? '440px' : maxDescWidth};"
     >
         {@html description}
     </p>

@@ -38,7 +38,7 @@ export const resultsData = {
       label: 'Pipeline Uptime',
       value: '99.9%',
       description:
-        'Focused on <span class="text-accent">resilient pipeline design</span>, monitoring, retries, and production reliability.',
+        'Focused on <span class="text-primary">resilient pipeline design</span>, monitoring, retries, and production reliability.',
       iconName: 'Award',
       color: 'hsl(var(--foreground))', // Purple
     },

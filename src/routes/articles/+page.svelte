@@ -34,30 +34,32 @@
         
     </div>
 
-    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-        <a href="/" class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8 group">
+    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-24 sm:pt-28 pb-16">
+        <a href="/" class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6 group">
             <ArrowLeft size={16} class="group-hover:-translate-x-1 transition-transform" />
             <span class="font-mono text-xs uppercase tracking-wider">Home</span>
         </a>
 
-        <div class="flex items-center gap-3 mb-2">
-            <FileText size={28} class="text-primary" />
-            <h1 class="text-3xl sm:text-4xl font-black text-foreground tracking-tighter">{articlesPageContent.h1}</h1>
+        <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-primary/12 border border-primary/35 flex items-center justify-center shrink-0">
+                <FileText size={22} class="text-primary" />
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-heading font-extrabold text-foreground tracking-tight">{articlesPageContent.h1}</h1>
         </div>
-        <p class="text-muted-foreground mb-8 max-w-2xl">
+        <p class="text-muted-foreground mb-8 max-w-2xl leading-relaxed">
             {articlesPageContent.introParagraph}
         </p>
 
         <!-- Search -->
         <div class="relative max-w-md mb-8">
-            <Search size={16} class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+            <Search size={16} class="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <input
                 type="text"
                 bind:value={searchQuery}
                 placeholder="Search articles..."
-                class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-card/60 border border-border/30
+                class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-card/85 border border-border/80
                        text-foreground placeholder:text-muted-foreground/50
-                       focus:border-primary/50 focus:outline-none transition-colors text-sm"
+                       focus:border-primary/60 focus:outline-none transition-colors text-sm shadow-[var(--shadow-sm)]"
             />
         </div>
 

@@ -61,114 +61,96 @@
 
 {#snippet leftGrid(isMobile: boolean)}
     {#if isMobile}
-        <div class="w-full flex flex-col gap-3 relative z-10">
-            <!-- MAIN ACHIEVEMENT CARD (Mobile) -->
-            <div class="group relative flex flex-col p-5 sm:p-6 rounded-[1.5rem] bg-card/80 backdrop-blur-[60px] border border-foreground/[0.08] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
-                <!-- Top internal highlight -->
-                <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-foreground/40 to-transparent opacity-60"></div>
-                <!-- Ambient Purple Glow -->
-
-
-                <div class="relative z-10 flex flex-col gap-4">
-                    <!-- Mobile Header Section -->
-                    <div class="flex items-center gap-3">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-muted border border-border shadow-inner text-muted-foreground">
-                            <CheckCircle2 size={20} class="drop-shadow-[0_0_8px_hsl(var(--accent)/)]" />
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-[16px] sm:text-[18px] font-black text-foreground leading-tight tracking-tight">
-                                {resultsData.achievement.title}
-                            </span>
-                            <span class="text-[11px] sm:text-[12px] font-mono text-primary uppercase tracking-[0.2em] mt-0.5">
-                                {resultsData.achievement.subtitle}
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Mobile Description -->
-                    <p class="text-[0.95rem] sm:text-[1rem] leading-[1.7] text-muted-foreground font-light">
-                        {@html resultsData.achievement.description}
-                    </p>
-                </div>
-            </div>
-
-            <!-- 4 SMALL METRIC CARDS (2x2 Mobile Grid) -->
-            <div class="grid grid-cols-2 gap-3 mt-1">
-                {#each resultsData.metrics as m}
-                    <div class="group relative flex flex-col items-center justify-center text-center p-4 rounded-2xl bg-card/60 backdrop-blur-[40px] border border-foreground/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.08)] overflow-hidden">
-                        <!-- Dynamic Glow based on Metric Color -->
-                        
-
-                        <!-- Card top highlight -->
-                        <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-foreground/20 to-transparent opacity-50"></div>
-
-                        <div class="relative z-10 flex flex-col items-center w-full">
-                            <!-- Smaller icon box for mobile -->
-                            <div class="flex items-center justify-center w-6 h-6 rounded-md bg-muted border border-border shadow-inner mb-2">
-                                <svelte:component this={getIcon(m.iconName)} size={12} style="color: {m.color}" />
+        <div class="w-full flex flex-col gap-3.5 relative z-10">
+            <!-- MAIN ACHIEVEMENT SPECIFICATION SHEET (Mobile) -->
+            <GlassCard variant="default" accent="hsl(var(--primary))" class="group">
+                <div class="flex flex-col gap-3.5">
+                    <div class="flex items-center justify-between gap-3 pb-3 border-b border-border/70">
+                        <div class="flex items-center gap-2.5">
+                            <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-muted/80 border border-border/80 text-primary shrink-0">
+                                <CheckCircle2 size={17} />
                             </div>
-
-                            <div class="flex flex-col items-center w-full">
-                                <span class="text-2xl sm:text-3xl font-black font-mono leading-none drop-shadow-[0_0_15px_currentColor] mb-1.5" style="color: {m.color}">
-                                    {m.value}
-                                </span>
-                                <span class="text-[11px] sm:text-[12px] font-bold text-foreground uppercase tracking-[0.1em] leading-tight mb-1">
-                                    {m.label}
-                                </span>
-                                <p class="text-[10px] sm:text-[11px] font-mono text-muted-foreground leading-relaxed px-1">
-                                    {@html m.description}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                {/each}
-            </div>
-        </div>
-    {:else}
-        <div class="w-full flex flex-col relative z-10" style="gap: 1cqi; padding-top: 1cqi;">
-            <!-- MAIN ACHIEVEMENT CARD (Top Full Width) -->
-            <GlassCard variant="default" accent="hsl(var(--foreground))" class="group">
-                <div class="flex flex-col" style="gap: 1cqi;">
-                    <div class="flex items-center" style="gap: 0.8cqi;">
-                        <div class="flex items-center justify-center rounded-xl bg-foreground/[0.03] border border-foreground/[0.05] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] group-hover:-translate-y-1 transition-all duration-500" style="width: 3cqi; height: 3cqi;">
-                            <CheckCircle2 size={24} class="text-muted-foreground" />
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-[clamp(18px,1.5vw,22px)] font-black text-foreground leading-tight tracking-tight">
+                            <h3 class="text-[16px] sm:text-[18px] font-heading font-bold text-foreground leading-tight tracking-tight">
                                 {resultsData.achievement.title}
-                            </span>
-                            <span class="font-mono text-muted-foreground/70 uppercase tracking-[0.2em]" style="font-size: clamp(8px, 0.7cqi, 12px); margin-top: 0.3cqi;">
-                                {resultsData.achievement.subtitle}
-                            </span>
+                            </h3>
                         </div>
+                        <span class="text-[10px] font-mono text-primary uppercase tracking-[0.16em] font-semibold px-2 py-1 rounded bg-muted/60 border border-border/70 shrink-0">
+                            {resultsData.achievement.subtitle}
+                        </span>
                     </div>
 
-                    <p class="text-[clamp(0.95rem,1vw,1.1rem)] leading-[1.8] text-foreground/50 font-light max-w-[95%]">
+                    <p class="text-[0.92rem] leading-[1.68] text-muted-foreground mb-0">
                         {@html resultsData.achievement.description}
                     </p>
                 </div>
             </GlassCard>
 
-            <!-- 4 SMALL METRIC CARDS (Bottom Grid) -->
-            <div class="grid grid-cols-2 md:grid-cols-4" style="gap: 0.6cqi;">
+            <!-- TELEMETRY PROOF LEDGER (2-Column Mobile Grid) -->
+            <div class="grid grid-cols-2 gap-3">
                 {#each resultsData.metrics as m}
-                    <GlassCard variant="compact" accent={m.color} class="group flex flex-col items-center justify-center text-center">
-                        <div class="relative z-10 flex flex-col items-center w-full">
-                            <div class="flex items-center justify-center rounded-lg bg-foreground/[0.03] border border-foreground/[0.05] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] group-hover:-translate-y-1 transition-transform duration-500" style="width: 2.2cqi; height: 2.2cqi; margin-bottom: 0.5cqi;">
-                                <svelte:component this={getIcon(m.iconName)} size={18} style="color: {m.color}" />
-                            </div>
+                    <GlassCard variant="compact" accent="hsl(var(--primary))" class="group flex flex-col justify-between text-left">
+                        <div class="flex items-center justify-between w-full mb-2 pb-2 border-b border-border/60">
+                            <span class="text-[10px] font-heading font-bold text-foreground uppercase tracking-wider leading-tight">
+                                {m.label}
+                            </span>
+                            <svelte:component this={getIcon(m.iconName)} size={13} class="text-primary shrink-0" />
+                        </div>
 
-                            <div class="flex flex-col items-center w-full">
-                                <span class="font-black font-mono leading-none" style="color: {m.color}; font-size: clamp(1.2rem, 2.2cqi, 2.5rem); margin-bottom: 0.5cqi;">
-                                    {m.value}
-                                </span>
-                                <span class="font-bold text-foreground/80 uppercase tracking-[0.1em] leading-tight" style="font-size: clamp(7px, 0.7cqi, 11px); margin-bottom: 0.4cqi;">
-                                    {m.label}
-                                </span>
-                                <p class="font-mono text-foreground/40 leading-snug" style="font-size: clamp(6.5px, 0.6cqi, 9.5px); padding: 0 0.2cqi;">
-                                    {@html m.description}
-                                </p>
+                        <div class="flex flex-col w-full">
+                            <span class="text-2xl sm:text-3xl font-bold font-mono tabular-nums text-primary leading-none mb-2">
+                                {m.value}
+                            </span>
+                            <p class="text-[11px] text-muted-foreground leading-snug mb-0">
+                                {@html m.description}
+                            </p>
+                        </div>
+                    </GlassCard>
+                {/each}
+            </div>
+        </div>
+    {:else}
+        <div class="w-full flex flex-col relative z-10" style="gap: 0.85cqi; padding-top: 0.5cqi;">
+            <!-- MAIN ACHIEVEMENT SPECIFICATION SHEET (Top Full Width) -->
+            <GlassCard variant="default" accent="hsl(var(--primary))" class="group">
+                <div class="flex flex-col" style="gap: 0.85cqi;">
+                    <div class="flex items-center justify-between pb-3 border-b border-border/70" style="gap: 0.8cqi;">
+                        <div class="flex items-center" style="gap: 0.7cqi;">
+                            <div class="flex items-center justify-center rounded-lg bg-muted/80 border border-border/80 text-primary shrink-0" style="width: 2.3rem; height: 2.3rem;">
+                                <CheckCircle2 size={18} />
                             </div>
+                            <h3 class="text-[clamp(17px,1.4vw,21px)] font-heading font-bold text-foreground leading-tight tracking-tight">
+                                {resultsData.achievement.title}
+                            </h3>
+                        </div>
+                        <span class="font-mono text-primary uppercase tracking-[0.18em] font-semibold px-2.5 py-1 rounded-md bg-muted/60 border border-border/70 shrink-0" style="font-size: clamp(9px, 0.7cqi, 11px);">
+                            {resultsData.achievement.subtitle}
+                        </span>
+                    </div>
+
+                    <p class="text-[clamp(0.9rem,0.98vw,1.04rem)] leading-[1.7] text-muted-foreground max-w-[96%] mb-0">
+                        {@html resultsData.achievement.description}
+                    </p>
+                </div>
+            </GlassCard>
+
+            <!-- TELEMETRY PROOF LEDGER (Bottom Grid) -->
+            <div class="grid grid-cols-2 md:grid-cols-5" style="gap: 0.6cqi;">
+                {#each resultsData.metrics as m}
+                    <GlassCard variant="compact" accent="hsl(var(--primary))" class="group flex flex-col justify-between text-left">
+                        <div class="flex items-center justify-between w-full pb-2 mb-2 border-b border-border/60">
+                            <span class="font-heading font-bold text-foreground uppercase tracking-wide leading-tight" style="font-size: clamp(8.5px, 0.72cqi, 11px);">
+                                {m.label}
+                            </span>
+                            <svelte:component this={getIcon(m.iconName)} size={14} class="text-primary shrink-0" />
+                        </div>
+
+                        <div class="flex flex-col w-full">
+                            <span class="font-bold font-mono tabular-nums text-primary leading-none" style="font-size: clamp(1.25rem, 1.9cqi, 2.1rem); margin-bottom: 0.45cqi;">
+                                {m.value}
+                            </span>
+                            <p class="text-muted-foreground leading-snug mb-0" style="font-size: clamp(8.5px, 0.68cqi, 11px);">
+                                {@html m.description}
+                            </p>
                         </div>
                     </GlassCard>
                 {/each}
@@ -244,19 +226,21 @@
             class="w-full relative z-20 pointer-events-auto"
         >
             <div
-                class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-lg mx-auto px-5 pt-16 pb-16"
-        style="gap: 2rem;"
+                class="flex flex-col items-start justify-start w-full min-h-[100dvh] max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-12 gap-4 sm:gap-5"
             >
                 <SectionAnchor
                     label={resultsData.rightAnchor.label}
                     title={resultsData.rightAnchor.title}
                     description={resultsData.rightAnchor.description}
-                    labelColor="text-muted-foreground/80"
-                    align="center"
+                    labelColor="text-primary/80"
+                    align="left"
                 />
 
+                <!-- Mobile specific grid (stacked logic) -->
+                {@render leftGrid(true)}
+
                 <div
-                    class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] p-1.5 w-max mx-auto"
+                    class="flex items-stretch bg-card/90 backdrop-blur-xl rounded-2xl border border-border/80 shadow-[var(--shadow-md)] p-1.5 w-max"
                 >
                     <PillButton
                         href={resultsData.ui.cta.href}
@@ -265,9 +249,6 @@
                         accentColor="purple"
                     />
                 </div>
-
-                <!-- Mobile specific grid (stacked logic) -->
-                {@render leftGrid(true)}
             </div>
         </div>
     </svelte:fragment>

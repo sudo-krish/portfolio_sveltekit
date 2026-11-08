@@ -6,12 +6,12 @@
     import { ExternalLink } from 'lucide-svelte';
 
     let { data } = $props();
-    const { item } = data;
+    let item = $derived(data.item);
 
-    const crumbs = [
+    let crumbs = $derived([
         { label: 'Articles', url: '/articles' },
         { label: item.meta.title, url: '/articles/' + item.slug }
-    ];
+    ]);
 </script>
 
 <SEO 

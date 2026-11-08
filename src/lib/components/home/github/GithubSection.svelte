@@ -60,9 +60,9 @@
             <LeetCodeCard />
 
             <!-- Mobile Philosophy Card -->
-            <GlassCard variant="inset" hover={false} class="w-full">
+            <GlassCard variant="compact" hover={false} class="w-full">
                 <p
-                    class="text-[0.82rem] leading-[1.7] text-foreground/50 font-light"
+                    class="text-[0.84rem] leading-[1.68] text-muted-foreground mb-0"
                 >
                     {@html codingStatsData.philosophy.shortDescription}
                     {@html codingStatsData.philosophy.detailedPhilosophy}
@@ -70,23 +70,22 @@
             </GlassCard>
         </div>
     {:else}
-        <div class="w-full flex flex-col relative z-10" style="gap: 1cqi;">
+        <div class="w-full flex flex-col relative z-10" style="gap: 0.85cqi;">
             <!-- Side by Side Grid for Stats Cards -->
-            <div class="grid grid-cols-2" style="gap: 1cqi;">
+            <div class="grid grid-cols-2" style="gap: 0.85cqi;">
                 <GitHubStatsCard />
                 <LeetCodeCard />
             </div>
 
-            <!-- Desktop Philosophy Card -->
+            <!-- Desktop Philosophy Card (1px left rule instead of thick border-l-2) -->
             <GlassCard
-                variant="inset"
+                variant="compact"
                 hover={false}
-                class="border-l-2 border-l-[color-mix(in_srgb,var(--_accent)_40%,transparent)]"
-                style="margin-top: 0.2cqi;"
+                style="margin-top: 0.15cqi;"
             >
                 <p
-                    class="leading-[1.6] text-foreground/50"
-                    style="font-size: clamp(0.65rem, 0.85cqi, 0.95rem);"
+                    class="leading-[1.65] text-muted-foreground mb-0"
+                    style="font-size: clamp(0.76rem, 0.86cqi, 0.94rem);"
                 >
                     {@html codingStatsData.philosophy.shortDescription}
                     {@html codingStatsData.philosophy.detailedPhilosophy}
@@ -172,19 +171,20 @@
             class="w-full relative z-20 pointer-events-auto"
         >
             <div
-                class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-lg mx-auto px-5 pt-16 pb-16"
-        style="gap: 2rem;"
+                class="flex flex-col items-start justify-start w-full min-h-[100dvh] max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-12 gap-4 sm:gap-5"
             >
                 <SectionAnchor
                     label={codingStatsData.leftAnchor.label}
                     title={codingStatsData.leftAnchor.title}
                     description={codingStatsData.leftAnchor.description}
-                    labelColor="text-muted-foreground/80"
-                    align="center"
+                    labelColor="text-primary/80"
+                    align="left"
                 />
 
+                {@render codingStatsGrid(true)}
+
                 <div
-                    class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] p-1.5 w-max mx-auto gap-2"
+                    class="flex items-stretch bg-card/90 backdrop-blur-xl rounded-2xl border border-border/80 shadow-[var(--shadow-md)] p-1.5 w-max gap-2"
                 >
                     <PillButton
                         href="/github"
@@ -193,7 +193,7 @@
                         accentColor="green"
                     />
                     <div
-                        class="w-[1px] bg-foreground/10 self-stretch my-1"
+                        class="w-px bg-border/80 self-stretch my-1"
                     ></div>
                     <PillButton
                         href="/leetcode"
@@ -202,8 +202,6 @@
                         accentColor="amber"
                     />
                 </div>
-
-                {@render codingStatsGrid(true)}
             </div>
         </div>
     </svelte:fragment>

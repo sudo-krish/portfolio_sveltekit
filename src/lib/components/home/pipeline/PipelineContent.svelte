@@ -73,13 +73,17 @@
     accentColor="hsl(var(--primary))"
     shortDescription={pipelineData.content.shortDescription}
     detailedPhilosophy={pipelineData.content.detailedPhilosophy}
+    metrics={[
+      { label: "Events", value: "50", unit: "M+/day" },
+      { label: "Delivery", value: "99.9", unit: "%" },
+    ]}
   />
 {/snippet}
 
 {#snippet marquee(isMobile: boolean)}
   {#if isMobile}
     <div
-      class="w-[110%] -ml-[5%] relative overflow-hidden mask-edges-fade opacity-90 scale-90"
+      class="w-full relative overflow-hidden mask-edges-fade opacity-95"
     >
       <InfiniteMarquee
         items={pipelineData.techStack}
@@ -89,11 +93,11 @@
     </div>
   {:else}
     <div
-      class="w-full relative overflow-hidden mask-edges-fade opacity-80 hover:opacity-100 transition-opacity duration-500"
+      class="w-full relative overflow-hidden mask-edges-fade opacity-85 hover:opacity-100 transition-opacity duration-500"
     >
       <InfiniteMarquee
         items={pipelineData.techStack}
-        baseSpeed={0.8}
+        baseSpeed={0.6}
         direction="left"
       />
     </div>
@@ -151,9 +155,9 @@
       class="w-full relative z-20 pointer-events-auto"
     >
       <div
-        class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-lg mx-auto px-5 pt-16 pb-16 relative">
-        <div class="w-full flex flex-col items-center relative z-10" style="gap: 2rem;">
-          {@render pipelineAnchor("center")}
+        class="flex flex-col items-start justify-start w-full min-h-[100dvh] max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-12 relative">
+        <div class="w-full flex flex-col items-start relative z-10 gap-4 sm:gap-5">
+          {@render pipelineAnchor("left")}
           {@render pipelineCard()}
           {@render marquee(true)}
         </div>

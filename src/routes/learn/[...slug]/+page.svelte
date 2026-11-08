@@ -6,12 +6,12 @@
     import type { PageData } from "./$types";
 
     let { data } = $props<{ data: PageData }>();
-    const { item } = data;
+    let item = $derived(data.item);
 
-    const crumbs = [
+    let crumbs = $derived([
         { label: 'Learn', url: '/learn' },
         { label: item.meta.title, url: '/learn/' + item.slug }
-    ];
+    ]);
 </script>
 
 <SEO

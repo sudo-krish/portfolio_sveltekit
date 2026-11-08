@@ -34,74 +34,61 @@
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <div
-            transition:scale={{ duration: 300, start: 0.95, opacity: 0 }}
-            class="relative w-full max-w-[550px] flex flex-col p-8 rounded-[2rem] bg-card border border-foreground/15 shadow-[0_40px_100px_rgba(0,0,0,0.8)] overflow-hidden cursor-default"
+            transition:scale={{ duration: 250, start: 0.96, opacity: 0 }}
+            class="relative w-full max-w-[540px] flex flex-col p-6 sm:p-8 rounded-2xl bg-card border border-border/80 shadow-[var(--shadow-xl)] overflow-hidden cursor-default"
             onclick={(e) => e.stopPropagation()}
         >
-            
-
             <button
                 onclick={onclose}
-                class="absolute top-6 right-6 w-8 h-8 flex items-center justify-center rounded-full bg-foreground/5 border border-foreground/10 hover:bg-foreground/15 text-foreground/50 hover:text-foreground transition-colors z-20"
+                aria-label="Close modal"
+                class="absolute top-5 right-5 w-8 h-8 flex items-center justify-center rounded-lg bg-muted/70 border border-border/80 hover:bg-primary/12 hover:border-primary/40 text-muted-foreground hover:text-foreground transition-colors z-20 cursor-pointer"
             >
-                <X size={18} />
+                <X size={16} />
             </button>
 
             <div class="relative z-10 flex flex-col">
                 <div
-                    class="flex items-start gap-5 mb-6 border-b border-foreground/[0.08] pb-6"
+                    class="flex items-start gap-4 mb-5 border-b border-border/70 pb-5"
                 >
                     <div
-                        class="w-16 h-16 shrink-0 flex items-center justify-center rounded-2xl border shadow-inner"
-                        style="background-color: {item.color}15; border-color: {item.color}40;"
+                        class="w-13 h-13 shrink-0 flex items-center justify-center rounded-xl bg-primary/12 border border-primary/35 text-primary"
                     >
                         <svelte:component
                             this={type === "cert" ? Award : BookOpen}
-                            size={32}
-                            style="color: {item.color}"
+                            size={26}
                         />
                     </div>
-                    <div class="flex flex-col gap-1.5 pr-8 pt-1">
+                    <div class="flex flex-col gap-1.5 pr-8">
                         <h3
-                            class="text-xl sm:text-2xl font-black text-foreground leading-tight"
+                            class="text-lg sm:text-xl font-heading font-bold text-foreground leading-snug"
                         >
                             {item.name}
                         </h3>
                         <div
-                            class="flex flex-wrap items-center gap-2 font-mono text-[10px] sm:text-xs text-foreground/50 uppercase tracking-widest mt-1"
+                            class="flex flex-wrap items-center gap-2 font-mono text-[11px] text-muted-foreground uppercase tracking-wider mt-0.5"
                         >
-                            <span style="color: {item.color}"
-                                >{item.issuer}</span
-                            >
-                            <span class="hidden sm:inline">·</span>
-                            <span>{item.date}</span>
+                            <span class="text-primary font-semibold">{item.issuer}</span>
+                            <span>·</span>
+                            <span class="tabular-nums">{item.date}</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="flex flex-col mb-8">
-                    <h4
-                        class="text-[10px] font-mono uppercase tracking-[0.2em] mb-3 font-bold"
-                        style="color: {item.color}"
-                    >
-                        {type === "cert"
-                            ? "Impact & Learning"
-                            : "Abstract & Impact"}
-                    </h4>
+                <div class="flex flex-col mb-6">
                     <p
-                        class="text-[1rem] leading-[1.8] text-foreground/80 font-light"
+                        class="text-[0.95rem] leading-[1.72] text-muted-foreground mb-0"
                     >
                         {@html item.impact}
                     </p>
                 </div>
 
-                <div class="flex items-center justify-between mt-auto pt-4">
+                <div class="flex items-center justify-between mt-auto pt-4 border-t border-border/70">
                     <div
-                        class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-foreground/5 border border-foreground/10 w-max"
+                        class="flex items-center gap-2 px-2.5 py-1 rounded-md bg-muted/70 border border-border/80 w-max"
                     >
-                        <CheckCircle size={12} class="text-muted-foreground" />
+                        <CheckCircle size={12} class="text-success" />
                         <span
-                            class="text-[10px] font-bold text-muted-foreground tracking-widest uppercase"
+                            class="text-[10px] font-mono font-semibold text-muted-foreground tracking-wider uppercase"
                         >
                             {type === "cert"
                                 ? "Verified Credential"
@@ -114,11 +101,11 @@
                             href={item.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="flex items-center gap-2 text-xs font-bold !text-foreground hover:!text-foreground/70 transition-colors group"
+                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/12 border border-primary/35 text-xs font-mono font-bold text-primary hover:bg-primary/20 transition-colors group no-underline"
                         >
                             View Original
                             <ExternalLink
-                                size={14}
+                                size={13}
                                 class="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
                             />
                         </a>

@@ -21,7 +21,7 @@ export const certificatesData = {
     },
     cta: {
       label: 'Explore Badges',
-      href: '#',
+      href: '/credentials',
     },
   },
   // Real Certificates List

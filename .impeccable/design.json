@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-08T10:30:00Z",
+  "title": "Design System: Krishnanand Anil — Cloud Data Architecture Atelier",
+  "extensions": {
+    "colorMeta": {
+      "primary-hydro-cyan": {
+        "role": "primary",
+        "displayName": "Hydrological Cyan",
+        "canonical": "hsl(192 91% 48%)",
+        "tonalRamp": [
+          "#042f44",
+          "#064767",
+          "#0569a3",
+          "#0887c9",
+          "#0ba5ec",
+          "#38bdf8",
+          "#7dd3fc",
+          "#e0f2fe"
+        ]
+      },
+      "secondary-telemetry-emerald": {
+        "role": "secondary",
+        "displayName": "Telemetry Emerald",
+        "canonical": "hsl(162 78% 42%)",
+        "tonalRamp": [
+          "#063427",
+          "#09523d",
+          "#0d7356",
+          "#0f9670",
+          "#10b981",
+          "#34d399",
+          "#6ee7b7",
+          "#d1fae5"
+        ]
+      },
+      "tertiary-pipeline-amber": {
+        "role": "tertiary",
+        "displayName": "Pipeline Amber",
+        "canonical": "hsl(38 92% 55%)",
+        "tonalRamp": [
+          "#452304",
+          "#6b3707",
+          "#944d0a",
+          "#c2670d",
+          "#f59e0b",
+          "#fbbf24",
+          "#fde68a",
+          "#fef3c7"
+        ]
+      },
+      "blueprint-slate-bg": {
+        "role": "neutral",
+        "displayName": "Deep Prussian Blueprint",
+        "canonical": "hsl(218 42% 5%)",
+        "tonalRamp": [
+          "#070c16",
+          "#0d1626",
+          "#131f33",
+          "#1f324d",
+          "#3b5273",
+          "#647d9e",
+          "#95a9c6",
+          "#f0f5fa"
+        ]
+      },
+      "vellum-drafting-bg": {
+        "role": "neutral",
+        "displayName": "Warm Archival Drafting Vellum",
+        "canonical": "hsl(44 26% 96%)",
+        "tonalRamp": [
+          "#0f172a",
+          "#334155",
+          "#64748b",
+          "#94a3b8",
+          "#d5cfc4",
+          "#edeae2",
+          "#f7f5f0",
+          "#ffffff"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display Architecture Header",
+        "purpose": "Hero primary title (clamp(2.5rem, 4.8vw + 1rem, 5.75rem))."
+      },
+      "headline": {
+        "displayName": "Section Anchor Headline",
+        "purpose": "Primary section headings across all 11 homepage stages and inner editorial pages."
+      },
+      "title": {
+        "displayName": "Specification Sheet Title",
+        "purpose": "SectionCard, ContentCard, and modal titles with zero mobile truncation."
+      },
+      "body": {
+        "displayName": "Engineering Prose",
+        "purpose": "Readable architectural descriptions and bulleted proof points (60-70ch measure)."
+      },
+      "label": {
+        "displayName": "Tabular Telemetry Label",
+        "purpose": "JetBrains Mono specification indices, SLA counters, and uppercase metadata tags."
+      }
+    },
+    "shadows": [
+      {
+        "name": "blueprint-resting",
+        "value": "0 12px 32px -12px rgba(2, 8, 20, 0.45)",
+        "purpose": "Default resting elevation on primary specification sheets (GlassCard)."
+      },
+      {
+        "name": "compact-tile",
+        "value": "0 6px 18px -8px rgba(2, 8, 20, 0.3)",
+        "purpose": "Subtle depth on FeatureGrid nodes and compact action tiles."
+      },
+      {
+        "name": "interactive-hover",
+        "value": "0 16px 36px -12px rgba(11, 165, 236, 0.22)",
+        "purpose": "Hover elevation paired with -2px vertical lift on interactive controls."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Smooth exponential deceleration for card transitions and mobile segmented controls."
+      },
+      {
+        "name": "flip-3d",
+        "value": "cubic-bezier(0.4, 0, 0.2, 1)",
+        "purpose": "700ms 3D perspective flip between 3D Model and Specs on mobile."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary PillButton",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Primary blueprint CTA button with dedicated directional icon compartment.",
+      "html": "<button class=\"ds-btn-primary\"><span>Explore Pipeline</span><span class=\"ds-btn-icon\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></span></button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 12px; background: #0ba5ec; color: #070c16; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 0.875rem; padding: 12px 20px; border-radius: 12px; border: 1px solid rgba(11, 165, 236, 0.8); cursor: pointer; transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1); box-shadow: 0 8px 24px -6px rgba(11, 165, 236, 0.35); } .ds-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -6px rgba(11, 165, 236, 0.5); } .ds-btn-icon { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 8px; background: rgba(7, 12, 22, 0.15); transition: transform 0.25s ease; } .ds-btn-primary:hover .ds-btn-icon { transform: translateX(2px); }"
+    },
+    {
+      "name": "Secondary PillButton",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Secondary blueprint specification button with cyan hover border and icon compartment.",
+      "html": "<button class=\"ds-btn-secondary\"><span>Inspect Architecture</span><span class=\"ds-btn-sec-icon\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></span></button>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; gap: 12px; background: rgba(13, 22, 38, 0.9); color: #f0f5fa; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 0.875rem; padding: 12px 20px; border-radius: 12px; border: 1px solid #1f324d; cursor: pointer; transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1); } .ds-btn-secondary:hover { border-color: rgba(11, 165, 236, 0.5); color: #0ba5ec; transform: translateY(-2px); } .ds-btn-sec-icon { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 8px; background: rgba(11, 165, 236, 0.12); color: #0ba5ec; }"
+    },
+    {
+      "name": "Blueprint Specification Card (SectionCard)",
+      "kind": "card",
+      "refersTo": "card-blueprint",
+      "description": "Architectural specification sheet with non-truncating title, tabular telemetry metrics, and 1px ledger divider.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-header\"><h3 class=\"ds-card-title\">Streaming Pipeline</h3><div class=\"ds-card-metrics\"><div class=\"ds-metric\"><span class=\"ds-metric-val\">50 M+/day</span><span class=\"ds-metric-lbl\">Throughput</span></div></div></div><div class=\"ds-card-body\"><p>Fault-tolerant event ingestion with exactly-once semantics and schema enforcement.</p></div></div>",
+      "css": ".ds-card { position: relative; background: rgba(13, 22, 38, 0.9); color: #f0f5fa; border: 1px solid #1f324d; border-radius: 16px; padding: 24px; box-shadow: 0 12px 32px -12px rgba(2, 8, 20, 0.45); } .ds-card-header { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid rgba(31, 50, 77, 0.7); } .ds-card-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.25rem; font-weight: 700; margin: 0; line-height: 1.25; } .ds-card-metrics { display: flex; gap: 16px; } .ds-metric { display: flex; flex-direction: column; align-items: flex-end; } .ds-metric-val { font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; font-weight: 700; color: #0ba5ec; font-variant-numeric: tabular-nums; } .ds-metric-lbl { font-family: 'JetBrains Mono', monospace; font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.14em; color: #95a9c6; } .ds-card-body { padding-top: 16px; font-family: 'Public Sans', sans-serif; font-size: 0.9375rem; line-height: 1.6; color: #95a9c6; }"
+    },
+    {
+      "name": "FeatureGrid Node with Archival Pedestal",
+      "kind": "card",
+      "refersTo": "card-compact",
+      "description": "Compact 2-column tool specification tile with high-contrast white icon pedestal and non-truncating title.",
+      "html": "<div class=\"ds-node\"><div class=\"ds-pedestal\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0f172a\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 3v18M3 12h18\"/></svg></div><div class=\"ds-node-text\"><div class=\"ds-node-name\">Apache Iceberg</div><div class=\"ds-node-desc\">ACID Table Format</div></div></div>",
+      "css": ".ds-node { display: flex; align-items: flex-start; gap: 12px; background: rgba(13, 22, 38, 0.85); border: 1px solid #1f324d; border-radius: 12px; padding: 14px; transition: border-color 0.2s ease, transform 0.2s ease; } .ds-node:hover { border-color: rgba(11, 165, 236, 0.45); transform: translateY(-2px); } .ds-pedestal { width: 36px; height: 36px; border-radius: 8px; background: rgba(255, 255, 255, 0.95); display: flex; align-items: center; justify-content: center; flex-shrink: 0; } .ds-node-name { font-family: 'Bricolage Grotesque', sans-serif; font-size: 0.875rem; font-weight: 700; color: #f0f5fa; line-height: 1.25; } .ds-node-desc { font-family: 'Public Sans', sans-serif; font-size: 0.75rem; color: #95a9c6; margin-top: 2px; }"
+    },
+    {
+      "name": "Blueprint Form Input",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Recessed telemetry input field with cyan focus ring.",
+      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"architect@organization.io\" />",
+      "css": ".ds-input { width: 100%; background: rgba(19, 31, 51, 0.6); color: #f0f5fa; font-family: 'Public Sans', sans-serif; font-size: 0.875rem; padding: 12px 16px; border-radius: 12px; border: 1px solid #1f324d; outline: none; transition: border-color 0.2s ease, box-shadow 0.2s ease; } .ds-input:focus { border-color: #0ba5ec; box-shadow: 0 0 0 3px rgba(11, 165, 236, 0.15); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Hydrological Blueprint & Fluid Telemetry Atelier",
+    "overview": "This design system frames cloud data architecture—streaming pipelines, raw storage lakes, open-table lakehouses, and analytical warehouses—as precision hydrological engineering. Rather than treating UI cards as decorative glass overlays floating in a generic void, every surface acts as a calibrated architectural specification sheet anchored alongside live 3D Threlte infrastructure models (Pipeline3D, Datalake3D, Lakehouse3D, Warehouse3D).\n\nThe system balances dual-theme material honesty: Deep Prussian Blueprint in dark mode and Warm Archival Drafting Vellum in light mode. Typography pairs the expressive architectural authority of Bricolage Grotesque with the humanist clarity of Public Sans and the tabular instrumentation precision of JetBrains Mono. On mobile viewports, every architectural stage preserves the 3D-first inspection flow while enforcing a strict left-aligned reading spine and zero-truncation card headers.",
+    "keyCharacteristics": [
+      "Dual-Theme Blueprint Surfaces: Deep Prussian slate (#070c16) and drafting vellum (#f7f5f0) with crisp 1px structural rules and top-edge specular hairlines.",
+      "Heading-First Hierarchy: Primary section headings always lead at the top; specification indices and horizontal hairlines sit beneath the heading rather than as eyebrow kickers above.",
+      "Hairline Ledger Dividers Over Nested Cards: Metrics, commit trails, and pipeline stage callouts use 1px internal ledger dividers (divide-x / divide-y) inside a single specification sheet rather than nesting cards inside cards.",
+      "Archival Icon Pedestals: Every dark or multicolor technology logo sits inside a dedicated bg-white/95 (36px–40px) rounded pedestal so SVG marks remain crisp across both dark and light themes.",
+      "Zero-Truncation Mobile Reading Spine: Mobile specification sheets wrap titles naturally (flex-wrap, break-words), align all headings and cards to a unified left axis, and dock section CTAs at the bottom of the scroll container."
+    ],
+    "rules": [
+      {
+        "name": "The Hydrological Signal Rule",
+        "body": "Accent colors (Hydrological Cyan, Telemetry Emerald, Pipeline Amber) are reserved for interactive states, live metrics, and architectural stage differentiation—never as large decorative background washes or multi-stop text gradients.",
+        "section": "colors"
+      },
+      {
+        "name": "The Archival Pedestal Rule",
+        "body": "All third-party technology SVG icons (Spark, Kafka, AWS, Snowflake, Iceberg, Airflow) must be housed inside a bg-white/95 rounded pedestal (rounded-lg, border-border/50) so dark vector paths remain high-contrast in both dark and light modes.",
+        "section": "colors"
+      },
+      {
+        "name": "The Heading-First Rule",
+        "body": "Section headings (h1, h2, h3) always lead at the top of their hierarchy block; specification indices and category rules sit below the heading with an inline 1px rule rather than as an eyebrow kicker above.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Telemetry Rule",
+        "body": "Every numeric counter, throughput figure (50 M+/day), latency reduction (95%), and date range must use JetBrains Mono with font-variant-numeric: tabular-nums.",
+        "section": "typography"
+      },
+      {
+        "name": "The Single-Sheet Ledger Rule",
+        "body": "Never nest a bordered card inside another bordered card; subdivide internal telemetry, stats, and pipeline phases using 1px hairline ledger lines (border-t border-border/60, divide-x divide-border/60).",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do lead every section and page with the primary heading (h1/h2) first, placing the JetBrains Mono specification index and 1px rule beneath the heading.",
+      "Do allow card titles, tool names, and credential titles to wrap naturally on mobile viewports (flex-wrap, break-words, line-clamp-2) so no heading is cut off with ....",
+      "Do house dark or multi-color technology SVG logos inside bg-white/95 pedestals so they remain legible in both Dark and Light mode.",
+      "Do subdivide multi-metric cards (GitHub telemetry, LeetCode counters, Impact benchmarks) with 1px hairline borders (divide-x / divide-y) inside a single card surface.",
+      "Do keep mobile slot=\"content-mobile\" sections left-aligned (items-start, align=\"left\") with the primary CTA button placed at the bottom after the specification cards."
+    ],
+    "donts": [
+      "Don't place small uppercase eyebrow kickers above h1, h2, or h3 headings.",
+      "Don't apply truncate (text-overflow: ellipsis; white-space: nowrap) to card titles, mobile tool grid titles, or certification titles.",
+      "Don't nest <GlassCard> components inside another <GlassCard>.",
+      "Don't add backdrop-filter / backdrop-blur to .flip-card in MobileCarousel.svelte, as it breaks 3D backface-visibility: hidden in mobile browsers.",
+      "Don't alter the MobileCarousel 3D-first entry behavior (activeSlide = 0 on section entry) or the 11-section scroll flow."
+    ]
+  }
+}
+

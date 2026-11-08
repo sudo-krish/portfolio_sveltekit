@@ -98,6 +98,10 @@
     accentColor="hsl(var(--primary))"
     shortDescription={datalakeData.content.shortDescription}
     detailedPhilosophy={datalakeData.content.detailedPhilosophy}
+    metrics={[
+      { label: "Zones", value: "3", unit: "Tier ACID" },
+      { label: "Cost Saved", value: "60", unit: "%" },
+    ]}
   />
 {/snippet}
 
@@ -167,10 +171,9 @@
     >
       <div
         bind:this={mobilePanel}
-        class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-lg mx-auto px-5 pt-16 pb-16"
-        style="gap: 2rem;"
+        class="flex flex-col items-start justify-start w-full min-h-[100dvh] max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-12 gap-4 sm:gap-5"
       >
-        {@render datalakeAnchor("center")}
+        {@render datalakeAnchor("left")}
         {@render datalakeCard()}
         {@render storageGrid()}
       </div>

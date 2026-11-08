@@ -32,10 +32,11 @@
   let impactGroup: any;
   let credGroup: any;
   let contactGroup: any;
+  let cameraRef: any;
 
-  let isMobile = false;
-  let cameraZ = 10;
-  let cameraFov = 35;
+  let isMobile = typeof window !== "undefined" ? window.innerWidth < 1024 : false;
+  let cameraZ = isMobile ? 14 : 10;
+  let cameraFov = isMobile ? 40 : 35;
 
   let scrollY_target = 0;
   let scrollY_current = 0;
@@ -61,18 +62,21 @@
   let vw = 1;
 
   const MOBILE_POS = {
-    start: { x: 0, y: 2.5, z: 0 },
-    pipe: { x: 0, y: 2.5, z: 0 },
-    lake: { x: 0, y: 2.5, z: 0 },
-    house: { x: 0, y: 2.5, z: 0 },
-    ware: { x: 0, y: 2.5, z: 0 },
+    start: { x: 0, y: 1.55, z: 0 },
+    pipe: { x: 0, y: 1.55, z: 0 },
+    lake: { x: 0, y: 1.15, z: 0 },
+    house: { x: 0, y: 2.05, z: 0 },
+    ware: { x: 0, y: 2.05, z: 0 },
   };
+
+  const MOBILE_METRIC_Y = 1.9;
 
   let pos = MOBILE_POS;
 
-  $: HERO_SCALE = isMobile ? 1.1 : 1.2 * vw;
+  $: HERO_SCALE = isMobile ? 1.05 : 1.2 * vw;
   $: PIPE_SCALE = isMobile ? 0.45 : 0.5 * vw;
   $: COMPACT_SCALE = isMobile ? 0.35 : 0.35 * vw;
+  $: LAKE_SCALE = isMobile ? 0.55 : 1.0;
   $: HOUSE_SCALE = isMobile ? 0.4 : 0.45 * vw;
   $: WAREHOUSE_SCALE = isMobile ? 1.0 : 1.4 * vw;
 
@@ -80,7 +84,11 @@
     if (typeof window === "undefined") return;
     const width = window.innerWidth;
     isMobile = width < 1024;
-    innerHeight = window.innerHeight;
+    const container = document.querySelector(".snap-container") as HTMLElement | null;
+    innerHeight = container?.clientHeight || window.innerHeight;
+    if (container) {
+      scrollY_target = container.scrollTop;
+    }
 
     // Compute continuous viewport factor (clamped 0.5–1.0 for desktop range)
     vw = Math.max(0.5, Math.min(1.0, width / REF_WIDTH));
@@ -101,6 +109,10 @@
       // Smooth camera: closer + wider FOV on narrower screens
       cameraZ = 8 + 2 * vw;   // 10 at 1920, ~9 at 1280
       cameraFov = 33 + 2 * vw; // 35 at 1920, ~34 at 1280
+    }
+    if (cameraRef) {
+      cameraRef.fov = cameraFov;
+      cameraRef.updateProjectionMatrix();
     }
   }
 
@@ -183,7 +195,7 @@
         if (isMobile) {
           // Slide cleanly into view based on user swipe
           g.position.x = calculatedSwipeOffset;
-          g.position.y = MOBILE_POS.start.y;
+          g.position.y = MOBILE_METRIC_Y;
         } else {
           // Desktop: Alternate sides, scaled by viewport factor
           const baseOffset = (i % 2 === 0 ? -4.5 : 4.5) * vw;
@@ -250,7 +262,8 @@
         easeInOutCubic,
       );
       
-      const pipeYOffset = mapR(rawProgress, 1.0, 1.25, pos.pipe.y, pos.lake.y + 5.5, easeInOutCubic);
+      const pipeHoverLift = isMobile ? 2.7 : 5.5;
+      const pipeYOffset = mapR(rawProgress, 1.0, 1.25, pos.pipe.y, pos.lake.y + pipeHoverLift, easeInOutCubic);
       const pipeTipY = pipeYOffset - 1.5;
 
       if (rawProgress < 1.3) {
@@ -331,12 +344,13 @@
         easeInOutCubic,
       );
       // Calculate a base Y that elevates the pipe to hover high above the lake for a dramatic drop
+      const pipeHoverLift = isMobile ? 2.7 : 5.5;
       let currentPipeY = mapR(
         rawProgress,
         1.0,
         1.25,
         pos.pipe.y,
-        pos.lake.y + 5.5,
+        pos.lake.y + pipeHoverLift,
         easeInOutCubic,
       );
       pipeGroup.rotation.z = mapR(
@@ -361,6 +375,7 @@
     }
 
     // C. LAKE
+    lakeGroup.rotation.x = isMobile ? 0.32 : 0;
     if (rawProgress <= 2.0) {
       lakeGroup.position.x = pos.lake.x;
       lakeGroup.position.y = mapR(
@@ -371,7 +386,7 @@
         pos.lake.y,
         easeInOutCubic,
       );
-      lakeGroup.scale.set(1, 1, 1);
+      lakeGroup.scale.set(LAKE_SCALE, LAKE_SCALE, LAKE_SCALE);
     } else if (rawProgress <= 3.0) {
       lakeGroup.position.x = mapR(
         rawProgress,
@@ -389,7 +404,7 @@
         pos.house.y - 1.2,
         easeInOutCubic,
       );
-      lakeGroup.scale.set(1, 1, 1);
+      lakeGroup.scale.set(LAKE_SCALE, LAKE_SCALE, LAKE_SCALE);
     } else if (rawProgress <= 4.0) {
       lakeGroup.position.x = pos.house.x;
       lakeGroup.position.y = mapR(
@@ -400,7 +415,7 @@
         pos.house.y + 8 - 1.2,
         (t) => t,
       );
-      const s = mapR(rawProgress, 3.0, 3.3, 1, 0, (t) => t);
+      const s = mapR(rawProgress, 3.0, 3.3, LAKE_SCALE, 0, (t) => t);
       lakeGroup.scale.set(s, s, s);
     } else {
       lakeGroup.scale.set(0, 0, 0);
@@ -531,7 +546,7 @@
   url="/hdri/abandoned_parking_1k.hdr"
 />
 
-<T.PerspectiveCamera makeDefault position={[0, 0, cameraZ]} fov={cameraFov}>
+<T.PerspectiveCamera bind:ref={cameraRef} makeDefault position={[0, 0, cameraZ]} fov={cameraFov}>
   <T.DirectionalLight
     position={[5, 5, 5]}
     intensity={$theme === "light" ? 3.5 : 2}

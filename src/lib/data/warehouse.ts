@@ -14,7 +14,7 @@ export const warehouseData = {
     titleLine2: 'Analytics.',
   },
   content: {
-    shortDescription: `The data warehouse is where <strong class="text-foreground font-medium">raw information finally becomes truth</strong>. I obsess over modeling and performance so the answers are waiting for <span class="text-accent font-medium tracking-wide">business teams</span> before the questions are even asked.`,
+    shortDescription: `The data warehouse is where <strong class="text-foreground font-medium">raw information finally becomes truth</strong>. I obsess over modeling and performance so the answers are waiting for <span class="text-primary font-medium tracking-wide">business teams</span> before the questions are even asked.`,
 
     detailedPhilosophy: `If a dashboard takes ten minutes to load, no one will use it. I architect high-performance serving layers using Amazon Redshift and Snowflake that don't just store data—they deliver it at the speed of thought. By leaning into near real-time refresh patterns and rigorous, version-controlled modeling with dbt, I make sure every metric is tested and bulletproof. I build analytics foundations that can handle hundreds of concurrent users without breaking a sweat, turning data teams from cost centers into the heroes of the business.`,
   },
