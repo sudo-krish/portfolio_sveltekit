@@ -111,7 +111,9 @@
         if (typeof document !== "undefined") {
             document.body.style.overflow = "";
         }
-        ScrollTrigger.defaults({ scroller: window });
+        if (typeof window !== "undefined") {
+            ScrollTrigger.defaults({ scroller: window });
+        }
         ctx?.revert();
     });
 
