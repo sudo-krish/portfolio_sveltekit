@@ -77,3 +77,4 @@ This portfolio (https://krishnanandanil.com) is built using SvelteKit (Svelte 5)
 - 3D-first responsive mobile carousel with interactive flip-card specifications.
 - Deep Prussian Blueprint & Archival Drafting Vellum dual-mode theming.
 - Full server-side rendering (SSR), WCAG 2.2 AA accessibility, and JSON-LD structured data.
+

@@ -55,3 +55,4 @@
    - Verify that Perplexity and ChatGPT Search index the updated profile benchmarks.
 3. **Core Web Vitals Monitoring**:
    - Confirm INP remains in the "Good" threshold (<200ms, targeting <50ms) in CrUX field data.
+

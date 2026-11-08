@@ -5,4 +5,4 @@
     const content = impactSectionContent;
 </script>
 
-<SectionPage {content} accentColor="#a855f7" />
+<SectionPage {content} accentColor="hsl(24 95% 53%)" />
