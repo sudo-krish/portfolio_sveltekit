@@ -48,10 +48,10 @@ export interface ContentMeta {
 }
 
 export interface ContentItem {
-  slug: string;         // File path without .md (e.g., "kafka/intro")
+  slug: string; // File path without .md (e.g., "kafka/intro")
   meta: ContentMeta;
-  html: string;         // Rendered HTML from markdown body
-  raw: string;          // Raw markdown body (no frontmatter)
+  html: string; // Rendered HTML from markdown body
+  raw: string; // Raw markdown body (no frontmatter)
 }
 
 export interface ContentIndex {
@@ -140,6 +140,10 @@ export async function fetchContentFile(
   return parseMarkdown(rawContent, path);
 }
 
+function resolveTitle(data: Record<string, any>, slug: string): string {
+  return data.title || slug.split('/').pop() || slug;
+}
+
 /**
  * Parse raw markdown string into ContentItem.
  */
@@ -148,12 +152,12 @@ export function parseMarkdown(raw: string, filePath: string): ContentItem {
   const slug = filePath.replace(/\.md$/, '');
 
   const meta: ContentMeta = {
-    title: data.title || slug.split('/').pop() || slug,
+    title: resolveTitle(data, slug),
     description: data.description,
     category: data.category,
-    tags: data.tags || [],
-    related: data.related || [],
-    created: data.created?.toString() || '',
+    tags: data.tags ?? [],
+    related: data.related ?? [],
+    created: String(data.created ?? ''),
     updated: data.updated?.toString(),
     difficulty: data.difficulty,
     tech: data.tech,
@@ -166,9 +170,9 @@ export function parseMarkdown(raw: string, filePath: string): ContentItem {
     content_type: data.content_type,
     primary_keyword: data.primary_keyword,
     intent: data.intent,
-    related_projects: data.related_projects || [],
-    related_learn: data.related_learn || [],
-    related_articles: data.related_articles || [],
+    related_projects: data.related_projects ?? [],
+    related_learn: data.related_learn ?? [],
+    related_articles: data.related_articles ?? [],
     canonical_path: data.canonical_path,
     summary: data.summary,
   };
@@ -200,7 +204,7 @@ export async function getRepoIndex(
 
   // 3. Fetch frontmatter for each file (parallel, batched)
   const items = await Promise.all(
-    files.map(async (path) => {
+    files.map(async path => {
       const item = await fetchContentFile(repo, path, token, fetchFn);
       if (!item) return null;
       return { slug: item.slug, ...item.meta };

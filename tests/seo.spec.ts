@@ -17,7 +17,7 @@ test.describe('SEO and Structured Data', () => {
     // Check Open Graph tags
     const ogTitle = page.locator('meta[property="og:title"]');
     await expect(ogTitle).toHaveCount(1);
-    
+
     // Check canonical link
     const canonical = page.locator('link[rel="canonical"]');
     await expect(canonical).toHaveCount(1);
@@ -28,7 +28,7 @@ test.describe('SEO and Structured Data', () => {
 
     // Check for the script tag containing ld+json
     const scriptTags = page.locator('script[type="application/ld+json"]');
-    
+
     // There might be multiple schemas (e.g. one from SEO, one from StructuredData)
     const count = await scriptTags.count();
     expect(count).toBeGreaterThan(0);

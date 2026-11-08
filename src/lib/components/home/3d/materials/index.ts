@@ -8,20 +8,18 @@ import { theme } from '$lib/stores/theme';
 // --------------------------------------------------------
 export const glassMaterial = new MeshStandardMaterial({
   color: 0xe5e5e5,
-  metalness: 0.85,        // High metalness = reflective surface
-  roughness: 0.08,        // Very smooth = sharp reflections
+  metalness: 0.85, // High metalness = reflective surface
+  roughness: 0.08, // Very smooth = sharp reflections
   transparent: true,
-  opacity: 0.92,          // Slight translucency hint
-  envMapIntensity: 1.2,   // Boost environment reflections
+  opacity: 0.92, // Slight translucency hint
+  envMapIntensity: 1.2, // Boost environment reflections
 });
-
-
 
 const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
 
 // --------------------------------------------------------
 // 2. WATER DROPLET MATERIAL (For Hero3D only)
-//    Optimized for mobile by replacing expensive transmission 
+//    Optimized for mobile by replacing expensive transmission
 //    with standard transparency.
 // --------------------------------------------------------
 export const waterDropletMaterial = new MeshPhysicalMaterial({
@@ -40,7 +38,7 @@ export const waterDropletMaterial = new MeshPhysicalMaterial({
 // --------------------------------------------------------
 // Theme-reactive updates
 // --------------------------------------------------------
-theme.subscribe((t) => {
+theme.subscribe(t => {
   if (t === 'light') {
     // Dark glass on light background — high contrast
     glassMaterial.color.set('#1c1c1e');

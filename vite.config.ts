@@ -30,7 +30,14 @@ export default defineConfig({
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}'],
 		environment: 'jsdom',
-		setupFiles: ['./vitest-setup.ts']
+		setupFiles: ['./vitest-setup.ts'],
+		coverage: {
+			provider: 'v8',
+			reporter: ['text', 'json', 'html'],
+			thresholds: {
+				lines: process.env.MIN_COVERAGE ? Number(process.env.MIN_COVERAGE) : 80
+			}
+		}
 	},
 
 	server: {
