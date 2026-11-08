@@ -51,8 +51,8 @@ export const pipelineData = {
   ],
   ui: {
     carousel: {
-      sectionTitle: 'Data Engineering',
-      sectionDescription: 'Explore the Architecture',
+      sectionTitle: 'Streaming Pipeline',
+      sectionDescription: 'Real-time event streaming & distributed Kafka pipelines',
       accentColor: 'hsl(var(--primary))', // Cyan
     },
     cta: {

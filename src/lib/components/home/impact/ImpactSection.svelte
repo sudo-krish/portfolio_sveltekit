@@ -25,37 +25,53 @@
     };
 
     onMount(() => {
-        let ctx = gsap.context(() => {
-            if (leftPanel) {
-                gsap.fromTo(
-                    leftPanel.children,
-                    { y: 30, opacity: 0 },
-                    {
-                        y: 0,
-                        opacity: 1,
-                        duration: 1.2,
-                        stagger: 0.15,
-                        ease: "power3.out",
-                        delay: 0.1,
-                    },
-                );
-            }
-            if (rightPanel) {
-                gsap.fromTo(
-                    rightPanel.children,
-                    { x: 30, opacity: 0 },
-                    {
-                        x: 0,
-                        opacity: 1,
-                        duration: 1.0,
-                        stagger: 0.15,
-                        ease: "power3.out",
-                        delay: 0.2,
-                    },
-                );
-            }
-        });
-        return () => ctx.revert();
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        let ctx = gsap.context(() => {});
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        ctx.add(() => {
+                            if (leftPanel) {
+                                gsap.fromTo(
+                                    leftPanel.children,
+                                    { y: 24, opacity: 0 },
+                                    {
+                                        y: 0,
+                                        opacity: 1,
+                                        duration: 0.85,
+                                        stagger: 0.1,
+                                        ease: "expo.out",
+                                        delay: 0.06,
+                                        clearProps: "transform,opacity",
+                                    },
+                                );
+                            }
+                            if (rightPanel) {
+                                gsap.fromTo(
+                                    rightPanel.children,
+                                    { x: 24, opacity: 0 },
+                                    {
+                                        x: 0,
+                                        opacity: 1,
+                                        duration: 0.75,
+                                        stagger: 0.1,
+                                        ease: "expo.out",
+                                        clearProps: "transform,opacity",
+                                    },
+                                );
+                            }
+                        });
+                    }
+                });
+            },
+            { threshold: 0.25 },
+        );
+        if (leftPanel) observer.observe(leftPanel);
+        return () => {
+            observer.disconnect();
+            ctx.revert();
+        };
     });
 </script>
 
@@ -63,18 +79,18 @@
     {#if isMobile}
         <div class="w-full flex flex-col gap-3.5 relative z-10">
             <!-- MAIN ACHIEVEMENT SPECIFICATION SHEET (Mobile) -->
-            <GlassCard variant="default" accent="hsl(var(--primary))" class="group">
+            <GlassCard variant="default" accent="hsl(24 95% 53%)" class="group">
                 <div class="flex flex-col gap-3.5">
                     <div class="flex items-center justify-between gap-3 pb-3 border-b border-border/70">
                         <div class="flex items-center gap-2.5">
-                            <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-muted/80 border border-border/80 text-primary shrink-0">
+                            <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-500/15 border border-orange-500/40 text-orange-400 shrink-0">
                                 <CheckCircle2 size={17} />
                             </div>
                             <h3 class="text-[16px] sm:text-[18px] font-heading font-bold text-foreground leading-tight tracking-tight">
                                 {resultsData.achievement.title}
                             </h3>
                         </div>
-                        <span class="text-[10px] font-mono text-primary uppercase tracking-[0.16em] font-semibold px-2 py-1 rounded bg-muted/60 border border-border/70 shrink-0">
+                        <span class="text-[10px] font-mono text-orange-400 uppercase tracking-[0.16em] font-semibold px-2 py-1 rounded bg-muted/60 border border-border/70 shrink-0">
                             {resultsData.achievement.subtitle}
                         </span>
                     </div>
@@ -88,16 +104,16 @@
             <!-- TELEMETRY PROOF LEDGER (2-Column Mobile Grid) -->
             <div class="grid grid-cols-2 gap-3">
                 {#each resultsData.metrics as m}
-                    <GlassCard variant="compact" accent="hsl(var(--primary))" class="group flex flex-col justify-between text-left">
+                    <GlassCard variant="compact" accent="hsl(24 95% 53%)" class="group flex flex-col justify-between text-left">
                         <div class="flex items-center justify-between w-full mb-2 pb-2 border-b border-border/60">
                             <span class="text-[10px] font-heading font-bold text-foreground uppercase tracking-wider leading-tight">
                                 {m.label}
                             </span>
-                            <svelte:component this={getIcon(m.iconName)} size={13} class="text-primary shrink-0" />
+                            <svelte:component this={getIcon(m.iconName)} size={13} class="text-orange-400 shrink-0" />
                         </div>
 
                         <div class="flex flex-col w-full">
-                            <span class="text-2xl sm:text-3xl font-bold font-mono tabular-nums text-primary leading-none mb-2">
+                            <span class="text-2xl sm:text-3xl font-bold font-mono tabular-nums text-orange-400 leading-none mb-2">
                                 {m.value}
                             </span>
                             <p class="text-[11px] text-muted-foreground leading-snug mb-0">
@@ -111,18 +127,18 @@
     {:else}
         <div class="w-full flex flex-col relative z-10" style="gap: 0.85cqi; padding-top: 0.5cqi;">
             <!-- MAIN ACHIEVEMENT SPECIFICATION SHEET (Top Full Width) -->
-            <GlassCard variant="default" accent="hsl(var(--primary))" class="group">
+            <GlassCard variant="default" accent="hsl(24 95% 53%)" class="group">
                 <div class="flex flex-col" style="gap: 0.85cqi;">
                     <div class="flex items-center justify-between pb-3 border-b border-border/70" style="gap: 0.8cqi;">
                         <div class="flex items-center" style="gap: 0.7cqi;">
-                            <div class="flex items-center justify-center rounded-lg bg-muted/80 border border-border/80 text-primary shrink-0" style="width: 2.3rem; height: 2.3rem;">
+                            <div class="flex items-center justify-center rounded-lg bg-orange-500/15 border border-orange-500/40 text-orange-400 shrink-0" style="width: 2.3rem; height: 2.3rem;">
                                 <CheckCircle2 size={18} />
                             </div>
                             <h3 class="text-[clamp(17px,1.4vw,21px)] font-heading font-bold text-foreground leading-tight tracking-tight">
                                 {resultsData.achievement.title}
                             </h3>
                         </div>
-                        <span class="font-mono text-primary uppercase tracking-[0.18em] font-semibold px-2.5 py-1 rounded-md bg-muted/60 border border-border/70 shrink-0" style="font-size: clamp(9px, 0.7cqi, 11px);">
+                        <span class="font-mono text-orange-400 uppercase tracking-[0.18em] font-semibold px-2.5 py-1 rounded-md bg-muted/60 border border-border/70 shrink-0" style="font-size: clamp(9px, 0.7cqi, 11px);">
                             {resultsData.achievement.subtitle}
                         </span>
                     </div>
@@ -136,16 +152,16 @@
             <!-- TELEMETRY PROOF LEDGER (Bottom Grid) -->
             <div class="grid grid-cols-2 md:grid-cols-5" style="gap: 0.6cqi;">
                 {#each resultsData.metrics as m}
-                    <GlassCard variant="compact" accent="hsl(var(--primary))" class="group flex flex-col justify-between text-left">
+                    <GlassCard variant="compact" accent="hsl(24 95% 53%)" class="group flex flex-col justify-between text-left">
                         <div class="flex items-center justify-between w-full pb-2 mb-2 border-b border-border/60">
                             <span class="font-heading font-bold text-foreground uppercase tracking-wide leading-tight" style="font-size: clamp(8.5px, 0.72cqi, 11px);">
                                 {m.label}
                             </span>
-                            <svelte:component this={getIcon(m.iconName)} size={14} class="text-primary shrink-0" />
+                            <svelte:component this={getIcon(m.iconName)} size={14} class="text-orange-400 shrink-0" />
                         </div>
 
                         <div class="flex flex-col w-full">
-                            <span class="font-bold font-mono tabular-nums text-primary leading-none" style="font-size: clamp(1.25rem, 1.9cqi, 2.1rem); margin-bottom: 0.45cqi;">
+                            <span class="font-bold font-mono tabular-nums text-orange-400 leading-none" style="font-size: clamp(1.25rem, 1.9cqi, 2.1rem); margin-bottom: 0.45cqi;">
                                 {m.value}
                             </span>
                             <p class="text-muted-foreground leading-snug mb-0" style="font-size: clamp(8.5px, 0.68cqi, 11px);">
@@ -163,7 +179,9 @@
     layout="left"
     sectionTitle={resultsData.ui.carousel.sectionTitle}
     sectionDescription={resultsData.ui.carousel.sectionDescription}
-    accentColor={resultsData.ui.carousel.accentColor}
+    accentColor="hsl(24 95% 53%)"
+    modelLabel="SLA Proof"
+    briefLabel="Verified Metrics"
 >
     <!-- DESKTOP / TABLET -->
     <svelte:fragment slot="content-pc">
@@ -194,7 +212,8 @@
                     label={resultsData.rightAnchor.label}
                     title={resultsData.rightAnchor.title}
                     description={resultsData.rightAnchor.description}
-                    labelColor="text-muted-foreground/80"
+                    labelColor="text-orange-400/90"
+                    accentColor="hsl(24 95% 53%)"
                     align="right"
                 />
             </div>
@@ -206,8 +225,8 @@
             style="bottom: 2cqi; max-width: 20cqi;"
         >
             <div
-                class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]"
-                style="padding: 0.4cqi;"
+                class="flex items-stretch bg-card/88 backdrop-blur-xl rounded-2xl border border-border/80 shadow-[var(--shadow-lg)]"
+                style="padding: 0.38cqi;"
             >
                 <PillButton
                     href={resultsData.ui.cta.href}
@@ -232,7 +251,8 @@
                     label={resultsData.rightAnchor.label}
                     title={resultsData.rightAnchor.title}
                     description={resultsData.rightAnchor.description}
-                    labelColor="text-primary/80"
+                    labelColor="text-orange-400/90"
+                    accentColor="hsl(24 95% 53%)"
                     align="left"
                 />
 
@@ -246,7 +266,7 @@
                         href={resultsData.ui.cta.href}
                         label={resultsData.ui.cta.label}
                         Icon={ArrowRight}
-                        accentColor="purple"
+                        accentColor="orange"
                     />
                 </div>
             </div>

@@ -18,37 +18,53 @@
     let rightPanel: HTMLElement;
 
     onMount(() => {
-        let ctx = gsap.context(() => {
-            if (leftPanel) {
-                gsap.fromTo(
-                    leftPanel.children,
-                    { x: -30, opacity: 0 },
-                    {
-                        x: 0,
-                        opacity: 1,
-                        duration: 1.0,
-                        stagger: 0.15,
-                        ease: "power3.out",
-                        delay: 0.2,
-                    },
-                );
-            }
-            if (rightPanel) {
-                gsap.fromTo(
-                    rightPanel.children,
-                    { y: 30, opacity: 0 },
-                    {
-                        y: 0,
-                        opacity: 1,
-                        duration: 1.2,
-                        stagger: 0.15,
-                        ease: "power3.out",
-                        delay: 0.1,
-                    },
-                );
-            }
-        });
-        return () => ctx.revert();
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        let ctx = gsap.context(() => {});
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        ctx.add(() => {
+                            if (leftPanel) {
+                                gsap.fromTo(
+                                    leftPanel.children,
+                                    { x: -24, opacity: 0 },
+                                    {
+                                        x: 0,
+                                        opacity: 1,
+                                        duration: 0.75,
+                                        stagger: 0.1,
+                                        ease: "expo.out",
+                                        clearProps: "transform,opacity",
+                                    },
+                                );
+                            }
+                            if (rightPanel) {
+                                gsap.fromTo(
+                                    rightPanel.children,
+                                    { y: 24, opacity: 0 },
+                                    {
+                                        y: 0,
+                                        opacity: 1,
+                                        duration: 0.85,
+                                        stagger: 0.1,
+                                        ease: "expo.out",
+                                        delay: 0.06,
+                                        clearProps: "transform,opacity",
+                                    },
+                                );
+                            }
+                        });
+                    }
+                });
+            },
+            { threshold: 0.25 },
+        );
+        if (leftPanel) observer.observe(leftPanel);
+        return () => {
+            observer.disconnect();
+            ctx.revert();
+        };
     });
 </script>
 
@@ -99,7 +115,9 @@
     layout="right"
     sectionTitle={codingStatsData.ui.carousel.sectionTitle}
     sectionDescription={codingStatsData.ui.carousel.sectionDescription}
-    accentColor={codingStatsData.ui.carousel.accentColor}
+    accentColor="hsl(142 71% 45%)"
+    modelLabel="Code Topology"
+    briefLabel="Live Telemetry"
 >
     <!-- DESKTOP / TABLET -->
     <svelte:fragment slot="content-pc">
@@ -123,7 +141,8 @@
                     label={codingStatsData.leftAnchor.label}
                     title={codingStatsData.leftAnchor.title}
                     description={codingStatsData.leftAnchor.description}
-                    labelColor="text-muted-foreground/80"
+                    labelColor="text-emerald-400/90"
+                    accentColor="hsl(142 71% 45%)"
                     align="left"
                 />
             </div>
@@ -144,8 +163,8 @@
             style="bottom: 2cqi;"
         >
             <div
-                class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]"
-                style="gap: 0.4cqi; padding: 0.4cqi;"
+                class="flex items-stretch bg-card/88 backdrop-blur-xl rounded-2xl border border-border/80 shadow-[var(--shadow-lg)]"
+                style="gap: 0.38cqi; padding: 0.38cqi;"
             >
                 <PillButton
                     href="/github"
@@ -177,7 +196,8 @@
                     label={codingStatsData.leftAnchor.label}
                     title={codingStatsData.leftAnchor.title}
                     description={codingStatsData.leftAnchor.description}
-                    labelColor="text-primary/80"
+                    labelColor="text-emerald-400/90"
+                    accentColor="hsl(142 71% 45%)"
                     align="left"
                 />
 

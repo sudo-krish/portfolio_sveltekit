@@ -38,8 +38,8 @@ export const warehouseData = {
   },
   ui: {
     carousel: {
-      sectionTitle: 'Data Warehouse',
-      sectionDescription: 'Explore the Analytics Engine',
+      sectionTitle: 'Analytical Warehouse',
+      sectionDescription: 'Sub-second OLAP serving layer & dbt dimensional modeling',
       accentColor: 'hsl(var(--primary))', // Purple
     },
   },

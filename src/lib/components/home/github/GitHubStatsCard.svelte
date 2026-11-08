@@ -247,7 +247,7 @@
         <div
             class="mt-3 pt-2.5 border-t border-border/70 flex items-center justify-between relative z-10 text-muted-foreground"
         >
-            <span class="text-[9.5px] font-mono uppercase tracking-wider">SPEC // GITHUB TELEMETRY</span>
+            <span class="text-[9.5px] font-mono uppercase tracking-wider">Production Commits</span>
             <span
                 class="text-[9.5px] font-mono tracking-wider uppercase text-primary font-semibold group-hover:underline"
                 >Open Profile &rarr;</span

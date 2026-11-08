@@ -85,8 +85,8 @@ export const techstackData = {
   ],
   ui: {
     carousel: {
-      sectionTitle: 'Tech Stack',
-      sectionDescription: 'Tools and production technologies',
+      sectionTitle: 'Core Capabilities',
+      sectionDescription: 'Production-tested cloud infrastructure & distributed data tooling',
       accentColor: 'hsl(var(--primary))', // Cyan
     },
     cta: {

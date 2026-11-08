@@ -32,8 +32,8 @@ export const lakehouseData = {
   ],
   ui: {
     carousel: {
-      sectionTitle: 'Lakehouse',
-      sectionDescription: 'Discover the Transactional Data Layer',
+      sectionTitle: 'Lakehouse Engine',
+      sectionDescription: 'Open-table transactional compute with Iceberg & Delta',
       accentColor: 'hsl(var(--primary))', // Blue
     },
     cta: {

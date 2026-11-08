@@ -37,6 +37,7 @@ export default ts.config(
 		ignores: [
 			'build/',
 			'.svelte-kit/',
+			'.makelib/',
 			'dist/',
 			'node_modules/',
 			'static/',

@@ -133,7 +133,7 @@
     <div class="flex items-center justify-between px-5 sm:px-6 py-3 border-t border-border/60
                 bg-muted/35 group-hover:bg-primary/10 transition-colors duration-200">
         <span class="text-[10.5px] font-mono font-semibold text-muted-foreground group-hover:text-primary uppercase tracking-wider">
-            {url ? 'Read on ' + platform : 'Read specification'}
+            {url ? 'Read on ' + platform : 'Explore Case Study'}
         </span>
         <ArrowRight size={14} class="text-muted-foreground group-hover:text-primary
                                       group-hover:translate-x-1 transition-all duration-200" />

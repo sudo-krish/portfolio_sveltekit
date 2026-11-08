@@ -74,7 +74,8 @@
     label={warehouseData.rightAnchor.label}
     title={warehouseData.rightAnchor.title}
     description={warehouseData.rightAnchor.description}
-    labelColor="text-primary/80"
+    labelColor="text-purple-400/90"
+    accentColor="hsl(271 91% 65%)"
     {align}
   />
 {/snippet}
@@ -82,15 +83,15 @@
 {#snippet warehouseCard()}
   <SectionCard
     badge={warehouseData.header.badge}
-    subtitle="BI & Serving Layer"
+    subtitle="Analytical Serving Engine"
     Icon={BarChart3}
-    iconHoverColor="text-primary"
-    accentColor="hsl(var(--primary))"
+    iconHoverColor="text-purple-400"
+    accentColor="hsl(271 91% 65%)"
     shortDescription={warehouseData.content.shortDescription}
     detailedPhilosophy={warehouseData.content.detailedPhilosophy}
     metrics={[
       {
-        label: "Latency",
+        label: "Query Speed",
         value: warehouseData.metrics.latency,
         unit: warehouseData.metrics.latencyUnit,
       },
@@ -104,18 +105,29 @@
 {/snippet}
 
 {#snippet warehouseGrid()}
-  <WarehouseGrid
-    items={warehouseData.warehouseNodes}
-    accent="hsl(var(--primary))"
-    textHoverClass="group-hover:text-primary"
-  />
+  <div class="w-full flex flex-col gap-1.5">
+    <div class="w-full flex items-center justify-between text-[10px] font-mono uppercase tracking-[0.16em] px-1 text-purple-400/90">
+      <div class="flex items-center gap-1.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>
+        <span>Analytical Serving & Modeling</span>
+      </div>
+      <span class="font-mono tabular-nums text-muted-foreground/80">Redshift · Snowflake · dbt</span>
+    </div>
+    <WarehouseGrid
+      items={warehouseData.warehouseNodes}
+      accent="hsl(271 91% 65%)"
+      textHoverClass="group-hover:text-purple-400"
+    />
+  </div>
 {/snippet}
 
 <MobileCarousel
   layout="left"
   sectionTitle={warehouseData.ui.carousel.sectionTitle}
   sectionDescription={warehouseData.ui.carousel.sectionDescription}
-  accentColor={warehouseData.ui.carousel.accentColor}
+  accentColor="hsl(271 91% 65%)"
+  modelLabel="OLAP Matrix"
+  briefLabel="Warehouse & BI"
 >
   <!-- ========================================== -->
   <!-- DESKTOP / TABLET                           -->

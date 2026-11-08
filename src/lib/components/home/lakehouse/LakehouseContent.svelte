@@ -17,65 +17,53 @@
   let scrollHint: HTMLElement;
 
   onMount(() => {
-    let ctx = gsap.context(() => {
-      // Left Anchor Animation
-      if (leftPanel) {
-        gsap.fromTo(
-          leftPanel.children,
-          { x: -30, opacity: 0 },
-          {
-            x: 0,
-            opacity: 1,
-            duration: 1.0,
-            stagger: 0.15,
-            ease: "power3.out",
-            delay: 0.2,
-          },
-        );
-      }
-
-      // Right Content Panel Animation
-      if (rightPanel) {
-        gsap.fromTo(
-          rightPanel.children,
-          { y: 30, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1.2,
-            stagger: 0.2,
-            ease: "power3.out",
-            delay: 0.1,
-          },
-        );
-      }
-
-      // Scroll Hint Animation
-      if (scrollHint) {
-        gsap.fromTo(
-          scrollHint,
-          { opacity: 0, y: -10 },
-          { opacity: 1, y: 0, duration: 1.5, ease: "power2.out", delay: 1.0 },
-        );
-      }
-
-      // Mobile Animation
-      if (mobilePanel) {
-        gsap.fromTo(
-          mobilePanel.children,
-          { y: 30, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1.0,
-            stagger: 0.15,
-            ease: "power3.out",
-            delay: 0.1,
-          },
-        );
-      }
-    });
-    return () => ctx.revert();
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let ctx = gsap.context(() => {});
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            ctx.add(() => {
+              if (leftPanel) {
+                gsap.fromTo(
+                  leftPanel.children,
+                  { x: -24, opacity: 0 },
+                  {
+                    x: 0,
+                    opacity: 1,
+                    duration: 0.75,
+                    stagger: 0.1,
+                    ease: "expo.out",
+                    clearProps: "transform,opacity",
+                  },
+                );
+              }
+              if (rightPanel) {
+                gsap.fromTo(
+                  rightPanel.children,
+                  { y: 24, opacity: 0 },
+                  {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.85,
+                    stagger: 0.12,
+                    ease: "expo.out",
+                    delay: 0.06,
+                    clearProps: "transform,opacity",
+                  },
+                );
+              }
+            });
+          }
+        });
+      },
+      { threshold: 0.25 },
+    );
+    if (leftPanel) observer.observe(leftPanel);
+    return () => {
+      observer.disconnect();
+      ctx.revert();
+    };
   });
 </script>
 
@@ -84,7 +72,8 @@
     label={lakehouseData.leftAnchor.label}
     title={lakehouseData.leftAnchor.title}
     description={lakehouseData.leftAnchor.description}
-    labelColor="text-primary/80"
+    labelColor="text-blue-400/90"
+    accentColor="hsl(217 91% 60%)"
     align={align}
   />
 {/snippet}
@@ -92,32 +81,43 @@
 {#snippet lakehouseCard()}
   <SectionCard
     badge={lakehouseData.header.badge}
-    subtitle="Compute & Governance"
+    subtitle="Transactional Compute"
     Icon={Database}
-    iconHoverColor="text-primary"
-    accentColor="hsl(var(--primary))"
+    iconHoverColor="text-blue-400"
+    accentColor="hsl(217 91% 60%)"
     shortDescription={lakehouseData.content.shortDescription}
     detailedPhilosophy={lakehouseData.content.detailedPhilosophy}
     metrics={[
-      { label: "Format", value: "Iceberg", unit: "+Delta" },
-      { label: "Latency", value: "-96", unit: "%" },
+      { label: "Table Formats", value: "Iceberg", unit: "+Delta" },
+      { label: "Runtime Drop", value: "-96", unit: "%" },
     ]}
   />
 {/snippet}
 
 {#snippet lakehouseGrid()}
-  <LakehouseGrid
-    items={lakehouseData.lakehouseNodes}
-    accent="hsl(var(--primary))"
-    textHoverClass="group-hover:text-primary"
-  />
+  <div class="w-full flex flex-col gap-1.5">
+    <div class="w-full flex items-center justify-between text-[10px] font-mono uppercase tracking-[0.16em] px-1 text-blue-400/90">
+      <div class="flex items-center gap-1.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
+        <span>Open Table Compute Core</span>
+      </div>
+      <span class="font-mono tabular-nums text-muted-foreground/80">Spark & Iceberg ACID</span>
+    </div>
+    <LakehouseGrid
+      items={lakehouseData.lakehouseNodes}
+      accent="hsl(217 91% 60%)"
+      textHoverClass="group-hover:text-blue-400"
+    />
+  </div>
 {/snippet}
 
 <MobileCarousel
   layout="right"
   sectionTitle={lakehouseData.ui.carousel.sectionTitle}
   sectionDescription={lakehouseData.ui.carousel.sectionDescription}
-  accentColor={lakehouseData.ui.carousel.accentColor}
+  accentColor="hsl(217 91% 60%)"
+  modelLabel="Compute Engine"
+  briefLabel="ACID Lakehouse"
 >
   <!-- ========================================== -->
   <!-- DESKTOP / TABLET                           -->
