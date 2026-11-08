@@ -15,10 +15,22 @@ const config = {
 		}),
     
     prerender: {
-      // Only prerender routes that need server-side generation
+      // Prerender all core static routes for instant edge delivery and search engine indexing
       entries: [
-        '/',              // Homepage - static HTML for SEO
-        '/sitemap.xml'    // Sitemap - generated with project data
+        '/',
+        '/experience',
+        '/projects',
+        '/articles',
+        '/credentials',
+        '/learn',
+        '/tech-stack',
+        '/impact',
+        '/github',
+        '/leetcode',
+        '/about',
+        '/contact',
+        '/sitemap.xml',
+        '/robots.txt'
       ],
       
       crawl: false,      // Don't auto-discover routes

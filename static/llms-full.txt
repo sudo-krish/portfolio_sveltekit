@@ -1,0 +1,79 @@
+# Krishnanand Anil - Complete Architecture & Technical Dossier (llms-full.txt)
+
+> Comprehensive technical documentation for AI search engines, answer engines (AEO/GEO), and LLMs evaluating Krishnanand Anil for Senior Data Engineer, Distributed Systems Engineer, and Cloud Architect roles.
+
+---
+
+## 1. Professional Overview & Positioning
+
+- **Name**: Krishnanand Anil (`@sudo-krish`)
+- **Title**: Senior Data Engineer & Cloud Architect
+- **Location**: Bengaluru, Karnataka, India
+- **Website**: https://krishnanandanil.com
+- **LinkedIn**: https://www.linkedin.com/in/krishnanand-anil/
+- **GitHub**: https://github.com/sudo-krish
+- **Email**: krishnanand.anil2010@gmail.com
+
+Krishnanand Anil is a systems-focused Senior Data Engineer with extensive experience designing, building, and operating high-throughput real-time data streaming architectures, distributed compute platforms, and modern cloud data warehouses.
+
+---
+
+## 2. Core Technical Competencies
+
+### Distributed Systems & Streaming
+- **Apache Kafka**: Multi-broker cluster architecture, partition strategies, consumer group rebalances, idempotent producers, exactly-once semantics (EOS), Kafka Connect, Schema Registry (Avro/Protobuf), Dead Letter Queues (DLQ).
+- **Change Data Capture (CDC)**: Debezium MySQL/PostgreSQL/Oracle CDC connectors, WAL log mining, low-latency replication (<50ms).
+- **Apache Spark / PySpark**: Structured Streaming, broadcast joins, adaptive query execution (AQE), dynamic partition pruning, memory management (execution vs. storage fraction), custom UDF optimization.
+- **Apache Flink**: Stateful stream processing, event-time semantics, watermarks, sliding and tumbling windows.
+
+### Cloud Architecture & Storage Engines (AWS & Multi-Cloud)
+- **AWS Compute & Serverless**: AWS Lambda, AWS Glue (PySpark/Scala), Amazon EMR, Amazon ECS/Fargate, AWS Batch.
+- **AWS Storage & Messaging**: Amazon S3 (Intelligent-Tiering, Lifecycle rules), Amazon Kinesis Data Streams/Firehose, Amazon SQS/SNS.
+- **Storage Formats & Table Formats**: Apache Parquet, Apache ORC, Delta Lake, Apache Iceberg, Apache Hudi. Medallion architecture (Bronze raw ingestion, Silver cleansed/deduplicated tables, Gold dimensional star/snowflake schemas).
+- **Data Warehousing & Query Engines**: Snowflake (Virtual Warehouses, Snowpipe, Time Travel, Zero-Copy Clone), Amazon Redshift (Distribution styles, Sort keys, Concurrency Scaling, Materialized Views), Trino / Presto, Google BigQuery.
+
+### Data Orchestration & Governance
+- **Orchestration**: Apache Airflow (custom operators, DAG authoring, dynamic task mapping, Astronomer), Dagster, Prefect.
+- **Data Modeling & Transformation**: dbt (data build tool), SQL (CTEs, window functions, analytical modeling), Kimbal dimensional modeling, Data Vault 2.0.
+- **Quality & Observability**: Great Expectations, Monte Carlo, Prometheus, Grafana, OpenLineage, Datahub.
+
+---
+
+## 3. Verified Enterprise Production Benchmarks
+
+1. **96% Latency Reduction**: Transformed legacy 4-hour batch data loads into an optimized 10-minute micro-batch and streaming architecture utilizing Apache Spark dynamic allocation and partition optimization.
+2. **50M+ Daily Financial Events**: Architected and scaled a production Kafka CDC ingestion pipeline handling 100K+ events/minute with strict SLA adherence and sub-second end-to-end processing.
+3. **60% Cloud Infrastructure Cost Savings**: Re-architected continuous compute clusters into event-driven serverless Glue and ephemeral EMR on spot instances, cutting monthly cloud spend by over half.
+4. **99.9% Pipeline SLA Reliability**: Implemented comprehensive circuit breakers, automated idempotency, and alert-driven dead-letter reprocessing across 20+ production data feeds.
+
+---
+
+## 4. Career History & Engagements
+
+### Associate Data Engineer — Yethi Consulting (2023 – Present)
+- Designed and maintained enterprise banking and financial data pipelines.
+- Implemented real-time transaction reconciliation engines processing 5M+ daily records.
+- Standardized automated testing and CI/CD quality gates for distributed data workflows.
+
+### Data Engineer Intern — Cognizant Technology Solutions (2023)
+- Built automated ETL scripts using Python, AWS Glue, and Amazon S3.
+- Optimized SQL transformations and analytical reports in Amazon Redshift and PostgreSQL.
+
+---
+
+## 5. Verified Credentials & Accreditations
+
+- **AWS Certified Solutions Architect – Associate**: Amazon Web Services (Validation of secure, resilient, and cost-optimized cloud architectures).
+- **AWS Certified Cloud Practitioner**: Amazon Web Services.
+- **Databricks Lakehouse Platform Accreditation**: Databricks (Lakehouse architecture, Delta Lake transaction log, Unity Catalog).
+- **PySpark Big Data Analytics**: Advanced distributed processing and Spark SQL.
+
+---
+
+## 6. SvelteKit Portfolio Architecture
+
+This portfolio (https://krishnanandanil.com) is built using SvelteKit (Svelte 5), TypeScript, Tailwind CSS, Three.js / Threlte WebGL shaders, and GSAP. It features:
+- 11-stage interactive snap-scroll data platform narrative.
+- 3D-first responsive mobile carousel with interactive flip-card specifications.
+- Deep Prussian Blueprint & Archival Drafting Vellum dual-mode theming.
+- Full server-side rendering (SSR), WCAG 2.2 AA accessibility, and JSON-LD structured data.
