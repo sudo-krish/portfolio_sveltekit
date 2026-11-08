@@ -31,64 +31,64 @@
 
 {#snippet heroHeader(isMobile: boolean)}
     {#if isMobile}
-        <div class="w-full relative z-10 mb-8 flex flex-col gap-6">
-            <div class="hero-type flex items-center justify-between w-full">
+        <div class="w-full relative z-10 flex flex-col gap-5">
+            <div class="hero-type flex flex-wrap items-center justify-between gap-2 w-full">
                 <div
-                    class="flex items-center gap-3 bg-foreground/[0.03] border border-foreground/[0.08] rounded-full pl-1 pr-4 py-1 backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.2)] shrink-0"
+                    class="flex items-center gap-2.5 bg-foreground/[0.04] border border-foreground/[0.08] rounded-full pl-1.5 pr-3.5 py-1 backdrop-blur-md shadow-sm shrink-0"
                 >
                     <div
-                        class="h-6 w-6 rounded-full bg-foreground/10 flex items-center justify-center"
+                        class="h-5 w-5 rounded-full bg-foreground/10 flex items-center justify-center"
                     >
                         <div
-                            class="h-1 w-2.5 bg-foreground/60 rounded-full"
+                            class="h-1 w-2 bg-primary rounded-full"
                         ></div>
                     </div>
                     <span
-                        class="font-mono text-[9px] font-bold tracking-[0.25em] text-foreground/70 uppercase pt-px"
+                        class="font-mono text-[10px] font-bold tracking-[0.2em] text-foreground/80 uppercase"
                         >{personal.name}</span
                     >
                 </div>
                 <div
-                    class="flex items-center gap-2 bg-foreground/5 border border-foreground/10 rounded-full px-3 py-1.5 backdrop-blur-md shadow-[0_0_15px_hsl(var(--foreground)/0.1)] shrink-0"
+                    class="flex items-center gap-2 bg-foreground/[0.04] border border-foreground/[0.08] rounded-full px-3 py-1.5 backdrop-blur-md shrink-0"
                 >
                     <div
-                        class="w-1.5 h-1.5 rounded-full bg-foreground animate-pulse shadow-[0_0_10px_currentColor]"
+                        class="w-1.5 h-1.5 rounded-full bg-success"
                     ></div>
                     <span
-                        class="font-mono text-[9px] uppercase tracking-widest text-foreground/70 font-bold pt-px"
+                        class="font-mono text-[10px] uppercase tracking-widest text-foreground/75 font-bold"
                         >{metaLabelMobile}</span
                     >
                 </div>
             </div>
 
             <div
-                class="flex flex-col items-center w-full max-w-full relative mt-4 mb-2"
+                class="flex flex-col items-center sm:items-start w-full max-w-full relative my-1"
                 role="presentation"
             >
                 <span
-                    class="hero-type text-center font-black text-[clamp(3.5rem,17vw,6rem)] leading-[0.78] tracking-[-0.04em] text-foreground/72 w-full block"
+                    class="hero-type text-center sm:text-left font-black text-[clamp(3.25rem,14vw,5.25rem)] leading-[0.82] tracking-[-0.04em] text-foreground/72 w-full block"
                     >{prefix}</span
                 >
                 <span
-                    class="hero-type text-center font-black text-[clamp(3.5rem,17vw,6rem)] leading-[0.78] tracking-[-0.04em] text-foreground w-full block"
+                    class="hero-type text-center sm:text-left font-black text-[clamp(3.25rem,14vw,5.25rem)] leading-[0.82] tracking-[-0.04em] text-foreground w-full block"
                     >{suffix}</span
                 >
             </div>
 
             <div
-                class="hero-type flex flex-col w-full gap-3 mt-6 pointer-events-auto relative z-50 px-2"
+                class="hero-type grid grid-cols-1 sm:grid-cols-2 w-full gap-2.5 mt-2 pointer-events-auto relative z-50"
             >
                 <a href="/projects" class="btn-hero-nav-mobile group"
-                    ><span class="hero-index-mobile">01</span><span class="flex-1 text-left">Explore Projects</span><span class="text-muted-foreground/30 group-active:text-primary transition-colors">&rarr;</span></a
+                    ><span class="hero-index-mobile">01</span><span class="flex-1 text-left">Explore Projects</span><span class="text-muted-foreground/50 group-hover:text-primary group-active:text-primary transition-colors">&rarr;</span></a
                 >
                 <a href="/learn" class="btn-hero-nav-mobile group"
-                    ><span class="hero-index-mobile">02</span><span class="flex-1 text-left">Learn Concepts</span><span class="text-muted-foreground/30 group-active:text-primary transition-colors">&rarr;</span></a
+                    ><span class="hero-index-mobile">02</span><span class="flex-1 text-left">Learn Concepts</span><span class="text-muted-foreground/50 group-hover:text-primary group-active:text-primary transition-colors">&rarr;</span></a
                 >
                 <a href="/articles" class="btn-hero-nav-mobile group"
-                    ><span class="hero-index-mobile">03</span><span class="flex-1 text-left">Read Articles</span><span class="text-muted-foreground/30 group-active:text-primary transition-colors">&rarr;</span></a
+                    ><span class="hero-index-mobile">03</span><span class="flex-1 text-left">Read Articles</span><span class="text-muted-foreground/50 group-hover:text-primary group-active:text-primary transition-colors">&rarr;</span></a
                 >
                 <a href="/experience" class="btn-hero-nav-mobile group"
-                    ><span class="hero-index-mobile">04</span><span class="flex-1 text-left">View Experience</span><span class="text-muted-foreground/30 group-active:text-primary transition-colors">&rarr;</span></a
+                    ><span class="hero-index-mobile">04</span><span class="flex-1 text-left">View Experience</span><span class="text-muted-foreground/50 group-hover:text-primary group-active:text-primary transition-colors">&rarr;</span></a
                 >
             </div>
         </div>
@@ -202,7 +202,7 @@
     />
     {#if isMobile}
         <div
-            class="hero-type relative w-[100vw] z-20 mb-10 -ml-4 pointer-events-auto"
+            class="hero-type relative w-full z-20 overflow-hidden pointer-events-auto"
         >
             <InfiniteMarquee items={techStack} />
         </div>
@@ -350,9 +350,9 @@
             class="w-full relative z-20 pointer-events-auto"
         >
             <div
-                class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-lg mx-auto px-5 pt-16 pb-16 relative"
+                class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-12 relative"
             >
-                <div class="w-full flex flex-col items-center relative z-10" style="gap: 2rem;">
+                <div class="w-full flex flex-col items-center relative z-10 gap-5 sm:gap-6">
                     {@render heroHeader(true)}
                     {@render heroBioCard(true)}
                     {@render heroActionDock(true)}

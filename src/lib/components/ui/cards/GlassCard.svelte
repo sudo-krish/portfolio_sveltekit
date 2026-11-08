@@ -69,7 +69,7 @@
         },
     };
 
-    const v: VariantConfig = base[variant];
+    const v = $derived(base[variant] ?? base.default);
 </script>
 
 {#if href}
@@ -78,9 +78,9 @@
         {target}
         {rel}
         class="{v.rounded} {v.bg} {v.blur} {v.shadow}
-               border border-foreground/[0.07]
-               {hover ? `${v.shadowHover} hover:border-foreground/[0.13]` : ''}
-               relative block overflow-hidden transition-all duration-600
+               border border-foreground/[0.08]
+               {hover ? `${v.shadowHover} hover:border-foreground/[0.15]` : ''}
+               relative block overflow-hidden transition-all duration-500 no-underline
                {className}"
         style="{v.pad} --_accent: {accent}; {extraStyle}"
     >
@@ -94,12 +94,10 @@
         {#if variant !== "inset"}
             <div
                 class="pointer-events-none absolute inset-y-0 left-0 w-px
-                       opacity-30 {hover ? 'group-hover:opacity-70' : ''} transition-opacity duration-600"
+                       opacity-30 {hover ? 'group-hover:opacity-70' : ''} transition-opacity duration-500"
                 style="background: linear-gradient(to bottom, transparent, var(--_accent, hsl(var(--primary))) 50%, transparent);"
             ></div>
         {/if}
-
-        
 
         <!-- ── Content slot ── -->
         <div class="relative z-10 h-full flex flex-col">
@@ -113,9 +111,9 @@
         type="button"
         {onclick}
         class="{v.rounded} {v.bg} {v.blur} {v.shadow}
-               border border-foreground/[0.07]
-               {hover ? `${v.shadowHover} hover:border-foreground/[0.13]` : ''}
-               relative block overflow-hidden transition-all duration-600 text-left
+               border border-foreground/[0.08]
+               {hover ? `${v.shadowHover} hover:border-foreground/[0.15]` : ''}
+               relative block overflow-hidden transition-all duration-500 text-left
                {className}"
         style="{v.pad} --_accent: {accent}; {extraStyle}"
     >
@@ -129,12 +127,10 @@
         {#if variant !== "inset"}
             <div
                 class="pointer-events-none absolute inset-y-0 left-0 w-px
-                       opacity-30 {hover ? 'group-hover:opacity-70' : ''} transition-opacity duration-600"
+                       opacity-30 {hover ? 'group-hover:opacity-70' : ''} transition-opacity duration-500"
                 style="background: linear-gradient(to bottom, transparent, var(--_accent, hsl(var(--primary))) 50%, transparent);"
             ></div>
         {/if}
-
-        
 
         <!-- ── Content slot ── -->
         <div class="relative z-10 h-full flex flex-col">
@@ -146,28 +142,26 @@
 {:else}
     <div
         class="{v.rounded} {v.bg} {v.blur} {v.shadow}
-               border border-foreground/[0.07]
-               {hover ? `${v.shadowHover} hover:border-foreground/[0.13]` : ''}
-               relative overflow-hidden transition-all duration-600
+               border border-foreground/[0.08]
+               {hover ? 'hover:border-foreground/[0.14]' : ''}
+               relative overflow-hidden transition-colors duration-500
                {className}"
         style="{v.pad} --_accent: {accent}; {extraStyle}"
     >
-    <!-- ── Hairline top highlight ── -->
-    <div
-        class="pointer-events-none absolute inset-x-0 top-0 h-px
-               bg-gradient-to-r from-transparent via-foreground/15 to-transparent opacity-50"
-    ></div>
-
-    <!-- ── Left accent edge ── -->
-    {#if variant !== "inset"}
+        <!-- ── Hairline top highlight ── -->
         <div
-            class="pointer-events-none absolute inset-y-0 left-0 w-px
-                   opacity-30 {hover ? 'group-hover:opacity-70' : ''} transition-opacity duration-600"
-            style="background: linear-gradient(to bottom, transparent, var(--_accent, hsl(var(--primary))) 50%, transparent);"
+            class="pointer-events-none absolute inset-x-0 top-0 h-px
+                   bg-gradient-to-r from-transparent via-foreground/15 to-transparent opacity-50"
         ></div>
-    {/if}
 
-    
+        <!-- ── Left accent edge ── -->
+        {#if variant !== "inset"}
+            <div
+                class="pointer-events-none absolute inset-y-0 left-0 w-px
+                       opacity-30 {hover ? 'group-hover:opacity-60' : ''} transition-opacity duration-500"
+                style="background: linear-gradient(to bottom, transparent, var(--_accent, hsl(var(--primary))) 50%, transparent);"
+            ></div>
+        {/if}
 
         <!-- ── Content slot ── -->
         <div class="relative z-10 h-full flex flex-col">

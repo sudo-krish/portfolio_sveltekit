@@ -96,28 +96,27 @@
         <div class="w-full flex flex-col gap-4 relative z-10">
             <!-- Top Narrative Box -->
             <div
-                class="w-full p-6 rounded-[1.5rem] bg-card/80 backdrop-blur-xl border border-border shadow-xl"
+                class="w-full p-5 sm:p-6 rounded-[1.5rem] bg-card/80 backdrop-blur-xl border border-border shadow-lg"
             >
                 <div
-                    class="text-[11px] font-mono text-primary uppercase tracking-[0.2em] mb-3 block"
+                    class="text-[11px] font-mono text-primary uppercase tracking-[0.2em] mb-2.5 block"
                 >
                     {techstackData.rightAnchor.label}
                 </div>
-                <p class="text-sm text-foreground leading-relaxed mb-4">
+                <p class="text-sm text-foreground/85 leading-relaxed mb-0">
                     {@html techstackData.content.shortDescription}
                 </p>
             </div>
 
             <!-- Grid of Skill Cards -->
-                <div class="flex flex-col gap-4 w-full max-w-sm mt-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 w-full mt-1">
                 {#each techstackData.categories as cat}
                     <div
-                        class="flex flex-col p-5 rounded-[1.25rem] bg-card/80 backdrop-blur-xl border border-border relative overflow-hidden"
+                        class="flex flex-col p-4 sm:p-5 rounded-[1.25rem] bg-card/80 backdrop-blur-xl border border-border relative overflow-hidden"
                     >
-                        
-                        <div class="flex items-center gap-3 mb-4">
+                        <div class="flex items-center gap-3 mb-3.5">
                             <div
-                                class="w-8 h-8 rounded-lg bg-muted border border-border flex items-center justify-center shadow-sm"
+                                class="w-8 h-8 rounded-lg bg-muted border border-border flex items-center justify-center shadow-sm shrink-0"
                             >
                                 <svelte:component
                                     this={getIcon(cat.iconName)}
@@ -133,15 +132,15 @@
                         <div class="flex flex-wrap gap-1.5 relative z-10">
                             {#each cat.skills as skill}
                                 <div
-                                    class="flex items-center gap-1.5 px-2 py-1.5 rounded-md border border-border bg-muted/50 text-[11px] font-mono text-muted-foreground group/skill"
+                                    class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-border bg-muted/50 text-[11px] font-mono text-muted-foreground group/skill"
                                 >
                                     <img
                                         src={skill.icon}
                                         alt={skill.name}
-                                        class="w-3 h-3 object-contain opacity-70 group-hover/skill:opacity-100 transition-opacity"
+                                        class="w-3.5 h-3.5 object-contain opacity-80 group-hover/skill:opacity-100 transition-opacity"
                                         loading="lazy"
-                                        width="12"
-                                        height="12"
+                                        width="14"
+                                        height="14"
                                     />
                                     <span>{skill.name}</span>
                                 </div>
@@ -301,8 +300,7 @@
         >
             <div
                 bind:this={mobilePanel}
-                class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-lg mx-auto px-5 pt-16 pb-16"
-        style="gap: 2rem;"
+                class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-12 gap-5 sm:gap-6"
             >
                 <SectionAnchor
                     label={techstackData.rightAnchor.label}
@@ -313,7 +311,7 @@
                 />
 
                 <div
-                    class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] p-1.5 w-max mx-auto"
+                    class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_12px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] p-1.5 w-max mx-auto"
                 >
                     <PillButton
                         href={techstackData.ui.cta.href}

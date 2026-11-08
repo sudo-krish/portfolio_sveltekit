@@ -36,15 +36,15 @@
     </span>
 
     <svelte:element this={headingTag || "h2"}
-        class="font-black text-muted-foreground/30 leading-[0.9] tracking-tighter whitespace-pre-line"
-        style="font-size: clamp(2.5rem, 5.5cqi, 4.5rem); margin-bottom: max(0.75rem, 1.2cqi);"
+        class="font-black text-foreground/75 leading-[0.92] tracking-tighter whitespace-pre-line"
+        style="font-size: clamp(2.25rem, 5cqi, 4.25rem); margin-bottom: max(0.75rem, 1.1cqi);"
     >
         {title}
     </svelte:element>
 
     <p
-        class="text-muted-foreground font-light leading-relaxed"
-        style="font-size: clamp(0.85rem, 1cqi, 0.95rem); max-width: {align === 'center' ? '320px' : maxDescWidth};"
+        class="text-muted-foreground font-normal leading-relaxed mb-0"
+        style="font-size: clamp(0.88rem, 1cqi, 0.98rem); max-width: {align === 'center' ? '380px' : maxDescWidth};"
     >
         {@html description}
     </p>

@@ -17,7 +17,7 @@
     }>();
 
     // Quadruple items to ensure we always have enough off-screen to loop safely
-    const loopItems = [...items, ...items, ...items, ...items];
+    let loopItems = $derived([...items, ...items, ...items, ...items]);
 
     let trackElement: HTMLDivElement;
     let containerElement: HTMLDivElement;
@@ -26,7 +26,6 @@
     let isDragging = false;
     let isHovered = false;
     let startX = 0;
-    let currentSpeed = baseSpeed;
     let animationFrameId: number;
 
     function loop() {
@@ -37,7 +36,7 @@
 
         // If not dragging and not hovered, auto-scroll
         if (!isDragging && !isHovered) {
-            currentSpeed = direction === "left" ? baseSpeed : -baseSpeed;
+            const currentSpeed = direction === "left" ? baseSpeed : -baseSpeed;
             position -= currentSpeed;
         }
 
@@ -147,7 +146,7 @@
     aria-label="Technology Marquee"
     tabindex="0"
     style="touch-action: pan-y;"
-    class="relative flex w-full overflow-hidden mask-fade-edges py-20 cursor-grab active:cursor-grabbing focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+    class="relative flex w-full overflow-hidden mask-fade-edges py-3 cursor-grab active:cursor-grabbing focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
     onpointerdown={onPointerDown}
     onpointermove={onPointerMove}
     onpointerup={onPointerUp}
@@ -160,19 +159,14 @@
     <!-- Marquee Track (Now hardware-accelerated via JS translate3d) -->
     <div
         bind:this={trackElement}
-        class="flex w-max shrink-0 gap-5 will-change-transform"
+        class="flex w-max shrink-0 gap-4 will-change-transform"
     >
-        {#each loopItems as tag, i}
-            <!-- 
-               Redesigned Tech Card:
-               Outer container uses heavy glass.
-               Inner container uses solid high-contrast white. 
-            -->
+        {#each loopItems as tag}
             <div
-                class="group relative flex flex-col items-center justify-center gap-3 w-24 h-28
-                       bg-card/60 backdrop-blur-2xl border border-foreground/10 rounded-2xl
+                class="group relative flex flex-col items-center justify-center gap-2.5 w-[88px] h-[100px] sm:w-24 sm:h-28
+                       bg-card/65 backdrop-blur-2xl border border-foreground/10 rounded-2xl
                        transition-colors duration-300 hover:bg-foreground/[0.08] hover:border-foreground/20
-                       select-none shadow-[0_8px_24px_rgba(0,0,0,0.4),0_24px_64px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)]"
+                       select-none shadow-[0_6px_16px_rgba(0,0,0,0.22),inset_0_1px_1px_rgba(255,255,255,0.08)]"
             >
                 <!-- Inner High-Contrast Pedestal -->
                 <!-- We use a nearly solid white/silver background so dark-green logos NEVER get lost -->

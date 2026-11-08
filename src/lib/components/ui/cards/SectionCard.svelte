@@ -29,12 +29,12 @@
     <!-- Header row -->
     <div class="flex items-start justify-between w-full">
         <div class="flex flex-col" style="gap: 2px; margin-top: 2px;">
-            <span class="font-mono text-[clamp(9px,1vw,11px)] tracking-[0.3em] uppercase font-semibold"
-                  style="color: var(--_accent); filter: drop-shadow(0 0 6px color-mix(in srgb, var(--_accent) 40%, transparent));"
+            <span class="font-mono text-[clamp(10px,1vw,11px)] tracking-[0.25em] uppercase font-semibold"
+                  style="color: var(--_accent);"
             >
                 {badge}
             </span>
-            <h3 class="text-[clamp(12px,1.2vw,14px)] font-medium text-foreground/45 tracking-wide">
+            <h3 class="text-[clamp(12px,1.2vw,14px)] font-medium text-muted-foreground tracking-wide">
                 {subtitle}
             </h3>
         </div>
@@ -90,7 +90,7 @@
 
     <!-- Detail box (inner inset card) -->
     <GlassCard variant="inset" hover={false} class="mt-3">
-        <p class="text-[clamp(0.82rem,0.95vw,0.95rem)] leading-[1.8] text-foreground/50">
+        <p class="text-[clamp(0.84rem,0.95vw,0.95rem)] leading-[1.75] text-foreground/65 mb-0">
             {detailedPhilosophy}
         </p>
     </GlassCard>

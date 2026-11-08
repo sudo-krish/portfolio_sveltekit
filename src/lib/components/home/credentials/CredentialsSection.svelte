@@ -182,11 +182,8 @@
             <div class="flex flex-col w-full" style="margin-top: 1cqi;">
                 <div class="flex items-center justify-end w-full mb-2 pr-6">
                     <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-foreground/[0.03] border border-foreground/[0.05]">
-                        <span class="relative flex h-1.5 w-1.5">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-50"></span>
-                            <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
-                        </span>
-                        <span class="text-[9px] font-mono uppercase tracking-[0.15em] text-foreground/40 font-bold">Click cards to view details</span>
+                        <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
+                        <span class="text-[9px] font-mono uppercase tracking-[0.15em] text-foreground/50 font-bold">Click cards to view details</span>
                     </div>
                 </div>
                 <DraggableRow title="Verified Certifications" items={certificatesData.list} icon={Award} direction="left" variant="cert" onSelect={(item: any) => openModal(item, "cert")} />
@@ -262,8 +259,7 @@
             class="w-full relative z-20 pointer-events-auto"
         >
             <div
-                class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-lg mx-auto px-5 pt-16 pb-16"
-        style="gap: 2rem;"
+                class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-12 gap-5 sm:gap-6"
             >
                 <SectionAnchor
                     label={certificatesData.leftAnchor.label}

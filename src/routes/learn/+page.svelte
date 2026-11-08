@@ -8,7 +8,6 @@
     import type { PageData } from "./$types";
 
     let { data } = $props<{ data: PageData }>();
-    const { item } = data;
     let searchQuery = $state("");
 
     // Filter items based on search
@@ -34,24 +33,24 @@
 
 <div class="px-4 py-8 sm:px-10 sm:py-12 lg:px-16 lg:py-16 max-w-6xl mx-auto">
     <!-- Main Header & Search Bar -->
-    <div class="mb-12 sm:mb-16">
+    <div class="mb-10 sm:mb-14">
         <h1
             class="text-3xl sm:text-5xl font-black tracking-tight mb-4 flex items-center gap-3"
         >
-            <Sparkles class="text-primary" size={32} />
-            {learnPageContent.h1}
+            <Sparkles class="text-primary shrink-0" size={30} />
+            <span>{learnPageContent.h1}</span>
         </h1>
-        <p class="text-muted-foreground text-lg mb-8 max-w-2xl">
+        <p class="text-muted-foreground text-base sm:text-lg mb-8 max-w-2xl">
             {learnPageContent.introParagraph}
         </p>
 
         <!-- Command Palette style Search -->
         <div class="relative group max-w-3xl">
             <div
-                class="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent rounded-2xl blur opacity-0 group-focus-within:opacity-100 transition-opacity duration-500"
+                class="absolute inset-0 bg-gradient-to-r from-primary/15 to-transparent rounded-2xl blur opacity-0 group-focus-within:opacity-100 transition-opacity duration-500"
             ></div>
             <div
-                class="relative flex items-center bg-[#151518] border border-border/20 rounded-2xl overflow-hidden shadow-2xl transition-all group-focus-within:border-primary/50 group-focus-within:bg-[#1a1a1f]"
+                class="relative flex items-center bg-card/80 backdrop-blur-xl border border-border/60 rounded-2xl overflow-hidden shadow-lg transition-all group-focus-within:border-primary/50 group-focus-within:bg-card"
             >
                 <Search
                     size={20}
@@ -61,10 +60,10 @@
                     type="text"
                     bind:value={searchQuery}
                     placeholder="Search by keyword, concept, or tag..."
-                    class="w-full bg-transparent pl-14 pr-16 py-4 sm:py-5 text-foreground placeholder:text-muted-foreground/40 focus:outline-none text-lg"
+                    class="w-full bg-transparent pl-14 pr-16 py-3.5 sm:py-4 text-foreground placeholder:text-muted-foreground/50 focus:outline-none text-base sm:text-lg"
                 />
                 <div
-                    class="absolute right-5 hidden sm:flex items-center gap-1 text-muted-foreground/30 bg-foreground/5 px-2 py-1 rounded-md border border-border font-mono text-xs"
+                    class="absolute right-5 hidden sm:flex items-center gap-1 text-muted-foreground/50 bg-foreground/5 px-2 py-1 rounded-md border border-border font-mono text-xs"
                 >
                     <Command size={12} />
                     <span>K</span>
@@ -92,7 +91,7 @@
         </div>
     {:else}
         <div
-            class="flex flex-col items-center justify-center py-24 text-center border border-dashed border-border/20 rounded-3xl bg-[#151518]/50"
+            class="flex flex-col items-center justify-center py-20 text-center border border-dashed border-border/40 rounded-3xl bg-card/40"
         >
             <Search size={40} class="text-muted-foreground/30 mb-6" />
             <h3 class="text-xl font-bold text-foreground mb-2">

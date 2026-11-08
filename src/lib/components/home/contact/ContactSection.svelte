@@ -209,9 +209,9 @@
     <!-- MOBILE / SMALL TABLET -->
     <svelte:fragment slot="content-mobile">
         <div class="w-full relative z-20 pointer-events-auto">
-            <div bind:this={mobilePanel} class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-lg mx-auto px-5 pt-16 pb-16" style="gap: 2rem;">
+            <div bind:this={mobilePanel} class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-12 gap-5 sm:gap-6">
                 {@render contactAnchor("center")}
-                <div class="w-full max-w-sm mt-4">
+                <div class="w-full mt-1">
                     {@render contactCard(true)}
                 </div>
             </div>

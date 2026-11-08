@@ -117,7 +117,7 @@
                                 {i === experienceData.milestones.length - 1 ? 'bg-background border border-foreground/30 shadow-[0_0_10px_hsl(var(--foreground)/0.05)]' : 'bg-background border border-foreground/10 group-hover/node:border-foreground/30 group-hover/node:bg-foreground/[0.02]'}">
                                 
                                 {#if i === experienceData.milestones.length - 1}
-                                    <div class="absolute -inset-1 rounded-full bg-foreground/5 animate-ping opacity-50 pointer-events-none"></div>
+                                    <div class="absolute -inset-1 rounded-full bg-primary/10 pointer-events-none"></div>
                                 {/if}
                                 
                                 <svelte:component this={getIcon(m.iconName)} size={12} class="transition-colors duration-300 {i === experienceData.milestones.length - 1 ? 'text-foreground' : 'text-muted-foreground group-hover/node:text-foreground/80'}" />
@@ -161,7 +161,7 @@
                                 style="width: 2.8cqi; height: 2.8cqi; min-width: 28px; min-height: 28px;">
                                 
                                 {#if i === experienceData.milestones.length - 1}
-                                    <div class="absolute -inset-1.5 rounded-full bg-foreground/5 animate-[ping_3s_ease-out_infinite] opacity-50 pointer-events-none"></div>
+                                    <div class="absolute -inset-1.5 rounded-full bg-primary/10 pointer-events-none"></div>
                                 {/if}
                                 
                                 <svelte:component this={getIcon(m.iconName)} size={16} class="transition-all duration-300 relative z-10 {i === experienceData.milestones.length - 1 ? 'text-foreground drop-shadow-sm' : 'text-muted-foreground group-hover:text-foreground/90'}" />
@@ -253,15 +253,14 @@
         >
             <div
                 bind:this={mobilePanel}
-                class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-lg mx-auto px-5 pt-16 pb-16"
-                style="gap: 2rem;"
+                class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-12 gap-5 sm:gap-6"
             >
                 {@render experienceAnchor("center")}
                 {@render experienceCard()}
                 {@render careerTimeline(true)}
 
                 <div
-                    class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] p-1.5 mt-2 w-max mx-auto"
+                    class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_12px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] p-1.5 mt-1 w-max mx-auto"
                 >
                     <PillButton
                         href={experienceData.ui.cta.href}

@@ -2,8 +2,6 @@
 <script lang="ts">
     import { onMount, onDestroy } from "svelte";
     import {
-        ChevronLeft,
-        ChevronRight,
         Eye,
         FileText,
         ChevronUp,
@@ -59,7 +57,7 @@
                 }
             });
 
-            // Premium smooth flip with zoom out/in effect
+            // Smooth flip with subtle zoom out/in effect
             tl.to(flipperEl, {
                 scale: 0.92,
                 duration: 0.3,
@@ -80,7 +78,7 @@
             isTransitioning = false;
         }
 
-        // Reset the global store so the 3D model returns to the center or sides appropriately
+        // Reset the global store so the 3D model returns to the center
         if (index === 0) {
             carouselSwipeFraction.set(0);
         }
@@ -120,7 +118,7 @@
 
         function onMove(e: TouchEvent) {
             if (isTransitioning) {
-                e.preventDefault();
+                if (e.cancelable) e.preventDefault();
                 return;
             }
             hasMoved = true;
@@ -154,9 +152,6 @@
                         triggerSectionChange(-1);
                     }
                 } else {
-                    // Only trigger if they STARTED the swipe at the boundary.
-                    // This prevents a fast scrolling swipe from accidentally jumping sections.
-                    // Lowered threshold to 80px for better responsiveness.
                     if (startAtTop && dy < -80) goToSlide(0);
                     else if (startAtBottom && dy > 80) triggerSectionChange(1);
                 }
@@ -166,7 +161,7 @@
         let wheelTimeout: ReturnType<typeof setTimeout>;
         function onWheel(e: WheelEvent) {
             if (isTransitioning) {
-                e.preventDefault();
+                if (e.cancelable) e.preventDefault();
                 return;
             }
             
@@ -197,19 +192,10 @@
             }
         }
 
-        function onNativeScroll() {
-            // We no longer trigger section changes purely on native scroll positions!
-            // iOS rubber banding or fast scrolling would accidentally trigger jumps.
-            // The boundary jumps are now strictly enforced by intentional swipes (onEnd)
-            // or explicit wheel events.
-        }
-
-        // Must be passive: false to allow e.preventDefault()
         node.addEventListener("touchstart", onStart, { passive: false });
         node.addEventListener("touchmove", onMove, { passive: false });
         node.addEventListener("touchend", onEnd, { passive: false });
         node.addEventListener("wheel", onWheel, { passive: false });
-        node.addEventListener("scroll", onNativeScroll, { passive: true });
 
         return {
             destroy() {
@@ -217,7 +203,6 @@
                 node.removeEventListener("touchmove", onMove);
                 node.removeEventListener("touchend", onEnd);
                 node.removeEventListener("wheel", onWheel);
-                node.removeEventListener("scroll", onNativeScroll);
             },
         };
     }
@@ -280,7 +265,7 @@
                 class="slide-front absolute inset-0 w-full h-full flex flex-col justify-end pb-28 z-10"
                 style="pointer-events: {activeSlide === 0 ? 'auto' : 'none'};"
             >
-                <div class="mx-4 w-auto relative pointer-events-auto">
+                <div class="mx-4 sm:mx-auto sm:w-full sm:max-w-md w-auto relative pointer-events-auto">
                     <div class="flip-card bg-card/95 border border-foreground/10 rounded-[1.5rem] shadow-[0_20px_40px_rgba(0,0,0,0.5)] p-6 w-full">
                         <div class="relative z-10 text-center">
                             <div class="flex items-center justify-center gap-2 mb-2">
@@ -337,7 +322,7 @@
 
         <!-- Pagination Indicator -->
         <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 pointer-events-auto w-[90vw] max-w-[380px]">
-            <div class="relative flex items-center p-1.5 rounded-2xl bg-card border border-border shadow-lg gap-1">
+            <div class="relative flex items-center p-1.5 rounded-2xl bg-card/95 backdrop-blur-xl border border-border shadow-lg gap-1">
                 <div class="relative flex items-center flex-1 min-w-0">
                     <div
                         class="absolute top-0 bottom-0 w-1/2 bg-muted rounded-xl transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-sm"
@@ -346,17 +331,17 @@
                     <button
                         type="button"
                         onclick={() => goToSlide(0)}
-                        class="relative z-10 flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl transition-colors duration-300 {activeSlide === 0 ? 'text-foreground font-bold' : 'text-muted-foreground'}"
+                        class="relative z-10 flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl transition-colors duration-300 cursor-pointer {activeSlide === 0 ? 'text-foreground font-bold' : 'text-muted-foreground'}"
                     >
-                        <Eye size={16} class={activeSlide === 0 ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" : ""} />
+                        <Eye size={16} class={activeSlide === 0 ? "text-primary" : ""} />
                         <span class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate">3D Model</span>
                     </button>
                     <button
                         type="button"
                         onclick={() => goToSlide(1)}
-                        class="relative z-10 flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl transition-colors duration-300 {activeSlide === 1 ? 'text-foreground font-bold' : 'text-muted-foreground'}"
+                        class="relative z-10 flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl transition-colors duration-300 cursor-pointer {activeSlide === 1 ? 'text-foreground font-bold' : 'text-muted-foreground'}"
                     >
-                        <FileText size={16} class={activeSlide === 1 ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" : ""} />
+                        <FileText size={16} class={activeSlide === 1 ? "text-primary" : ""} />
                         <span class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate">Specs</span>
                     </button>
                 </div>
@@ -366,13 +351,13 @@
                         type="button"
                         onclick={() => triggerSectionChange(-1)}
                         aria-label="Previous Section"
-                        class="w-10 h-10 rounded-xl flex items-center justify-center bg-transparent hover:bg-muted text-foreground transition-colors active:scale-95"
+                        class="w-10 h-10 rounded-xl flex items-center justify-center bg-transparent hover:bg-muted text-foreground transition-colors active:scale-95 cursor-pointer"
                     ><ChevronUp size={20} /></button>
                     <button
                         type="button"
                         onclick={() => triggerSectionChange(1)}
                         aria-label="Next Section"
-                        class="w-10 h-10 rounded-xl flex items-center justify-center bg-transparent hover:bg-muted text-foreground transition-colors active:scale-95"
+                        class="w-10 h-10 rounded-xl flex items-center justify-center bg-transparent hover:bg-muted text-foreground transition-colors active:scale-95 cursor-pointer"
                     ><ChevronDown size={20} /></button>
                 </div>
             </div>
