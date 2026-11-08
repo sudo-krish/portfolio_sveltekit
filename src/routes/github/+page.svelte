@@ -1,16 +1,14 @@
+<!-- src/routes/github/+page.svelte -->
 <script lang="ts">
     import { onMount } from "svelte";
     import {
-        ArrowLeft,
-        Sparkles,
-        MoveRight,
         ArrowUpRight,
         Github,
         Star,
         GitFork,
-        Eye,
         Terminal,
         Calendar,
+        Sparkles,
     } from "lucide-svelte";
     import SEO from "$lib/components/SEO.svelte";
     import Breadcrumbs from "$lib/components/seo/Breadcrumbs.svelte";
@@ -24,14 +22,12 @@
     import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
     const content = githubSectionContent;
-    const accentColor = "#22c55e"; // Github Green
 
     let stats: any = null;
     let projects: any[] = [];
     let events: any[] = [];
     let loading = true;
 
-    // Animation triggers
     let ctx: gsap.Context;
 
     onMount(() => {
@@ -48,17 +44,15 @@
                 );
 
                 stats = statsData;
-                projects = projectsData.slice(0, 6); // Top 6 projects
+                projects = projectsData.slice(0, 6);
                 events = eventsData;
             } catch (e) {
                 console.error("Failed to load GitHub page data", e);
             } finally {
                 loading = false;
-
-                // Wait for DOM to update with loaded data before animating
                 setTimeout(() => {
                     initAnimations();
-                }, 100);
+                }, 80);
             }
         };
 
@@ -71,34 +65,34 @@
     });
 
     function initAnimations() {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
         ctx = gsap.context(() => {
             gsap.registerPlugin(ScrollTrigger);
 
             gsap.fromTo(
                 ".hero-elem",
-                { y: 60, opacity: 0, filter: "blur(10px)" },
+                { y: 24, opacity: 0 },
                 {
                     y: 0,
                     opacity: 1,
-                    filter: "blur(0px)",
-                    duration: 1.2,
-                    stagger: 0.15,
+                    duration: 0.8,
+                    stagger: 0.1,
                     ease: "expo.out",
-                    clearProps: "filter",
+                    clearProps: "transform,opacity",
                 },
             );
 
             gsap.fromTo(
                 ".bento-card",
-                { y: 80, opacity: 0, scale: 0.9 },
+                { y: 28, opacity: 0 },
                 {
                     y: 0,
                     opacity: 1,
-                    scale: 1,
-                    duration: 1,
-                    stagger: 0.1,
-                    ease: "power4.out",
-                    scrollTrigger: { trigger: ".bento-grid", start: "top 85%" },
+                    duration: 0.75,
+                    stagger: 0.08,
+                    ease: "expo.out",
+                    scrollTrigger: { trigger: ".bento-grid", start: "top 88%" },
+                    clearProps: "transform,opacity",
                 },
             );
 
@@ -106,33 +100,23 @@
             fadeElems.forEach((elem) => {
                 gsap.fromTo(
                     elem as Element,
-                    { y: 50, opacity: 0 },
+                    { y: 24, opacity: 0 },
                     {
                         y: 0,
                         opacity: 1,
-                        duration: 1,
-                        ease: "power3.out",
+                        duration: 0.75,
+                        ease: "expo.out",
                         scrollTrigger: {
                             trigger: elem as Element,
-                            start: "top 85%",
+                            start: "top 88%",
                         },
+                        clearProps: "transform,opacity",
                     },
                 );
-            });
-
-            gsap.to(".ambient-orb", {
-                x: "random(-50, 50, 5)",
-                y: "random(-50, 50, 5)",
-                duration: 8,
-                repeat: -1,
-                yoyo: true,
-                ease: "sine.inOut",
-                stagger: 0.5,
             });
         });
     }
 
-    // Helper to format date
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
         return new Intl.DateTimeFormat("en-US", {
@@ -143,7 +127,7 @@
     };
 </script>
 
-<SEO 
+<SEO
     title="GitHub Projects and Repositories | Krishnanand Anil"
     description="Browse Krishnanand Anil's GitHub repositories, data engineering projects, technical experiments, and open source work."
     keywords="data engineering github, github repositories data engineer, kafka cdc project github, python data pipeline project, aws automation scripts"
@@ -153,106 +137,103 @@
 <div
     class="relative min-h-screen bg-background text-foreground overflow-x-hidden"
 >
-    <!-- Base Grain/Noise Layer -->
+    <!-- Subtle Atmospheric Radial Wash -->
     <div
-        class="fixed inset-0 pointer-events-none z-50 opacity-[0.03]"
-        style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E'); mix-blend-mode: overlay;"
+        class="pointer-events-none fixed inset-0 z-0"
+        style="background: radial-gradient(circle at 80% 12%, hsl(var(--success) / 0.07), transparent 48%), radial-gradient(circle at 15% 80%, hsl(var(--primary) / 0.06), transparent 50%);"
     ></div>
 
-    <!-- Animated Ambient Orbs Background -->
-    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        
-        
-    </div>
-
     <div
-        class="absolute top-28 left-0 right-0 z-40 flex justify-center pointer-events-none"
+        class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-20 sm:pt-28 pb-20 sm:pb-24"
     >
-        <div class="pointer-events-auto flex items-center bg-card/80 backdrop-blur-2xl px-6 py-3 rounded-full border border-border shadow-xl hover:border-primary/30 hover:bg-card transition-all duration-300">
-            <Breadcrumbs crumbs={[{ label: 'GitHub', url: '/github' }]} className="m-0" />
+        <!-- Breadcrumb Bar -->
+        <div class="mb-8 flex items-center justify-between">
+            <div
+                class="inline-flex items-center bg-card/85 backdrop-blur-xl px-4 py-2 rounded-xl border border-border/80 shadow-2xs"
+            >
+                <Breadcrumbs
+                    crumbs={[{ label: "GitHub", url: "/github" }]}
+                    className="m-0"
+                />
+            </div>
         </div>
-    </div>
 
-    <div class="relative z-10 max-w-6xl mx-auto px-6 pt-40 pb-24">
         {#if loading}
             <div
                 class="min-h-[60vh] flex flex-col items-center justify-center gap-4"
             >
                 <div
-                    class="w-12 h-12 border-4 border-foreground/20 border-t-{accentColor} rounded-full animate-spin"
-                    style="border-top-color: {accentColor}"
+                    class="w-10 h-10 border-2 border-border border-t-success rounded-full animate-spin"
                 ></div>
                 <p
-                    class="font-mono text-sm tracking-widest text-muted-foreground uppercase"
+                    class="font-mono text-xs tracking-[0.18em] text-muted-foreground uppercase"
                 >
-                    Open Source Loading GitHub Data...
+                    Synchronizing GitHub Telemetry...
                 </p>
             </div>
         {:else}
-            <!-- Hero Section -->
-            <header class="mb-24 md:mb-32">
-                <div
-                    class="hero-elem inline-flex items-center gap-2 px-3 py-1.5 rounded-full border bg-foreground/[0.02] backdrop-blur-md mb-8"
-                    style="border-color: {accentColor}30"
-                >
-                    <Github size={12} style="color: {accentColor}" />
-                    <span
-                        class="text-[10px] font-mono font-bold tracking-[0.2em] uppercase"
-                        style="color: {accentColor}">Live API Stats</span
-                    >
-                </div>
-
+            <!-- Hero Section (Heading leads first — no eyebrow above heading, no gradient text) -->
+            <header class="mb-16 sm:mb-20">
                 <h1
-                    class="hero-elem text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8"
+                    class="hero-elem text-4xl sm:text-5xl md:text-6xl font-heading font-extrabold tracking-tight leading-[0.95] mb-5"
                 >
-                    <span class="block text-foreground/90">Open Source</span>
-                    <span
-                        class="block text-transparent bg-clip-text pb-2 lg:pb-4"
-                        style="background-image: linear-gradient(135deg, {accentColor}, hsl(var(--foreground)))"
-                    >
-                        Engineering
-                    </span>
+                    <span class="block text-foreground">Open Source</span>
+                    <span class="block text-success mt-1">Engineering</span>
                 </h1>
 
+                <!-- Specification Bar Below Heading -->
                 <div
-                    class="hero-elem grid md:grid-cols-12 gap-8 md:gap-16 items-start"
+                    class="hero-elem flex flex-wrap items-center gap-3 mb-8 pb-6 border-b border-border/75"
                 >
-                    <div class="md:col-span-4">
-                        <div
-                            class="w-12 h-1 rounded-full mb-6"
-                            style="background: {accentColor}"
-                        ></div>
-                        <p
-                            class="font-mono text-[10px] sm:text-xs text-foreground/40 tracking-widest uppercase mb-4"
-                        >
-                            Profile Overview
-                        </p>
+                    <span class="h-[2px] w-7 bg-success rounded-full"></span>
+                    <Github size={14} class="text-success" />
+                    <span
+                        class="text-[11px] font-mono font-bold tracking-[0.18em] uppercase text-success"
+                    >
+                        LIVE REPOSITORY TELEMETRY // GITHUB API
+                    </span>
+                </div>
 
+                <div
+                    class="hero-elem grid md:grid-cols-12 gap-6 md:gap-12 items-center"
+                >
+                    <div class="md:col-span-5">
                         {#if stats?.user}
                             <div
-                                class="flex items-center gap-4 p-4 rounded-2xl bg-foreground/5 border border-foreground/10 mt-4 backdrop-blur-sm"
+                                class="flex items-center gap-4 p-4 rounded-2xl bg-card/88 border border-border/80 shadow-[var(--shadow-sm)]"
                             >
                                 <img
                                     src={stats.user.avatar_url}
-                                    alt="Profile"
-                                    class="w-12 h-12 rounded-full border border-foreground/20"
+                                    alt={stats.user.name || stats.user.login}
+                                    class="w-12 h-12 rounded-xl border border-border/80 shrink-0"
                                 />
-                                <div>
-                                    <h3 class="font-bold text-foreground/90">
+                                <div class="min-w-0">
+                                    <h2
+                                        class="text-base font-heading font-bold text-foreground leading-tight break-words"
+                                    >
                                         {stats.user.name || stats.user.login}
-                                    </h3>
-                                    <p class="text-xs text-foreground/50">
+                                    </h2>
+                                    <p
+                                        class="text-xs font-mono text-success mt-0.5 mb-0"
+                                    >
                                         @{stats.user.login}
                                     </p>
                                 </div>
+                                <a
+                                    href="https://github.com/sudo-krish"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="Open GitHub profile"
+                                    class="ml-auto w-9 h-9 rounded-xl bg-muted/65 border border-border/80 flex items-center justify-center text-muted-foreground hover:text-success hover:border-success/40 transition-colors shrink-0"
+                                >
+                                    <ArrowUpRight size={15} />
+                                </a>
                             </div>
                         {/if}
                     </div>
-                    <div
-                        class="md:col-span-8 flex flex-col justify-center h-full"
-                    >
+                    <div class="md:col-span-7">
                         <p
-                            class="text-xl md:text-2xl text-foreground/70 leading-relaxed font-light"
+                            class="text-base sm:text-lg text-muted-foreground leading-relaxed mb-0"
                         >
                             {content.introParagraph}
                         </p>
@@ -260,73 +241,80 @@
                 </div>
             </header>
 
-            <!-- Live Metrics Highlights -->
-            <section class="max-w-6xl mx-auto mb-24 md:mb-32">
-                <div class="mb-10 fade-up">
-                    <h2
-                        class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-muted-foreground flex items-center gap-4"
+            <!-- Single-Sheet 4-Column Telemetry Ledger -->
+            <section class="mb-16 sm:mb-20 fade-up">
+                <div
+                    class="rounded-2xl border border-border/85 bg-card/88 backdrop-blur-xl shadow-[var(--shadow-md)] overflow-hidden"
+                >
+                    <div
+                        class="px-5 py-3 border-b border-border/70 flex items-center justify-between"
                     >
-                        <span class="w-8 h-px bg-foreground/20"></span>
-                        Aggregate Metrics
-                        <span class="w-full h-px bg-foreground/10"></span>
-                    </h2>
-                </div>
-
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
-                    {#each [{ label: "Total Repos", value: stats?.totalRepos || 0, icon: Github }, { label: "Total Stars", value: stats?.totalStars || 0, icon: Star }, { label: "Day Streak", value: stats?.contributionStreak || 0, icon: Terminal }, { label: "Top Lang", value: stats?.topLanguages?.[0] || "Code", icon: Sparkles }] as h, i}
-                        <div
-                            class="fade-up group relative overflow-hidden rounded-3xl border border-foreground/[0.06] bg-gradient-to-br from-foreground/[0.04] to-transparent p-6 flex flex-col justify-between hover:border-foreground/15 transition-all duration-500 min-h-[160px]"
+                        <span
+                            class="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground"
                         >
-                            
-
-                            <div
-                                class="relative z-10 flex items-center justify-between mb-4"
-                            >
-                                <h3
-                                    class="text-xs font-mono font-bold tracking-widest uppercase text-foreground/40"
+                            AGGREGATE TELEMETRY LEDGER
+                        </span>
+                        <span
+                            class="w-1.5 h-1.5 rounded-full bg-success animate-pulse"
+                        ></span>
+                    </div>
+                    <div
+                        class="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 divide-x divide-border/70"
+                    >
+                        {#each [{ label: "Total Repos", value: stats?.totalRepos || 0, icon: Github }, { label: "Total Stars", value: stats?.totalStars || 0, icon: Star }, { label: "Day Streak", value: stats?.contributionStreak || 0, icon: Terminal }, { label: "Top Language", value: stats?.topLanguages?.[0] || "Python", icon: Sparkles }] as h}
+                            <div class="p-5 sm:p-6 flex flex-col justify-between">
+                                <div
+                                    class="flex items-center justify-between gap-2 mb-3"
                                 >
-                                    {h.label}
-                                </h3>
-                                <svelte:component
-                                    this={h.icon}
-                                    size={16}
-                                    class="text-foreground/20 group-hover:text-[{accentColor}] transition-colors"
-                                />
-                            </div>
-
-                            <div class="relative z-10">
+                                    <span
+                                        class="text-[10px] font-mono font-bold tracking-[0.16em] uppercase text-muted-foreground"
+                                    >
+                                        {h.label}
+                                    </span>
+                                    <svelte:component
+                                        this={h.icon}
+                                        size={15}
+                                        class="text-success shrink-0"
+                                    />
+                                </div>
                                 <span
-                                    class="text-4xl md:text-5xl font-black tracking-tighter leading-none"
-                                    style="color: {accentColor}">{h.value}</span
+                                    class="text-2xl sm:text-4xl font-mono tabular-nums font-bold tracking-tight text-foreground leading-none break-words"
                                 >
+                                    {h.value}
+                                </span>
                             </div>
-                        </div>
-                    {/each}
+                        {/each}
+                    </div>
                 </div>
             </section>
 
-            <!-- Projects and Events Split -->
+            <!-- Repositories and Activity Stream Split -->
             <section
-                class="max-w-6xl mx-auto mb-32 grid md:grid-cols-12 gap-12 lg:gap-16"
+                class="mb-20 grid md:grid-cols-12 gap-8 lg:gap-10 items-start"
             >
-                <!-- Top Repositories -->
+                <!-- Top Public Repositories -->
                 <div class="md:col-span-7 lg:col-span-8">
-                    <div class="fade-up mb-10">
+                    <div class="fade-up mb-6">
                         <h2
-                            class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-foreground/30 flex items-center gap-4"
+                            class="text-2xl sm:text-3xl font-heading font-extrabold text-foreground tracking-tight mb-2"
                         >
-                            <span class="w-8 h-px bg-foreground/20"></span> Top
-                            Public Repositories
-                            <span class="w-full h-px bg-foreground/10"></span>
-                        </h2>
-                        <h2 class="text-2xl font-bold text-foreground">
                             Code Contributions
                         </h2>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span
+                                class="h-[2px] w-6 bg-success rounded-full"
+                            ></span>
+                            <span
+                                class="text-[10px] font-mono font-bold tracking-[0.18em] uppercase text-success"
+                            >
+                                TOP PUBLIC REPOSITORIES
+                            </span>
+                        </div>
                         <p
-                            class="text-muted-foreground font-light leading-relaxed"
+                            class="text-sm sm:text-base text-muted-foreground leading-relaxed mb-0"
                         >
-                            A history of open-source projects and infrastructure
-                            development.
+                            Open-source data infrastructure, streaming engines,
+                            and developer automation.
                         </p>
                     </div>
 
@@ -335,58 +323,55 @@
                             <a
                                 href={project.repository}
                                 target="_blank"
-                                rel="noopener"
-                                class="bento-card group relative overflow-hidden rounded-3xl border border-foreground/[0.06] bg-foreground/[0.02] p-6 hover:bg-foreground/[0.05] transition-colors duration-500 flex flex-col min-h-[220px]"
+                                rel="noopener noreferrer"
+                                class="bento-card group relative overflow-hidden rounded-2xl border border-border/85 bg-card/88 p-5 sm:p-6 hover:border-success/50 hover:-translate-y-0.5 shadow-[var(--shadow-sm)] transition-all duration-300 flex flex-col justify-between min-h-[200px] no-underline"
                             >
-                                <div
-                                    class="flex items-start justify-between mb-4 relative z-10"
-                                >
-                                    <div class="flex items-center gap-2">
-                                        {#if project.languages?.[0]}
-                                            <span
-                                                class="px-2 py-0.5 rounded-full border border-foreground/10 bg-foreground/5 text-[9px] font-mono text-foreground/60"
-                                            >
-                                                {project.languages[0]}
-                                            </span>
-                                        {/if}
+                                <div>
+                                    <div
+                                        class="flex items-start justify-between gap-3 mb-3"
+                                    >
+                                        <h3
+                                            class="text-lg font-heading font-bold tracking-tight text-foreground group-hover:text-success transition-colors leading-snug break-words"
+                                        >
+                                            {project.name}
+                                        </h3>
+                                        <ArrowUpRight
+                                            size={16}
+                                            class="text-muted-foreground group-hover:text-success transition-colors shrink-0 mt-0.5"
+                                        />
                                     </div>
-                                    <ArrowUpRight
-                                        size={16}
-                                        class="text-foreground/30 group-hover:text-foreground transition-colors"
-                                    />
+
+                                    <p
+                                        class="text-xs sm:text-[13px] text-muted-foreground leading-relaxed mb-5 line-clamp-3"
+                                    >
+                                        {project.description}
+                                    </p>
                                 </div>
 
-                                <h3
-                                    class="text-xl font-bold tracking-tight text-foreground/90 mb-2 relative z-10 group-hover:text-[{accentColor}] transition-colors"
-                                >
-                                    {project.name}
-                                </h3>
-
-                                <p
-                                    class="text-[13px] text-foreground/50 leading-relaxed font-light mb-6 flex-1 relative z-10 line-clamp-3"
-                                >
-                                    {project.description}
-                                </p>
-
                                 <div
-                                    class="flex items-center gap-4 text-[10px] font-mono text-foreground/40 mt-auto relative z-10"
+                                    class="flex flex-wrap items-center gap-3 pt-3 border-t border-border/60 text-[10.5px] font-mono tabular-nums text-muted-foreground mt-auto"
                                 >
-                                    <span class="flex items-center gap-1.5"
-                                        ><Star
-                                            size={12}
-                                            class="text-foreground/70"
-                                        />
-                                        {project.stars}</span
-                                    >
-                                    <span class="flex items-center gap-1.5"
-                                        ><GitFork size={12} />
-                                        {project.forks}</span
-                                    >
+                                    {#if project.languages?.[0]}
+                                        <span
+                                            class="px-2 py-0.5 rounded-md border border-border/80 bg-muted/60 text-foreground font-semibold"
+                                        >
+                                            {project.languages[0]}
+                                        </span>
+                                    {/if}
+                                    <span class="flex items-center gap-1">
+                                        <Star size={12} class="text-warning" />
+                                        {project.stars}
+                                    </span>
+                                    <span class="flex items-center gap-1">
+                                        <GitFork size={12} />
+                                        {project.forks}
+                                    </span>
                                     <span
-                                        class="flex items-center gap-1.5 ml-auto"
-                                        ><Calendar size={12} />
-                                        {formatDate(project.dateCreated)}</span
+                                        class="flex items-center gap-1 ml-auto"
                                     >
+                                        <Calendar size={11} />
+                                        {formatDate(project.dateCreated)}
+                                    </span>
                                 </div>
                             </a>
                         {/each}
@@ -395,81 +380,66 @@
 
                 <!-- Recent Events Activity Stream -->
                 <div class="md:col-span-5 lg:col-span-4">
-                    <div class="fade-up mb-10">
+                    <div class="fade-up mb-6">
                         <h2
-                            class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-foreground/30 flex items-center gap-4"
+                            class="text-2xl sm:text-3xl font-heading font-extrabold text-foreground tracking-tight mb-2"
                         >
-                            <span class="w-8 h-px bg-foreground/20"></span>
-                            Activity Stream
-                            <span class="w-full h-px bg-foreground/10"></span>
+                            Commit Trail
                         </h2>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span
+                                class="h-[2px] w-6 bg-success rounded-full"
+                            ></span>
+                            <span
+                                class="text-[10px] font-mono font-bold tracking-[0.18em] uppercase text-success"
+                            >
+                                RECENT ACTIVITY STREAM
+                            </span>
+                        </div>
+                        <p
+                            class="text-sm text-muted-foreground leading-relaxed mb-0"
+                        >
+                            Latest verified pushes across public repositories.
+                        </p>
                     </div>
 
                     <div
-                        class="fade-up relative rounded-3xl border border-border bg-card p-6 sm:p-8 overflow-hidden h-full"
+                        class="fade-up relative rounded-2xl border border-border/85 bg-card/88 p-5 sm:p-6 shadow-[var(--shadow-md)] overflow-hidden"
                     >
-                        <div
-                            class="absolute inset-0 bg-gradient-to-b from-transparent to-background/80 pointer-events-none z-0"
-                        ></div>
-
-                        <div class="relative z-10 flex flex-col gap-6">
-                            {#each events.slice(0, 5) as event, index}
-                                <div
-                                    class="relative pl-6 {index !==
-                                    events.length - 1
-                                        ? 'pb-6'
-                                        : ''}"
-                                >
-                                    <!-- Timeline line -->
-                                    {#if index !== Math.min(events.length, 5) - 1}
-                                        <div
-                                            class="absolute left-[7px] top-6 bottom-0 w-px bg-foreground/10"
-                                        ></div>
-                                    {/if}
-
-                                    <!-- Timeline dot -->
+                        <div class="flex flex-col divide-y divide-border/60">
+                            {#each events.slice(0, 5) as event}
+                                <div class="py-3.5 first:pt-0 last:pb-0 flex flex-col gap-1.5">
                                     <div
-                                        class="absolute left-0 top-1.5 w-4 h-4 rounded-full border border-foreground/20 bg-card flex items-center justify-center"
+                                        class="flex flex-wrap items-center justify-between gap-2"
                                     >
-                                        <div
-                                            class="w-1.5 h-1.5 rounded-full"
-                                            style="background: {accentColor}"
-                                        ></div>
+                                        <span
+                                            class="font-mono text-xs text-foreground font-bold leading-snug break-words"
+                                        >
+                                            {event.repo}
+                                        </span>
+                                        <span
+                                            class="font-mono tabular-nums text-[10px] text-muted-foreground shrink-0"
+                                        >
+                                            {event.time}
+                                        </span>
                                     </div>
-
-                                    <div class="flex flex-col gap-1">
-                                        <div
-                                            class="flex items-center justify-between gap-2"
+                                    <div class="flex items-start gap-2">
+                                        <span
+                                            class="font-mono tabular-nums text-[10px] text-success font-semibold shrink-0 px-1.5 py-0.5 rounded bg-success/10 border border-success/30 mt-0.5"
                                         >
-                                            <span
-                                                class="font-mono text-xs text-foreground/80 font-bold truncate"
-                                                >{event.repo}</span
-                                            >
-                                            <span
-                                                class="font-mono text-[10px] text-foreground/30 shrink-0"
-                                                >{event.time}</span
-                                            >
-                                        </div>
-                                        <div
-                                            class="flex items-start gap-2 mt-1"
+                                            {event.sha}
+                                        </span>
+                                        <p
+                                            class="text-xs text-muted-foreground line-clamp-2 leading-snug mb-0"
                                         >
-                                            <span
-                                                class="font-mono text-[10px] text-foreground/40 shrink-0 px-1 py-0.5 rounded bg-foreground/5 border border-foreground/10"
-                                                style="color: {accentColor}"
-                                                >{event.sha}</span
-                                            >
-                                            <p
-                                                class="text-xs text-foreground/60 line-clamp-2 leading-relaxed"
-                                            >
-                                                {event.msg}
-                                            </p>
-                                        </div>
+                                            {event.msg}
+                                        </p>
                                     </div>
                                 </div>
                             {:else}
-                                <div class="text-center py-10">
+                                <div class="text-center py-8">
                                     <p
-                                        class="text-foreground/40 font-mono text-sm tracking-widest uppercase"
+                                        class="text-muted-foreground font-mono text-xs tracking-widest uppercase mb-0"
                                     >
                                         No recent activity found
                                     </p>
@@ -477,16 +447,15 @@
                             {/each}
                         </div>
 
-                        <div
-                            class="relative z-10 mt-8 pt-6 border-t border-foreground/10"
-                        >
+                        <div class="mt-5 pt-4 border-t border-border/70">
                             <a
                                 href="https://github.com/sudo-krish"
                                 target="_blank"
-                                rel="noopener"
-                                class="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-foreground/5 border border-foreground/10 text-foreground/70 text-sm font-bold hover:bg-foreground/10 hover:text-foreground transition-colors"
+                                rel="noopener noreferrer"
+                                class="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-muted/65 border border-border/80 text-foreground text-xs font-heading font-bold hover:border-success/50 hover:text-success transition-colors no-underline"
                             >
-                                View Full History <ArrowUpRight size={14} />
+                                View Full GitHub Profile
+                                <ArrowUpRight size={14} />
                             </a>
                         </div>
                     </div>

@@ -4,7 +4,7 @@
         label,
         title,
         description,
-        labelColor = "text-primary/80",
+        labelColor = "text-primary/90",
         align = "left",
         maxDescWidth = "20cqi",
         headingTag = "h2",
@@ -26,22 +26,25 @@
 </script>
 
 <div
-    class="flex flex-col w-full {alignClasses[align]}"
+    class="group/anchor flex flex-col w-full {alignClasses[align]}"
 >
     <svelte:element this={headingTag || "h2"}
-        class="font-heading font-extrabold text-foreground leading-[0.96] tracking-tight sm:whitespace-pre-line text-balance"
-        style="font-size: clamp(2rem, 4.5cqi, 3.85rem); margin-bottom: max(0.55rem, 0.85cqi);"
+        class="font-heading font-extrabold text-foreground leading-[0.95] tracking-tight sm:whitespace-pre-line text-balance"
+        style="font-size: clamp(2.05rem, 4.5cqi, 3.85rem); margin-bottom: max(0.55rem, 0.85cqi);"
     >
         {title.replace(/\n/g, ' ')}
     </svelte:element>
 
     <div
-        class="flex items-center gap-2.5"
+        class="flex items-center gap-2"
         style="margin-bottom: max(0.55rem, 0.8cqi);"
     >
-        <span class="h-px w-6 bg-primary/50 shrink-0"></span>
+        <div class="flex items-center gap-1 shrink-0">
+            <span class="h-[2px] w-6 bg-primary rounded-full transition-all duration-300 group-hover/anchor:w-8"></span>
+            <span class="h-[2px] w-1.5 bg-primary/45 rounded-full"></span>
+        </div>
         <span
-            class="font-mono {labelColor} uppercase tracking-[0.2em] font-semibold"
+            class="font-mono {labelColor} uppercase tracking-[0.2em] font-bold"
             style="font-size: clamp(10px, 0.78cqi, 12px);"
         >
             {label}
@@ -55,4 +58,3 @@
         {@html description}
     </p>
 </div>
-

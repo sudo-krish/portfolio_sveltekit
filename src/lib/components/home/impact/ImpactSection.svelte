@@ -25,37 +25,53 @@
     };
 
     onMount(() => {
-        let ctx = gsap.context(() => {
-            if (leftPanel) {
-                gsap.fromTo(
-                    leftPanel.children,
-                    { y: 30, opacity: 0 },
-                    {
-                        y: 0,
-                        opacity: 1,
-                        duration: 1.2,
-                        stagger: 0.15,
-                        ease: "power3.out",
-                        delay: 0.1,
-                    },
-                );
-            }
-            if (rightPanel) {
-                gsap.fromTo(
-                    rightPanel.children,
-                    { x: 30, opacity: 0 },
-                    {
-                        x: 0,
-                        opacity: 1,
-                        duration: 1.0,
-                        stagger: 0.15,
-                        ease: "power3.out",
-                        delay: 0.2,
-                    },
-                );
-            }
-        });
-        return () => ctx.revert();
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        let ctx = gsap.context(() => {});
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        ctx.add(() => {
+                            if (leftPanel) {
+                                gsap.fromTo(
+                                    leftPanel.children,
+                                    { y: 24, opacity: 0 },
+                                    {
+                                        y: 0,
+                                        opacity: 1,
+                                        duration: 0.85,
+                                        stagger: 0.1,
+                                        ease: "expo.out",
+                                        delay: 0.06,
+                                        clearProps: "transform,opacity",
+                                    },
+                                );
+                            }
+                            if (rightPanel) {
+                                gsap.fromTo(
+                                    rightPanel.children,
+                                    { x: 24, opacity: 0 },
+                                    {
+                                        x: 0,
+                                        opacity: 1,
+                                        duration: 0.75,
+                                        stagger: 0.1,
+                                        ease: "expo.out",
+                                        clearProps: "transform,opacity",
+                                    },
+                                );
+                            }
+                        });
+                    }
+                });
+            },
+            { threshold: 0.25 },
+        );
+        if (leftPanel) observer.observe(leftPanel);
+        return () => {
+            observer.disconnect();
+            ctx.revert();
+        };
     });
 </script>
 
@@ -206,8 +222,8 @@
             style="bottom: 2cqi; max-width: 20cqi;"
         >
             <div
-                class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]"
-                style="padding: 0.4cqi;"
+                class="flex items-stretch bg-card/88 backdrop-blur-xl rounded-2xl border border-border/80 shadow-[var(--shadow-lg)]"
+                style="padding: 0.38cqi;"
             >
                 <PillButton
                     href={resultsData.ui.cta.href}

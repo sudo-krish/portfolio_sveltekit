@@ -27,6 +27,30 @@
     const ctaDesktop = heroContent.actionDock.ctaDesktop;
     const ctaMobile = heroContent.actionDock.cta;
     const links = heroContent.actionDock.links;
+
+    let heroPcRoot: HTMLElement;
+
+    onMount(() => {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        const ctx = gsap.context(() => {
+            if (heroPcRoot) {
+                gsap.fromTo(
+                    heroPcRoot.querySelectorAll(".hero-type, .action-dock"),
+                    { y: 20, opacity: 0 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        duration: 0.75,
+                        stagger: 0.07,
+                        ease: "expo.out",
+                        delay: 0.15,
+                        clearProps: "transform,opacity",
+                    },
+                );
+            }
+        });
+        return () => ctx.revert();
+    });
 </script>
 
 {#snippet heroHeader(isMobile: boolean)}
@@ -269,6 +293,7 @@
 >
     <svelte:fragment slot="content-pc">
         <div
+            bind:this={heroPcRoot}
             class="absolute inset-0 z-20 w-full h-full pointer-events-none flex justify-center overflow-hidden"
             style="container-type: size; padding-left: 3cqi; padding-right: 3cqi;"
         >

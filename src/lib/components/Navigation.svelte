@@ -1,18 +1,21 @@
 <!-- src/lib/components/Navigation.svelte -->
 <script lang="ts">
-  import { Home, User, BookOpen, Code, FileText } from "lucide-svelte";
+  import { Home, User, BookOpen, Code, FileText, ChevronDown } from "lucide-svelte";
   import { onMount } from "svelte";
   import { page } from "$app/stores";
   import ThemeToggle from "$lib/components/ThemeToggle.svelte";
 
   let hoveredItem = $state<string | null>(null);
 
-  // Dock interaction states
+  // Auto-hide & hover-reveal state
   let isHoveredDock = $state(false);
-  let isIdle = $state(false);
-  let idleTimer: ReturnType<typeof setTimeout>;
+  let isTopZoneHovered = $state(false);
+  let isFocusedWithin = $state(false);
+  let isPinnedMobile = $state(false);
+  let isInitialReveal = $state(true);
 
-  const IDLE_TIMEOUT = 8000;
+  let hideTimer: ReturnType<typeof setTimeout>;
+  let initialTimer: ReturnType<typeof setTimeout>;
 
   const navItems = [
     { label: "Home", href: "/", icon: Home },
@@ -25,12 +28,13 @@
   // Determine which item is active based on current path
   let activePath = $derived($page.url.pathname);
   let activeIndex = $derived(() => {
-    // Exact match for home, prefix match for others
     const idx = navItems.findIndex((n) =>
       n.href === "/" ? activePath === "/" : activePath.startsWith(n.href),
     );
     return idx !== -1 ? idx : 0;
   });
+
+  let activeLabel = $derived(navItems[activeIndex()]?.label ?? "Home");
 
   let hoveredIndex = $derived(
     hoveredItem ? navItems.findIndex((n) => n.href === hoveredItem) : -1,
@@ -39,56 +43,120 @@
     hoveredIndex !== -1 ? hoveredIndex : activeIndex(),
   );
 
-  let isShrunk = $derived(isIdle && !isHoveredDock);
+  let isVisible = $derived(
+    isHoveredDock ||
+      isTopZoneHovered ||
+      isFocusedWithin ||
+      isPinnedMobile ||
+      isInitialReveal,
+  );
 
-  const resetIdleTimer = () => {
-    isIdle = false;
-    clearTimeout(idleTimer);
-    if (!isHoveredDock) {
-      idleTimer = setTimeout(() => {
-        isIdle = true;
-      }, IDLE_TIMEOUT);
+  function revealFromHover() {
+    clearTimeout(hideTimer);
+    isTopZoneHovered = true;
+  }
+
+  function scheduleHide() {
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => {
+      if (!isHoveredDock && !isFocusedWithin) {
+        isTopZoneHovered = false;
+        isPinnedMobile = false;
+      }
+    }, 420);
+  }
+
+  function handleWindowMouseMove(e: MouseEvent) {
+    if (e.clientY <= 28) {
+      revealFromHover();
+    } else if (e.clientY > 96 && isTopZoneHovered && !isHoveredDock) {
+      scheduleHide();
     }
-  };
+  }
 
   onMount(() => {
-    window.addEventListener("scroll", resetIdleTimer, { passive: true });
-    resetIdleTimer();
+    // Briefly show on initial load, then smoothly tuck away until hovered
+    initialTimer = setTimeout(() => {
+      isInitialReveal = false;
+    }, 1400);
+
+    window.addEventListener("mousemove", handleWindowMouseMove, {
+      passive: true,
+    });
 
     return () => {
-      window.removeEventListener("scroll", resetIdleTimer);
-      clearTimeout(idleTimer);
+      window.removeEventListener("mousemove", handleWindowMouseMove);
+      clearTimeout(hideTimer);
+      clearTimeout(initialTimer);
     };
-  });
-
-  $effect(() => {
-    if (isHoveredDock) {
-      isIdle = false;
-      clearTimeout(idleTimer);
-    } else {
-      resetIdleTimer();
-    }
   });
 </script>
 
-<!-- FLOATING PREMIUM DOCK -->
+<!-- TOP HOVER SENSOR STRIP & ARCHITECTURAL PULL-TAB -->
 <div
-  class="fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] origin-top top-3 sm:top-5 w-[calc(100%-1.5rem)] max-w-[440px] sm:w-max sm:max-w-none
-         {isShrunk
-    ? 'opacity-85 hover:opacity-100'
-    : 'opacity-100'}"
-  onmouseenter={() => (isHoveredDock = true)}
-  onmouseleave={() => (isHoveredDock = false)}
+  class="fixed top-0 left-0 right-0 h-7 z-50 flex justify-center items-start pointer-events-auto"
+  onmouseenter={revealFromHover}
+  onmouseleave={scheduleHide}
+  role="presentation"
+>
+  <button
+    type="button"
+    onclick={() => (isPinnedMobile = !isPinnedMobile)}
+    aria-label="Reveal navigation bar"
+    aria-expanded={isVisible}
+    class="group relative flex items-center gap-2 px-3.5 py-1 rounded-b-xl bg-card/90 backdrop-blur-xl border-x border-b border-border/80 shadow-[var(--shadow-sm)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer
+           {isVisible
+      ? '-translate-y-full opacity-0 pointer-events-none'
+      : 'translate-y-0 opacity-95 hover:opacity-100 hover:border-primary/50 hover:pt-1.5'}"
+  >
+    <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+    <span
+      class="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground group-hover:text-foreground transition-colors"
+    >
+      {activeLabel}
+    </span>
+    <ChevronDown
+      size={12}
+      class="text-primary transition-transform duration-300 group-hover:translate-y-0.5"
+    />
+  </button>
+</div>
+
+<!-- AUTO-HIDING FLOATING BLUEPRINT DOCK (Reveals on Top Hover / Tap) -->
+<div
+  class="fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] origin-top top-2.5 sm:top-4 w-[calc(100%-1.5rem)] max-w-[440px] sm:w-max sm:max-w-none
+         {isVisible
+    ? 'translate-y-0 opacity-100 scale-100 pointer-events-auto'
+    : '-translate-y-[135%] opacity-0 scale-95 pointer-events-none'}"
+  onmouseenter={() => {
+    clearTimeout(hideTimer);
+    isHoveredDock = true;
+  }}
+  onmouseleave={() => {
+    isHoveredDock = false;
+    scheduleHide();
+  }}
+  onfocusin={() => (isFocusedWithin = true)}
+  onfocusout={() => {
+    isFocusedWithin = false;
+    scheduleHide();
+  }}
   role="navigation"
   aria-label="Primary Navigation"
 >
   <!-- Main Chassis -->
   <div
-    class="card-glass relative flex items-center justify-between sm:justify-center !rounded-2xl shadow-[var(--shadow-lg)] border border-border/80 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] backdrop-blur-xl bg-card/85 p-1.5 sm:p-2"
+    class="card-glass relative flex items-center justify-between sm:justify-center !rounded-2xl shadow-[var(--shadow-lg)] border border-border/85 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] backdrop-blur-xl bg-card/90 p-1.5 sm:p-2"
   >
+    <!-- Top Specular Line -->
+    <div
+      class="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent"
+    ></div>
+
     <!-- LEFT: Personal Brand / Avatar -->
     <a
       href="/"
+      onclick={() => (isPinnedMobile = false)}
       class="relative z-10 flex items-center gap-2.5 py-0.5 pl-1 sm:pl-1.5 pr-2 sm:pr-3.5 mr-1 sm:mr-0 group shrink-0 active:scale-95 overflow-hidden transition-all duration-300 no-underline"
       aria-label="Go to home"
     >
@@ -110,7 +178,7 @@
 
       <div class="flex-col items-start hidden sm:flex shrink-0">
         <span
-          class="font-mono text-[12.5px] font-bold tracking-tight text-foreground transition-colors group-hover:text-primary whitespace-nowrap"
+          class="font-mono text-[12px] font-bold tracking-tight text-foreground transition-colors group-hover:text-primary whitespace-nowrap"
         >
           sudo_krish
         </span>
@@ -119,12 +187,12 @@
 
     <!-- CENTER: Navigation Track -->
     <nav
-      class="relative z-10 flex items-center p-1 rounded-xl bg-muted/55 border border-border/60 mx-auto sm:mx-0"
+      class="relative z-10 flex items-center p-1 rounded-xl bg-muted/60 border border-border/70 mx-auto sm:mx-0"
       onmouseleave={() => (hoveredItem = null)}
     >
       <!-- Sliding Pill -->
       <div
-        class="absolute top-1 bottom-1 rounded-lg bg-primary/14 border border-primary/35 shadow-2xs transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-none w-10 sm:w-[84px]"
+        class="absolute top-1 bottom-1 rounded-lg bg-primary/15 border border-primary/40 shadow-2xs transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none w-10 sm:w-[84px]"
         style="transform: translateX(calc({displayIndex} * 100%));"
       >
         <div
@@ -133,9 +201,11 @@
       </div>
 
       {#each navItems as { label, href, icon: Icon }}
-        {@const isActive = href === "/" ? activePath === "/" : activePath.startsWith(href)}
+        {@const isActive =
+          href === "/" ? activePath === "/" : activePath.startsWith(href)}
         <a
           {href}
+          onclick={() => (isPinnedMobile = false)}
           class="relative z-10 h-9 w-10 sm:w-[84px] gap-1.5 flex items-center justify-center transition-colors duration-300 group rounded-lg active:scale-95 no-underline"
           onmouseenter={() => (hoveredItem = href)}
           aria-label="Go to {label}"
@@ -165,7 +235,7 @@
       class="relative z-10 flex items-center shrink-0 pl-1 sm:pl-2.5 pr-0.5 sm:pr-1 ml-1 sm:ml-0"
     >
       <div
-        class="p-1 rounded-xl bg-muted/50 border border-border/70 hover:border-primary/45 hover:bg-primary/10 transition-colors active:scale-95 cursor-pointer shrink-0"
+        class="p-1 rounded-xl bg-muted/55 border border-border/75 hover:border-primary/45 hover:bg-primary/10 transition-colors active:scale-95 cursor-pointer shrink-0"
       >
         <ThemeToggle />
       </div>
