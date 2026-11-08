@@ -73,6 +73,10 @@
     accentColor="hsl(var(--primary))"
     shortDescription={pipelineData.content.shortDescription}
     detailedPhilosophy={pipelineData.content.detailedPhilosophy}
+    metrics={[
+      { label: "Events", value: "50", unit: "M+/day" },
+      { label: "Delivery", value: "99.9", unit: "%" },
+    ]}
   />
 {/snippet}
 
@@ -151,9 +155,9 @@
       class="w-full relative z-20 pointer-events-auto"
     >
       <div
-        class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-12 relative">
-        <div class="w-full flex flex-col items-center relative z-10 gap-5 sm:gap-6">
-          {@render pipelineAnchor("center")}
+        class="flex flex-col items-start justify-start w-full min-h-[100dvh] max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-12 relative">
+        <div class="w-full flex flex-col items-start relative z-10 gap-4 sm:gap-5">
+          {@render pipelineAnchor("left")}
           {@render pipelineCard()}
           {@render marquee(true)}
         </div>

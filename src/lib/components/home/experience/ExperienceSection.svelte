@@ -99,38 +99,37 @@
         accentColor="hsl(var(--primary))"
         shortDescription={experienceData.content.shortDescription}
         detailedPhilosophy={experienceData.content.detailedPhilosophy}
+        metrics={[
+            { label: "Tenure", value: "5+", unit: "Yrs" },
+            { label: "Scale", value: "50", unit: "M+/day" },
+        ]}
     />
 {/snippet}
 
 {#snippet careerTimeline(isMobile: boolean)}
     {#if isMobile}
-        <div class="w-full flex flex-col gap-3 relative z-10 pt-2 pb-4">
-            <GlassCard variant="inset" hover={false} class="w-full !p-6 relative overflow-hidden">
+        <div class="w-full flex flex-col gap-3 relative z-10 pt-1 pb-3">
+            <GlassCard variant="default" hover={false} class="w-full !p-5 relative overflow-hidden">
                 <!-- Clean hairline timeline -->
-                <div class="absolute top-10 bottom-10 left-[39px] w-px bg-foreground/10 z-0"></div>
+                <div class="absolute top-9 bottom-9 left-[35px] w-px bg-border/80 z-0"></div>
                 
-                <div class="flex flex-col gap-8 relative z-10">
+                <div class="flex flex-col gap-6 relative z-10">
                     {#each experienceData.milestones as m, i}
-                        <div class="relative flex items-start gap-5 group/node">
-                            <!-- Clean minimal node -->
-                            <div class="relative z-10 flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 
-                                {i === experienceData.milestones.length - 1 ? 'bg-background border border-foreground/30 shadow-[0_0_10px_hsl(var(--foreground)/0.05)]' : 'bg-background border border-foreground/10 group-hover/node:border-foreground/30 group-hover/node:bg-foreground/[0.02]'}">
-                                
-                                {#if i === experienceData.milestones.length - 1}
-                                    <div class="absolute -inset-1 rounded-full bg-primary/10 pointer-events-none"></div>
-                                {/if}
-                                
-                                <svelte:component this={getIcon(m.iconName)} size={12} class="transition-colors duration-300 {i === experienceData.milestones.length - 1 ? 'text-foreground' : 'text-muted-foreground group-hover/node:text-foreground/80'}" />
+                        <div class="relative flex items-start gap-4 group/node">
+                            <!-- Architectural node -->
+                            <div class="relative z-10 flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 
+                                {i === experienceData.milestones.length - 1 ? 'bg-primary/15 border border-primary/50 text-primary shadow-2xs' : 'bg-muted/80 border border-border/80 text-muted-foreground group-hover/node:border-primary/40 group-hover/node:text-foreground'}">
+                                <svelte:component this={getIcon(m.iconName)} size={14} />
                             </div>
                             
                             <!-- Content Details -->
-                            <div class="flex flex-col pt-1 flex-1">
-                                <div class="flex items-center gap-2 mb-1.5">
-                                    <span class="font-mono text-[11px] font-bold tracking-wider uppercase" style="color: {m.color}">{m.year}</span>
-                                    <span class="text-muted-foreground/30 text-[11px] font-light">/</span>
-                                    <span class="text-[13px] font-bold text-foreground/90 group-hover/node:text-foreground transition-colors duration-300 tracking-tight">{m.label}</span>
+                            <div class="flex flex-col pt-0.5 flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="font-mono tabular-nums text-[11px] font-bold tracking-wider uppercase text-primary">{m.year}</span>
+                                    <span class="text-border text-[11px]">/</span>
+                                    <span class="text-[13.5px] font-heading font-bold text-foreground tracking-tight">{m.label}</span>
                                 </div>
-                                <span class="text-[11px] text-muted-foreground font-mono leading-relaxed transition-colors group-hover/node:text-foreground/70">{m.role}</span>
+                                <span class="text-[12px] text-muted-foreground leading-relaxed">{m.role}</span>
                             </div>
                         </div>
                     {/each}
@@ -138,44 +137,39 @@
             </GlassCard>
         </div>
     {:else}
-        <div class="w-full flex flex-col relative z-10" style="padding-top: 3.5cqi; padding-bottom: 3.5cqi;">
-            <div class="relative w-full">
-                
-                <!-- Clean horizontal hairline -->
-                <div class="absolute top-[3.5cqi] left-[12%] right-[12%] h-px bg-foreground/10 z-0"></div>
-                
-                <div class="relative flex justify-between items-start w-full z-10 px-6">
-                    {#each experienceData.milestones as m, i}
-                        <div class="flex flex-col items-center group relative w-[20%]">
-                            
-                            <!-- Minimal Year Label -->
-                            <div class="mb-[1.8cqi] transition-all duration-300">
-                                <span class="font-mono font-bold tracking-[0.2em] uppercase text-muted-foreground group-hover:text-foreground transition-colors" style="font-size: clamp(9px, 0.75cqi, 11px);">
-                                    {m.year}
-                                </span>
-                            </div>
-                            
-                            <!-- Clean Desktop Node -->
-                            <div class="flex items-center justify-center transition-all duration-300 rounded-full 
-                                {i === experienceData.milestones.length - 1 ? 'bg-background border border-foreground/30 shadow-[0_0_15px_hsl(var(--foreground)/0.05)] scale-105' : 'bg-background border border-foreground/10 group-hover:border-foreground/40 group-hover:bg-foreground/[0.02] group-hover:scale-110'}" 
-                                style="width: 2.8cqi; height: 2.8cqi; min-width: 28px; min-height: 28px;">
+        <div class="w-full flex flex-col relative z-10" style="padding-top: 2cqi; padding-bottom: 2cqi;">
+            <GlassCard variant="compact" hover={false} class="w-full !p-5">
+                <div class="relative w-full">
+                    <!-- Clean horizontal hairline -->
+                    <div class="absolute top-[2.85rem] left-[10%] right-[10%] h-px bg-border/80 z-0"></div>
+                    
+                    <div class="relative grid grid-cols-4 gap-4 w-full z-10">
+                        {#each experienceData.milestones as m, i}
+                            <div class="flex flex-col items-center group relative">
+                                <!-- Tabular Year Label -->
+                                <div class="mb-3">
+                                    <span class="font-mono tabular-nums font-bold tracking-[0.18em] uppercase {i === experienceData.milestones.length - 1 ? 'text-primary' : 'text-muted-foreground group-hover:text-foreground'} transition-colors" style="font-size: clamp(10px, 0.78cqi, 12px);">
+                                        {m.year}
+                                    </span>
+                                </div>
                                 
-                                {#if i === experienceData.milestones.length - 1}
-                                    <div class="absolute -inset-1.5 rounded-full bg-primary/10 pointer-events-none"></div>
-                                {/if}
+                                <!-- Architectural Desktop Node -->
+                                <div class="flex items-center justify-center transition-all duration-300 rounded-lg 
+                                    {i === experienceData.milestones.length - 1 ? 'bg-primary/15 border border-primary/50 text-primary shadow-xs' : 'bg-card border border-border/80 text-muted-foreground group-hover:border-primary/40 group-hover:text-foreground'}" 
+                                    style="width: 2.4rem; height: 2.4rem;">
+                                    <svelte:component this={getIcon(m.iconName)} size={15} class="relative z-10" />
+                                </div>
                                 
-                                <svelte:component this={getIcon(m.iconName)} size={16} class="transition-all duration-300 relative z-10 {i === experienceData.milestones.length - 1 ? 'text-foreground drop-shadow-sm' : 'text-muted-foreground group-hover:text-foreground/90'}" />
+                                <!-- Content Details -->
+                                <div class="flex flex-col items-center text-center mt-3">
+                                    <span class="font-heading font-bold text-foreground leading-tight tracking-tight" style="font-size: clamp(11px, 0.95cqi, 13.5px); margin-bottom: 0.35cqi;">{m.label}</span>
+                                    <span class="text-muted-foreground leading-snug" style="font-size: clamp(9.5px, 0.76cqi, 11.5px);">{m.role}</span>
+                                </div>
                             </div>
-                            
-                            <!-- Content Details -->
-                            <div class="flex flex-col items-center text-center mt-[1.8cqi]" style="max-width: 12cqi;">
-                                <span class="font-bold text-foreground/80 group-hover:text-foreground transition-colors duration-300 leading-tight tracking-wide" style="font-size: clamp(10px, 1cqi, 14px); margin-bottom: 0.5cqi;">{m.label}</span>
-                                <span class="text-muted-foreground font-mono leading-relaxed transition-colors duration-300 group-hover:text-foreground/70" style="font-size: clamp(8px, 0.75cqi, 11px);">{m.role}</span>
-                            </div>
-                        </div>
-                    {/each}
+                        {/each}
+                    </div>
                 </div>
-            </div>
+            </GlassCard>
         </div>
     {/if}
 {/snippet}
@@ -253,14 +247,14 @@
         >
             <div
                 bind:this={mobilePanel}
-                class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-12 gap-5 sm:gap-6"
+                class="flex flex-col items-start justify-start w-full min-h-[100dvh] max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-12 gap-4 sm:gap-5"
             >
-                {@render experienceAnchor("center")}
+                {@render experienceAnchor("left")}
                 {@render experienceCard()}
                 {@render careerTimeline(true)}
 
                 <div
-                    class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_12px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] p-1.5 mt-1 w-max mx-auto"
+                    class="flex items-stretch bg-card/90 backdrop-blur-xl rounded-2xl border border-border/80 shadow-[var(--shadow-md)] p-1.5 w-max"
                 >
                     <PillButton
                         href={experienceData.ui.cta.href}

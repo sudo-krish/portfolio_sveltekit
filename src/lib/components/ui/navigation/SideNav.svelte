@@ -66,26 +66,31 @@
         <div 
             class="absolute left-[26px] top-1/2 -translate-y-1/2 
                     transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
-                    bg-card/85 backdrop-blur-2xl border border-foreground/[0.08] rounded-2xl 
-                    shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.05)]
-                    py-2 min-w-[148px]
+                    bg-card/90 backdrop-blur-xl border border-border/80 rounded-xl 
+                    shadow-[var(--shadow-lg)]
+                    py-2 min-w-[164px]
                     opacity-0 scale-95 translate-x-[-4px] pointer-events-none
                     group-hover/nav:opacity-100 group-hover/nav:scale-100 group-hover/nav:translate-x-0 group-hover/nav:pointer-events-auto"
         >
-            <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/10 to-transparent rounded-t-2xl"></div>
+            <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent rounded-t-xl"></div>
 
             {#each sections as section, i}
                 {@const isActive = $activeSectionIndex === i}
                 <button 
                     type="button"
-                    class="w-full flex items-center gap-2.5 px-4 py-1.5 text-left transition-all duration-200 
-                           hover:bg-foreground/[0.05] active:bg-foreground/[0.08]
-                           {isActive ? 'bg-primary/10' : ''}"
+                    class="w-full flex items-center justify-between gap-3 px-3.5 py-1.5 text-left transition-all duration-200 
+                           hover:bg-primary/10 active:bg-primary/15
+                           {isActive ? 'bg-primary/12' : ''}"
                     onclick={() => handleClick(section.id)}
                 >
-                    <div class="w-1.5 h-1.5 rounded-full shrink-0 transition-colors duration-200 {isActive ? 'bg-primary' : 'bg-foreground/20'}"></div>
-                    <span class="text-[11px] font-semibold tracking-wide whitespace-nowrap transition-colors duration-200 {isActive ? 'text-foreground' : 'text-foreground/60 hover:text-foreground/90'}">
-                        {section.label}
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-1.5 h-1.5 rounded-full shrink-0 transition-colors duration-200 {isActive ? 'bg-primary' : 'bg-border'}"></div>
+                        <span class="text-[11px] font-heading font-semibold tracking-tight whitespace-nowrap transition-colors duration-200 {isActive ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'}">
+                            {section.label}
+                        </span>
+                    </div>
+                    <span class="font-mono tabular-nums text-[9px] {isActive ? 'text-primary font-bold' : 'text-muted-foreground/70'}">
+                        {String(i + 1).padStart(2, '0')}
                     </span>
                 </button>
             {/each}

@@ -86,99 +86,112 @@
 {/snippet}
 
 {#snippet contactCard(isMobile: boolean)}
-    <div class="flex flex-col gap-4 w-full pointer-events-auto">
-        <!-- ═══ Inline Contact Form ═══ -->
-        <GlassCard variant="default" class="flex flex-col {isMobile ? 'p-5' : 'p-6 2xl:p-8'} shadow-xl">
-            <div class="flex items-center gap-3 mb-5 border-b border-foreground/[0.08] pb-4">
-                <div class="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
-                    <Mail size={18} class="text-primary" />
+    <div class="flex flex-col gap-3.5 w-full pointer-events-auto">
+        <!-- ═══ Inline Architectural Dispatch Form ═══ -->
+        <GlassCard variant="default" class="flex flex-col {isMobile ? 'p-5' : 'p-6 2xl:p-7'}">
+            <div class="flex items-center justify-between gap-3 mb-4 border-b border-border/70 pb-3.5">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-primary/12 border border-primary/35 flex items-center justify-center shrink-0">
+                        <Mail size={17} class="text-primary" />
+                    </div>
+                    <h3 class="text-base sm:text-lg font-heading font-bold text-foreground tracking-tight">Send a message</h3>
                 </div>
-                <div class="flex flex-col">
-                    <h3 class="text-base sm:text-lg font-semibold text-foreground tracking-tight">Send a message</h3>
-                    <p class="text-[10px] text-foreground/50 font-mono">Opens your email client.</p>
-                </div>
+                <span class="text-[10px] text-muted-foreground font-mono uppercase tracking-wider hidden sm:inline">Direct Mailto</span>
             </div>
 
-            <div class="flex flex-col gap-4">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="flex flex-col gap-3.5">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     <div class="flex flex-col gap-1.5">
-                        <label for="contact-name" class="text-[11px] uppercase tracking-wider text-foreground/50 font-mono ml-0.5">Name</label>
-                        <input id="contact-name" type="text" bind:value={formName} placeholder="Your name" class="w-full px-3.5 py-2.5 rounded-xl bg-foreground/[0.03] border border-foreground/[0.08] text-sm text-foreground placeholder:text-foreground/20 outline-none focus:border-primary/40 focus:bg-foreground/[0.05] transition-all duration-300" />
+                        <label for="contact-name" class="text-[10.5px] uppercase tracking-wider text-muted-foreground font-mono font-semibold ml-0.5">Name</label>
+                        <input id="contact-name" type="text" bind:value={formName} placeholder="Your name" class="w-full px-3.5 py-2.5 rounded-xl bg-muted/45 border border-border/80 text-sm text-foreground placeholder:text-muted-foreground/50 outline-none focus:border-primary/60 focus:bg-card transition-all duration-200" />
                     </div>
                     <div class="flex flex-col gap-1.5">
-                        <label for="contact-subject" class="text-[11px] uppercase tracking-wider text-foreground/50 font-mono ml-0.5">Subject</label>
-                        <input id="contact-subject" type="text" bind:value={formSubject} placeholder="What's this about?" class="w-full px-3.5 py-2.5 rounded-xl bg-foreground/[0.03] border border-foreground/[0.08] text-sm text-foreground placeholder:text-foreground/20 outline-none focus:border-primary/40 focus:bg-foreground/[0.05] transition-all duration-300" />
+                        <label for="contact-subject" class="text-[10.5px] uppercase tracking-wider text-muted-foreground font-mono font-semibold ml-0.5">Subject</label>
+                        <input id="contact-subject" type="text" bind:value={formSubject} placeholder="Architecture / Opportunity" class="w-full px-3.5 py-2.5 rounded-xl bg-muted/45 border border-border/80 text-sm text-foreground placeholder:text-muted-foreground/50 outline-none focus:border-primary/60 focus:bg-card transition-all duration-200" />
                     </div>
                 </div>
 
                 <div class="flex flex-col gap-1.5">
-                    <label for="contact-message" class="text-[11px] uppercase tracking-wider text-foreground/50 font-mono ml-0.5">Message</label>
-                    <textarea id="contact-message" bind:value={formMessage} placeholder="Hello! I'd like to discuss..." rows={isMobile ? 2 : 3} class="w-full px-3.5 py-3 rounded-xl bg-foreground/[0.03] border border-foreground/[0.08] text-sm text-foreground placeholder:text-foreground/20 outline-none focus:border-primary/40 focus:bg-foreground/[0.05] transition-all duration-300 resize-none"></textarea>
+                    <label for="contact-message" class="text-[10.5px] uppercase tracking-wider text-muted-foreground font-mono font-semibold ml-0.5">Message</label>
+                    <textarea id="contact-message" bind:value={formMessage} placeholder="Hello! I'd like to discuss..." rows={isMobile ? 2 : 3} class="w-full px-3.5 py-2.5 rounded-xl bg-muted/45 border border-border/80 text-sm text-foreground placeholder:text-muted-foreground/50 outline-none focus:border-primary/60 focus:bg-card transition-all duration-200 resize-none"></textarea>
                 </div>
 
-                <button onclick={handleSend} class="w-full mt-2 py-3.5 rounded-xl bg-foreground text-background font-semibold text-sm flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all duration-200 group shadow-lg">
+                <button onclick={handleSend} class="w-full mt-1 py-3 rounded-xl bg-primary text-primary-foreground font-heading font-bold text-sm flex items-center justify-center gap-2 hover:opacity-95 active:scale-[0.99] transition-all duration-200 group shadow-[var(--shadow-sm)] cursor-pointer">
                     Send Message
-                    <Send size={14} class="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-200" />
+                    <Send size={14} class="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
                 </button>
             </div>
         </GlassCard>
 
-        <!-- ═══ Quick Actions Row ═══ -->
-        <div class="grid grid-cols-2 gap-3 2xl:gap-4 mt-1">
-            <a href={CALENDAR_URL} target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 {isMobile ? 'p-3' : 'p-3.5 2xl:p-4'} rounded-[1.25rem] bg-gradient-to-br from-[#006BFF] to-[#0052cc] text-white shadow-[0_8px_20px_rgba(0,107,255,0.25)] hover:shadow-[0_12px_25px_rgba(0,107,255,0.4)] hover:-translate-y-0.5 transition-all duration-300 group">
-                <div class="w-9 h-9 2xl:w-10 2xl:h-10 shrink-0 rounded-lg bg-white/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <Calendar size={16} />
+        <!-- ═══ Quick Actions Row (Cohesive Blueprint Action Tiles) ═══ -->
+        <div class="grid grid-cols-2 gap-3">
+            <GlassCard variant="compact" accent="hsl(var(--primary))" href={CALENDAR_URL} target="_blank" rel="noopener noreferrer" class="group">
+                <div class="flex items-center justify-between gap-2.5">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                        <div class="w-9 h-9 shrink-0 rounded-lg bg-primary/14 border border-primary/35 text-primary flex items-center justify-center">
+                            <Calendar size={16} />
+                        </div>
+                        <div class="flex flex-col min-w-0">
+                            <span class="text-sm font-heading font-bold text-foreground leading-tight">Calendly</span>
+                            <span class="text-[10px] font-mono text-muted-foreground uppercase tracking-wider mt-0.5">Schedule Call</span>
+                        </div>
+                    </div>
+                    <ArrowUpRight size={14} class="text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
                 </div>
-                <div class="flex flex-col">
-                    <span class="text-sm 2xl:text-base font-bold tracking-wide">Calendly</span>
-                    <span class="text-[10px] sm:text-[11px] font-medium opacity-80 uppercase tracking-widest">Schedule Call</span>
-                </div>
-            </a>
+            </GlassCard>
 
-            <a href={COFFEE_URL} target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 {isMobile ? 'p-3' : 'p-3.5 2xl:p-4'} rounded-[1.25rem] bg-gradient-to-br from-[#FFDD00] to-[#FFC300] text-black shadow-[0_8px_20px_rgba(255,221,0,0.25)] hover:shadow-[0_12px_25px_rgba(255,221,0,0.4)] hover:-translate-y-0.5 transition-all duration-300 group">
-                <div class="w-9 h-9 2xl:w-10 2xl:h-10 shrink-0 rounded-lg bg-black/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <Coffee size={16} />
+            <GlassCard variant="compact" accent="hsl(var(--warning))" href={COFFEE_URL} target="_blank" rel="noopener noreferrer" class="group">
+                <div class="flex items-center justify-between gap-2.5">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                        <div class="w-9 h-9 shrink-0 rounded-lg bg-warning/15 border border-warning/35 text-warning flex items-center justify-center">
+                            <Coffee size={16} />
+                        </div>
+                        <div class="flex flex-col min-w-0">
+                            <span class="text-sm font-heading font-bold text-foreground leading-tight">Support Work</span>
+                            <span class="text-[10px] font-mono text-muted-foreground uppercase tracking-wider mt-0.5">Buy a Coffee</span>
+                        </div>
+                    </div>
+                    <ArrowUpRight size={14} class="text-muted-foreground group-hover:text-warning transition-colors shrink-0" />
                 </div>
-                <div class="flex flex-col">
-                    <span class="text-sm 2xl:text-base font-bold tracking-wide">Support Me</span>
-                    <span class="text-[10px] sm:text-[11px] font-bold opacity-70 uppercase tracking-widest">Buy a Coffee</span>
-                </div>
-            </a>
+            </GlassCard>
         </div>
 
         <!-- ═══ Location Full Row ═══ -->
-        <a href="https://maps.google.com/?q={personal.address.city}" target="_blank" rel="noopener noreferrer" class="relative overflow-hidden flex items-center justify-between {isMobile ? 'p-4' : 'p-4 2xl:p-5'} mt-1 rounded-[1.25rem] border border-foreground/[0.08] bg-card hover:border-foreground/[0.15] hover:bg-foreground/[0.02] transition-all duration-400 group shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
-            
+        <a href="https://maps.google.com/?q={personal.address.city}" target="_blank" rel="noopener noreferrer" class="relative overflow-hidden flex items-center justify-between p-4 rounded-xl border border-border/80 bg-card/85 hover:border-primary/45 transition-all duration-300 group shadow-[var(--shadow-sm)] no-underline">
             <!-- Real Map iframe background -->
-            <iframe title="Map of {personal.address.city}" src="https://www.openstreetmap.org/export/embed.html?bbox=77.4%2C12.8%2C77.7%2C13.1&layer=mapnik" class="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none dark:invert dark:opacity-30 mix-blend-luminosity" style="border: 0;" tabindex="-1"></iframe>
+            <iframe title="Map of {personal.address.city}" src="https://www.openstreetmap.org/export/embed.html?bbox=77.4%2C12.8%2C77.7%2C13.1&layer=mapnik" class="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none dark:invert dark:opacity-25 mix-blend-luminosity" style="border: 0;" tabindex="-1"></iframe>
             
             <!-- Overlay gradient to ensure text readability -->
-            <div class="absolute inset-0 bg-gradient-to-r from-card/90 via-card/50 to-transparent pointer-events-none"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-card/95 via-card/70 to-card/30 pointer-events-none"></div>
 
-            <div class="flex items-center gap-3 2xl:gap-4 relative z-10">
-                <div class="w-10 h-10 2xl:w-12 2xl:h-12 shrink-0 rounded-xl bg-card border border-foreground/10 shadow-sm flex items-center justify-center text-foreground/80 group-hover:scale-110 group-hover:text-foreground transition-all duration-300">
-                    <MapPin size={18} />
+            <div class="flex items-center gap-3 relative z-10">
+                <div class="w-9 h-9 shrink-0 rounded-lg bg-muted/80 border border-border/80 flex items-center justify-center text-primary">
+                    <MapPin size={17} />
                 </div>
                 <div class="flex flex-col">
-                    <span class="text-xs sm:text-sm 2xl:text-base font-bold text-foreground tracking-tight drop-shadow-sm">{personal.address.city}, {personal.address.country}</span>
-                    <span class="text-[10px] sm:text-[11px] text-foreground/60 font-mono uppercase tracking-[0.1em] mt-0.5">Based In (View Map)</span>
+                    <span class="text-sm font-heading font-bold text-foreground tracking-tight">{personal.address.city}, {personal.address.country}</span>
+                    <span class="text-[10px] text-muted-foreground font-mono uppercase tracking-wider mt-0.5">Based In · Open Map</span>
                 </div>
             </div>
-            <div class="relative z-10 w-8 h-8 2xl:w-10 2xl:h-10 rounded-full bg-card/80 backdrop-blur-sm border border-foreground/10 shadow-sm flex items-center justify-center group-hover:bg-foreground/[0.08] transition-colors">
-                <ArrowUpRight size={14} class="text-foreground/70 group-hover:text-foreground group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+            <div class="relative z-10 w-8 h-8 rounded-lg bg-muted/80 border border-border/80 flex items-center justify-center group-hover:border-primary/40 transition-colors">
+                <ArrowUpRight size={14} class="text-muted-foreground group-hover:text-primary transition-colors" />
             </div>
         </a>
 
         <!-- ═══ Socials Dedicated ═══ -->
-        <div class="grid grid-cols-2 gap-3 2xl:gap-4 mt-1">
-            <GlassCard variant="inset" hover={true} href={personal.socialLinks.linkedin} target="_blank" class="flex items-center justify-center gap-2 {isMobile ? 'p-3' : 'p-3.5 2xl:p-4'} group !rounded-full">
-                <Linkedin size={16} class="text-foreground/50 group-hover:text-foreground transition-colors" />
-                <span class="text-xs sm:text-sm font-semibold text-foreground/70 group-hover:text-foreground transition-colors tracking-wide">LinkedIn</span>
+        <div class="grid grid-cols-2 gap-3">
+            <GlassCard variant="compact" hover={true} href={personal.socialLinks.linkedin} target="_blank" class="flex items-center justify-center gap-2 group">
+                <div class="flex items-center justify-center gap-2 w-full">
+                    <Linkedin size={15} class="text-primary" />
+                    <span class="text-xs sm:text-sm font-heading font-bold text-foreground tracking-tight">LinkedIn</span>
+                </div>
             </GlassCard>
 
-            <GlassCard variant="inset" hover={true} href={personal.socialLinks.github} target="_blank" class="flex items-center justify-center gap-2 {isMobile ? 'p-3' : 'p-3.5 2xl:p-4'} group !rounded-full">
-                <Github size={16} class="text-foreground/50 group-hover:text-foreground transition-colors" />
-                <span class="text-xs sm:text-sm font-semibold text-foreground/70 group-hover:text-foreground transition-colors tracking-wide">GitHub</span>
+            <GlassCard variant="compact" hover={true} href={personal.socialLinks.github} target="_blank" class="flex items-center justify-center gap-2 group">
+                <div class="flex items-center justify-center gap-2 w-full">
+                    <Github size={15} class="text-primary" />
+                    <span class="text-xs sm:text-sm font-heading font-bold text-foreground tracking-tight">GitHub</span>
+                </div>
             </GlassCard>
         </div>
     </div>
@@ -209,9 +222,9 @@
     <!-- MOBILE / SMALL TABLET -->
     <svelte:fragment slot="content-mobile">
         <div class="w-full relative z-20 pointer-events-auto">
-            <div bind:this={mobilePanel} class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-12 gap-5 sm:gap-6">
-                {@render contactAnchor("center")}
-                <div class="w-full mt-1">
+            <div bind:this={mobilePanel} class="flex flex-col items-start justify-start w-full min-h-[100dvh] max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-12 gap-4 sm:gap-5">
+                {@render contactAnchor("left")}
+                <div class="w-full">
                     {@render contactCard(true)}
                 </div>
             </div>

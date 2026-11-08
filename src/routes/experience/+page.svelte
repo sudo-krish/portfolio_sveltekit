@@ -7,4 +7,4 @@
 </script>
 
 <StructuredData type="ProfilePage" />
-<SectionPage {content} accentColor="#3b82f6" />
+<SectionPage {content} accentColor="hsl(var(--primary))" />

@@ -93,30 +93,25 @@
 
 {#snippet techStackGrid(isMobile: boolean)}
     {#if isMobile}
-        <div class="w-full flex flex-col gap-4 relative z-10">
-            <!-- Top Narrative Box -->
+        <div class="w-full flex flex-col gap-3.5 relative z-10">
+            <!-- Top Narrative Specification Box -->
             <div
-                class="w-full p-5 sm:p-6 rounded-[1.5rem] bg-card/80 backdrop-blur-xl border border-border shadow-lg"
+                class="w-full p-5 rounded-2xl bg-card/85 backdrop-blur-xl border border-border/80 shadow-[var(--shadow-sm)]"
             >
-                <div
-                    class="text-[11px] font-mono text-primary uppercase tracking-[0.2em] mb-2.5 block"
-                >
-                    {techstackData.rightAnchor.label}
-                </div>
-                <p class="text-sm text-foreground/85 leading-relaxed mb-0">
+                <p class="text-sm text-foreground/90 leading-relaxed mb-0">
                     {@html techstackData.content.shortDescription}
                 </p>
             </div>
 
             <!-- Grid of Skill Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 w-full mt-1">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
                 {#each techstackData.categories as cat}
                     <div
-                        class="flex flex-col p-4 sm:p-5 rounded-[1.25rem] bg-card/80 backdrop-blur-xl border border-border relative overflow-hidden"
+                        class="flex flex-col p-4 rounded-xl bg-card/85 backdrop-blur-xl border border-border/80 shadow-[var(--shadow-sm)] relative overflow-hidden"
                     >
-                        <div class="flex items-center gap-3 mb-3.5">
+                        <div class="flex items-center gap-2.5 pb-2.5 mb-3 border-b border-border/70">
                             <div
-                                class="w-8 h-8 rounded-lg bg-muted border border-border flex items-center justify-center shadow-sm shrink-0"
+                                class="w-7 h-7 rounded-lg bg-muted/80 border border-border/80 flex items-center justify-center shrink-0"
                             >
                                 <svelte:component
                                     this={getIcon(cat.iconName)}
@@ -125,23 +120,25 @@
                                 />
                             </div>
                             <span
-                                class="text-[14px] font-bold text-foreground tracking-wide"
+                                class="text-[13.5px] font-heading font-bold text-foreground tracking-tight"
                                 >{cat.name}</span
                             >
                         </div>
                         <div class="flex flex-wrap gap-1.5 relative z-10">
                             {#each cat.skills as skill}
                                 <div
-                                    class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-border bg-muted/50 text-[11px] font-mono text-muted-foreground group/skill"
+                                    class="flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-border/80 bg-muted/50 text-[11px] font-mono text-foreground/85 group/skill"
                                 >
-                                    <img
-                                        src={skill.icon}
-                                        alt={skill.name}
-                                        class="w-3.5 h-3.5 object-contain opacity-80 group-hover/skill:opacity-100 transition-opacity"
-                                        loading="lazy"
-                                        width="14"
-                                        height="14"
-                                    />
+                                    <span class="w-4 h-4 rounded bg-white/95 border border-border/50 flex items-center justify-center p-0.5 shrink-0">
+                                        <img
+                                            src={skill.icon}
+                                            alt={skill.name}
+                                            class="w-full h-full object-contain"
+                                            loading="lazy"
+                                            width="12"
+                                            height="12"
+                                        />
+                                    </span>
                                     <span>{skill.name}</span>
                                 </div>
                             {/each}
@@ -151,9 +148,9 @@
             </div>
         </div>
     {:else}
-        <div class="w-full flex flex-col relative z-10" style="gap: 0.6cqi;">
-            <!-- 3x2 Grid of Frosted Glass Skill Cards -->
-            <div class="grid grid-cols-2 xl:grid-cols-3" style="gap: 0.8cqi;">
+        <div class="w-full flex flex-col relative z-10" style="gap: 0.75cqi;">
+            <!-- 3x2 Grid of Architectural Specification Skill Cards -->
+            <div class="grid grid-cols-2 xl:grid-cols-3" style="gap: 0.75cqi;">
                 {#each techstackData.categories as cat}
                     <GlassCard
                         variant="compact"
@@ -161,51 +158,51 @@
                         class="group flex flex-col"
                     >
                         <div
-                            class="flex items-center relative z-10 border-b border-foreground/[0.06]"
-                            style="gap: 0.5cqi; margin-bottom: 0.5cqi; padding-bottom: 0.4cqi;"
+                            class="flex items-center relative z-10 border-b border-border/70"
+                            style="gap: 0.5cqi; margin-bottom: 0.55cqi; padding-bottom: 0.45cqi;"
                         >
                             <div
-                                class="rounded-lg bg-foreground/[0.03] border border-foreground/[0.05] flex items-center justify-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] group-hover:-translate-y-0.5 transition-transform duration-300"
-                                style="width: 1.5cqi; height: 1.5cqi;"
+                                class="rounded-lg bg-muted/80 border border-border/80 flex items-center justify-center shrink-0"
+                                style="width: 1.65cqi; height: 1.65cqi; min-width: 24px; min-height: 24px;"
                             >
                                 <svelte:component
                                     this={getIcon(cat.iconName)}
-                                    size={16}
+                                    size={14}
                                     style="color: {cat.accent}"
                                 />
                             </div>
                             <span
-                                class="font-bold text-foreground/85 tracking-wide"
-                                style="font-size: clamp(10px, 1cqi, 15px);"
+                                class="font-heading font-bold text-foreground tracking-tight"
+                                style="font-size: clamp(11px, 0.98cqi, 14.5px);"
                             >
                                 {cat.name}
                             </span>
                         </div>
                         <div
                             class="flex flex-wrap relative z-10"
-                            style="gap: 0.3cqi;"
+                            style="gap: 0.35cqi;"
                         >
                             {#each cat.skills as skill}
                                 <div
-                                    class="flex items-center rounded-md border border-foreground/[0.06] bg-foreground/[0.02] hover:bg-foreground/[0.05] hover:border-foreground/[0.12] transition-all duration-300 cursor-default group/skill"
-                                    style="gap: 0.3cqi; padding: 0.15cqi 0.4cqi;"
+                                    class="flex items-center rounded-md border border-border/75 bg-muted/45 hover:bg-primary/10 hover:border-primary/40 transition-colors duration-200 cursor-default group/skill"
+                                    style="gap: 0.32cqi; padding: 0.18cqi 0.45cqi;"
                                 >
                                     <div
-                                        class="flex items-center justify-center rounded-md opacity-75 group-hover/skill:opacity-100 transition-opacity"
-                                        style="width: 1cqi; height: 1cqi;"
+                                        class="flex items-center justify-center rounded bg-white/95 border border-border/50 p-0.5 shrink-0"
+                                        style="width: 1.05cqi; height: 1.05cqi; min-width: 15px; min-height: 15px;"
                                     >
                                         <img
                                             src={skill.icon}
                                             alt={skill.name}
-                                            class="w-3 h-3 2xl:w-3.5 2xl:h-3.5 object-contain"
+                                            class="w-full h-full object-contain"
                                             loading="lazy"
-                                            width="14"
-                                            height="14"
+                                            width="12"
+                                            height="12"
                                         />
                                     </div>
                                     <span
-                                        class="font-mono text-muted-foreground/70 group-hover/skill:text-foreground transition-colors"
-                                        style="font-size: clamp(7px, 0.7cqi, 11px);"
+                                        class="font-mono text-muted-foreground group-hover/skill:text-foreground transition-colors"
+                                        style="font-size: clamp(8px, 0.72cqi, 11px);"
                                     >
                                         {skill.name}
                                     </span>
@@ -216,13 +213,13 @@
                 {/each}
             </div>
             <GlassCard
-                variant="inset"
+                variant="compact"
                 hover={false}
-                style="margin-top: 0.2cqi;"
+                style="margin-top: 0.15cqi;"
             >
                 <p
-                    class="leading-[1.6] text-foreground/50"
-                    style="font-size: clamp(0.65rem, 0.85cqi, 0.95rem);"
+                    class="leading-[1.65] text-muted-foreground mb-0"
+                    style="font-size: clamp(0.76rem, 0.86cqi, 0.94rem);"
                 >
                     {@html techstackData.content.shortDescription}
                     {@html techstackData.content.detailedPhilosophy}
@@ -300,18 +297,20 @@
         >
             <div
                 bind:this={mobilePanel}
-                class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-12 gap-5 sm:gap-6"
+                class="flex flex-col items-start justify-start w-full min-h-[100dvh] max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-12 gap-4 sm:gap-5"
             >
                 <SectionAnchor
                     label={techstackData.rightAnchor.label}
                     title={techstackData.rightAnchor.title}
                     description={techstackData.rightAnchor.description}
                     labelColor="text-primary/80"
-                    align="center"
+                    align="left"
                 />
 
+                {@render techStackGrid(true)}
+
                 <div
-                    class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_12px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] p-1.5 w-max mx-auto"
+                    class="flex items-stretch bg-card/90 backdrop-blur-xl rounded-2xl border border-border/80 shadow-[var(--shadow-md)] p-1.5 w-max"
                 >
                     <PillButton
                         href={techstackData.ui.cta.href}
@@ -320,8 +319,6 @@
                         accentColor="cyan"
                     />
                 </div>
-
-                {@render techStackGrid(true)}
             </div>
         </div>
     </svelte:fragment>

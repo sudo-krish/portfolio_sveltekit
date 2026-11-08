@@ -1,6 +1,5 @@
 <!-- src/lib/components/ui/cards/SectionCard.svelte -->
 <script lang="ts">
-    import type { Component } from "svelte";
     import GlassCard from "./GlassCard.svelte";
 
     let {
@@ -25,73 +24,75 @@
     }>();
 </script>
 
-<GlassCard variant="default" accent={accentColor} class="group mb-4 rounded-tl-[1rem]">
-    <!-- Header row -->
-    <div class="flex items-start justify-between w-full">
-        <div class="flex flex-col" style="gap: 2px; margin-top: 2px;">
-            <span class="font-mono text-[clamp(10px,1vw,11px)] tracking-[0.25em] uppercase font-semibold"
-                  style="color: var(--_accent);"
+<GlassCard variant="default" accent={accentColor} class="group mb-3 sm:mb-4 w-full">
+    <!-- Specification Header Row (Wraps cleanly on mobile; never truncates title) -->
+    <div class="flex flex-wrap items-center justify-between gap-y-2.5 gap-x-4 w-full">
+        <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+            <div
+                class="flex items-center justify-center rounded-lg
+                       bg-muted/70 border border-border/80
+                       transition-colors duration-300 shrink-0"
+                style="width: max(2.1rem, 2.35cqi); height: max(2.1rem, 2.35cqi);"
             >
-                {badge}
-            </span>
-            <h3 class="text-[clamp(12px,1.2vw,14px)] font-medium text-muted-foreground tracking-wide">
+                <Icon
+                    size={17}
+                    class="text-primary {iconHoverColor} transition-colors duration-300"
+                />
+            </div>
+            <h3 class="text-[1.05rem] sm:text-[clamp(1.05rem,1.35vw,1.22rem)] font-heading font-bold text-foreground tracking-tight leading-snug">
                 {subtitle}
             </h3>
         </div>
 
         {#if metrics.length > 0}
-            <div class="flex" style="gap: max(1rem, 1cqi);">
+            <div class="flex items-center shrink-0 ml-auto" style="gap: max(0.75rem, 0.85cqi);">
                 {#each metrics as m, i}
                     {#if i > 0}
-                        <div class="w-px bg-foreground/10 self-center" style="height: max(1.5rem, 1.5cqi);"></div>
+                        <div class="w-px bg-border/80 self-center" style="height: max(1.35rem, 1.35cqi);"></div>
                     {/if}
                     <div class="text-right">
-                        <div class="text-foreground/35 uppercase font-mono tracking-wider"
-                             style="font-size: clamp(7px, 0.7cqi, 10px);">
+                        <div class="text-muted-foreground uppercase font-mono tracking-wider"
+                             style="font-size: clamp(8px, 0.68cqi, 10px);">
                             {m.label}
                         </div>
-                        <div class="font-black text-foreground flex items-baseline justify-end"
-                             style="font-size: clamp(0.9rem, 1.4cqi, 1.25rem); gap: 0.2cqi;">
+                        <div class="font-mono tabular-nums font-bold text-foreground flex items-baseline justify-end"
+                             style="font-size: clamp(0.88rem, 1.3cqi, 1.18rem); gap: 0.16cqi;">
                             {m.value}<span class="font-semibold"
-                                           style="color: var(--_accent); font-size: clamp(8px, 0.8cqi, 12px);"
+                                           style="color: var(--_accent); font-size: clamp(8px, 0.72cqi, 11px);"
                             >{m.unit}</span>
                         </div>
                     </div>
                 {/each}
             </div>
         {:else}
-            <!-- Icon badge -->
-            <div
-                class="flex items-center justify-center rounded-xl
-                       bg-foreground/[0.03] border border-foreground/[0.06]
-                       shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)]
-                       transition-all duration-500
-                       group-hover:scale-110 group-hover:rotate-2 shrink-0"
-                style="width: max(2.25rem, 2.8cqi); height: max(2.25rem, 2.8cqi);"
+            <span
+                class="font-mono text-[10px] tracking-[0.14em] uppercase font-semibold px-2.5 py-1 rounded-md bg-muted/60 border border-border/70 leading-tight"
+                style="color: var(--_accent);"
             >
-                <Icon
-                    size={20}
-                    class="text-foreground/60 group-hover:{iconHoverColor} transition-colors duration-500"
-                />
-            </div>
+                {badge}
+            </span>
         {/if}
     </div>
 
-    <!-- Pull-quote description -->
-    <div class="relative border-l-2 mt-3"
-         style="border-color: color-mix(in srgb, var(--_accent) 40%, transparent);
-                padding-left: max(0.9rem, 0.8cqi); padding-top: 3px; padding-bottom: 3px;">
-        <div class="absolute left-[-2px] top-0 w-[2px] h-1/3"
-             style="background: linear-gradient(to bottom, var(--_accent), transparent);"></div>
-        <p class="text-[clamp(1.15rem,1.9vw,1.75rem)] leading-[1.4] text-foreground/85 font-medium tracking-tight">
+    <!-- Primary Architectural Statement -->
+    <div class="border-t border-border/70 mt-3.5 pt-3.5">
+        <p class="text-[1rem] sm:text-[clamp(1.06rem,1.65vw,1.45rem)] leading-[1.45] sm:leading-[1.38] text-foreground font-medium tracking-tight mb-0">
             {@html shortDescription}
         </p>
     </div>
 
-    <!-- Detail box (inner inset card) -->
-    <GlassCard variant="inset" hover={false} class="mt-3">
-        <p class="text-[clamp(0.84rem,0.95vw,0.95rem)] leading-[1.75] text-foreground/65 mb-0">
+    <!-- Specification Ledger Footer (Flat hairline division — zero nested cards) -->
+    <div class="border-t border-border/50 mt-3.5 pt-3 flex flex-col gap-2">
+        <p class="text-[0.86rem] sm:text-[clamp(0.84rem,0.95vw,0.95rem)] leading-[1.68] text-muted-foreground mb-0">
             {detailedPhilosophy}
         </p>
-    </GlassCard>
+        {#if metrics.length > 0}
+            <div class="flex items-center justify-between gap-2 pt-1">
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground/85 leading-snug">
+                    SPEC // {badge}
+                </span>
+                <span class="h-1.5 w-1.5 rounded-full shrink-0" style="background: var(--_accent);"></span>
+            </div>
+        {/if}
+    </div>
 </GlassCard>

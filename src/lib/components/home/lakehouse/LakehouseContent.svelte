@@ -98,6 +98,10 @@
     accentColor="hsl(var(--primary))"
     shortDescription={lakehouseData.content.shortDescription}
     detailedPhilosophy={lakehouseData.content.detailedPhilosophy}
+    metrics={[
+      { label: "Format", value: "Iceberg", unit: "+Delta" },
+      { label: "Latency", value: "-96", unit: "%" },
+    ]}
   />
 {/snippet}
 
@@ -167,9 +171,9 @@
     >
       <div
         bind:this={mobilePanel}
-        class="flex flex-col items-center justify-start w-full min-h-[100dvh] max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-12 gap-5 sm:gap-6"
+        class="flex flex-col items-start justify-start w-full min-h-[100dvh] max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-12 gap-4 sm:gap-5"
       >
-        {@render lakehouseAnchor("center")}
+        {@render lakehouseAnchor("left")}
         {@render lakehouseCard()}
         {@render lakehouseGrid()}
       </div>

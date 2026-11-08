@@ -84,7 +84,7 @@
 >
   <!-- Main Chassis -->
   <div
-    class="card-glass relative flex items-center justify-between sm:justify-center !rounded-full shadow-[0_8px_32px_-4px_rgba(0,0,0,0.24)] border border-[hsl(var(--border)/0.45)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] backdrop-blur-xl bg-[hsl(var(--background)/0.65)] p-1.5 sm:p-2"
+    class="card-glass relative flex items-center justify-between sm:justify-center !rounded-2xl shadow-[var(--shadow-lg)] border border-border/80 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] backdrop-blur-xl bg-card/85 p-1.5 sm:p-2"
   >
     <!-- LEFT: Personal Brand / Avatar -->
     <a
@@ -93,7 +93,7 @@
       aria-label="Go to home"
     >
       <div
-        class="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-[hsl(var(--border))] group-hover:border-[hsl(var(--primary))] transition-all duration-300 shadow-sm shrink-0"
+        class="relative w-8 h-8 sm:w-9 sm:h-9 rounded-xl overflow-hidden border border-border group-hover:border-primary transition-all duration-300 shadow-xs shrink-0"
       >
         <img
           src="https://github.com/sudo-krish.png"
@@ -110,7 +110,7 @@
 
       <div class="flex-col items-start hidden sm:flex shrink-0">
         <span
-          class="font-mono text-[13px] font-bold tracking-tight text-[hsl(var(--foreground))] transition-colors group-hover:text-[hsl(var(--primary))] whitespace-nowrap"
+          class="font-mono text-[12.5px] font-bold tracking-tight text-foreground transition-colors group-hover:text-primary whitespace-nowrap"
         >
           sudo_krish
         </span>
@@ -119,16 +119,16 @@
 
     <!-- CENTER: Navigation Track -->
     <nav
-      class="relative z-10 flex items-center p-1 rounded-full bg-[hsl(var(--muted)/0.35)] shadow-inner border border-[hsl(var(--border)/0.25)] mx-auto sm:mx-0"
+      class="relative z-10 flex items-center p-1 rounded-xl bg-muted/55 border border-border/60 mx-auto sm:mx-0"
       onmouseleave={() => (hoveredItem = null)}
     >
       <!-- Sliding Pill -->
       <div
-        class="absolute top-1 bottom-1 rounded-full bg-[hsl(var(--foreground)/0.12)] border border-[hsl(var(--foreground)/0.15)] shadow-[0_2px_8px_rgba(0,0,0,0.12)] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-none w-10 sm:w-[82px]"
+        class="absolute top-1 bottom-1 rounded-lg bg-primary/14 border border-primary/35 shadow-2xs transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-none w-10 sm:w-[84px]"
         style="transform: translateX(calc({displayIndex} * 100%));"
       >
         <div
-          class="absolute inset-x-2 top-0 h-px bg-[hsl(var(--glass-highlight))] opacity-50"
+          class="absolute inset-x-2 top-0 h-px bg-[hsl(var(--glass-highlight))] opacity-60"
         ></div>
       </div>
 
@@ -136,23 +136,23 @@
         {@const isActive = href === "/" ? activePath === "/" : activePath.startsWith(href)}
         <a
           {href}
-          class="relative z-10 h-9 w-10 sm:w-[82px] gap-1.5 flex items-center justify-center transition-colors duration-300 group rounded-full active:scale-95 no-underline"
+          class="relative z-10 h-9 w-10 sm:w-[84px] gap-1.5 flex items-center justify-center transition-colors duration-300 group rounded-lg active:scale-95 no-underline"
           onmouseenter={() => (hoveredItem = href)}
           aria-label="Go to {label}"
           aria-current={isActive ? "page" : undefined}
         >
           <Icon
-            size={16}
+            size={15}
             strokeWidth={isActive ? 2.4 : 2}
             class="transition-colors duration-300 shrink-0 {isActive
-              ? 'text-[hsl(var(--primary))]'
-              : 'text-[hsl(var(--muted-foreground))] group-hover:text-[hsl(var(--foreground))]/85'}"
+              ? 'text-primary'
+              : 'text-muted-foreground group-hover:text-foreground'}"
           />
           <span
-            class="font-sans text-[11.5px] tracking-wide transition-colors duration-300 overflow-hidden whitespace-nowrap hidden sm:block
+            class="font-sans text-[11.5px] tracking-tight transition-colors duration-300 overflow-hidden whitespace-nowrap hidden sm:block
                    {isActive
-              ? 'text-[hsl(var(--foreground))] font-bold'
-              : 'text-[hsl(var(--muted-foreground))] font-medium group-hover:text-[hsl(var(--foreground))]/90'}"
+              ? 'text-foreground font-bold'
+              : 'text-muted-foreground font-medium group-hover:text-foreground'}"
           >
             {label}
           </span>
@@ -165,7 +165,7 @@
       class="relative z-10 flex items-center shrink-0 pl-1 sm:pl-2.5 pr-0.5 sm:pr-1 ml-1 sm:ml-0"
     >
       <div
-        class="p-1 rounded-full bg-[hsl(var(--background)/0.35)] border border-[hsl(var(--border)/0.35)] hover:border-[hsl(var(--foreground)/0.3)] hover:bg-[hsl(var(--foreground)/0.05)] transition-colors active:scale-95 cursor-pointer shrink-0"
+        class="p-1 rounded-xl bg-muted/50 border border-border/70 hover:border-primary/45 hover:bg-primary/10 transition-colors active:scale-95 cursor-pointer shrink-0"
       >
         <ThemeToggle />
       </div>

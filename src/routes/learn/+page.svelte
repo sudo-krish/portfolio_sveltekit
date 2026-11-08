@@ -31,39 +31,40 @@
     url={learnPageContent.seo.url}
 />
 
-<div class="px-4 py-8 sm:px-10 sm:py-12 lg:px-16 lg:py-16 max-w-6xl mx-auto">
+<div class="px-4 pt-24 pb-16 sm:px-10 sm:pt-28 sm:pb-20 lg:px-16 max-w-6xl mx-auto">
     <!-- Main Header & Search Bar -->
     <div class="mb-10 sm:mb-14">
-        <h1
-            class="text-3xl sm:text-5xl font-black tracking-tight mb-4 flex items-center gap-3"
-        >
-            <Sparkles class="text-primary shrink-0" size={30} />
-            <span>{learnPageContent.h1}</span>
-        </h1>
-        <p class="text-muted-foreground text-base sm:text-lg mb-8 max-w-2xl">
+        <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-primary/12 border border-primary/35 flex items-center justify-center shrink-0">
+                <Sparkles class="text-primary shrink-0" size={22} />
+            </div>
+            <h1
+                class="text-3xl sm:text-5xl font-heading font-extrabold tracking-tight"
+            >
+                {learnPageContent.h1}
+            </h1>
+        </div>
+        <p class="text-muted-foreground text-base sm:text-lg mb-8 max-w-2xl leading-relaxed">
             {learnPageContent.introParagraph}
         </p>
 
         <!-- Command Palette style Search -->
         <div class="relative group max-w-3xl">
             <div
-                class="absolute inset-0 bg-gradient-to-r from-primary/15 to-transparent rounded-2xl blur opacity-0 group-focus-within:opacity-100 transition-opacity duration-500"
-            ></div>
-            <div
-                class="relative flex items-center bg-card/80 backdrop-blur-xl border border-border/60 rounded-2xl overflow-hidden shadow-lg transition-all group-focus-within:border-primary/50 group-focus-within:bg-card"
+                class="relative flex items-center bg-card/85 backdrop-blur-xl border border-border/80 rounded-xl overflow-hidden shadow-[var(--shadow-sm)] transition-all group-focus-within:border-primary/60 group-focus-within:bg-card"
             >
                 <Search
-                    size={20}
-                    class="absolute left-5 text-muted-foreground group-focus-within:text-primary transition-colors"
+                    size={18}
+                    class="absolute left-4 text-muted-foreground group-focus-within:text-primary transition-colors"
                 />
                 <input
                     type="text"
                     bind:value={searchQuery}
                     placeholder="Search by keyword, concept, or tag..."
-                    class="w-full bg-transparent pl-14 pr-16 py-3.5 sm:py-4 text-foreground placeholder:text-muted-foreground/50 focus:outline-none text-base sm:text-lg"
+                    class="w-full bg-transparent pl-12 pr-16 py-3 sm:py-3.5 text-foreground placeholder:text-muted-foreground/50 focus:outline-none text-sm sm:text-base"
                 />
                 <div
-                    class="absolute right-5 hidden sm:flex items-center gap-1 text-muted-foreground/50 bg-foreground/5 px-2 py-1 rounded-md border border-border font-mono text-xs"
+                    class="absolute right-4 hidden sm:flex items-center gap-1 text-muted-foreground bg-muted/70 px-2 py-1 rounded-md border border-border/80 font-mono text-xs"
                 >
                     <Command size={12} />
                     <span>K</span>

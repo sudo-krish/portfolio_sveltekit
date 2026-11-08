@@ -72,8 +72,6 @@
 <div
   class="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none bg-[hsl(var(--background))]"
 >
-
-
   <!-- 
     The 3D Isometric Container 
     Height increased to 300vh to comfortably fit 5 streams.
@@ -302,28 +300,28 @@
     }
   }
 
-  /* PURE WHITE FROSTED TYPOGRAPHY */
+  /* ARCHITECTURAL ETCHED TYPOGRAPHY */
   .frosted-text-foreground {
-    font-family: var(--font-sans, "Inter", sans-serif);
+    font-family: var(--font-heading, "Bricolage Grotesque", sans-serif);
     font-size: clamp(5rem, 10vw, 10rem);
     font-weight: 800;
     letter-spacing: -0.03em;
     white-space: nowrap;
 
     color: hsl(
-      var(--foreground) / 0.08
+      var(--foreground) / 0.06
     ); /* Fainter center for more glass effect */
-    -webkit-text-stroke: 2px hsl(var(--foreground) / 0.4);
-    text-shadow: 0 4px 30px hsl(var(--foreground) / 0.15);
+    -webkit-text-stroke: 1.5px hsl(var(--foreground) / 0.32);
+    text-shadow: 0 4px 30px hsl(var(--primary) / 0.12);
   }
 
   /* The Highlight Row */
   .highlight-white {
-    color: hsl(var(--foreground) / 0.2);
-    -webkit-text-stroke: 3px hsl(var(--foreground) / 0.8);
+    color: hsl(var(--foreground) / 0.16);
+    -webkit-text-stroke: 2.5px hsl(var(--foreground) / 0.72);
     text-shadow:
-      0 0 40px hsl(var(--foreground) / 0.3),
-      0 0 80px hsl(var(--primary) / 0.3);
+      0 0 40px hsl(var(--primary) / 0.28),
+      0 0 80px hsl(var(--primary) / 0.22);
   }
 
   /* Icons */
@@ -363,10 +361,10 @@
 
   /* Separators */
   .separator-white {
-    font-family: var(--font-sans, "Inter", sans-serif);
-    font-size: clamp(3rem, 6vw, 6rem);
-    font-weight: 300;
-    color: hsl(var(--foreground) / 0.3);
+    font-family: var(--font-mono, "JetBrains Mono", monospace);
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    font-weight: 400;
+    color: hsl(var(--primary) / 0.35);
     white-space: nowrap;
   }
 

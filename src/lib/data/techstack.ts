@@ -15,7 +15,7 @@ export const techstackData = {
     {
       name: 'Cloud',
       iconName: 'Cloud',
-      accent: '#3b82f6', // Blue
+      accent: 'hsl(var(--primary))',
       skills: [
         { name: 'AWS', icon: '/icons/aws.png' },
         { name: 'S3', icon: '/icons/s3.png' },
@@ -28,7 +28,7 @@ export const techstackData = {
     {
       name: 'Streaming & Data Movement',
       iconName: 'Database',
-      accent: '#8b5cf6', // Purple
+      accent: 'hsl(var(--highlight))',
       skills: [
         { name: 'Kafka', icon: '/icons/kafka.png' },
         { name: 'Debezium', icon: '/icons/kafka.png' },
@@ -40,7 +40,7 @@ export const techstackData = {
     {
       name: 'Lakehouse & DW',
       iconName: 'Layers',
-      accent: '#06b6d4', // Cyan
+      accent: 'hsl(var(--primary))',
       skills: [
         { name: 'Databricks', icon: '/icons/databricks.png' },
         { name: 'Snowflake', icon: '/icons/snowflake.png' },
@@ -52,7 +52,7 @@ export const techstackData = {
     {
       name: 'Storage & Databases',
       iconName: 'ShieldCheck',
-      accent: '#ec4899', // Pink
+      accent: 'hsl(var(--success))',
       skills: [
         { name: 'Aurora PostgreSQL', icon: '/icons/redshift.png' },
         { name: 'DynamoDB', icon: '/icons/aws.png' },
@@ -63,7 +63,7 @@ export const techstackData = {
     {
       name: 'Languages',
       iconName: 'Code2',
-      accent: '#10b981', // Emerald
+      accent: 'hsl(var(--success))',
       skills: [
         { name: 'Python', icon: '/icons/python.png' },
         { name: 'Go', icon: '/icons/go.png' },
@@ -74,7 +74,7 @@ export const techstackData = {
     {
       name: 'Platform & DevOps',
       iconName: 'GitBranch',
-      accent: '#f59e0b', // Amber
+      accent: 'hsl(var(--warning))',
       skills: [
         { name: 'Docker', icon: '/icons/docker.png' },
         { name: 'Kubernetes', icon: '/icons/kubernetes.png' },

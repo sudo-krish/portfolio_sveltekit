@@ -44,56 +44,57 @@
 
 <a
     {href}
-    class="group relative flex flex-col rounded-2xl border border-foreground/10
-           bg-card/60 backdrop-blur-xl overflow-hidden
-           shadow-[0_8px_32px_rgba(0,0,0,0.4)]
-           hover:shadow-[0_16px_48px_rgba(0,0,0,0.6)]
-           hover:border-primary/30
-           transition-all duration-500 hover:-translate-y-1"
+    class="group relative flex flex-col rounded-2xl border border-border/80
+           bg-card/85 backdrop-blur-xl overflow-hidden
+           shadow-[var(--shadow-sm)]
+           hover:shadow-[var(--shadow-md)]
+           hover:border-primary/45
+           transition-all duration-300 hover:-translate-y-0.5 no-underline"
 >
-
-    <div class="relative z-10 p-5 flex flex-col gap-3 flex-1">
-        <!-- Top row: category/platform + badges -->
-        <div class="flex items-center justify-between gap-2 flex-wrap">
-            <div class="flex items-center gap-2">
-                {#if category}
-                    <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-primary/80 font-bold">
-                        {category}
-                    </span>
-                {/if}
-                {#if platform}
-                    <span class="flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.15em]
-                                 text-muted-foreground bg-muted/50 px-2 py-0.5 rounded-full border border-border/50">
-                        <ExternalLink size={10} />
-                        {platform}
-                    </span>
-                {/if}
-            </div>
-            <div class="flex items-center gap-1.5">
-                {#if difficulty}
-                    <span class="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full border
-                                 {difficultyColors[difficulty] || ''}">
-                        {difficulty}
-                    </span>
-                {/if}
-                {#if status}
-                    <span class="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full
-                                 {statusColors[status] || 'bg-muted text-muted-foreground'}">
-                        {status}
-                    </span>
-                {/if}
-            </div>
-        </div>
-
-        <!-- Title -->
-        <h3 class="text-lg font-bold text-foreground tracking-tight leading-snug
-                   group-hover:text-primary transition-colors duration-300">
+    <div class="relative z-10 p-5 sm:p-6 flex flex-col gap-3 flex-1">
+        <!-- Title leads first (No eyebrow above heading, never truncated) -->
+        <h3 class="text-[1.08rem] sm:text-lg font-heading font-bold text-foreground tracking-tight leading-snug
+                   group-hover:text-primary transition-colors duration-200 break-words">
             {title}
         </h3>
 
+        <!-- Specification Metadata Row (Below title) -->
+        {#if category || platform || difficulty || status}
+            <div class="flex items-center justify-between gap-2 flex-wrap">
+                <div class="flex items-center gap-2 flex-wrap">
+                    {#if category}
+                        <span class="font-mono text-[10px] uppercase tracking-[0.16em] text-primary font-semibold">
+                            {category}
+                        </span>
+                    {/if}
+                    {#if platform}
+                        <span class="flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.12em]
+                                     text-muted-foreground bg-muted/60 px-2 py-0.5 rounded-md border border-border/70">
+                            <ExternalLink size={10} />
+                            {platform}
+                        </span>
+                    {/if}
+                </div>
+                <div class="flex items-center gap-1.5 flex-wrap">
+                    {#if difficulty}
+                        <span class="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-md border
+                                     {difficultyColors[difficulty] || ''}">
+                            {difficulty}
+                        </span>
+                    {/if}
+                    {#if status}
+                        <span class="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-md
+                                     {statusColors[status] || 'bg-muted text-muted-foreground'}">
+                            {status}
+                        </span>
+                    {/if}
+                </div>
+            </div>
+        {/if}
+
         <!-- Description -->
         {#if description}
-            <p class="text-sm text-muted-foreground leading-relaxed line-clamp-2">
+            <p class="text-sm text-muted-foreground leading-relaxed line-clamp-3 mb-0">
                 {description}
             </p>
         {/if}
@@ -101,15 +102,15 @@
         <!-- Tech stack pills -->
         {#if tech.length > 0}
             <div class="flex flex-wrap gap-1.5 mt-auto pt-2">
-                {#each tech.slice(0, 5) as t}
-                    <span class="text-[11px] font-mono text-foreground/60 bg-muted/50 px-2 py-0.5 rounded-md
-                                 border border-border/30">
+                {#each tech.slice(0, 6) as t}
+                    <span class="text-[11px] font-mono text-muted-foreground bg-muted/55 px-2 py-0.5 rounded-md
+                                 border border-border/70">
                         {t}
                     </span>
                 {/each}
-                {#if tech.length > 5}
-                    <span class="text-[11px] font-mono text-muted-foreground px-1">
-                        +{tech.length - 5}
+                {#if tech.length > 6}
+                    <span class="text-[11px] font-mono tabular-nums text-muted-foreground px-1">
+                        +{tech.length - 6}
                     </span>
                 {/if}
             </div>
@@ -119,8 +120,8 @@
         {#if tags.length > 0 && tech.length === 0}
             <div class="flex flex-wrap gap-1.5 mt-auto pt-2">
                 {#each tags.slice(0, 4) as tag}
-                    <span class="text-[11px] font-mono text-primary/60 bg-primary/5 px-2 py-0.5 rounded-md
-                                 border border-primary/10">
+                    <span class="text-[11px] font-mono text-primary bg-primary/10 px-2 py-0.5 rounded-md
+                                 border border-primary/25">
                         #{tag}
                     </span>
                 {/each}
@@ -129,12 +130,12 @@
     </div>
 
     <!-- Bottom action bar -->
-    <div class="flex items-center justify-between px-5 py-3 border-t border-border/20
-                bg-muted/20 group-hover:bg-primary/5 transition-colors duration-300">
-        <span class="text-[11px] font-mono text-muted-foreground uppercase tracking-wider">
-            {url ? 'Read on ' + platform : 'Read more'}
+    <div class="flex items-center justify-between px-5 sm:px-6 py-3 border-t border-border/60
+                bg-muted/35 group-hover:bg-primary/10 transition-colors duration-200">
+        <span class="text-[10.5px] font-mono font-semibold text-muted-foreground group-hover:text-primary uppercase tracking-wider">
+            {url ? 'Read on ' + platform : 'Read specification'}
         </span>
         <ArrowRight size={14} class="text-muted-foreground group-hover:text-primary
-                                      group-hover:translate-x-1 transition-all duration-300" />
+                                      group-hover:translate-x-1 transition-all duration-200" />
     </div>
 </a>

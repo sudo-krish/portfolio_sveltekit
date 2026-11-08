@@ -266,37 +266,34 @@
                 style="pointer-events: {activeSlide === 0 ? 'auto' : 'none'};"
             >
                 <div class="mx-4 sm:mx-auto sm:w-full sm:max-w-md w-auto relative pointer-events-auto">
-                    <div class="flip-card bg-card/95 border border-foreground/10 rounded-[1.5rem] shadow-[0_20px_40px_rgba(0,0,0,0.5)] p-6 w-full">
+                    <div class="flip-card bg-card/95 border border-border/80 rounded-2xl shadow-[var(--shadow-xl)] p-5 w-full">
                         <div class="relative z-10 text-center">
-                            <div class="flex items-center justify-center gap-2 mb-2">
-                                <div
-                                    class="w-1.5 h-1.5 rounded-full animate-pulse shadow-[0_0_8px_currentColor]"
-                                    style="background-color: {accentColor}; color: {accentColor};"
-                                ></div>
-                                <span class="text-[9px] font-mono uppercase tracking-[0.2em] font-bold text-muted-foreground">
-                                    Interactive
-                                </span>
-                            </div>
-                            <div class="text-3xl font-black text-foreground tracking-tighter leading-tight drop-shadow-sm font-heading">
+                            <div class="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight leading-tight font-heading">
                                 {sectionTitle}
                             </div>
-                            <p class="text-[13px] font-light text-muted-foreground mt-1 mb-5">
+                            <p class="text-[13px] font-normal text-muted-foreground mt-1.5 mb-4">
                                 {sectionDescription}
                             </p>
                             <button
                                 type="button"
                                 onclick={() => goToSlide(1)}
                                 aria-label="View specifications"
-                                class="w-full mt-2 flex flex-col items-center justify-center cursor-pointer group hover:bg-transparent bg-transparent border-none outline-none p-2"
+                                class="w-full pt-3 border-t border-border/60 flex items-center justify-between cursor-pointer group hover:bg-transparent bg-transparent outline-none"
                             >
-                                <span class="font-mono text-[9px] font-bold uppercase tracking-[0.3em] text-muted-foreground mb-2 transition-colors group-hover:text-foreground">
-                                    Tap or swipe down to read
-                                </span>
-                                <div class="relative w-20 h-10 flex items-center justify-center overflow-hidden rounded-full bg-muted border border-border shadow-sm">
-                                    <div class="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-foreground/20 to-transparent swipe-track-down"></div>
+                                <div class="flex items-center gap-2">
+                                    <div
+                                        class="w-1.5 h-1.5 rounded-full animate-pulse"
+                                        style="background-color: {accentColor};"
+                                    ></div>
+                                    <span class="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground transition-colors group-hover:text-foreground">
+                                        Tap or swipe for specs
+                                    </span>
+                                </div>
+                                <div class="relative w-11 h-8 flex items-center justify-center overflow-hidden rounded-lg bg-muted border border-border/80 shadow-2xs">
+                                    <div class="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent swipe-track-down"></div>
                                     <ChevronDown
-                                        size={18}
-                                        class="text-muted-foreground group-hover:text-foreground relative z-10 animate-pulse-fast"
+                                        size={16}
+                                        class="text-primary relative z-10"
                                     />
                                 </div>
                             </button>
@@ -325,7 +322,7 @@
             <div class="relative flex items-center p-1.5 rounded-2xl bg-card/95 backdrop-blur-xl border border-border shadow-lg gap-1">
                 <div class="relative flex items-center flex-1 min-w-0">
                     <div
-                        class="absolute top-0 bottom-0 w-1/2 bg-muted rounded-xl transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-sm"
+                        class="absolute top-0 bottom-0 w-1/2 bg-muted rounded-xl transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] shadow-sm"
                         style="transform: translateX({activeSlide === 0 ? '0' : '100%'});"
                     ></div>
                     <button
@@ -334,7 +331,7 @@
                         class="relative z-10 flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl transition-colors duration-300 cursor-pointer {activeSlide === 0 ? 'text-foreground font-bold' : 'text-muted-foreground'}"
                     >
                         <Eye size={16} class={activeSlide === 0 ? "text-primary" : ""} />
-                        <span class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate">3D Model</span>
+                        <span class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest whitespace-nowrap">3D Model</span>
                     </button>
                     <button
                         type="button"
@@ -342,7 +339,7 @@
                         class="relative z-10 flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl transition-colors duration-300 cursor-pointer {activeSlide === 1 ? 'text-foreground font-bold' : 'text-muted-foreground'}"
                     >
                         <FileText size={16} class={activeSlide === 1 ? "text-primary" : ""} />
-                        <span class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate">Specs</span>
+                        <span class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest whitespace-nowrap">Specs</span>
                     </button>
                 </div>
                 <div class="w-px h-8 bg-border/50 mx-1 shrink-0"></div>

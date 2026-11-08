@@ -1,7 +1,7 @@
 <!-- src/lib/components/ui/cards/GlassCard.svelte -->
 <!--
-  The ONE card to rule them all.
-  Every glass surface on the homepage uses this component.
+  Architectural Specification Sheet Surface.
+  Every surface on the homepage uses this component.
   Variants: "default" | "compact" | "inset" control visual density.
   Accent color is passed as a CSS custom property for max flexibility.
 -->
@@ -44,27 +44,27 @@
     type VariantConfig = { rounded: string; pad: string; bg: string; blur: string; shadow: string; shadowHover: string };
     const base: Record<string, VariantConfig> = {
         default: {
-            rounded: "rounded-[1.75rem]",
-            pad: "padding: max(1.25rem, 1.2cqi);",
-            bg: "bg-card/65",
-            blur: "backdrop-blur-2xl",
-            shadow: "shadow-[0_8px_32px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.07)]",
-            shadowHover: "hover:shadow-[0_12px_40px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.11)] hover:-translate-y-1 hover:scale-[1.01]",
+            rounded: "rounded-2xl",
+            pad: "padding: max(1.25rem, 1.25cqi);",
+            bg: "bg-card/85",
+            blur: "backdrop-blur-xl",
+            shadow: "shadow-[var(--shadow-md)]",
+            shadowHover: "hover:shadow-[var(--shadow-lg)] hover:-translate-y-0.5",
         },
         compact: {
-            rounded: "rounded-2xl",
+            rounded: "rounded-xl",
             pad: "padding: max(0.65rem, 0.7cqi);",
-            bg: "bg-card/55",
-            blur: "backdrop-blur-xl",
-            shadow: "shadow-[0_4px_16px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.05)]",
-            shadowHover: "hover:shadow-[0_6px_22px_rgba(0,0,0,0.14),inset_0_1px_0_rgba(255,255,255,0.09)] hover:-translate-y-0.5 hover:scale-[1.02]",
+            bg: "bg-card/78",
+            blur: "backdrop-blur-lg",
+            shadow: "shadow-[var(--shadow-sm)]",
+            shadowHover: "hover:shadow-[var(--shadow-md)] hover:-translate-y-0.5",
         },
         inset: {
-            rounded: "rounded-xl",
-            pad: "padding: max(1rem, 1cqi);",
-            bg: "bg-foreground/[0.02]",
-            blur: "backdrop-blur-md",
-            shadow: "shadow-[inset_0_1px_0_rgba(255,255,255,0.03),inset_0_-1px_4px_rgba(0,0,0,0.06)]",
+            rounded: "rounded-lg",
+            pad: "padding: max(0.9rem, 0.9cqi);",
+            bg: "bg-muted/45",
+            blur: "backdrop-blur-sm",
+            shadow: "shadow-none",
             shadowHover: "",
         },
     };
@@ -78,23 +78,23 @@
         {target}
         {rel}
         class="{v.rounded} {v.bg} {v.blur} {v.shadow}
-               border border-foreground/[0.08]
-               {hover ? `${v.shadowHover} hover:border-foreground/[0.15]` : ''}
-               relative block overflow-hidden transition-all duration-500 no-underline
+               border border-border/80
+               {hover ? `${v.shadowHover} hover:border-primary/45` : ''}
+               relative block overflow-hidden transition-all duration-300 no-underline
                {className}"
         style="{v.pad} --_accent: {accent}; {extraStyle}"
     >
         <!-- ── Hairline top highlight ── -->
         <div
             class="pointer-events-none absolute inset-x-0 top-0 h-px
-                   bg-gradient-to-r from-transparent via-foreground/15 to-transparent opacity-50"
+                   bg-gradient-to-r from-transparent via-primary/25 to-transparent opacity-70"
         ></div>
 
-        <!-- ── Left accent edge ── -->
+        <!-- ── Left 1px specification rule ── -->
         {#if variant !== "inset"}
             <div
                 class="pointer-events-none absolute inset-y-0 left-0 w-px
-                       opacity-30 {hover ? 'group-hover:opacity-70' : ''} transition-opacity duration-500"
+                       opacity-45 {hover ? 'group-hover:opacity-85' : ''} transition-opacity duration-300"
                 style="background: linear-gradient(to bottom, transparent, var(--_accent, hsl(var(--primary))) 50%, transparent);"
             ></div>
         {/if}
@@ -111,23 +111,23 @@
         type="button"
         {onclick}
         class="{v.rounded} {v.bg} {v.blur} {v.shadow}
-               border border-foreground/[0.08]
-               {hover ? `${v.shadowHover} hover:border-foreground/[0.15]` : ''}
-               relative block overflow-hidden transition-all duration-500 text-left
+               border border-border/80
+               {hover ? `${v.shadowHover} hover:border-primary/45` : ''}
+               relative block overflow-hidden transition-all duration-300 text-left
                {className}"
         style="{v.pad} --_accent: {accent}; {extraStyle}"
     >
         <!-- ── Hairline top highlight ── -->
         <div
             class="pointer-events-none absolute inset-x-0 top-0 h-px
-                   bg-gradient-to-r from-transparent via-foreground/15 to-transparent opacity-50"
+                   bg-gradient-to-r from-transparent via-primary/25 to-transparent opacity-70"
         ></div>
 
-        <!-- ── Left accent edge ── -->
+        <!-- ── Left 1px specification rule ── -->
         {#if variant !== "inset"}
             <div
                 class="pointer-events-none absolute inset-y-0 left-0 w-px
-                       opacity-30 {hover ? 'group-hover:opacity-70' : ''} transition-opacity duration-500"
+                       opacity-45 {hover ? 'group-hover:opacity-85' : ''} transition-opacity duration-300"
                 style="background: linear-gradient(to bottom, transparent, var(--_accent, hsl(var(--primary))) 50%, transparent);"
             ></div>
         {/if}
@@ -142,23 +142,23 @@
 {:else}
     <div
         class="{v.rounded} {v.bg} {v.blur} {v.shadow}
-               border border-foreground/[0.08]
-               {hover ? 'hover:border-foreground/[0.14]' : ''}
-               relative overflow-hidden transition-colors duration-500
+               border border-border/80
+               {hover ? 'hover:border-primary/35' : ''}
+               relative overflow-hidden transition-colors duration-300
                {className}"
         style="{v.pad} --_accent: {accent}; {extraStyle}"
     >
         <!-- ── Hairline top highlight ── -->
         <div
             class="pointer-events-none absolute inset-x-0 top-0 h-px
-                   bg-gradient-to-r from-transparent via-foreground/15 to-transparent opacity-50"
+                   bg-gradient-to-r from-transparent via-primary/25 to-transparent opacity-70"
         ></div>
 
-        <!-- ── Left accent edge ── -->
+        <!-- ── Left 1px specification rule ── -->
         {#if variant !== "inset"}
             <div
                 class="pointer-events-none absolute inset-y-0 left-0 w-px
-                       opacity-30 {hover ? 'group-hover:opacity-60' : ''} transition-opacity duration-500"
+                       opacity-45 {hover ? 'group-hover:opacity-75' : ''} transition-opacity duration-300"
                 style="background: linear-gradient(to bottom, transparent, var(--_accent, hsl(var(--primary))) 50%, transparent);"
             ></div>
         {/if}
