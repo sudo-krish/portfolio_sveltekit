@@ -1,0 +1,80 @@
+name: Automated SemVer Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      override_level:
+        description: 'Manual release level override'
+        required: false
+        default: 'auto'
+        type: choice
+        options:
+          - auto
+          - patch
+          - minor
+          - major
+
+jobs:
+  release:
+    name: Release & Tag
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository with submodules
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Setup Python for detect-secrets
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install detect-secrets
+        run: |
+          python -m pip install --upgrade pip
+          pip install detect-secrets
+
+      - name: Install project and makelib dependencies
+        run: |
+          npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+          make makelib-install
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Execute release pipeline
+        run: make release
+
+      - name: Push release tag
+        run: git push --tags
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          NEW_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "0.0.0")
+          ASSETS=()
+          if [ -d ".svelte-kit/cloudflare" ] && [ -n "$(ls -A .svelte-kit/cloudflare 2>/dev/null)" ]; then
+            tar -czf "cloudflare-build-v${NEW_VERSION}.tar.gz" -C .svelte-kit/cloudflare .
+            ASSETS=("cloudflare-build-v${NEW_VERSION}.tar.gz")
+          fi
+          if gh release view "v${NEW_VERSION}" >/dev/null 2>&1; then
+            if [ ${#ASSETS[@]} -gt 0 ]; then
+              gh release upload "v${NEW_VERSION}" "${ASSETS[@]}" --clobber
+            fi
+          else
+            gh release create "v${NEW_VERSION}" "${ASSETS[@]}" \
+              --title "Release v${NEW_VERSION}" \
+              --generate-notes
+          fi

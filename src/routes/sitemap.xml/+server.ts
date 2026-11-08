@@ -5,9 +5,9 @@ import { getAllProjects } from '$lib/data/projects-page';
 import { getAllBlogPosts } from '$lib/data/articles-page';
 
 interface ContentItem {
-    slug: string;
-    lastUpdated?: string;
-    [key: string]: any;
+  slug: string;
+  lastUpdated?: string;
+  [key: string]: any;
 }
 
 export const prerender = true;
@@ -23,20 +23,24 @@ export const GET: RequestHandler = async ({ fetch }) => {
   const [projectsRes, articlesRes, learnRes] = await Promise.all([
     getRepoIndex('project-docs', token, fetch).catch(() => null),
     getRepoIndex('articles', token, fetch).catch(() => null),
-    getRepoIndex('second-brain', token, fetch).catch(() => null)
+    getRepoIndex('second-brain', token, fetch).catch(() => null),
   ]);
 
   // Use local data as fallback if API fetch fails
-  const projects: ContentItem[] = (projectsRes?.items as any[]) || getAllProjects().map(p => ({
-    slug: p.id,
-    lastUpdated: p.dateCreated
-  }));
-  
-  const articles: ContentItem[] = (articlesRes?.items as any[]) || getAllBlogPosts().map(b => ({
-    slug: b.slug,
-    lastUpdated: b.datePublished
-  }));
-  
+  const projects: ContentItem[] =
+    (projectsRes?.items as any[]) ||
+    getAllProjects().map(p => ({
+      slug: p.id,
+      lastUpdated: p.dateCreated,
+    }));
+
+  const articles: ContentItem[] =
+    (articlesRes?.items as any[]) ||
+    getAllBlogPosts().map(b => ({
+      slug: b.slug,
+      lastUpdated: b.datePublished,
+    }));
+
   const learnNotes: ContentItem[] = (learnRes?.items as any[]) || [];
 
   // Static core routes
@@ -57,48 +61,48 @@ export const GET: RequestHandler = async ({ fetch }) => {
   // Generate XML for static routes
   const staticUrls = staticRoutes
     .map(
-      (route) => `  <url>
+      route => `  <url>
     <loc>${site}${route.path}</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>
-  </url>`
+  </url>`,
     )
     .join('\n');
 
   // Generate XML for dynamic projects
   const projectUrls = projects
     .map(
-      (p) => `  <url>
+      p => `  <url>
     <loc>${site}/projects/${p.slug}</loc>
     <lastmod>${p.lastUpdated ? new Date(p.lastUpdated).toISOString().split('T')[0] : currentDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>`
+  </url>`,
     )
     .join('\n');
 
   // Generate XML for dynamic articles
   const articleUrls = articles
     .map(
-      (a) => `  <url>
+      a => `  <url>
     <loc>${site}/articles/${a.slug}</loc>
     <lastmod>${a.lastUpdated ? new Date(a.lastUpdated).toISOString().split('T')[0] : currentDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>`
+  </url>`,
     )
     .join('\n');
 
   // Generate XML for dynamic learning notes
   const learnUrls = learnNotes
     .map(
-      (n) => `  <url>
+      n => `  <url>
     <loc>${site}/learn/${n.slug}</loc>
     <lastmod>${n.lastUpdated ? new Date(n.lastUpdated).toISOString().split('T')[0] : currentDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-  </url>`
+  </url>`,
     )
     .join('\n');
 

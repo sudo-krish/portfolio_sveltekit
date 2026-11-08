@@ -4,27 +4,74 @@ on:
   push:
     branches:
       - main
+    tags:
+      - 'v*.*.*'
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      override_level:
+        description: 'Manual release level override'
+        required: false
+        default: 'auto'
+        type: choice
+        options:
+          - auto
+          - patch
+          - minor
+          - major
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   publish:
+    name: Quality Gates, Release & Deploy
+    if: github.event_name != 'pull_request' || github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       deployments: write
+      pull-requests: read
     steps:
-      - name: Checkout repository
+      - name: Checkout repository with submodules
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@v4
         with:
           node-version: '22' # camera-controls@3.1.2 requires Node >= 22
+          cache: 'npm'
 
-      - name: Install dependencies
-        run: npm install
+      - name: Setup Python for detect-secrets
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install detect-secrets
+        run: |
+          python -m pip install --upgrade pip
+          pip install detect-secrets
+
+      - name: Install project and makelib dependencies
+        run: |
+          npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+          make makelib-install
+
+      - name: Run 8-Stage Quality Gate Pipeline (Tests, Lint, Security Audits)
+        run: make check-all
+        env:
+          MIN_COVERAGE: 80
 
       - name: Build Svelte project
-        run: npm run build
+        run: make build
 
       - name: Inject Dynamic Environment Variables
         run: |
@@ -40,7 +87,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
-      # NEW: Using wrangler-action instead of deprecated pages-action
+      # Using wrangler-action instead of deprecated pages-action
       - name: Publish to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
@@ -49,3 +96,55 @@ jobs:
           # The command syntax has changed for wrangler v3/v4
           command: pages deploy .svelte-kit/cloudflare --project-name=krishnanandanil-portfolio --branch=main
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Resolve Release Version
+        id: semver
+        run: |
+          if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            NEW_VER="${GITHUB_REF#refs/tags/v}"
+          else
+            OVERRIDE="${{ github.event.inputs.override_level || '' }}"
+            SOURCE_BRANCH="${{ github.event.pull_request.head.ref || '' }}"
+            if [ -n "$OVERRIDE" ] && [ "$OVERRIDE" != "auto" ]; then
+              NEW_VER=$(bash .makelib/scripts/semver-release.sh --next-version --level "$OVERRIDE")
+            elif [ -n "$SOURCE_BRANCH" ]; then
+              NEW_VER=$(bash .makelib/scripts/semver-release.sh --next-version --branch "$SOURCE_BRANCH")
+            else
+              NEW_VER=$(bash .makelib/scripts/semver-release.sh --next-version)
+            fi
+          fi
+          echo "version=$NEW_VER" >> $GITHUB_OUTPUT
+          echo "Resolved release version: v$NEW_VER"
+
+      - name: Tag Release
+        run: |
+          NEW_VERSION="${{ steps.semver.outputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          bash .makelib/scripts/semver-release.sh --apply "${NEW_VERSION}"
+          if ! git rev-parse "v${NEW_VERSION}" >/dev/null 2>&1; then
+            git tag -a "v${NEW_VERSION}" -m "Release v${NEW_VERSION}"
+          fi
+          echo "Pushing release tag v${NEW_VERSION} to origin..."
+          git push origin "v${NEW_VERSION}" || echo "Tag v${NEW_VERSION} already exists on origin, continuing."
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          NEW_VERSION="${{ steps.semver.outputs.version }}"
+          ASSETS=()
+          if [ -d ".svelte-kit/cloudflare" ] && [ -n "$(ls -A .svelte-kit/cloudflare 2>/dev/null)" ]; then
+            tar -czf "cloudflare-build-v${NEW_VERSION}.tar.gz" -C .svelte-kit/cloudflare .
+            ASSETS=("cloudflare-build-v${NEW_VERSION}.tar.gz")
+          fi
+          if gh release view "v${NEW_VERSION}" >/dev/null 2>&1; then
+            echo "Release v${NEW_VERSION} already exists; uploading assets..."
+            if [ ${#ASSETS[@]} -gt 0 ]; then
+              gh release upload "v${NEW_VERSION}" "${ASSETS[@]}" --clobber
+            fi
+          else
+            gh release create "v${NEW_VERSION}" "${ASSETS[@]}" \
+              --title "Release v${NEW_VERSION}" \
+              --generate-notes
+          fi

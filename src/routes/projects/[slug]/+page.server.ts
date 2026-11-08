@@ -4,8 +4,8 @@ import { getContent } from '$lib/services/content-service';
 import { error } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ params, platform, fetch }) => {
-    const token = platform?.env?.GITHUB_TOKEN || import.meta.env.VITE_GITHUB_TOKEN || '';
-    const item = await getContent('project-docs', params.slug, token, fetch);
-    if (!item) throw error(404, 'Project not found');
-    return { item };
+  const token = platform?.env?.GITHUB_TOKEN || import.meta.env.VITE_GITHUB_TOKEN || '';
+  const item = await getContent('project-docs', params.slug, token, fetch);
+  if (!item) throw error(404, 'Project not found');
+  return { item };
 };

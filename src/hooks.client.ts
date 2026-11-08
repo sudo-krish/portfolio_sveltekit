@@ -10,6 +10,8 @@ if (dsn) {
   });
 }
 
-export const handleError = dsn 
+export const handleError = dsn
   ? Sentry.handleErrorWithSentry()
-  : async ({ error }: { error: unknown }) => { console.error(error); };
+  : async ({ error }: { error: unknown }) => {
+      console.error(error);
+    };

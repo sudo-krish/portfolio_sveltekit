@@ -35,93 +35,116 @@ interface LeetCodeStats {
   recentSubmissions: Array<any>;
 }
 
+function parseOptionalJson(res: Response, fallback: any) {
+  return res.ok ? res.json() : Promise.resolve(fallback);
+}
+
+function computeAcceptanceInfo(solved: any) {
+  if (!solved.totalSubmissionNum || !solved.acSubmissionNum) {
+    return { totalSubmissions: 0, acceptanceRate: 0 };
+  }
+  const allSub = solved.totalSubmissionNum.find((s: any) => s.difficulty === 'All');
+  const acSub = solved.acSubmissionNum.find((s: any) => s.difficulty === 'All');
+  const totalSubmissions = allSub ? allSub.submissions : 0;
+  const acSubmissions = acSub ? acSub.submissions : 0;
+  const acceptanceRate =
+    totalSubmissions > 0 ? Number(((acSubmissions / totalSubmissions) * 100).toFixed(2)) : 0;
+  return { totalSubmissions, acceptanceRate };
+}
+
+function sumProblems(arr?: any[]): number {
+  return arr ? arr.reduce((acc, curr) => acc + (curr.problemsSolved || 0), 0) : 0;
+}
+
+function numOrZero(val: unknown): number {
+  return typeof val === 'number' ? val : 0;
+}
+
+function mapLeetCodeStats(
+  username: string,
+  profile: any,
+  solved: any,
+  language: any,
+  skill: any,
+  calendar: any,
+  badges: any,
+): LeetCodeStats {
+  const { totalSubmissions, acceptanceRate } = computeAcceptanceInfo(solved);
+  const languages = Array.isArray(language.languageProblemCount)
+    ? language.languageProblemCount.map((l: any) => l.languageName)
+    : [];
+
+  return {
+    name: profile.name || username,
+    avatar: profile.avatar || '',
+    totalSolved: numOrZero(solved.solvedProblem),
+    easySolved: numOrZero(solved.easySolved),
+    mediumSolved: numOrZero(solved.mediumSolved),
+    hardSolved: numOrZero(solved.hardSolved),
+    totalSubmissions,
+    totalQuestions: 3000,
+    acceptanceRate,
+    ranking: numOrZero(profile.ranking),
+    contributionPoints: 0,
+    reputation: numOrZero(profile.reputation),
+    streak: numOrZero(calendar.streak),
+    activeDays: numOrZero(calendar.totalActiveDays),
+    languages,
+    skillStats: {
+      advanced: sumProblems(skill.advanced),
+      intermediate: sumProblems(skill.intermediate),
+      fundamental: sumProblems(skill.fundamental),
+    },
+    badges: badges.badges || [],
+    recentSubmissions: [],
+  };
+}
+
+function resolveLeetCodeUsername(platform: any): string {
+  return platform?.env?.PUBLIC_LEETCODE_USERNAME || env.PUBLIC_LEETCODE_USERNAME || 'user8673j';
+}
+
 export const GET: RequestHandler = async ({ platform, fetch, setHeaders }) => {
   const now = Date.now();
 
-  // Set browser/CDN cache to 24 hours to aggressively prevent API calls
   setHeaders({
-    'Cache-Control': 'public, max-age=86400, s-maxage=86400'
+    'Cache-Control': 'public, max-age=86400, s-maxage=86400',
   });
 
-  if (cachedStats && (now - lastFetch) < CACHE_DURATION) {
+  if (cachedStats && now - lastFetch < CACHE_DURATION) {
     return json(cachedStats);
   }
 
   try {
-    const LEETCODE_USERNAME = platform?.env?.PUBLIC_LEETCODE_USERNAME || env.PUBLIC_LEETCODE_USERNAME || 'user8673j';
-    
+    const username = resolveLeetCodeUsername(platform);
     const ALFA_API = 'https://alfa-leetcode-api.onrender.com';
 
-    // Fetch multiple endpoints using Promise.all
-    const [
-      profileRes,
-      solvedRes,
-      languageRes,
-      skillRes,
-      calendarRes,
-      badgesRes
-    ] = await Promise.all([
-      fetch(`${ALFA_API}/${LEETCODE_USERNAME}`),
-      fetch(`${ALFA_API}/${LEETCODE_USERNAME}/solved`),
-      fetch(`${ALFA_API}/${LEETCODE_USERNAME}/language`),
-      fetch(`${ALFA_API}/${LEETCODE_USERNAME}/skill`),
-      fetch(`${ALFA_API}/${LEETCODE_USERNAME}/calendar`),
-      fetch(`${ALFA_API}/${LEETCODE_USERNAME}/badges`)
-    ]);
+    const [profileRes, solvedRes, languageRes, skillRes, calendarRes, badgesRes] =
+      await Promise.all([
+        fetch(`${ALFA_API}/${username}`),
+        fetch(`${ALFA_API}/${username}/solved`),
+        fetch(`${ALFA_API}/${username}/language`),
+        fetch(`${ALFA_API}/${username}/skill`),
+        fetch(`${ALFA_API}/${username}/calendar`),
+        fetch(`${ALFA_API}/${username}/badges`),
+      ]);
 
     if (!profileRes.ok || !solvedRes.ok) {
-      throw new Error(`Failed to fetch LeetCode stats. Profile: ${profileRes.status}, Solved: ${solvedRes.status}`);
+      throw new Error(
+        `Failed to fetch LeetCode stats. Profile: ${profileRes.status}, Solved: ${solvedRes.status}`,
+      );
     }
 
     const [profile, solved, language, skill, calendar, badges] = await Promise.all([
       profileRes.json(),
       solvedRes.json(),
-      languageRes.ok ? languageRes.json() : { languageProblemCount: [] },
-      skillRes.ok ? skillRes.json() : { advanced: [], intermediate: [], fundamental: [] },
-      calendarRes.ok ? calendarRes.json() : { streak: 0, totalActiveDays: 0 },
-      badgesRes.ok ? badgesRes.json() : { badges: [] }
+      parseOptionalJson(languageRes, { languageProblemCount: [] }),
+      parseOptionalJson(skillRes, { advanced: [], intermediate: [], fundamental: [] }),
+      parseOptionalJson(calendarRes, { streak: 0, totalActiveDays: 0 }),
+      parseOptionalJson(badgesRes, { badges: [] }),
     ]);
 
-    // Calculate acceptance rate from acSubmissionNum and totalSubmissionNum
-    let totalSubmissions = 0;
-    let acSubmissions = 0;
-
-    if (solved.totalSubmissionNum && solved.acSubmissionNum) {
-      const allSub = solved.totalSubmissionNum.find((s: any) => s.difficulty === "All");
-      const acSub = solved.acSubmissionNum.find((s: any) => s.difficulty === "All");
-      if (allSub) totalSubmissions = allSub.submissions;
-      if (acSub) acSubmissions = acSub.submissions;
-    }
-
-    const acceptanceRate = totalSubmissions > 0 ? Number(((acSubmissions / totalSubmissions) * 100).toFixed(2)) : 0;
-
-    // Advanced, intermediate, fundamental counts from skill endpoint
-    const sumProblems = (arr: any[]) => arr ? arr.reduce((acc, curr) => acc + (curr.problemsSolved || 0), 0) : 0;
-
-    const stats: LeetCodeStats = {
-      name: profile.name || LEETCODE_USERNAME,
-      avatar: profile.avatar || '',
-      totalSolved: solved.solvedProblem || 0,
-      easySolved: solved.easySolved || 0,
-      mediumSolved: solved.mediumSolved || 0,
-      hardSolved: solved.hardSolved || 0,
-      totalSubmissions: totalSubmissions,
-      totalQuestions: 3000, // Leetcode total changes often, approx.
-      acceptanceRate: acceptanceRate,
-      ranking: profile.ranking || 0,
-      contributionPoints: 0,
-      reputation: profile.reputation || 0,
-      streak: calendar.streak || 0,
-      activeDays: calendar.totalActiveDays || 0,
-      languages: language.languageProblemCount ? language.languageProblemCount.map((l: any) => l.languageName) : [],
-      skillStats: {
-        advanced: sumProblems(skill.advanced),
-        intermediate: sumProblems(skill.intermediate),
-        fundamental: sumProblems(skill.fundamental)
-      },
-      badges: badges.badges || [],
-      recentSubmissions: []
-    };
+    const stats = mapLeetCodeStats(username, profile, solved, language, skill, calendar, badges);
 
     cachedStats = stats;
     lastFetch = now;
@@ -130,7 +153,6 @@ export const GET: RequestHandler = async ({ platform, fetch, setHeaders }) => {
   } catch (error) {
     console.error('❌ LeetCode API error:', error);
 
-    // Fallback to cached data if available
     if (cachedStats) {
       return json(cachedStats);
     }

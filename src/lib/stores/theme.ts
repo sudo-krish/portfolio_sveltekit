@@ -9,7 +9,11 @@ export type Theme = 'light' | 'dark';
 function hslToHex(hslString: string): string {
   if (!hslString) return '#ffffff';
   // handle format like "270 70% 60%" or "270 70% 60% / 0.5"
-  const parts = hslString.split('/').map(p => p.trim())[0].split(' ').map(v => parseFloat(v));
+  const parts = hslString
+    .split('/')
+    .map(p => p.trim())[0]
+    .split(' ')
+    .map(v => parseFloat(v));
   if (parts.length < 3) return '#ffffff';
   const h = parts[0] / 360;
   const s = parts[1] / 100;
@@ -32,16 +36,22 @@ export const cssColors = writable({
   primary: '#000000',
   background: '#000000',
   card: '#000000',
-  accent: '#000000'
+  accent: '#000000',
 });
 
 function updateCssColors() {
   if (!browser) return;
   cssColors.set({
-    primary: hslToHex(getComputedStyle(document.documentElement).getPropertyValue('--primary').trim()),
-    background: hslToHex(getComputedStyle(document.documentElement).getPropertyValue('--background').trim()),
+    primary: hslToHex(
+      getComputedStyle(document.documentElement).getPropertyValue('--primary').trim(),
+    ),
+    background: hslToHex(
+      getComputedStyle(document.documentElement).getPropertyValue('--background').trim(),
+    ),
     card: hslToHex(getComputedStyle(document.documentElement).getPropertyValue('--card').trim()),
-    accent: hslToHex(getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()),
+    accent: hslToHex(
+      getComputedStyle(document.documentElement).getPropertyValue('--accent').trim(),
+    ),
   });
 }
 
@@ -82,7 +92,7 @@ function createThemeStore() {
         document.documentElement.classList.toggle('light', newTheme === 'light');
         setTimeout(updateCssColors, 10);
       }
-    }
+    },
   };
 }
 
