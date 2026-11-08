@@ -47,24 +47,6 @@
         
         if (index === 1 && backSlideEl) {
             backSlideEl.scrollTop = 0;
-            const targets = backSlideEl.querySelectorAll(
-                ".mobile-spec-stage > * > * > *, .mobile-spec-stage > * > *",
-            );
-            if (targets.length > 0 && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-                gsap.fromTo(
-                    targets,
-                    { y: 18, opacity: 0 },
-                    {
-                        y: 0,
-                        opacity: 1,
-                        duration: 0.55,
-                        stagger: 0.055,
-                        ease: "expo.out",
-                        delay: 0.24,
-                        clearProps: "transform,opacity",
-                    },
-                );
-            }
         }
 
         if (flipperEl) {
@@ -244,15 +226,15 @@
 
         // Initial entry flip animation
         if (flipperEl) {
-            const initialAngle = layout === "left" ? -10 : 10;
+            const initialAngle = layout === "left" ? -12 : 12;
             gsap.fromTo(flipperEl, 
-                { rotationY: initialAngle, scale: 0.96 },
+                { rotationY: initialAngle, scale: 0.95 },
                 {
                     rotationY: 0,
                     scale: 1,
-                    duration: 1.0,
-                    ease: "expo.out",
-                    delay: 0.5,
+                    duration: 1.2,
+                    ease: "elastic.out(1, 0.6)",
+                    delay: 0.8,
                 }
             );
         }
@@ -280,69 +262,37 @@
             <!-- 3D SLIDE (Front) -->
             <div
                 use:swipeSection={true}
-                class="slide-front absolute inset-0 w-full h-full flex flex-col justify-between pt-11 pb-24 z-10"
+                class="slide-front absolute inset-0 w-full h-full flex flex-col justify-end pb-28 z-10"
                 style="pointer-events: {activeSlide === 0 ? 'auto' : 'none'};"
             >
-                <!-- Artistic 3D Viewport Registration HUD (Non-intrusive frame around 3D stage) -->
-                <div class="mx-4 sm:mx-auto sm:w-full sm:max-w-md flex items-center justify-between pointer-events-none select-none opacity-85">
-                    <div class="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-card/75 border border-border/70">
-                        <span class="w-1.5 h-1.5 rounded-full animate-pulse" style="background-color: {accentColor};"></span>
-                        <span class="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
-                            3D STAGE // LIVE
-                        </span>
-                    </div>
-                    <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-card/75 border border-border/70">
-                        <span class="font-mono text-[9px] font-semibold uppercase tracking-[0.16em] text-primary">
-                            DRAG OR SWIPE
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Sculpted Architectural Exhibition Placard -->
                 <div class="mx-4 sm:mx-auto sm:w-full sm:max-w-md w-auto relative pointer-events-auto">
-                    <div class="flip-card relative overflow-hidden bg-card/95 border border-border/85 rounded-2xl shadow-[var(--shadow-xl)] p-4 sm:p-5 w-full">
-                        <!-- Top Specular Hairline -->
-                        <div
-                            class="pointer-events-none absolute inset-x-0 top-0 h-px opacity-80"
-                            style="background: linear-gradient(90deg, transparent, {accentColor}, transparent);"
-                        ></div>
-                        <!-- Left Vertical Specification Rule -->
-                        <div
-                            class="pointer-events-none absolute inset-y-3 left-0 w-[2px] rounded-r-full opacity-75"
-                            style="background-color: {accentColor};"
-                        ></div>
-
-                        <div class="relative z-10 flex flex-col items-start text-left pl-1">
-                            <div class="w-full flex items-start justify-between gap-3">
-                                <div class="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight leading-tight font-heading">
-                                    {sectionTitle}
-                                </div>
-                                <span
-                                    class="shrink-0 font-mono text-[9px] font-bold uppercase tracking-[0.16em] px-2 py-0.5 rounded-md bg-muted/80 border border-border/70 text-primary mt-0.5"
-                                >
-                                    3D MODEL
-                                </span>
+                    <div class="flip-card bg-card/95 border border-border/80 rounded-2xl shadow-[var(--shadow-xl)] p-5 w-full">
+                        <div class="relative z-10 text-center">
+                            <div class="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight leading-tight font-heading">
+                                {sectionTitle}
                             </div>
-                            <p class="text-[12.5px] sm:text-[13px] font-normal text-muted-foreground mt-1 mb-3.5 leading-snug">
+                            <p class="text-[13px] font-normal text-muted-foreground mt-1.5 mb-4">
                                 {sectionDescription}
                             </p>
                             <button
                                 type="button"
                                 onclick={() => goToSlide(1)}
                                 aria-label="View specifications"
-                                class="w-full pt-3 border-t border-border/70 flex items-center justify-between cursor-pointer group hover:bg-transparent bg-transparent outline-none"
+                                class="w-full pt-3 border-t border-border/60 flex items-center justify-between cursor-pointer group hover:bg-transparent bg-transparent outline-none"
                             >
                                 <div class="flex items-center gap-2">
-                                    <span class="w-5 h-px bg-primary/60 group-hover:w-7 transition-all duration-300"></span>
-                                    <span class="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-foreground/90 transition-colors group-hover:text-primary">
-                                        Open Architecture Specs
+                                    <div
+                                        class="w-1.5 h-1.5 rounded-full animate-pulse"
+                                        style="background-color: {accentColor};"
+                                    ></div>
+                                    <span class="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground transition-colors group-hover:text-foreground">
+                                        Tap or swipe for specs
                                     </span>
                                 </div>
-                                <div class="relative px-2.5 h-7 flex items-center justify-center gap-1 overflow-hidden rounded-lg bg-primary/14 border border-primary/35 shadow-2xs group-hover:bg-primary/22 transition-colors">
-                                    <div class="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-primary/25 to-transparent swipe-track-down"></div>
-                                    <span class="font-mono text-[9px] font-bold uppercase tracking-wider text-primary relative z-10">Flip</span>
+                                <div class="relative w-11 h-8 flex items-center justify-center overflow-hidden rounded-lg bg-muted border border-border/80 shadow-2xs">
+                                    <div class="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-primary/20 to-transparent swipe-track-down"></div>
                                     <ChevronDown
-                                        size={14}
+                                        size={16}
                                         class="text-primary relative z-10"
                                     />
                                 </div>
@@ -356,27 +306,10 @@
             <div
                 bind:this={backSlideEl}
                 use:swipeSection={false}
-                class="slide-back absolute inset-0 w-full h-full overflow-y-auto overscroll-y-contain hide-scroll block z-20 bg-background/92"
-                style="pointer-events: {activeSlide === 1 ? 'auto' : 'none'}; background-image: radial-gradient(circle at 85% 8%, hsl(var(--primary) / 0.10), transparent 52%);"
+                class="slide-back absolute inset-0 w-full h-full overflow-y-auto overscroll-y-contain hide-scroll block z-20 bg-background"
+                style="pointer-events: {activeSlide === 1 ? 'auto' : 'none'};"
             >
-                <div class="mobile-spec-stage min-h-[101%] pb-32 relative">
-                    <!-- Quick Return-to-3D Header Strip -->
-                    <div class="max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-10 -mb-14 relative z-30 flex items-center justify-between">
-                        <button
-                            type="button"
-                            onclick={() => goToSlide(0)}
-                            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-card/90 border border-border/80 text-muted-foreground hover:text-primary hover:border-primary/45 transition-all duration-300 shadow-2xs cursor-pointer active:scale-95"
-                        >
-                            <Eye size={13} class="text-primary" />
-                            <span class="font-mono text-[10px] font-bold uppercase tracking-[0.15em]">
-                                Return to 3D Stage
-                            </span>
-                        </button>
-                        <span class="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                            {sectionTitle}
-                        </span>
-                    </div>
-
+                <div class="min-h-[101%] pb-32">
                     <!-- svelte-ignore slot_element_deprecated -->
                     <slot name="content-mobile" />
                 </div>

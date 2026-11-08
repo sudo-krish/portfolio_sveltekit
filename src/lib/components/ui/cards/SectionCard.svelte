@@ -29,40 +29,36 @@
     <div class="flex flex-wrap items-center justify-between gap-y-2.5 gap-x-4 w-full">
         <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
             <div
-                class="flex items-center justify-center rounded-xl
-                       bg-primary/10 border border-primary/30
-                       group-hover:bg-primary/18 group-hover:border-primary/50
-                       transition-all duration-300 shrink-0 shadow-2xs"
-                style="width: max(2.2rem, 2.4cqi); height: max(2.2rem, 2.4cqi);"
+                class="flex items-center justify-center rounded-lg
+                       bg-muted/70 border border-border/80
+                       transition-colors duration-300 shrink-0"
+                style="width: max(2.1rem, 2.35cqi); height: max(2.1rem, 2.35cqi);"
             >
                 <Icon
                     size={17}
-                    class="text-primary {iconHoverColor} transition-transform duration-300 group-hover:scale-110"
+                    class="text-primary {iconHoverColor} transition-colors duration-300"
                 />
             </div>
-            <h3 class="text-[1.08rem] sm:text-[clamp(1.08rem,1.38vw,1.25rem)] font-heading font-bold text-foreground tracking-tight leading-snug">
+            <h3 class="text-[1.05rem] sm:text-[clamp(1.05rem,1.35vw,1.22rem)] font-heading font-bold text-foreground tracking-tight leading-snug">
                 {subtitle}
             </h3>
         </div>
 
         {#if metrics.length > 0}
-            <div
-                class="flex items-center shrink-0 ml-auto px-2.5 py-1.5 rounded-xl bg-muted/55 border border-border/75"
-                style="gap: max(0.65rem, 0.75cqi);"
-            >
+            <div class="flex items-center shrink-0 ml-auto" style="gap: max(0.75rem, 0.85cqi);">
                 {#each metrics as m, i}
                     {#if i > 0}
-                        <div class="w-px bg-border/80 self-stretch my-0.5"></div>
+                        <div class="w-px bg-border/80 self-center" style="height: max(1.35rem, 1.35cqi);"></div>
                     {/if}
                     <div class="text-right">
-                        <div class="text-muted-foreground uppercase font-mono tracking-wider leading-none mb-0.5"
-                             style="font-size: clamp(7.5px, 0.62cqi, 9.5px);">
+                        <div class="text-muted-foreground uppercase font-mono tracking-wider"
+                             style="font-size: clamp(8px, 0.68cqi, 10px);">
                             {m.label}
                         </div>
-                        <div class="font-mono tabular-nums font-bold text-foreground flex items-baseline justify-end leading-none"
-                             style="font-size: clamp(0.85rem, 1.2cqi, 1.1rem); gap: 0.14cqi;">
+                        <div class="font-mono tabular-nums font-bold text-foreground flex items-baseline justify-end"
+                             style="font-size: clamp(0.88rem, 1.3cqi, 1.18rem); gap: 0.16cqi;">
                             {m.value}<span class="font-semibold"
-                                           style="color: var(--_accent); font-size: clamp(7.5px, 0.68cqi, 10px);"
+                                           style="color: var(--_accent); font-size: clamp(8px, 0.72cqi, 11px);"
                             >{m.unit}</span>
                         </div>
                     </div>
@@ -80,7 +76,7 @@
 
     <!-- Primary Architectural Statement -->
     <div class="border-t border-border/70 mt-3.5 pt-3.5">
-        <p class="text-[1.02rem] sm:text-[clamp(1.06rem,1.65vw,1.42rem)] leading-[1.45] sm:leading-[1.38] text-foreground font-medium tracking-tight mb-0">
+        <p class="text-[1rem] sm:text-[clamp(1.06rem,1.65vw,1.45rem)] leading-[1.45] sm:leading-[1.38] text-foreground font-medium tracking-tight mb-0">
             {@html shortDescription}
         </p>
     </div>
@@ -91,14 +87,11 @@
             {detailedPhilosophy}
         </p>
         {#if metrics.length > 0}
-            <div class="flex items-center justify-between gap-2 pt-1.5">
-                <div class="flex items-center gap-2">
-                    <span class="w-4 h-px bg-primary/55 group-hover:w-6 transition-all duration-300"></span>
-                    <span class="font-mono text-[9.5px] uppercase tracking-[0.16em] text-muted-foreground/90 leading-snug">
-                        SPEC // {badge}
-                    </span>
-                </div>
-                <span class="h-1.5 w-1.5 rounded-full shrink-0 animate-pulse" style="background: var(--_accent);"></span>
+            <div class="flex items-center justify-between gap-2 pt-1">
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground/85 leading-snug">
+                    SPEC // {badge}
+                </span>
+                <span class="h-1.5 w-1.5 rounded-full shrink-0" style="background: var(--_accent);"></span>
             </div>
         {/if}
     </div>

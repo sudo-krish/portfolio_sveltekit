@@ -38,53 +38,56 @@
     };
 
     onMount(() => {
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-        let ctx = gsap.context(() => {});
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        ctx.add(() => {
-                            if (rightPanel) {
-                                gsap.fromTo(
-                                    rightPanel.children,
-                                    { x: 24, opacity: 0 },
-                                    {
-                                        x: 0,
-                                        opacity: 1,
-                                        duration: 0.75,
-                                        stagger: 0.1,
-                                        ease: "expo.out",
-                                        clearProps: "transform,opacity",
-                                    },
-                                );
-                            }
-                            if (leftPanel) {
-                                gsap.fromTo(
-                                    leftPanel.children,
-                                    { y: 24, opacity: 0 },
-                                    {
-                                        y: 0,
-                                        opacity: 1,
-                                        duration: 0.85,
-                                        stagger: 0.1,
-                                        ease: "expo.out",
-                                        delay: 0.06,
-                                        clearProps: "transform,opacity",
-                                    },
-                                );
-                            }
-                        });
-                    }
-                });
-            },
-            { threshold: 0.25 },
-        );
-        if (leftPanel) observer.observe(leftPanel);
-        return () => {
-            observer.disconnect();
-            ctx.revert();
-        };
+        let ctx = gsap.context(() => {
+            // Right Anchor Animation
+            if (rightPanel) {
+                gsap.fromTo(
+                    rightPanel.children,
+                    { x: 30, opacity: 0 },
+                    {
+                        x: 0,
+                        opacity: 1,
+                        duration: 1.0,
+                        stagger: 0.15,
+                        ease: "power3.out",
+                        delay: 0.2,
+                    },
+                );
+            }
+
+            // Left Grid Animation
+            if (leftPanel) {
+                gsap.fromTo(
+                    leftPanel.children,
+                    { y: 30, opacity: 0 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        duration: 1.2,
+                        stagger: 0.15,
+                        ease: "power3.out",
+                        delay: 0.1,
+                    },
+                );
+            }
+
+            // Mobile Animation
+            if (mobilePanel) {
+                gsap.fromTo(
+                    mobilePanel.children,
+                    { y: 30, opacity: 0 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        duration: 1.0,
+                        stagger: 0.15,
+                        ease: "power3.out",
+                        delay: 0.1,
+                    },
+                );
+            }
+        });
+        return () => ctx.revert();
     });
 </script>
 
@@ -92,44 +95,39 @@
     {#if isMobile}
         <div class="w-full flex flex-col gap-3.5 relative z-10">
             <!-- Top Narrative Specification Box -->
-            <GlassCard variant="default" accent="hsl(var(--primary))" class="w-full">
-                <p class="text-[0.92rem] text-foreground/95 leading-relaxed mb-0">
+            <div
+                class="w-full p-5 rounded-2xl bg-card/85 backdrop-blur-xl border border-border/80 shadow-[var(--shadow-sm)]"
+            >
+                <p class="text-sm text-foreground/90 leading-relaxed mb-0">
                     {@html techstackData.content.shortDescription}
                 </p>
-            </GlassCard>
+            </div>
 
             <!-- Grid of Skill Cards -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
                 {#each techstackData.categories as cat}
-                    <GlassCard
-                        variant="compact"
-                        accent={cat.accent}
-                        class="flex flex-col !p-4"
+                    <div
+                        class="flex flex-col p-4 rounded-xl bg-card/85 backdrop-blur-xl border border-border/80 shadow-[var(--shadow-sm)] relative overflow-hidden"
                     >
-                        <div class="flex items-center justify-between gap-2.5 pb-2.5 mb-3 border-b border-border/70">
-                            <div class="flex items-center gap-2.5 min-w-0">
-                                <div
-                                    class="w-7 h-7 rounded-lg bg-muted/80 border border-border/80 flex items-center justify-center shrink-0"
-                                >
-                                    <svelte:component
-                                        this={getIcon(cat.iconName)}
-                                        size={14}
-                                        style="color: {cat.accent}"
-                                    />
-                                </div>
-                                <span
-                                    class="text-[13.5px] font-heading font-bold text-foreground tracking-tight leading-snug"
-                                    >{cat.name}</span
-                                >
+                        <div class="flex items-center gap-2.5 pb-2.5 mb-3 border-b border-border/70">
+                            <div
+                                class="w-7 h-7 rounded-lg bg-muted/80 border border-border/80 flex items-center justify-center shrink-0"
+                            >
+                                <svelte:component
+                                    this={getIcon(cat.iconName)}
+                                    size={14}
+                                    style="color: {cat.accent}"
+                                />
                             </div>
-                            <span class="font-mono tabular-nums text-[9.5px] font-bold uppercase tracking-wider text-muted-foreground px-2 py-0.5 rounded bg-muted/60 border border-border/70 shrink-0">
-                                {cat.skills.length}
-                            </span>
+                            <span
+                                class="text-[13.5px] font-heading font-bold text-foreground tracking-tight"
+                                >{cat.name}</span
+                            >
                         </div>
                         <div class="flex flex-wrap gap-1.5 relative z-10">
                             {#each cat.skills as skill}
                                 <div
-                                    class="flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-border/80 bg-muted/50 text-[11px] font-mono text-foreground/90 hover:border-primary/40 transition-colors"
+                                    class="flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-border/80 bg-muted/50 text-[11px] font-mono text-foreground/85 group/skill"
                                 >
                                     <span class="w-4 h-4 rounded bg-white/95 border border-border/50 flex items-center justify-center p-0.5 shrink-0">
                                         <img
@@ -145,7 +143,7 @@
                                 </div>
                             {/each}
                         </div>
-                    </GlassCard>
+                    </div>
                 {/each}
             </div>
         </div>
@@ -279,8 +277,8 @@
             style="bottom: 2cqi; max-width: 20cqi;"
         >
             <div
-                class="flex items-stretch bg-card/88 backdrop-blur-xl rounded-2xl border border-border/80 shadow-[var(--shadow-lg)]"
-                style="padding: 0.38cqi;"
+                class="flex items-stretch bg-card/80 backdrop-blur-xl rounded-[1.5rem] border border-foreground/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]"
+                style="padding: 0.4cqi;"
             >
                 <PillButton
                     href={techstackData.ui.cta.href}

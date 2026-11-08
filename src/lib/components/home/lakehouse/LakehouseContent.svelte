@@ -17,53 +17,65 @@
   let scrollHint: HTMLElement;
 
   onMount(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let ctx = gsap.context(() => {});
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            ctx.add(() => {
-              if (leftPanel) {
-                gsap.fromTo(
-                  leftPanel.children,
-                  { x: -24, opacity: 0 },
-                  {
-                    x: 0,
-                    opacity: 1,
-                    duration: 0.75,
-                    stagger: 0.1,
-                    ease: "expo.out",
-                    clearProps: "transform,opacity",
-                  },
-                );
-              }
-              if (rightPanel) {
-                gsap.fromTo(
-                  rightPanel.children,
-                  { y: 24, opacity: 0 },
-                  {
-                    y: 0,
-                    opacity: 1,
-                    duration: 0.85,
-                    stagger: 0.12,
-                    ease: "expo.out",
-                    delay: 0.06,
-                    clearProps: "transform,opacity",
-                  },
-                );
-              }
-            });
-          }
-        });
-      },
-      { threshold: 0.25 },
-    );
-    if (leftPanel) observer.observe(leftPanel);
-    return () => {
-      observer.disconnect();
-      ctx.revert();
-    };
+    let ctx = gsap.context(() => {
+      // Left Anchor Animation
+      if (leftPanel) {
+        gsap.fromTo(
+          leftPanel.children,
+          { x: -30, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 1.0,
+            stagger: 0.15,
+            ease: "power3.out",
+            delay: 0.2,
+          },
+        );
+      }
+
+      // Right Content Panel Animation
+      if (rightPanel) {
+        gsap.fromTo(
+          rightPanel.children,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            stagger: 0.2,
+            ease: "power3.out",
+            delay: 0.1,
+          },
+        );
+      }
+
+      // Scroll Hint Animation
+      if (scrollHint) {
+        gsap.fromTo(
+          scrollHint,
+          { opacity: 0, y: -10 },
+          { opacity: 1, y: 0, duration: 1.5, ease: "power2.out", delay: 1.0 },
+        );
+      }
+
+      // Mobile Animation
+      if (mobilePanel) {
+        gsap.fromTo(
+          mobilePanel.children,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.0,
+            stagger: 0.15,
+            ease: "power3.out",
+            delay: 0.1,
+          },
+        );
+      }
+    });
+    return () => ctx.revert();
   });
 </script>
 

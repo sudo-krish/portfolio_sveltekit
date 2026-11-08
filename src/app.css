@@ -68,13 +68,11 @@
 }
 
 /* === LIGHT MODE - WARM ARCHIVAL DRAFTING VELLUM === */
-:root.light,
-.light,
-html.light {
+:root.light, .light, html.light {
   /* Background: Warm Archival Vellum (#F7F5F0) */
   --background: 44 26% 96%;
   --foreground: 218 42% 10%;
-
+  
   --card: 44 33% 99%;
   --card-foreground: 218 42% 10%;
 
@@ -265,11 +263,9 @@ html.is-view-transitioning * {
   animation: none;
   mix-blend-mode: normal;
 }
-
 ::view-transition-old(root) {
   z-index: 1;
 }
-
 ::view-transition-new(root) {
   z-index: 2;
 }
@@ -279,7 +275,6 @@ html.is-view-transitioning * {
 html.theme-collapsing::view-transition-old(root) {
   z-index: 9999;
 }
-
 html.theme-collapsing::view-transition-new(root) {
   z-index: 1;
 }
@@ -416,7 +411,6 @@ pre code {
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   *,
   *::before,
   *::after {

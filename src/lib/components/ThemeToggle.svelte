@@ -95,7 +95,7 @@
 >
   <!-- Sun icon (Light mode indicator) -->
   <div
-    class="absolute inset-0 flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
+    class="absolute inset-0 flex items-center justify-center transition-all duration-[600ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]
     {currentTheme === 'light'
       ? 'rotate-0 scale-100 opacity-100 text-[hsl(var(--foreground))] drop-shadow-[0_0_12px_hsl(var(--foreground)/0.5)]'
       : '-rotate-90 scale-50 opacity-0 text-[hsl(var(--muted-foreground))]/30'}"
@@ -105,7 +105,7 @@
 
   <!-- Moon icon (Dark mode indicator) -->
   <div
-    class="absolute inset-0 flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
+    class="absolute inset-0 flex items-center justify-center transition-all duration-[600ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]
     {currentTheme === 'dark'
       ? 'rotate-0 scale-100 opacity-100 text-[hsl(var(--foreground))] drop-shadow-[0_0_12px_hsl(var(--foreground)/0.5)]'
       : 'rotate-90 scale-50 opacity-0 text-[hsl(var(--muted-foreground))]/30'}"

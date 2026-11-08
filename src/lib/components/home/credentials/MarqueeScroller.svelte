@@ -255,9 +255,9 @@
                             >
                                 {item.name}
                             </span>
-                            <div class="flex flex-wrap items-center" style="gap: 0.4cqi; margin-top: 0.25cqi;">
+                            <div class="flex items-center" style="gap: 0.4cqi; margin-top: 0.25cqi;">
                                 <span
-                                    class="font-mono text-primary font-semibold uppercase tracking-wider leading-tight"
+                                    class="font-mono text-primary font-semibold uppercase tracking-wider truncate"
                                     style="font-size: clamp(8.5px, 0.68cqi, 11px);"
                                 >
                                     {item.issuer}
